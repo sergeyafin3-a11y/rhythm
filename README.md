@@ -29,7 +29,7 @@ file in, **Commit changes**. The site updates in about a minute.
 | English | Affirmation of the day plus ten useful phrases, 30 topics in rotation |
 | Rhythm | Eight-week calendar per habit, totals, longest streak |
 | Rewards | Achievements, and rewards you promise yourself |
-| Recipes | Search, categories, photos, tappable ingredients, numbered steps |
+| Recipes | 23 recipes across 8 courses — Breakfast, Soups, Salads, Snacks, Mains, Baking, Desserts, Drinks. Search, photos, tappable ingredients, numbered steps |
 
 ## Files
 

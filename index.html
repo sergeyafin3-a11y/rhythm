@@ -696,7 +696,7 @@ const BADGES = [
 
 const EMOJI = ['🌿','💧','📚','🏃','🧘','☀️','🌙','✍️','🎧','🥗','💤','🧴','🇬🇧','💸','🧹','📵','🎹','🚶','🧊','❤️','⭐️','🫖'];
 
-const CATS = ['Breakfast','Lunch','Dinner','Salads','Baking','Drinks','Preserves'];
+const CATS = ['Breakfast','Soups','Salads','Snacks','Mains','Baking','Desserts','Drinks'];
 const FOOD = ['🍲','🥗','🍝','🍞','🥞','🍰','☕️','🥘','🍜','🐟','🍗','🥦','🍅','🥚','🧀','🍚','🥔','🍎'];
 
 function seedRecipes(){
@@ -705,10 +705,94 @@ function seedRecipes(){
      ings:['Rolled oats — 50 g','Milk or water — 200 ml','Apple — 1','Cinnamon — a pinch','Honey — 1 tsp','Salt — a pinch'],
      steps:['Pour the milk over the oats, add a pinch of salt and bring to a boil over medium heat.','Turn the heat down and simmer for 5 minutes, stirring.','Dice the apple and stir it in with the cinnamon. Cover and leave for 2 minutes.','Take off the heat and add the honey.'],
      note:'If the apple is tart, add the honey right at the end — otherwise it turns bitter.'},
-    {id:'r2', title:'Pumpkin cream soup', emoji:'🎃', cat:'Lunch', time:35, serv:4, fav:false,
+    {id:'r2', title:'Pumpkin cream soup', emoji:'🎃', cat:'Soups', time:35, serv:4, fav:false,
      ings:['Pumpkin — 600 g','Potatoes — 2','Onion — 1','Garlic — 2 cloves','Single cream — 100 ml','Olive oil — 2 tbsp','Salt and pepper — to taste','Pumpkin seeds — to serve'],
      steps:['Cut the pumpkin and potatoes into large cubes and slice the onion into half-rings.','Soften the onion and garlic in olive oil, 3–4 minutes.','Add the pumpkin and potatoes and pour in water so it barely covers them. Simmer for 20 minutes until tender.','Blend until smooth, pour in the cream and warm through without letting it boil.','Season, and serve with the seeds on top.'],
-     note:'Roast the pumpkin for 20 minutes at 200°C first — the flavour gets deeper and sweeter.'}
+     note:'Roast the pumpkin for 20 minutes at 200°C first — the flavour gets deeper and sweeter.'},
+    {id:'r3', title:'Stracciatella with herring roe', emoji:'🐟', cat:'Snacks', time:10, serv:2, fav:false,
+     ings:['Stracciatella — 200 g','Herring roe — 1 pack (80–100 g)','Spring onions — a small bunch','Bread or a baguette'],
+     steps:['Put the stracciatella in a bowl and add the herring roe.','Fold gently until it turns into a smooth, creamy spread.','Toast the bread until crisp, spread it thickly and scatter finely chopped spring onion over the top.'],
+     note:'The cheap answer to stracciatella with pike roe — the herring roe does the same job.'},
+    {id:'r4', title:'Roast aubergine over hummus', emoji:'🍆', cat:'Snacks', time:30, serv:2, fav:false,
+     ings:['Aubergine — 1–2','Paprika — 1 tsp','Salt and pepper — to taste','Olive oil — 1–2 tbsp','Hummus — 150–200 g','Cherry tomatoes — 150 g','Pumpkin seeds — 2 tbsp','Fresh herbs'],
+     steps:['Cut the aubergine into large wedges and toss with paprika, salt, pepper and a little oil.','Roast at 180°C for 20 minutes, until golden.','Spread the hummus over a plate and pile the hot aubergine on top.','Add halved cherry tomatoes, pumpkin seeds and fresh herbs.'],
+     note:''},
+    {id:'r5', title:'Curd pie with meringue', emoji:'🥧', cat:'Desserts', time:50, serv:8, fav:false,
+     ings:['Base: flour — 1 cup','Base: baking powder — 1 tsp','Base: butter — 100 g','Base: sugar — 2 tbsp','Base: egg — 1','Filling: curd cheese — 500 g','Filling: sour cream — 100 g','Filling: cornflour — 1 tbsp','Filling: sugar — half a cup','Filling: egg yolks — 3','Meringue: egg whites — 3','Meringue: icing sugar — 3 tbsp'],
+     steps:['Rub the base ingredients together and press the dough into the tin.','Blend the filling until smooth and pour it over the base.','Whip the whites with the icing sugar to stiff peaks and spread them on top.','Bake at 180°C for 35 minutes.','Take it out and wait until the pie starts to weep — then it is ready.'],
+     note:'A mother-in-law recipe: it goes on the table at every celebration.'},
+    {id:'r6', title:'Raspberry clafoutis', emoji:'🍒', cat:'Desserts', time:45, serv:6, fav:false,
+     ings:['Milk — 200 ml','Eggs — 2','Sugar — 2 tbsp','Flour — 100 g','Butter — 20 g, melted','Baking powder — 1 tsp','Raspberries or cherries'],
+     steps:['Whisk everything together — the batter should be smooth and runny, that is normal.','Butter the dish, scatter the berries in and pour the batter over them.','Bake at 180°C for about 40 minutes.'],
+     note:'Best served warm. The original is made with cherries.'},
+    {id:'r7', title:'Gözleme with feta and spinach', emoji:'🥙', cat:'Mains', time:60, serv:7, fav:false,
+     ings:['Dough: water — 250 ml','Dough: salt — 0.5 tsp','Dough: flour — 380 g','Dough: olive oil — 2 tbsp','Filling: feta — 250 g','Filling: spinach — 200 g','Filling: egg — 1','Filling: salt and black pepper','Filling: mozzarella — 70 g, optional'],
+     steps:['Knead the dough and let it rest.','Mix the filling.','Roll thin, fill, and fold into rounds or squares.','Cook on a dry pan until spotted brown on both sides.'],
+     note:'Makes 7 medium flatbreads.'},
+    {id:'r8', title:'Courgette bake', emoji:'🥒', cat:'Mains', time:45, serv:4, fav:false,
+     ings:['Eggs — 4','Ham — 100 g','Light cheese — 50 g','Flour — 50 g','Courgette — 400 g','Spring onions'],
+     steps:['Grate the courgette and squeeze the water out.','Chop everything else and mix it all together.','Scatter cheese on top and bake at 180°C for 35 minutes.'],
+     note:''},
+    {id:'r9', title:'Red lentil patties', emoji:'🧆', cat:'Mains', time:40, serv:4, fav:false,
+     ings:['Red lentils — 220 g','Potato — 1 small','Onion — 1','Carrot — 1','Water — 1–2 cups, enough to cover','Salt','Sweet paprika','Dried garlic','Cumin — a good pinch, it matters','Breadcrumbs — 80 g','Dill — a sprig'],
+     steps:['Boil the lentils and vegetables until soft, topping up the water as it cooks away — it should stay a purée, not turn into soup.','Blitz briefly so some texture and pieces of vegetable remain.','Add salt, spices, dill and the breadcrumbs, then shape into patties.','Fry on both sides until golden in the smallest amount of oil.'],
+     note:'Sauce: half sour cream, half Greek yoghurt, with coriander. Bran breadcrumbs work best.'},
+    {id:'r10', title:'Blueberry and camembert grilled cheese', emoji:'🫐', cat:'Snacks', time:15, serv:1, fav:false,
+     ings:['Blueberries — 150 g','Sugar — 1–2 tbsp','Camembert — half a pack','Sourdough bread — 2 slices'],
+     steps:['Cook the blueberries with the sugar until thick.','Build the sandwich with the camembert and the blueberry jam.','Fry until golden and the cheese has melted.'],
+     note:''},
+    {id:'r11', title:'Broccoli fritters with a yolk in the middle', emoji:'🥦', cat:'Breakfast', time:15, serv:1, fav:false,
+     ings:['Broccoli — 2–3 medium florets','Eggs — 3','Cheese — 25 g'],
+     steps:['Blitz the broccoli in a blender.','Add the whites of two eggs and the cheese, and mix.','Spoon onto a hot pan, make a dip in the middle of each and drop a yolk in.','Cover and cook 3–5 minutes over a low heat.'],
+     note:''},
+    {id:'r12', title:'Curd and egg fritters', emoji:'🍳', cat:'Breakfast', time:15, serv:2, fav:false,
+     ings:['Curd cheese — 120 g','Boiled eggs — 2','Raw egg — 1','Cheese — 50 g','Flour — 20 g','Herbs and salt'],
+     steps:['Mash everything together.','Fry on both sides until golden.'],
+     note:''},
+    {id:'r13', title:'Easy tomato soup', emoji:'🍅', cat:'Soups', time:60, serv:4, fav:false,
+     ings:['Ripe plum tomatoes — a full tray, halved','Olive oil','Garlic','Salt and pepper','Basil','Cream or stock — to loosen'],
+     steps:['Halve the tomatoes and lay them cut side up on a tray with oil, garlic, salt and pepper.','Roast until they collapse and colour at the edges.','Blend with the basil, loosening with cream or stock.'],
+     note:'The saved post had no written recipe — this is the standard method for it.'},
+    {id:'r14', title:'Fifteen-minute khachapuri', emoji:'🧀', cat:'Breakfast', time:25, serv:4, fav:false,
+     ings:['Dough: kefir — 300 ml','Dough: egg — 1','Dough: salt — 1 tsp','Dough: sugar — 1 tsp','Dough: oil — 3 tbsp','Dough: flour — 450 g','Dough: baking powder — 10 g','Filling: suluguni — 350 g','Filling: egg — 1','Filling: salt to taste'],
+     steps:['Whisk the wet ingredients, add the flour with the baking powder and knead.','Grate the cheese and mix it with the egg.','Divide dough and filling into 4 balls each, and assemble.','Fry on both sides on a dry pan, then brush the hot khachapuri with butter.'],
+     note:'Serve hot with sweet tea.'},
+    {id:'r15', title:'Tuna and egg kefir pie', emoji:'🐟', cat:'Mains', time:50, serv:6, fav:false,
+     ings:['Batter: kefir 1% — 250 ml','Batter: eggs — 2','Batter: flour — 90 g','Batter: baking powder — 1 tsp','Batter: salt — 1/2 tsp','Filling: boiled eggs — 4','Filling: tuna in water — 1 tin','Filling: spring onion — to taste'],
+     steps:['Whisk the kefir, eggs, flour, baking powder and salt until smooth.','Chop the boiled eggs and mix them with the tuna and spring onion.','Pour half the batter into the tin, spread the filling and cover with the rest.','Bake at 180°C for about 40 minutes.'],
+     note:'139 kcal per 100 g — 11.7 protein, 3.3 fat, 15 carbs.'},
+    {id:'r16', title:'High-protein lentil bread', emoji:'🍞', cat:'Baking', time:60, serv:2, fav:false,
+     ings:['Red lentils — 300 g','Eggs — 3','Sour cream or Greek yoghurt — 150 g','Baking powder — 10 g','Olive oil — 30 g','Salt — 10 g','Spices — 5 g'],
+     steps:['Cover the lentils with cold water and leave overnight, then drain.','Blend with everything else.','Pour into a lined tin.','Bake at 175°C for 45–50 minutes.'],
+     note:'Makes 2 loaves.'},
+    {id:'r17', title:'Protein galette with raspberries', emoji:'🍰', cat:'Desserts', time:35, serv:2, fav:false,
+     ings:['Dry curd cheese — 150 g','Egg — 1','Flour — 100 g','Baking powder — a pinch','Salt — a pinch','Sugar or sweetener — a pinch','Greek yoghurt — 1 tbsp','Raspberries — 100 g'],
+     steps:['Work the dough until it no longer sticks to your hands.','Shape a round on baking paper, spoon the yoghurt into the middle and pile the raspberries on.','Fold the edges in and bake 25–30 minutes at 180°C.'],
+     note:'Frozen raspberries work fine.'},
+    {id:'r18', title:'Apple fritters', emoji:'🍎', cat:'Breakfast', time:25, serv:4, fav:false,
+     ings:['Apples, peeled — 313 g','Eggs — about 2 (116 g)','Kefir 4% — 417 g','Sugar — 16 g','Flour — 150 g','Bicarbonate of soda — a knife tip, plus baking powder — 3 g','Cinnamon — to taste'],
+     steps:['Grate the apples.','Mix everything into a batter.','Fry as fritters on both sides.'],
+     note:'134 kcal per 100 g — 5.2 protein, 3.6 fat, 20 carbs.'},
+    {id:'r19', title:'Korean-style marinated cucumbers', emoji:'🥒', cat:'Salads', time:20, serv:4, fav:false,
+     ings:['Cucumbers','Soy sauce — 10 tbsp','Vinegar — 3 tbsp','Salt, pepper and a little sugar — to taste','Garlic — 3 medium cloves','Olive oil — 3 tbsp','Sesame seeds'],
+     steps:['Cut the cucumbers into chunks.','Mix the marinade and pour it over them.','Leave to sit before serving.'],
+     note:''},
+    {id:'r20', title:'Cherry and chocolate cookies', emoji:'🍪', cat:'Desserts', time:40, serv:20, fav:false,
+     ings:['Green buckwheat — 125 g','Rolled oats — 125 g','Cocoa, non-alkalised — 50 g','Coconut sugar — 110 g','Lemon zest — 1/2 tsp','Cinnamon — 1/2 tsp','Vanilla — 1 pod','Coconut oil — 60 g','Bicarbonate of soda — 1/2 tsp, or a little less','Lemon juice — about 1 tsp','Coconut milk — 160 ml','Pitted cherries — 30','Chocolate'],
+     steps:['Grind the buckwheat and oats in a coffee grinder.','Combine the buckwheat, oats, cocoa, coconut sugar, zest, cinnamon and vanilla.','Add the soda and lemon juice, then the coconut milk, and mix.','Fold the chocolate in first, then the cherries, so they stay whole.','Bake 25 minutes at 150°C.','Let them cool.'],
+     note:''},
+    {id:'r21', title:'Courgette burger buns', emoji:'🍔', cat:'Snacks', time:20, serv:2, fav:false,
+     ings:['Courgette — 300 g','Rice flour — 30 g','Egg — 1','Salt — to taste','Seeds — to scatter on top','Filling: cream cheese','Filling: spinach','Filling: tomato'],
+     steps:['Grate the courgette and squeeze the liquid out properly.','Mix with the flour, egg and salt.','Press into a small greased dish, scatter seeds on top and microwave for 5 minutes.','Cool, cut in half and fill with whatever you like.'],
+     note:''},
+    {id:'r22', title:'Carrot and orange drink', emoji:'🥕', cat:'Drinks', time:10, serv:2, fav:false,
+     ings:['Carrot','Orange','Lemon','Flaxseed','Honey'],
+     steps:['Blend everything together.'],
+     note:''},
+    {id:'r23', title:'Lentil bagels', emoji:'🥯', cat:'Baking', time:40, serv:6, fav:false,
+     ings:['Dry lentils — 225 g','Water — 80 ml','Psyllium husk — 20 g','Almond flour — 20 g','Avocado oil — 1 tbsp','Lemon juice — 1 tbsp','Baking powder — 2 tsp','Salt — 1/2 tsp','Any seeds — to scatter on top'],
+     steps:['Rinse the lentils well and soak them for 4–6 hours, or overnight, in plenty of water — a splash of lemon juice in the water helps.','Drain, then blend with the water, psyllium, almond flour, oil, lemon juice, baking powder and salt until smooth.','Let the batter stand a few minutes so the psyllium thickens it.','Shape rings on a lined tray and scatter seeds over the top.','Bake at 180°C for about 30 minutes, until firm and dry to the touch.'],
+     note:'The saved post cut off after the soaking step — the rest is the standard method for these.'}
   ];
 }
 
@@ -1406,6 +1490,9 @@ let state = load() || seed();
 if(!state.prizes) state.prizes=[];
 if(!state.claimed) state.claimed={};
 if(!state.recipes) state.recipes = seedRecipes();
+else if(state.recipesV !== 2 && state.recipes.every(function(r){ return r.id === 'r1' || r.id === 'r2'; }))
+  state.recipes = seedRecipes();
+state.recipesV = 2;
 if(!state.learned) state.learned = {};
 if(!state.packXP) state.packXP = {};
 let openPack = null;
