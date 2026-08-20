@@ -1,0 +1,2420 @@
+<!doctype html>
+<html lang="ru" data-skin="peach">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rhythm</title>
+<meta name="description" content="Daily habits, English and recipes">
+<meta name="theme-color" content="#FBE9DE">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Rhythm">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&family=Golos+Text:wght@400;500;600;700&family=Literata:opsz,wght@7..72,600;7..72,700&family=Manrope:wght@400;500;700&family=Nunito:wght@400;600;700;800&family=Oswald:wght@500;600&family=Philosopher:wght@700&family=Prata&family=Unbounded:wght@700;800&display=swap">
+<style>
+/* ============================================================
+   THEMES — each with its own palette and typeface
+   ============================================================ */
+:root,
+[data-skin="orangery"]{
+  color-scheme: light;
+  --font-display: 'Literata', Georgia, serif;
+  --font-body: 'Golos Text', ui-sans-serif, system-ui, sans-serif;
+  --display-weight: 700;
+  --display-tracking: -0.015em;
+  --ground:#E7EDE4; --surface:#F6F9F3; --surface-2:#DEE7D9; --line:#C9D6C2;
+  --ink:#1F2C24; --ink-soft:#46584C; --ink-mute:#7A8C7F;
+  --accent:#2F6B4F; --accent-ink:#F6F9F3; --accent-soft:#CFE0D2;
+  --gold:#B0862F; --shadow: 0 1px 2px rgba(31,44,36,.06), 0 8px 24px -12px rgba(31,44,36,.18);
+  --radius:14px; --radius-lg:22px; --border-w:1px;
+}
+[data-skin="midnight"]{
+  color-scheme: dark;
+  --font-display: 'Prata', Georgia, serif;
+  --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --display-weight: 400; --display-tracking: 0em;
+  --ground:#0D1220; --surface:#161E30; --surface-2:#1F2940; --line:#2B3752;
+  --ink:#E6EBF5; --ink-soft:#A9B4CC; --ink-mute:#6C7893;
+  --accent:#8FA7FF; --accent-ink:#0D1220; --accent-soft:#26304C;
+  --gold:#F0B45E; --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -16px rgba(0,0,0,.8);
+  --radius:14px; --radius-lg:22px; --border-w:1px;
+}
+[data-skin="peach"]{
+  color-scheme: light;
+  --font-display: 'Comfortaa', ui-rounded, sans-serif;
+  --font-body: 'Nunito', ui-sans-serif, system-ui, sans-serif;
+  --display-weight: 700; --display-tracking: -0.01em;
+  --ground:#FBE9DE; --surface:#FFF7F2; --surface-2:#F6DACB; --line:#EBC5B2;
+  --ink:#40272A; --ink-soft:#7A5157; --ink-mute:#A9807F;
+  --accent:#C4566B; --accent-ink:#FFF7F2; --accent-soft:#F7D3D6;
+  --gold:#D98E3C; --shadow: 0 1px 2px rgba(64,39,42,.06), 0 10px 26px -14px rgba(64,39,42,.3);
+  --radius:18px; --radius-lg:28px; --border-w:1px;
+}
+[data-skin="riso"]{
+  color-scheme: light;
+  --font-display: 'Unbounded', 'Golos Text', sans-serif;
+  --font-body: 'Golos Text', ui-sans-serif, system-ui, sans-serif;
+  --display-weight: 800; --display-tracking: -0.03em;
+  --ground:#F7F3EA; --surface:#FFFFFF; --surface-2:#EDE7DA; --line:#141414;
+  --ink:#141414; --ink-soft:#4A4A4A; --ink-mute:#8A8A8A;
+  --accent:#2B44FF; --accent-ink:#FFFFFF; --accent-soft:#D9DEFF;
+  --gold:#FF4D8D; --shadow: 3px 3px 0 #141414;
+  --radius:4px; --radius-lg:6px; --border-w:2px;
+}
+[data-skin="dusk"]{
+  color-scheme: light;
+  --font-display: 'Philosopher', Georgia, serif;
+  --font-body: 'Golos Text', ui-sans-serif, system-ui, sans-serif;
+  --display-weight: 700; --display-tracking: -0.005em;
+  --ground:#E9E6F1; --surface:#F6F4FA; --surface-2:#DDD8EA; --line:#CBC4DD;
+  --ink:#2A2340; --ink-soft:#574C75; --ink-mute:#8880A3;
+  --accent:#6B57C7; --accent-ink:#F6F4FA; --accent-soft:#DCD4F5;
+  --gold:#C98A45; --shadow: 0 1px 2px rgba(42,35,64,.06), 0 10px 26px -14px rgba(42,35,64,.32);
+  --radius:16px; --radius-lg:24px; --border-w:1px;
+}
+[data-skin="charcoal"]{
+  color-scheme: dark;
+  --font-display: 'Oswald', ui-sans-serif, sans-serif;
+  --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --display-weight: 600; --display-tracking: 0.005em;
+  --ground:#121211; --surface:#1C1C1A; --surface-2:#262624; --line:#35352F;
+  --ink:#EDEAE2; --ink-soft:#ADA79A; --ink-mute:#78736A;
+  --accent:#D9C7A3; --accent-ink:#121211; --accent-soft:#2E2B24;
+  --gold:#C98F5A; --shadow: 0 1px 2px rgba(0,0,0,.5), 0 14px 34px -18px rgba(0,0,0,.9);
+  --radius:10px; --radius-lg:16px; --border-w:1px;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+*,*::before,*::after{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+html{ -webkit-text-size-adjust:100%; background:var(--ground); }
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-size:16px; line-height:1.45;
+  -webkit-font-smoothing:antialiased;
+  overscroll-behavior-y:none;
+  min-height:100dvh;
+}
+button,input,select,textarea{ font:inherit; color:inherit; }
+button{ background:none; border:0; padding:0; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:4px; }
+.display{ font-family:var(--font-display); font-weight:var(--display-weight); letter-spacing:var(--display-tracking); text-wrap:balance; }
+.eyebrow{ font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-mute); }
+.num{ font-variant-numeric:tabular-nums; }
+.sr{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+.app{
+  max-width:520px; margin:0 auto;
+  min-height:100dvh;
+  display:flex; flex-direction:column;
+  padding: max(14px, env(safe-area-inset-top)) 16px 0;
+}
+main{ flex:1; padding-bottom:104px; }
+.hidden{ display:none !important; }
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.top{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:8px 0 18px; }
+.top h1{ margin:2px 0 0; font-size:26px; line-height:1.1; }
+.top .date{ margin-bottom:6px; }
+.iconbtn{
+  width:42px; height:42px; flex:none; display:grid; place-items:center;
+  border-radius:999px; border:var(--border-w) solid var(--line);
+  background:var(--surface); color:var(--ink-soft);
+  transition:transform .15s ease, color .15s ease;
+}
+.iconbtn:active{ transform:scale(.93); }
+.iconbtn svg{ width:19px; height:19px; }
+
+/* ============================================================
+   DAY RING — one segment per habit
+   ============================================================ */
+.ring-card{
+  background:var(--surface); border:var(--border-w) solid var(--line);
+  border-radius:var(--radius-lg); box-shadow:var(--shadow);
+  padding:22px 20px; display:flex; align-items:center; gap:20px; margin-bottom:22px;
+}
+.ring{ width:124px; height:124px; flex:none; position:relative; }
+.ring svg{ width:100%; height:100%; transform:rotate(-90deg); }
+.ring .seg{ fill:none; stroke-width:9; stroke-linecap:round; transition:stroke .35s ease, opacity .35s ease; }
+.ring .seg.off{ stroke:var(--surface-2); }
+.ring .seg.on{ stroke:var(--accent); }
+.ring-center{ position:absolute; inset:0; display:grid; place-content:center; text-align:center; }
+.ring-center b{ font-family:var(--font-display); font-weight:var(--display-weight); font-size:36px; line-height:1; display:block; letter-spacing:var(--display-tracking); }
+.ring-center b small{ font-size:.55em; color:var(--ink-mute); letter-spacing:0; }
+.ring-center span{ font-size:11px; color:var(--ink-mute); letter-spacing:.08em; text-transform:uppercase; font-weight:700; }
+.ring-side{ min-width:0; }
+.ring-side .lead{ font-family:var(--font-display); font-weight:var(--display-weight); font-size:19px; line-height:1.2; letter-spacing:var(--display-tracking); margin:6px 0 4px; }
+.ring-side p{ margin:0; font-size:13.5px; color:var(--ink-soft); }
+.lvl{ display:flex; align-items:center; gap:8px; margin-top:12px; }
+.lvl-bar{ flex:1; height:6px; border-radius:99px; background:var(--surface-2); overflow:hidden; }
+.lvl-bar i{ display:block; height:100%; background:var(--gold); border-radius:99px; transition:width .5s cubic-bezier(.2,.8,.2,1); }
+.lvl small{ font-size:11px; color:var(--ink-mute); font-weight:700; letter-spacing:.06em; }
+
+/* ============================================================
+   HABIT LIST
+   ============================================================ */
+.section-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin:0 2px 10px; }
+.list{ display:flex; flex-direction:column; gap:10px; }
+.habit{
+  background:var(--surface); border:var(--border-w) solid var(--line);
+  border-radius:var(--radius); box-shadow:var(--shadow);
+  padding:13px 14px; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:13px;
+  transition:transform .18s cubic-bezier(.2,.8,.2,1), border-color .2s ease;
+}
+.habit.done{ border-color:var(--accent); }
+.habit.pop{ transform:scale(1.02); }
+.habit-emoji{ width:40px; height:40px; flex:none; display:grid; place-items:center; font-size:21px; border-radius:var(--radius); background:var(--surface-2); }
+.habit-main{ min-width:0; }
+.habit-name{ font-weight:700; font-size:15.5px; line-height:1.25; margin:0 0 5px; overflow-wrap:anywhere; }
+.habit-meta{ display:flex; align-items:center; gap:9px; font-size:12px; color:var(--ink-mute); flex-wrap:wrap; }
+.streak{ display:inline-flex; align-items:center; gap:3px; color:var(--gold); font-weight:700; }
+.chain{ display:flex; gap:4px; }
+.chain i{ width:7px; height:7px; border-radius:99px; background:var(--surface-2); display:block; }
+.chain i.hit{ background:var(--accent); }
+.chain i.today{ box-shadow:0 0 0 2px var(--surface), 0 0 0 3.5px var(--ink-mute); }
+.check{
+  width:44px; height:44px; flex:none; border-radius:999px;
+  border:2px solid var(--line); display:grid; place-items:center;
+  color:transparent; transition:background .2s ease, border-color .2s ease, color .2s ease, transform .15s ease;
+}
+.check svg{ width:22px; height:22px; }
+.check:active{ transform:scale(.88); }
+.habit.done .check{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+.counter{ display:flex; align-items:center; gap:2px; }
+.counter .cnt{ font-size:12px; color:var(--ink-mute); font-weight:700; min-width:26px; text-align:right; }
+
+.empty{ text-align:center; padding:44px 18px; color:var(--ink-mute); }
+.empty p{ margin:8px 0 18px; font-size:14px; }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:12px 18px; border-radius:999px; font-weight:700; font-size:14.5px;
+  border:var(--border-w) solid var(--line); background:var(--surface); color:var(--ink);
+  transition:transform .15s ease, opacity .2s ease;
+}
+.btn:active{ transform:scale(.96); }
+.btn-primary{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+.btn-ghost{ background:transparent; }
+.btn-danger{ color:#C0392B; border-color:currentColor; background:transparent; }
+.btn-full{ width:100%; }
+.btn-sm{ padding:8px 14px; font-size:13px; }
+
+/* ============================================================
+   BOTTOM NAV
+   ============================================================ */
+.tabs{
+  position:fixed; left:0; right:0; bottom:0; z-index:30;
+  display:flex; justify-content:center;
+  padding:0 16px calc(12px + env(safe-area-inset-bottom));
+  pointer-events:none;
+}
+.tabs-inner{
+  pointer-events:auto; width:100%; max-width:488px;
+  display:grid; grid-template-columns:repeat(5,1fr); gap:1px;
+  background:var(--surface); border:var(--border-w) solid var(--line);
+  border-radius:999px; padding:5px; box-shadow:var(--shadow);
+}
+.tab{
+  display:flex; flex-direction:column; align-items:center; gap:3px;
+  padding:8px 1px 7px; border-radius:999px; color:var(--ink-mute);
+  font-size:9.5px; font-weight:700; letter-spacing:.03em;
+  transition:background .2s ease, color .2s ease;
+}
+.tab svg{ width:19px; height:19px; }
+.tab[aria-selected="true"]{ background:var(--accent-soft); color:var(--accent); }
+[data-skin="charcoal"] .tab[aria-selected="true"],
+[data-skin="midnight"] .tab[aria-selected="true"]{ color:var(--accent); }
+
+/* ============================================================
+   WEEKS / STATS
+   ============================================================ */
+.stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:22px; }
+.stat{
+  background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius);
+  padding:14px 12px; box-shadow:var(--shadow);
+}
+.stat b{ font-family:var(--font-display); font-weight:var(--display-weight); font-size:27px; line-height:1; display:block; letter-spacing:var(--display-tracking); }
+.stat span{ display:block; margin-top:6px; font-size:11px; color:var(--ink-mute); font-weight:600; line-height:1.3; }
+
+.grid-card{
+  background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius-lg);
+  box-shadow:var(--shadow); padding:16px 14px; margin-bottom:14px; overflow-x:auto;
+}
+.grid-head{ display:flex; align-items:center; gap:9px; margin-bottom:12px; }
+.grid-head .habit-emoji{ width:30px; height:30px; font-size:16px; border-radius:9px; }
+.grid-head b{ font-size:14.5px; overflow-wrap:anywhere; }
+.grid-head .pct{ margin-left:auto; font-size:12px; font-weight:700; color:var(--ink-mute); flex:none; }
+.weeks{ display:flex; gap:5px; min-width:min-content; }
+.wcol{ display:flex; flex-direction:column; gap:5px; }
+.cell{ width:16px; height:16px; border-radius:5px; background:var(--surface-2); }
+[data-skin="riso"] .cell{ border-radius:2px; }
+.cell.l1{ background:var(--accent); opacity:.35; }
+.cell.l2{ background:var(--accent); opacity:.65; }
+.cell.l3{ background:var(--accent); }
+.cell.future{ background:transparent; box-shadow:inset 0 0 0 1px var(--surface-2); }
+.cell.today{ box-shadow:0 0 0 2px var(--surface), 0 0 0 3.5px var(--ink-mute); }
+.daylabels{ display:flex; flex-direction:column; gap:5px; margin-right:3px; }
+.daylabels span{ height:16px; font-size:9.5px; line-height:16px; color:var(--ink-mute); font-weight:700; width:16px; }
+
+/* ============================================================
+   REWARDS
+   ============================================================ */
+.prize{
+  background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:14px; display:grid; grid-template-columns:auto 1fr; gap:13px; align-items:center;
+}
+.prize.locked{ opacity:.62; }
+.prize.ready{ border-color:var(--gold); }
+.prize-badge{
+  width:46px; height:46px; flex:none; display:grid; place-items:center; font-size:23px;
+  border-radius:999px; background:var(--surface-2);
+}
+.prize.ready .prize-badge, .prize.claimed .prize-badge{ background:var(--accent-soft); }
+.prize b{ display:block; font-size:14.5px; line-height:1.25; overflow-wrap:anywhere; }
+.prize p{ margin:4px 0 0; font-size:12.5px; color:var(--ink-mute); }
+.pbar{ height:5px; border-radius:99px; background:var(--surface-2); overflow:hidden; margin-top:8px; }
+.pbar i{ display:block; height:100%; background:var(--accent); border-radius:99px; transition:width .5s ease; }
+.claimed-tag{ display:inline-block; margin-top:7px; font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); }
+
+/* ============================================================
+   BOTTOM SHEET
+   ============================================================ */
+.scrim{
+  position:fixed; inset:0; z-index:40; background:rgba(0,0,0,.42);
+  opacity:0; pointer-events:none; transition:opacity .25s ease;
+  backdrop-filter:blur(2px);
+}
+.scrim.open{ opacity:1; pointer-events:auto; }
+.sheet{
+  position:fixed; z-index:41; left:0; right:0; bottom:0;
+  max-width:520px; margin:0 auto;
+  background:var(--ground); color:var(--ink);
+  border-top-left-radius:26px; border-top-right-radius:26px;
+  border-top:var(--border-w) solid var(--line);
+  padding:10px 18px calc(24px + env(safe-area-inset-bottom));
+  max-height:88dvh; overflow-y:auto;
+  transform:translateY(102%); transition:transform .32s cubic-bezier(.2,.85,.25,1);
+}
+.sheet.open{ transform:translateY(0); }
+.grabber{ width:38px; height:4px; border-radius:99px; background:var(--line); margin:0 auto 14px; }
+.sheet h2{ font-family:var(--font-display); font-weight:var(--display-weight); letter-spacing:var(--display-tracking); font-size:22px; margin:0 0 4px; }
+.sheet .sub{ margin:0 0 18px; font-size:13.5px; color:var(--ink-mute); }
+.field{ margin-bottom:16px; }
+.field label{ display:block; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-mute); margin-bottom:7px; }
+.field input[type=text], .field input[type=number], .field select, .field textarea{
+  width:100%; padding:12px 14px; border-radius:var(--radius);
+  border:var(--border-w) solid var(--line); background:var(--surface); color:var(--ink);
+}
+.field input:focus, .field select:focus, .field textarea:focus{ outline:2px solid var(--accent); outline-offset:-1px; }
+.emojis{ display:flex; flex-wrap:wrap; gap:7px; }
+.emojis button{
+  width:42px; height:42px; border-radius:var(--radius); font-size:20px;
+  border:var(--border-w) solid var(--line); background:var(--surface); display:grid; place-items:center;
+}
+.emojis button[aria-pressed="true"]{ background:var(--accent-soft); border-color:var(--accent); }
+.chips{ display:flex; flex-wrap:wrap; gap:7px; }
+.chip{
+  padding:9px 14px; border-radius:999px; font-size:13px; font-weight:600;
+  border:var(--border-w) solid var(--line); background:var(--surface); color:var(--ink-soft);
+}
+.chip[aria-pressed="true"]{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+.sheet-actions{ display:flex; gap:9px; margin-top:22px; }
+.sheet-actions .btn{ flex:1; }
+.rowlink{
+  width:100%; display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:14px 2px; border-bottom:var(--border-w) solid var(--line); font-size:14.5px; font-weight:600; text-align:left;
+}
+.rowlink:last-of-type{ border-bottom:0; }
+.rowlink span{ color:var(--ink-mute); font-weight:500; font-size:13px; }
+
+/* ============================================================
+   THEME PICKER
+   ============================================================ */
+.skins{ display:grid; grid-template-columns:1fr 1fr; gap:11px; }
+.fontcard{
+  width:100%; text-align:left; padding:14px 15px; border-radius:var(--radius);
+  border:var(--border-w) solid var(--line); background:var(--surface); margin-bottom:9px;
+  transition:transform .16s ease, border-color .2s ease;
+}
+.fontcard:active{ transform:scale(.985); }
+.fontcard[aria-pressed="true"]{ border-color:var(--accent); background:var(--accent-soft); }
+.fontcard .fp{ display:block; font-size:23px; line-height:1.1; margin-bottom:6px; }
+.fontcard .fb{ display:block; font-size:13.5px; line-height:1.35; margin-bottom:7px; }
+.fontcard .fn{ font-size:10.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-mute); }
+.fontcard[aria-pressed="true"] .fn{ color:var(--accent); }
+.skin{
+  border-radius:16px; padding:14px 13px 13px; text-align:left; position:relative;
+  border:2px solid transparent; overflow:hidden; transition:transform .18s ease;
+}
+.skin:active{ transform:scale(.97); }
+.skin[aria-pressed="true"]{ border-color:var(--ink); }
+.skin .sname{ display:block; font-size:15px; line-height:1.15; margin-bottom:4px; padding-right:22px; }
+.skin .sdesc{ display:block; font-size:11px; opacity:.72; line-height:1.3; }
+.sprev{ display:flex; align-items:center; gap:7px; margin-top:11px; padding:7px 8px; border-radius:9px; }
+.sprev i{ display:block; }
+.sprev .d{ width:14px; height:14px; border-radius:4px; flex:none; }
+.sprev .l{ flex:1; height:4px; border-radius:99px; }
+.sprev .c{ width:15px; height:15px; border-radius:99px; flex:none; }
+.swatches{ display:flex; gap:5px; margin-top:9px; }
+.swatches i{ width:15px; height:15px; border-radius:99px; display:block; box-shadow:inset 0 0 0 1px rgba(0,0,0,.08); }
+.skin .tick{ position:absolute; top:10px; right:10px; width:19px; height:19px; border-radius:99px; display:none; place-items:center; }
+.skin[aria-pressed="true"] .tick{ display:grid; }
+.skin .tick svg{ width:11px; height:11px; }
+
+/* ============================================================
+   WELCOME SCREEN
+   ============================================================ */
+.onboard{ padding:26px 0 40px; }
+.onboard .kicker{ margin-bottom:12px; }
+.onboard h1{ font-family:var(--font-display); font-weight:var(--display-weight); letter-spacing:var(--display-tracking); font-size:34px; line-height:1.08; margin:0 0 10px; text-wrap:balance; }
+.onboard .intro{ margin:0 0 26px; font-size:15px; color:var(--ink-soft); max-width:34ch; }
+.onboard .skins{ margin-bottom:6px; }
+.onboard .obl{ display:block; margin:26px 0 11px; }
+.onboard .obl2{ margin-top:30px; }
+.obfoot{
+  position:sticky; bottom:0; padding:14px 0 calc(16px + env(safe-area-inset-bottom));
+  background:linear-gradient(to top, var(--ground) 62%, transparent);
+}
+
+/* ============================================================
+   DECOR — a drawn motif behind the header, one per theme
+   ============================================================ */
+.decor{
+  position:fixed; top:0; left:50%; transform:translateX(-50%);
+  width:100%; max-width:520px; height:240px; z-index:0; pointer-events:none;
+  -webkit-mask-image:linear-gradient(to bottom, #000 30%, transparent 100%);
+          mask-image:linear-gradient(to bottom, #000 30%, transparent 100%);
+}
+.decor svg{ width:100%; height:100%; display:block; }
+.app{ position:relative; z-index:1; }
+#confetti{ position:fixed; inset:0; z-index:50; pointer-events:none; }
+
+/* ============================================================
+   EMPTY STATES — small drawings instead of a lone emoji
+   ============================================================ */
+.emptyart{ width:96px; height:96px; margin:0 auto 4px; display:block; }
+
+/* ============================================================
+   ENGLISH — affirmation and ten phrases a day
+   ============================================================ */
+.affirm{
+  background:var(--accent-soft); border:var(--border-w) solid var(--line);
+  border-radius:var(--radius-lg); padding:22px 20px 20px; margin-bottom:22px;
+}
+.affirm .eyebrow{ color:var(--accent); margin-bottom:10px; }
+.affirm blockquote{
+  margin:0; font-family:var(--font-display); font-weight:var(--display-weight);
+  letter-spacing:var(--display-tracking); font-size:20px; line-height:1.3; text-wrap:balance; color:var(--ink);
+}
+.affirm-strip{
+  width:100%; text-align:left; display:block;
+  background:var(--accent-soft); border:var(--border-w) solid var(--line);
+  border-radius:var(--radius); padding:13px 15px; margin-bottom:20px;
+  transition:transform .18s cubic-bezier(.2,.8,.2,1);
+}
+.affirm-strip:active{ transform:scale(.985); }
+.affirm-strip .eyebrow{ color:var(--accent); display:block; margin-bottom:5px; }
+.affirm-strip q{
+  font-family:var(--font-display); font-weight:var(--display-weight); letter-spacing:var(--display-tracking);
+  font-size:15px; line-height:1.35; quotes:none; color:var(--ink); display:block;
+}
+.pack-card{
+  background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius-lg);
+  box-shadow:var(--shadow); padding:18px 16px; margin-bottom:14px;
+}
+.pack-top{ display:flex; align-items:center; gap:12px; margin-bottom:4px; }
+.pack-top .habit-emoji{ width:38px; height:38px; font-size:20px; }
+.pack-top h3{
+  margin:0; font-family:var(--font-display); font-weight:var(--display-weight);
+  letter-spacing:var(--display-tracking); font-size:20px; line-height:1.15;
+}
+.pack-progress{ display:flex; align-items:center; gap:10px; margin:14px 0 6px; }
+.pack-progress .pbar{ flex:1; margin-top:0; }
+.pack-progress small{ font-size:11px; font-weight:700; color:var(--ink-mute); letter-spacing:.05em; flex:none; }
+.phrases{ display:flex; flex-direction:column; }
+.phrase{
+  display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start; width:100%; text-align:left;
+  padding:13px 2px; border-bottom:var(--border-w) solid var(--line);
+}
+.phrase:last-child{ border-bottom:0; }
+.phrase .n{
+  width:24px; height:24px; flex:none; border-radius:999px; display:grid; place-items:center;
+  font-size:11px; font-weight:700; background:var(--surface-2); color:var(--ink-mute);
+  font-variant-numeric:tabular-nums; margin-top:1px; transition:background .18s ease, color .18s ease;
+}
+.phrase[aria-pressed="true"] .n{ background:var(--accent); color:var(--accent-ink); }
+.phrase b{ display:block; font-size:15.5px; line-height:1.3; font-weight:700; }
+.phrase em{ display:block; margin-top:3px; font-size:12.5px; line-height:1.4; color:var(--ink-mute); font-style:normal; }
+.phrase[aria-pressed="true"] b{ color:var(--ink-mute); }
+.librow{
+  display:grid; grid-template-columns:auto 1fr auto; gap:11px; align-items:center;
+  width:100%; text-align:left; padding:11px 2px; border-bottom:var(--border-w) solid var(--line);
+}
+.librow:last-child{ border-bottom:0; }
+.librow .habit-emoji{ width:34px; height:34px; font-size:17px; border-radius:10px; }
+.librow b{ display:block; font-size:14.5px; line-height:1.25; font-weight:600; overflow-wrap:anywhere; }
+.librow em{ display:block; font-style:normal; font-size:11.5px; color:var(--ink-mute); margin-top:3px; }
+.librow .plus{
+  width:32px; height:32px; flex:none; border-radius:999px; display:grid; place-items:center;
+  border:var(--border-w) solid var(--line); color:var(--accent); font-size:19px; line-height:1;
+  transition:background .18s ease, color .18s ease, border-color .18s ease;
+}
+.librow.have{ opacity:.55; }
+.librow.have .plus{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); font-size:14px; }
+.libcount{ font-size:12.5px; color:var(--ink-mute); margin:0 0 10px; }
+.packlist{ display:flex; flex-direction:column; gap:1px; }
+.packrow{
+  display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center; width:100%; text-align:left;
+  padding:12px 2px; border-bottom:var(--border-w) solid var(--line); font-size:14.5px; font-weight:600;
+}
+.packrow:last-child{ border-bottom:0; }
+.packrow em{ font-style:normal; font-size:11.5px; font-weight:700; color:var(--ink-mute); font-variant-numeric:tabular-nums; }
+.packrow .habit-emoji{ width:32px; height:32px; font-size:17px; border-radius:10px; }
+
+/* ============================================================
+   RECIPES
+   ============================================================ */
+.searchbar{ position:relative; margin-bottom:12px; }
+.searchbar input{
+  width:100%; padding:12px 14px 12px 40px; border-radius:999px;
+  border:var(--border-w) solid var(--line); background:var(--surface); color:var(--ink); font-size:15px;
+}
+.searchbar svg{ position:absolute; left:14px; top:50%; transform:translateY(-50%); width:17px; height:17px; color:var(--ink-mute); pointer-events:none; }
+.filters{ display:flex; gap:6px; overflow-x:auto; padding:0 0 4px; margin:0 -16px 16px; padding-left:16px; padding-right:16px; scrollbar-width:none; }
+.filters::-webkit-scrollbar{ display:none; }
+.filters .chip{ flex:none; padding:7px 13px; font-size:12.5px; }
+
+.rec-list{ display:flex; flex-direction:column; gap:10px; }
+.rec{
+  background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:10px; display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center;
+  width:100%; text-align:left; transition:transform .18s cubic-bezier(.2,.8,.2,1);
+}
+.rec:active{ transform:scale(.985); }
+.rec-thumb{
+  width:58px; height:58px; flex:none; border-radius:calc(var(--radius) - 3px);
+  background:var(--surface-2) center/cover no-repeat; display:grid; place-items:center; font-size:26px;
+}
+.rec-body{ min-width:0; }
+.rec-body b{ display:block; font-size:15px; line-height:1.25; overflow-wrap:anywhere; }
+.rec-body p{ margin:5px 0 0; font-size:12px; color:var(--ink-mute); display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.rec-cat{ color:var(--accent); font-weight:700; }
+.star{ width:34px; height:34px; flex:none; display:grid; place-items:center; color:var(--ink-mute); border-radius:999px; }
+.star svg{ width:19px; height:19px; }
+.star[aria-pressed="true"]{ color:var(--gold); }
+.star[aria-pressed="true"] svg{ fill:currentColor; }
+
+.rec-hero{
+  height:190px; border-radius:var(--radius-lg); background:var(--surface-2) center/cover no-repeat;
+  display:grid; place-items:center; font-size:56px; margin-bottom:16px; border:var(--border-w) solid var(--line);
+}
+.backbtn{ display:inline-flex; align-items:center; gap:6px; font-size:13.5px; font-weight:700; color:var(--ink-mute); padding:6px 2px; margin-bottom:10px; }
+.backbtn svg{ width:15px; height:15px; }
+.rec-title{ font-family:var(--font-display); font-weight:var(--display-weight); letter-spacing:var(--display-tracking); font-size:27px; line-height:1.12; margin:0 0 10px; text-wrap:balance; }
+.rec-meta{ display:flex; flex-wrap:wrap; gap:7px; margin-bottom:22px; }
+.pill{
+  padding:6px 12px; border-radius:999px; font-size:12px; font-weight:700;
+  background:var(--surface-2); color:var(--ink-soft);
+}
+.pill.accent{ background:var(--accent-soft); color:var(--accent); }
+.rec-block{ margin-bottom:26px; }
+.rec-block > .eyebrow{ display:block; margin-bottom:11px; }
+.ings{ display:flex; flex-direction:column; gap:1px; }
+.ing{
+  display:flex; align-items:flex-start; gap:11px; width:100%; text-align:left;
+  padding:11px 2px; border-bottom:var(--border-w) solid var(--line); font-size:14.5px; line-height:1.35;
+}
+.ing:last-child{ border-bottom:0; }
+.ing .box{
+  width:20px; height:20px; flex:none; margin-top:1px; border-radius:6px;
+  border:2px solid var(--line); display:grid; place-items:center; color:transparent;
+  transition:background .18s ease, border-color .18s ease, color .18s ease;
+}
+.ing .box svg{ width:12px; height:12px; }
+.ing[aria-pressed="true"] .box{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+.ing[aria-pressed="true"] span{ text-decoration:line-through; color:var(--ink-mute); }
+.steps{ display:flex; flex-direction:column; gap:16px; counter-reset:step; }
+.step{ display:grid; grid-template-columns:auto 1fr; gap:13px; align-items:start; }
+.step b{
+  font-family:var(--font-display); font-weight:var(--display-weight); font-size:17px; line-height:1;
+  width:30px; height:30px; flex:none; border-radius:999px; display:grid; place-items:center;
+  background:var(--accent-soft); color:var(--accent); letter-spacing:0;
+}
+.step p{ margin:4px 0 0; font-size:14.5px; line-height:1.5; }
+.note{
+  background:var(--surface); border:var(--border-w) solid var(--line); border-left:3px solid var(--gold);
+  border-radius:var(--radius); padding:13px 15px; font-size:14px; line-height:1.5; color:var(--ink-soft);
+}
+.photo-row{ display:flex; gap:9px; align-items:center; }
+.photo-prev{ width:56px; height:56px; border-radius:var(--radius); background:var(--surface-2) center/cover no-repeat; flex:none; display:grid; place-items:center; font-size:24px; }
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast{
+  position:fixed; z-index:60; left:50%; bottom:calc(96px + env(safe-area-inset-bottom));
+  transform:translate(-50%, 14px); opacity:0; pointer-events:none;
+  background:var(--ink); color:var(--ground);
+  padding:11px 18px; border-radius:999px; font-size:13.5px; font-weight:600;
+  max-width:min(88vw, 420px); text-align:center;
+  transition:opacity .25s ease, transform .25s ease;
+}
+.toast.show{ opacity:1; transform:translate(-50%, 0); }
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.01ms !important; transition-duration:.01ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="decor" id="decor" aria-hidden="true"></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<div class="app">
+
+  <!-- SCREEN 0: theme picker on first launch -->
+  <section id="onboard" class="onboard hidden">
+    <p class="eyebrow kicker">Your own habit tracker</p>
+    <h1>Pick how this looks</h1>
+    <p class="intro">Tap anything to try it on — the whole screen changes as you go. Nothing here is final; you can change it again any time.</p>
+    <p class="eyebrow obl">Theme</p>
+    <div class="skins" id="onboardSkins"></div>
+    <p class="eyebrow obl obl2">Typeface</p>
+    <div id="onboardFonts"></div>
+    <div class="obfoot"><button class="btn btn-primary btn-full" id="onboardDone">This is the one</button></div>
+  </section>
+
+  <!-- MAIN APP -->
+  <div id="main" class="hidden">
+    <header class="top">
+      <div>
+        <p class="eyebrow date" id="dateLine">—</p>
+        <h1 class="display" id="greeting">Hello</h1>
+      </div>
+      <button class="iconbtn" id="openSettings" aria-label="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </header>
+
+    <main id="view"></main>
+
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <div class="tabs-inner">
+        <button class="tab" role="tab" data-tab="today" aria-selected="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          Today
+        </button>
+        <button class="tab" role="tab" data-tab="english" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.3-.6L3 21l1.8-5.1A8.2 8.2 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/></svg>
+          English
+        </button>
+        <button class="tab" role="tab" data-tab="stats" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+          Rhythm
+        </button>
+        <button class="tab" role="tab" data-tab="prizes" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg>
+          Rewards
+        </button>
+        <button class="tab" role="tab" data-tab="recipes" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M9 7h7"/></svg>
+          Recipes
+        </button>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Panel"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- Themes ---------- */
+const SKINS = [
+  {id:'orangery', name:'Greenhouse', desc:'Light and botanical',   font:"'Literata',Georgia,serif", fw:700, ground:'#E7EDE4', surface:'#F6F9F3', ink:'#1F2C24', accent:'#2F6B4F', gold:'#B0862F'},
+  {id:'midnight', name:'Midnight',   desc:'Dark and calm',         font:"'Prata',Georgia,serif", fw:400, ground:'#0D1220', surface:'#161E30', ink:'#E6EBF5', accent:'#8FA7FF', gold:'#F0B45E'},
+  {id:'peach',    name:'Peach',      desc:'Soft and warm',         font:"'Comfortaa',sans-serif", fw:700, ground:'#FBE9DE', surface:'#FFF7F2', ink:'#40272A', accent:'#C4566B', gold:'#D98E3C'},
+  {id:'riso',     name:'Risograph',  desc:'Bright, like print',    font:"'Unbounded',sans-serif", fw:800, ground:'#F7F3EA', surface:'#FFFFFF', ink:'#141414', accent:'#2B44FF', gold:'#FF4D8D'},
+  {id:'dusk',     name:'Dusk',       desc:'Quiet lavender',        font:"'Philosopher',Georgia,serif", fw:700, ground:'#E9E6F1', surface:'#F6F4FA', ink:'#2A2340', accent:'#6B57C7', gold:'#C98A45'},
+  {id:'charcoal', name:'Charcoal',   desc:'Dark and minimal',       font:"'Oswald',sans-serif", fw:600, ground:'#121211', surface:'#1C1C1A', ink:'#EDEAE2', accent:'#D9C7A3', gold:'#C98F5A'}
+];
+const FONTSETS = [
+  {id:'auto', name:'Match the theme', display:'', body:'', w:'', t:''},
+  {id:'round',   name:'Comfortaa + Nunito',    display:"'Comfortaa', ui-rounded, sans-serif",   body:"'Nunito', system-ui, sans-serif",     w:700, t:'-0.01em'},
+  {id:'book',    name:'Literata + Golos Text', display:"'Literata', Georgia, serif",            body:"'Golos Text', system-ui, sans-serif", w:700, t:'-0.015em'},
+  {id:'elegant', name:'Prata + Manrope',       display:"'Prata', Georgia, serif",               body:"'Manrope', system-ui, sans-serif",    w:400, t:'0em'},
+  {id:'soft',    name:'Philosopher + Golos',   display:"'Philosopher', Georgia, serif",         body:"'Golos Text', system-ui, sans-serif", w:700, t:'-0.005em'},
+  {id:'bold',    name:'Unbounded + Golos',     display:"'Unbounded', sans-serif",               body:"'Golos Text', system-ui, sans-serif", w:800, t:'-0.03em'},
+  {id:'tall',    name:'Oswald + Manrope',      display:"'Oswald', sans-serif",                  body:"'Manrope', system-ui, sans-serif",    w:600, t:'0.005em'}
+];
+function applyFont(id){
+  const el = document.documentElement;
+  const f = FONTSETS.find(function(x){ return x.id === id; });
+  const keys = ['--font-display','--font-body','--display-weight','--display-tracking'];
+  if(!f || f.id === 'auto'){ keys.forEach(function(k){ el.style.removeProperty(k); }); return; }
+  el.style.setProperty('--font-display', f.display);
+  el.style.setProperty('--font-body', f.body);
+  el.style.setProperty('--display-weight', f.w);
+  el.style.setProperty('--display-tracking', f.t);
+}
+const THEME_COLOR = {orangery:'#E7EDE4', midnight:'#0D1220', peach:'#FBE9DE', riso:'#F7F3EA', dusk:'#E9E6F1', charcoal:'#121211'};
+
+const LEVELS = [
+  {xp:0,    name:'Spark'},   {xp:120,  name:'Rhythm'},  {xp:350,  name:'Flow'},
+  {xp:700,  name:'Anchor'},  {xp:1200, name:'Strength'},{xp:2000, name:'Master'},
+  {xp:3200, name:'Legend'}
+];
+
+const BADGES = [
+  {id:'first',   emoji:'🌱', title:'First step',        desc:'Your very first check-in',       goal:1,   get:s=>s.total},
+  {id:'s3',      emoji:'🔥', title:'Three in a row',    desc:'A 3-day streak',                goal:3,   get:s=>s.best},
+  {id:'s7',      emoji:'🗓️', title:'A full week',       desc:'A 7-day streak',                goal:7,   get:s=>s.best},
+  {id:'perfect', emoji:'✨', title:'Perfect day',       desc:'Every habit done in one day',   goal:1,   get:s=>s.perfect},
+  {id:'t25',     emoji:'🌾', title:'25 check-ins',      desc:'25 completions in total',       goal:25,  get:s=>s.total},
+  {id:'s14',     emoji:'💪', title:'Two weeks',         desc:'A 14-day streak',               goal:14,  get:s=>s.best},
+  {id:'p7',      emoji:'🏆', title:'Perfect week',      desc:'7 perfect days',                goal:7,   get:s=>s.perfect},
+  {id:'t100',    emoji:'🌳', title:'100 check-ins',     desc:'100 completions in total',      goal:100, get:s=>s.total},
+  {id:'s30',     emoji:'👑', title:'A whole month',     desc:'A 30-day streak',               goal:30,  get:s=>s.best},
+  {id:'t365',    emoji:'💎', title:'365 check-ins',     desc:'365 completions in total',      goal:365, get:s=>s.total}
+];
+
+const EMOJI = ['🌿','💧','📚','🏃','🧘','☀️','🌙','✍️','🎧','🥗','💤','🧴','🇬🇧','💸','🧹','📵','🎹','🚶','🧊','❤️','⭐️','🫖'];
+
+const CATS = ['Breakfast','Lunch','Dinner','Salads','Baking','Drinks','Preserves'];
+const FOOD = ['🍲','🥗','🍝','🍞','🥞','🍰','☕️','🥘','🍜','🐟','🍗','🥦','🍅','🥚','🧀','🍚','🥔','🍎'];
+
+function seedRecipes(){
+  return [
+    {id:'r1', title:'Oatmeal with apple and cinnamon', emoji:'🥣', cat:'Breakfast', time:10, serv:1, fav:true,
+     ings:['Rolled oats — 50 g','Milk or water — 200 ml','Apple — 1','Cinnamon — a pinch','Honey — 1 tsp','Salt — a pinch'],
+     steps:['Pour the milk over the oats, add a pinch of salt and bring to a boil over medium heat.','Turn the heat down and simmer for 5 minutes, stirring.','Dice the apple and stir it in with the cinnamon. Cover and leave for 2 minutes.','Take off the heat and add the honey.'],
+     note:'If the apple is tart, add the honey right at the end — otherwise it turns bitter.'},
+    {id:'r2', title:'Pumpkin cream soup', emoji:'🎃', cat:'Lunch', time:35, serv:4, fav:false,
+     ings:['Pumpkin — 600 g','Potatoes — 2','Onion — 1','Garlic — 2 cloves','Single cream — 100 ml','Olive oil — 2 tbsp','Salt and pepper — to taste','Pumpkin seeds — to serve'],
+     steps:['Cut the pumpkin and potatoes into large cubes and slice the onion into half-rings.','Soften the onion and garlic in olive oil, 3–4 minutes.','Add the pumpkin and potatoes and pour in water so it barely covers them. Simmer for 20 minutes until tender.','Blend until smooth, pour in the cream and warm through without letting it boil.','Season, and serve with the seeds on top.'],
+     note:'Roast the pumpkin for 20 minutes at 200°C first — the flavour gets deeper and sweeter.'}
+  ];
+}
+
+const PKEY = 'ritm.photos.v1';
+let photos = {};
+try{ photos = JSON.parse(localStorage.getItem(PKEY) || '{}') || {}; }catch(e){ photos = {}; }
+function savePhotos(){ try{ localStorage.setItem(PKEY, JSON.stringify(photos)); return true; }catch(e){ return false; } }
+
+let openRecipe = null, recQuery = '', recFilter = 'all', ingChecked = {}, pendingPhoto;
+
+/* ---------- English: a daily affirmation and ten phrases ---------- */
+const AFFIRMATIONS = [
+  'I speak before I feel ready, and that is how I get ready.',
+  'A small step taken today beats a perfect plan for tomorrow.',
+  'I am allowed to be a beginner at something I care about.',
+  'Consistency is quieter than motivation, and it lasts longer.',
+  'My accent is proof that I know more than one world.',
+  'I do not need to be fluent to be understood.',
+  'Mistakes are the receipts of a person who is actually trying.',
+  'I choose progress over performance.',
+  'What I practise, I become.',
+  'I can be tired and still keep my promise to myself.',
+  'Today I get to begin again, and that is a privilege.',
+  'I am building something that only shows up later.',
+  'Discipline is a kinder word for self-respect.',
+  'I trust the version of me that made this plan.',
+  'Slow is still a direction.',
+  'I do not have to feel like it. I only have to start.',
+  'Every repetition is a vote for the person I want to be.',
+  'I am learning to enjoy the part before the results.',
+  'Rest is part of the work, not a break from it.',
+  'I speak kindly to myself, especially when I get it wrong.',
+  'Nobody is keeping score but me, and I am generous.',
+  'One honest sentence is worth more than ten perfect ones I never say.',
+  'I can hold high standards and still be gentle with myself.',
+  'Difficulty is not a sign that I am off track.',
+  'I notice what I did today instead of what I missed.',
+  'The habit is the goal. Everything else is a bonus.',
+  'I am not behind. I am on my own timeline.',
+  'Doing it badly today keeps the door open for tomorrow.',
+  'Confidence comes after the action, not before it.',
+  'I am the kind of person who finishes what matters.',
+  'Small and steady is a strategy, not a compromise.',
+  'I let go of the days I lost and keep the days I have.',
+  'My energy is a resource, and I spend it on purpose.',
+  'I am curious about what I do not understand yet.',
+  'Showing up counts, even when it is quiet.',
+  'I do difficult things and then they become ordinary.',
+  'The only streak that matters is the one I restart.',
+  'I have permission to take up space in a conversation.',
+  'I can ask for what I need in plain words.',
+  'Comparison is a bad teacher. Practice is a good one.',
+  'I am proud of the effort nobody sees.',
+  'Today I choose one thing and do it properly.',
+  'Progress hides in boring days.',
+  'I know how to begin again without drama.',
+  'I would rather be improving than impressive.',
+  'My future self is already grateful for this.',
+  'I can be nervous and competent at the same time.',
+  'The work I do quietly changes what I can do loudly.',
+  'I meet myself where I am today.',
+  'What feels hard now is what feels easy later.',
+  'I am collecting evidence that I keep my word.',
+  'A missed day is data, not a verdict.',
+  'I speak to be understood, not to be judged.',
+  'There is no version of this where showing up does not help.',
+  'I am patient with the process and stubborn about the goal.',
+  'I finish things. That is who I am becoming.',
+  'Good enough, done today, beats perfect and imagined.',
+  'I am worth the time this takes.',
+  'Effort compounds. So does kindness to myself.',
+  'I get to do this, and that changes everything.'
+];
+
+const PACKS = [
+  {topic:'Small talk', emoji:'💬', phrases:[
+    ['break the ice','say something to make people relax at the start'],
+    ['How have you been?','a warm way to greet someone you have not seen for a while'],
+    ['What have you been up to?','asking about someone&#39;s recent life, informally'],
+    ['I know what you mean','showing you understand and agree'],
+    ['Tell me about it','I completely agree, I have been through the same'],
+    ['That reminds me…','a natural way to change the subject'],
+    ['Long time no see','friendly greeting after a long gap'],
+    ['I&#39;d better get going','a polite way to end a conversation'],
+    ['It was lovely to see you','a warm sign-off'],
+    ['Let&#39;s catch up soon','a friendly, non-committal promise to meet']
+  ]},
+  {topic:'Giving your opinion', emoji:'🧠', phrases:[
+    ['The way I see it…','introducing a personal view'],
+    ['If you ask me…','a slightly informal opinion opener'],
+    ['I&#39;m inclined to think…','a careful, soft opinion'],
+    ['I&#39;d argue that…','a confident, reasoned view'],
+    ['To be fair…','adding balance to a criticism'],
+    ['That said…','introducing a contrast to what you just said'],
+    ['I can see both sides','showing balance'],
+    ['I wouldn&#39;t go that far','softly disagreeing with something extreme'],
+    ['It depends on…','refusing a simple answer'],
+    ['That&#39;s a fair point','acknowledging someone before you respond']
+  ]},
+  {topic:'Disagreeing politely', emoji:'🤝', phrases:[
+    ['I see it a little differently','gentle disagreement'],
+    ['I&#39;m not sure I agree','soft and safe'],
+    ['With respect, I think…','formal disagreement'],
+    ['I take your point, but…','acknowledging before objecting'],
+    ['Is that necessarily true?','questioning an assumption'],
+    ['Let&#39;s agree to disagree','ending a stuck argument peacefully'],
+    ['I&#39;d push back on that','confident, common at work'],
+    ['That hasn&#39;t been my experience','disagreeing with evidence, not opinion'],
+    ['Correct me if I&#39;m wrong, but…','a softener before a challenge'],
+    ['I hear you, however…','showing you listened first']
+  ]},
+  {topic:'At work: email', emoji:'📧', phrases:[
+    ['I hope this finds you well','a standard warm opener'],
+    ['Just following up on…','a polite reminder'],
+    ['As discussed…','referring back to an agreement'],
+    ['Please find attached…','introducing an attachment'],
+    ['Could you let me know by Friday?','a clear, polite deadline'],
+    ['I&#39;ll get back to you shortly','buying time politely'],
+    ['Apologies for the delay','a short, professional apology'],
+    ['Looking forward to hearing from you','a standard sign-off'],
+    ['Let me know if anything is unclear','inviting questions'],
+    ['Thanks in advance','polite pressure, used carefully']
+  ]},
+  {topic:'Meetings', emoji:'🗓️', phrases:[
+    ['Shall we get started?','opening a meeting'],
+    ['Just to recap…','summarising what has been said'],
+    ['Can I jump in here?','interrupting politely'],
+    ['Sorry, you go ahead','giving way when you both speak'],
+    ['Let&#39;s park that for now','postponing a side topic'],
+    ['Can we take this offline?','discussing it separately later'],
+    ['To keep us on track…','steering back to the agenda'],
+    ['What are the next steps?','asking for actions'],
+    ['Who&#39;s owning this?','asking who is responsible'],
+    ['Let&#39;s wrap up','ending the meeting']
+  ]},
+  {topic:'Asking for help', emoji:'🙋', phrases:[
+    ['Could you give me a hand with…?','informal request for help'],
+    ['Do you have a minute?','checking availability first'],
+    ['I&#39;m a bit stuck on…','admitting difficulty without drama'],
+    ['Would you mind taking a look?','a soft, polite request'],
+    ['Any chance you could…?','casual and low pressure'],
+    ['I could really use your advice','warm and honest'],
+    ['If it&#39;s not too much trouble…','extra polite'],
+    ['Sorry to bother you, but…','a classic softener'],
+    ['Could you walk me through it?','asking for a step-by-step explanation'],
+    ['That would be a huge help','showing gratitude in advance']
+  ]},
+  {topic:'Saying no', emoji:'🚪', phrases:[
+    ['I&#39;d love to, but I can&#39;t','warm refusal'],
+    ['I&#39;m afraid I can&#39;t make it','declining an invitation'],
+    ['That doesn&#39;t work for me','clear and firm'],
+    ['Let me get back to you on that','buying time instead of saying yes'],
+    ['I&#39;m at capacity right now','professional and honest'],
+    ['I&#39;ll have to pass this time','light and final'],
+    ['Can we look at this next month?','deferring rather than refusing'],
+    ['I don&#39;t think I&#39;m the right person','redirecting'],
+    ['I&#39;d rather not, if that&#39;s okay','honest and soft'],
+    ['Thanks for thinking of me','a kind way to close a refusal']
+  ]},
+  {topic:'Feelings and moods', emoji:'🌤️', phrases:[
+    ['I&#39;m a bit under the weather','slightly unwell'],
+    ['I&#39;m running on empty','exhausted, no energy left'],
+    ['I&#39;m over the moon','extremely happy'],
+    ['I&#39;m in two minds about it','undecided'],
+    ['It&#39;s been weighing on me','something worrying you'],
+    ['I feel much lighter now','relieved'],
+    ['I&#39;m not myself today','feeling off, out of sorts'],
+    ['I&#39;m buzzing','excited, full of energy'],
+    ['I&#39;m keeping my chin up','staying positive in difficulty'],
+    ['I need to switch off','need to rest mentally']
+  ]},
+  {topic:'Time and plans', emoji:'⏳', phrases:[
+    ['Let&#39;s pencil it in','provisional booking'],
+    ['Does Tuesday work for you?','proposing a time'],
+    ['I&#39;m free any time after five','giving your availability'],
+    ['Something came up','explaining a cancellation'],
+    ['Can we push it back an hour?','asking to move something later'],
+    ['I&#39;m running late','a message everyone needs'],
+    ['On second thoughts…','changing your mind'],
+    ['I&#39;ll play it by ear','decide as the situation develops'],
+    ['That gives us plenty of time','reassuring about timing'],
+    ['It&#39;s down to the wire','very close to the deadline']
+  ]},
+  {topic:'Travel', emoji:'✈️', phrases:[
+    ['Is this seat taken?','a plane, train or cafe classic'],
+    ['Could you keep an eye on my bag?','asking someone to watch your things'],
+    ['What time do we board?','airport essential'],
+    ['I&#39;m just passing through','explaining a short stay'],
+    ['Where can I catch a taxi?','asking for transport'],
+    ['Does this go to the centre?','checking a bus or train'],
+    ['I&#39;d like to check in','at a hotel'],
+    ['Could I have a late checkout?','a useful hotel request'],
+    ['Is breakfast included?','worth asking every time'],
+    ['We got in late last night','arrived late']
+  ]},
+  {topic:'Restaurants and cafes', emoji:'🍽️', phrases:[
+    ['Could we see the menu, please?','opening line'],
+    ['What do you recommend?','always a good question'],
+    ['I&#39;ll have the same','ordering easily'],
+    ['Does it come with…?','asking what is included'],
+    ['I&#39;m allergic to…','important and clear'],
+    ['Could I get that to go?','takeaway'],
+    ['Nothing for me, thanks','declining politely'],
+    ['Could we get the bill?','asking to pay'],
+    ['Is service included?','about the tip'],
+    ['That was delicious','a compliment worth giving']
+  ]},
+  {topic:'Shopping and money', emoji:'💳', phrases:[
+    ['I&#39;m just browsing','you do not need help yet'],
+    ['Do you have this in another size?','a shop essential'],
+    ['Could I try it on?','fitting rooms'],
+    ['It&#39;s a bit out of my price range','too expensive, said politely'],
+    ['That&#39;s a bargain','very good value'],
+    ['It cost me a fortune','extremely expensive'],
+    ['Do you take card?','paying'],
+    ['Can I get a refund?','returning something'],
+    ['I&#39;m saving up for…','putting money aside'],
+    ['Let&#39;s split it','sharing a bill']
+  ]},
+  {topic:'Phone calls', emoji:'📞', phrases:[
+    ['Is now a good time?','checking before you start'],
+    ['Sorry, you&#39;re breaking up','a bad connection'],
+    ['Could you speak up a little?','asking for more volume'],
+    ['Let me put you through','transferring a call'],
+    ['Can I take a message?','the person is unavailable'],
+    ['I&#39;ll call you right back','promising to return the call'],
+    ['Sorry, I missed your call','a normal opener'],
+    ['Bear with me a moment','asking someone to wait'],
+    ['You&#39;re on speaker','warning them others can hear'],
+    ['Thanks for your time','a clean sign-off']
+  ]},
+  {topic:'Describing people', emoji:'👤', phrases:[
+    ['She&#39;s very down to earth','practical and modest'],
+    ['He&#39;s a real people person','sociable, good with others'],
+    ['They&#39;re a safe pair of hands','reliable, you can trust them'],
+    ['She has a good head on her shoulders','sensible'],
+    ['He&#39;s a bit of a perfectionist','soft criticism'],
+    ['She doesn&#39;t suffer fools','direct, low patience'],
+    ['He grows on you','you like him more over time'],
+    ['They&#39;re young at heart','lively regardless of age'],
+    ['She&#39;s always on the go','constantly busy'],
+    ['He wears his heart on his sleeve','shows emotions openly']
+  ]},
+  {topic:'Solving problems', emoji:'🧩', phrases:[
+    ['Let&#39;s get to the bottom of this','find the real cause'],
+    ['We&#39;re going round in circles','making no progress'],
+    ['Let&#39;s take a step back','look at the bigger picture'],
+    ['That&#39;s not the whole story','something is missing'],
+    ['It&#39;s a work in progress','not finished yet'],
+    ['We&#39;ll cross that bridge when we come to it','deal with it later'],
+    ['Let&#39;s try a different angle','a new approach'],
+    ['It&#39;s a stopgap','a temporary fix'],
+    ['That should do the trick','this will probably solve it'],
+    ['Back to the drawing board','start again from scratch']
+  ]},
+  {topic:'Encouraging someone', emoji:'🌱', phrases:[
+    ['You&#39;ve got this','simple and strong'],
+    ['You&#39;re doing better than you think','gentle reassurance'],
+    ['Give yourself some credit','they are being too hard on themselves'],
+    ['One step at a time','calming'],
+    ['It&#39;s okay to take your time','removing pressure'],
+    ['That took real courage','naming their effort'],
+    ['I&#39;m rooting for you','I want you to succeed'],
+    ['Don&#39;t be so hard on yourself','a kind correction'],
+    ['Look how far you&#39;ve come','shifting the view backwards'],
+    ['I&#39;m proud of you','four words that land']
+  ]},
+  {topic:'Apologising', emoji:'🕊️', phrases:[
+    ['I owe you an apology','opening honestly'],
+    ['That was my fault','taking responsibility'],
+    ['I should have told you sooner','naming the specific mistake'],
+    ['I didn&#39;t mean it that way','clarifying intention'],
+    ['It won&#39;t happen again','a promise, use it carefully'],
+    ['How can I make it right?','moving towards repair'],
+    ['I&#39;m sorry for the trouble','professional and neutral'],
+    ['No harm done','accepting someone else&#39;s apology'],
+    ['Don&#39;t worry about it','letting it go'],
+    ['Let&#39;s put it behind us','closing the subject']
+  ]},
+  {topic:'Health and the body', emoji:'🩺', phrases:[
+    ['I&#39;ve got a splitting headache','a very bad headache'],
+    ['I think I&#39;m coming down with something','starting to get ill'],
+    ['I slept like a log','slept deeply'],
+    ['I&#39;m shattered','completely exhausted'],
+    ['I&#39;ve pulled a muscle','a minor injury'],
+    ['I&#39;m off my food','no appetite'],
+    ['I need to get some fresh air','stepping outside'],
+    ['I&#39;m back on my feet','recovered'],
+    ['It runs in the family','a hereditary trait'],
+    ['Take it easy','rest, do not push yourself']
+  ]},
+  {topic:'Weather and seasons', emoji:'🌦️', phrases:[
+    ['It&#39;s pouring down','raining heavily'],
+    ['It&#39;s bitterly cold','extremely cold'],
+    ['It&#39;s clearing up','the weather is improving'],
+    ['There&#39;s a nip in the air','cold enough to notice'],
+    ['It&#39;s stifling','uncomfortably hot and airless'],
+    ['We&#39;re in for a storm','a storm is coming'],
+    ['It brightened up later','it became sunny'],
+    ['The days are drawing in','it gets dark earlier'],
+    ['It&#39;s a lovely day for it','a very British approval'],
+    ['Rain or shine','whatever the weather']
+  ]},
+  {topic:'Home and daily routine', emoji:'🏠', phrases:[
+    ['I&#39;m just tidying up','light cleaning'],
+    ['Could you do the washing-up?','the dishes'],
+    ['I need to run some errands','small practical tasks'],
+    ['I&#39;m popping out','leaving briefly'],
+    ['Make yourself at home','welcoming a guest'],
+    ['I&#39;ll put the kettle on','the most British sentence there is'],
+    ['I&#39;m having an early night','going to bed early'],
+    ['It slipped my mind','I forgot'],
+    ['I&#39;m getting there','making slow progress'],
+    ['That&#39;s me done for today','I have finished']
+  ]},
+  {topic:'Learning and studying', emoji:'📖', phrases:[
+    ['It finally clicked','I suddenly understood'],
+    ['I&#39;m getting the hang of it','starting to manage it'],
+    ['It went right over my head','I did not understand at all'],
+    ['Let me look it up','I will check the source'],
+    ['I&#39;m brushing up on my French','improving something you knew before'],
+    ['I keep mixing them up','confusing two similar things'],
+    ['Practice makes progress','a kinder version of the old proverb'],
+    ['I&#39;ll sleep on it','decide tomorrow'],
+    ['It&#39;s second nature now','completely automatic'],
+    ['I learned it the hard way','through mistakes']
+  ]},
+  {topic:'Interviews', emoji:'🎯', phrases:[
+    ['Tell me about yourself','the question you must prepare'],
+    ['My background is in…','introducing your experience'],
+    ['I&#39;m particularly proud of…','choosing your best example'],
+    ['What I bring to the table is…','naming your value'],
+    ['I&#39;d describe myself as…','a controlled self-description'],
+    ['That&#39;s an area I&#39;m working on','an honest weakness answer'],
+    ['Could you tell me more about the team?','asking your own question'],
+    ['What does success look like here?','a strong closing question'],
+    ['I&#39;m keen to take on more responsibility','showing ambition'],
+    ['Thank you for your time today','a clean, professional close']
+  ]},
+  {topic:'Making arrangements', emoji:'📍', phrases:[
+    ['Let&#39;s say seven at mine','proposing time and place casually'],
+    ['I&#39;ll meet you there','no need to travel together'],
+    ['Text me when you&#39;re on your way','practical and normal'],
+    ['I&#39;m running about ten minutes behind','a precise apology'],
+    ['Can you make it earlier?','asking to move it forward'],
+    ['Fancy a coffee?','a very natural invitation'],
+    ['Count me in','I am definitely coming'],
+    ['I&#39;ll let you know closer to the time','deferring a decision'],
+    ['See you then','a clean confirmation'],
+    ['It&#39;s a date','friendly confirmation, not necessarily romantic']
+  ]},
+  {topic:'Technology', emoji:'💻', phrases:[
+    ['It&#39;s playing up again','not working properly'],
+    ['Have you tried turning it off and on?','the eternal advice'],
+    ['My battery is about to die','running out of power'],
+    ['The signal is patchy here','the connection is unreliable'],
+    ['It crashed on me','the program closed unexpectedly'],
+    ['Can you share your screen?','a video-call essential'],
+    ['You&#39;re on mute','the most spoken sentence of the decade'],
+    ['I&#39;ll back it up','save a copy'],
+    ['It&#39;s syncing','updating across devices'],
+    ['Let me screenshot that','capture the screen']
+  ]},
+  {topic:'Telling a story', emoji:'📚', phrases:[
+    ['So there I was…','a classic story opener'],
+    ['Long story short…','skipping to the point'],
+    ['You&#39;ll never guess what happened','building suspense'],
+    ['Out of the blue…','completely unexpectedly'],
+    ['To cut a long story short…','the fuller British version'],
+    ['And then it hit me','the moment of realisation'],
+    ['Believe it or not…','introducing something surprising'],
+    ['It turns out that…','revealing the truth'],
+    ['In the end…','moving to the conclusion'],
+    ['And that was that','a neat, final ending']
+  ]},
+  {topic:'Compliments', emoji:'✨', phrases:[
+    ['That really suits you','about clothes or a style'],
+    ['You have great taste','about their choices'],
+    ['You made my day','warm and genuine'],
+    ['I don&#39;t know how you do it','admiring their capacity'],
+    ['That was really thoughtful of you','naming kindness'],
+    ['You&#39;re a natural','they have obvious talent'],
+    ['I always learn something from you','a compliment with weight'],
+    ['You&#39;ve outdone yourself','better than usual, which was already good'],
+    ['Credit where it&#39;s due','acknowledging fairly'],
+    ['Take the compliment','when they try to deflect it']
+  ]},
+  {topic:'Negotiating', emoji:'⚖️', phrases:[
+    ['What did you have in mind?','asking for their number first'],
+    ['Is there any flexibility on that?','opening the door'],
+    ['I was hoping for something closer to…','naming your target'],
+    ['Let&#39;s meet in the middle','proposing a compromise'],
+    ['That works for me','accepting'],
+    ['I&#39;d need to think it over','pausing without refusing'],
+    ['What if we…?','proposing an alternative'],
+    ['That&#39;s my best offer','the final position'],
+    ['We&#39;re not far apart','encouraging, near agreement'],
+    ['Shall we shake on it?','closing the deal']
+  ]},
+  {topic:'Everyday phrasal verbs', emoji:'🔁', phrases:[
+    ['I&#39;m running out of…','the supply is nearly gone'],
+    ['Could you fill me in?','give me the missing information'],
+    ['It didn&#39;t work out','it failed or ended'],
+    ['I&#39;ll look into it','I will investigate'],
+    ['Something has come up','an unexpected obstacle'],
+    ['I&#39;m looking forward to it','anticipating with pleasure'],
+    ['Let&#39;s put it off','postpone it'],
+    ['I&#39;ve run into a problem','encountered unexpectedly'],
+    ['She turned up late','arrived, often unexpectedly'],
+    ['We got through it','survived something difficult']
+  ]},
+  {topic:'British vs American', emoji:'🇬🇧', phrases:[
+    ['flat / apartment','where you live'],
+    ['queue / line','what you stand in'],
+    ['lift / elevator','how you go up'],
+    ['rubbish / trash','what you throw away'],
+    ['jumper / sweater','what you wear when cold'],
+    ['holiday / vacation','time off work'],
+    ['petrol / gas','what goes in the car'],
+    ['autumn / fall','the season'],
+    ['pavement / sidewalk','where you walk'],
+    ['film / movie','what you watch']
+  ]},
+  {topic:'Ending things well', emoji:'🌙', phrases:[
+    ['Thanks again for everything','a warm general close'],
+    ['I&#39;ll leave you to it','politely letting someone work'],
+    ['Have a good one','casual and friendly'],
+    ['Take care of yourself','warm and slightly personal'],
+    ['Keep me posted','ask to be updated'],
+    ['Safe travels','before someone goes'],
+    ['Let&#39;s pick this up tomorrow','pausing a conversation'],
+    ['It&#39;s been a long day','honest and relatable'],
+    ['Get some rest','kind instruction'],
+    ['Speak soon','a light, open goodbye']
+  ]}
+];
+
+function dayIndex(){
+  const q = today().split('-').map(Number);
+  return Math.floor(Date.UTC(q[0], q[1]-1, q[2]) / 86400000);
+}
+function affirmationOfDay(){ return AFFIRMATIONS[dayIndex() % AFFIRMATIONS.length]; }
+function packOfDay(){ return PACKS[dayIndex() % PACKS.length]; }
+
+/* ---------- Decorative motifs ---------- */
+const DECOR = {
+  orangery:
+    '<svg viewBox="0 0 520 240" preserveAspectRatio="xMidYMin slice" fill="none">'+
+    '<g stroke="var(--accent)" stroke-width="1.4" stroke-linecap="round" opacity=".5">'+
+    '<path d="M470 -10c0 60-18 104-52 132"/><path d="M470 26c-24 4-40 18-46 40"/>'+
+    '<path d="M470 66c-20 6-33 20-38 40"/><path d="M470 106c-16 6-26 18-30 34"/>'+
+    '<path d="M40 -10c0 46 12 82 36 108"/><path d="M40 22c18 4 30 16 34 34"/>'+
+    '<path d="M40 60c15 5 25 16 28 30"/></g>'+
+    '<g fill="var(--accent)" opacity=".22">'+
+    '<ellipse cx="440" cy="44" rx="26" ry="13" transform="rotate(-28 440 44)"/>'+
+    '<ellipse cx="428" cy="88" rx="22" ry="11" transform="rotate(-24 428 88)"/>'+
+    '<ellipse cx="418" cy="128" rx="18" ry="9" transform="rotate(-20 418 128)"/>'+
+    '<ellipse cx="74" cy="34" rx="20" ry="10" transform="rotate(30 74 34)"/>'+
+    '<ellipse cx="68" cy="74" rx="17" ry="9" transform="rotate(26 68 74)"/></g></svg>',
+
+  midnight:
+    '<svg viewBox="0 0 520 240" preserveAspectRatio="xMidYMin slice" fill="none">'+
+    '<g fill="var(--accent)">'+
+    '<circle cx="58" cy="42" r="1.6" opacity=".8"/><circle cx="132" cy="26" r="1.1" opacity=".55"/>'+
+    '<circle cx="196" cy="58" r="1.9" opacity=".7"/><circle cx="252" cy="20" r="1.2" opacity=".5"/>'+
+    '<circle cx="318" cy="48" r="1.5" opacity=".75"/><circle cx="380" cy="24" r="1" opacity=".45"/>'+
+    '<circle cx="96" cy="96" r="1.3" opacity=".5"/><circle cx="224" cy="110" r="1.1" opacity=".4"/>'+
+    '<circle cx="352" cy="98" r="1.6" opacity=".6"/><circle cx="466" cy="70" r="1.2" opacity=".5"/>'+
+    '<circle cx="284" cy="140" r="1" opacity=".35"/><circle cx="150" cy="150" r="1.3" opacity=".35"/></g>'+
+    '<g opacity=".5"><path d="M452 18a34 34 0 1 0 32 46 27 27 0 0 1-32-46z" fill="var(--gold)"/></g>'+
+    '<g stroke="var(--accent)" stroke-width="1" opacity=".22">'+
+    '<path d="M318 48 380 24M318 48 352 98M196 58 252 20M196 58 224 110"/></g></svg>',
+
+  peach:
+    '<svg viewBox="0 0 520 240" preserveAspectRatio="xMidYMin slice" fill="none">'+
+    '<g opacity=".38"><ellipse cx="96" cy="30" rx="120" ry="76" fill="var(--accent)" opacity=".28"/>'+
+    '<ellipse cx="416" cy="18" rx="140" ry="84" fill="var(--gold)" opacity=".22"/>'+
+    '<ellipse cx="262" cy="-16" rx="150" ry="70" fill="var(--accent)" opacity=".16"/></g>'+
+    '<g stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" opacity=".35">'+
+    '<path d="M-10 128c40-24 80-24 120 0s80 24 120 0 80-24 120 0 80 24 120 0"/>'+
+    '<path d="M-10 156c40-24 80-24 120 0s80 24 120 0 80-24 120 0 80 24 120 0" opacity=".6"/></g></svg>',
+
+  riso:
+    '<svg viewBox="0 0 520 240" preserveAspectRatio="xMidYMin slice" fill="none">'+
+    '<g style="mix-blend-mode:multiply">'+
+    '<circle cx="120" cy="46" r="96" fill="var(--accent)" opacity=".28"/>'+
+    '<circle cx="238" cy="30" r="96" fill="var(--gold)" opacity=".26"/>'+
+    '<circle cx="356" cy="52" r="96" fill="var(--accent)" opacity=".2"/></g>'+
+    '<g stroke="var(--ink)" stroke-width="2" opacity=".5">'+
+    '<circle cx="120" cy="46" r="96"/><circle cx="238" cy="30" r="96"/><circle cx="356" cy="52" r="96"/></g></svg>',
+
+  dusk:
+    '<svg viewBox="0 0 520 240" preserveAspectRatio="xMidYMin slice" fill="none">'+
+    '<circle cx="404" cy="46" r="30" fill="var(--gold)" opacity=".38"/>'+
+    '<path d="M-10 150c60-46 118-46 176 0s118 44 176 0 118-46 178 0v100H-10z" fill="var(--accent)" opacity=".16"/>'+
+    '<path d="M-10 182c66-40 128-40 194 0s128 38 194 0 60-24 152-8v90H-10z" fill="var(--accent)" opacity=".13"/>'+
+    '<g stroke="var(--accent)" stroke-width="1.2" opacity=".3">'+
+    '<path d="M-10 150c60-46 118-46 176 0s118 44 176 0 118-46 178 0"/></g></svg>',
+
+  charcoal:
+    '<svg viewBox="0 0 520 240" preserveAspectRatio="xMidYMin slice" fill="none">'+
+    '<g stroke="var(--accent)" fill="none" opacity=".3">'+
+    '<circle cx="470" cy="26" r="52" stroke-width="1"/><circle cx="470" cy="26" r="82" stroke-width="1" opacity=".8"/>'+
+    '<circle cx="470" cy="26" r="112" stroke-width="1" opacity=".6"/><circle cx="470" cy="26" r="142" stroke-width="1" opacity=".42"/>'+
+    '<circle cx="470" cy="26" r="172" stroke-width="1" opacity=".28"/></g>'+
+    '<g stroke="var(--gold)" stroke-width="1.2" opacity=".45"><path d="M-10 118h190"/><path d="M-10 132h120"/><path d="M-10 146h64"/></g></svg>'
+};
+
+/* ---------- Voice: a short English cheer out loud ---------- */
+const PRAISE = [
+  'Nice one!', 'Well done — that&#39;s another one.', 'There you go! Keep it up.',
+  'Good job. You&#39;re on a roll.', 'Look at you go!', 'Brilliant — keep that up.',
+  'Yes! One more done.', 'Lovely. That&#39;s real progress.', 'You&#39;re doing great, honestly.',
+  'Another one down!', 'Way to go!', 'That&#39;s how it&#39;s done.',
+  'Nice work. On you go.', 'You showed up — and that counts.', 'Great stuff! Keep the streak alive.',
+  'I&#39;m proud of you.', 'Small step, big deal.', 'Beautiful. Keep that rhythm going.',
+  'Love to see it!', 'That&#39;s the one. Well done.'
+];
+const PRAISE_ALL = [
+  'That&#39;s a perfect day! Every single habit — done.',
+  'That&#39;s the whole list. Brilliant work!',
+  'All done for today. You&#39;ve earned this one.',
+  'Clean sweep! Honestly, brilliant.',
+  'Every single one. What a day!'
+];
+const PRAISE_STREAK = ['That&#39;s real consistency.', 'Keep it going!', 'You&#39;re on fire.', 'Incredible.'];
+let lastPraise = -1;
+function pickLine(list){
+  let i = Math.floor(Math.random()*list.length);
+  if(list.length > 1 && i === lastPraise) i = (i+1) % list.length;
+  lastPraise = i; return list[i];
+}
+
+let VOICES = [];
+function loadVoices(){
+  if(!('speechSynthesis' in window)) return;
+  try{ VOICES = speechSynthesis.getVoices().filter(function(v){ return /^en/i.test(v.lang); }); }catch(e){ VOICES = []; }
+}
+if('speechSynthesis' in window){
+  loadVoices();
+  speechSynthesis.addEventListener('voiceschanged', loadVoices);
+}
+function voiceScore(v){
+  const n = (v.name || '').toLowerCase();
+  let sc = 0;
+  if(/natural|neural|premium|enhanced|siri/.test(n)) sc += 120;   // Apple / Microsoft neural voices
+  if(/google/.test(n)) sc += 70;                                   // Chrome network voices
+  if(/online/.test(n)) sc += 40;
+  if(/^microsoft/.test(n)) sc += 15;
+  if(v.localService === false) sc += 25;
+  if(/en[-_]gb/i.test(v.lang)) sc += 6;
+  if(/en[-_]us/i.test(v.lang)) sc += 5;
+  // novelty and compact system voices — these are the robotic ones
+  if(/compact|eloquence|zarvox|trinoids|bells|boing|bubbles|cellos|deranged|hysterical|jester|organ|superstar|whisper|wobble|bahh|bad news|good news|albert|fred|ralph|junior|kathy|princess|bruce|agnes|victoria/.test(n)) sc -= 300;
+  return sc;
+}
+function goodVoices(){
+  return VOICES.slice().sort(function(a, b){ return voiceScore(b) - voiceScore(a); });
+}
+function pickVoice(){
+  if(!VOICES.length) loadVoices();
+  if(state.voiceName){
+    const chosen = VOICES.find(function(v){ return v.name === state.voiceName; });
+    if(chosen) return chosen;
+  }
+  const ranked = goodVoices();
+  return ranked[0] || null;
+}
+function say(text, excited){
+  if(state.voiceOn === false || !('speechSynthesis' in window)) return;
+  try{
+    if(speechSynthesis.speaking || speechSynthesis.pending) speechSynthesis.cancel();
+    // one phrase, spoken as two breaths — a flat single line is what sounds robotic
+    const parts = String(text).split(/\s+(?=[A-ZА-Я])|\s+—\s+/).filter(Boolean);
+    const chunks = parts.length > 1 ? [parts[0], parts.slice(1).join(' ')] : [text];
+    const v = pickVoice();
+    chunks.forEach(function(chunk, i){
+      const u = new SpeechSynthesisUtterance(chunk.replace(/&#39;/g, "'"));
+      if(v){ u.voice = v; u.lang = v.lang; } else { u.lang = 'en-GB'; }
+      // humans start a little higher and drift down; nothing is ever twice the same
+      const base = excited ? 1.06 : 1.0;
+      u.pitch = Math.max(0.8, base + (Math.random()*0.08) - (i * 0.07));
+      u.rate  = (excited ? 1.03 : 0.98) + (Math.random()*0.06) - 0.03;
+      u.volume = 1;
+      speechSynthesis.speak(u);
+    });
+  }catch(e){}
+}
+
+/* ---------- Confetti for a perfect day ---------- */
+function confetti(){
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cv = document.getElementById('confetti'), ctx = cv.getContext('2d');
+  const dpr = window.devicePixelRatio || 1, W = innerWidth, H = innerHeight;
+  cv.width = W*dpr; cv.height = H*dpr; cv.style.width = W+'px'; cv.style.height = H+'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const cs = getComputedStyle(document.documentElement);
+  const cols = [cs.getPropertyValue('--accent').trim(), cs.getPropertyValue('--gold').trim(), cs.getPropertyValue('--ink').trim()];
+  const bits = [];
+  for(let i = 0; i < 70; i++) bits.push({
+    x: W/2 + (i%2?1:-1)*(i*3%90), y: H*0.34,
+    vx: (i%13 - 6) * 0.9, vy: -6 - (i%9)*0.7,
+    w: 5 + i%5, h: 8 + i%7, a: i, va: (i%7 - 3)*0.1,
+    c: cols[i%3]
+  });
+  let t = 0;
+  (function frame(){
+    t++; ctx.clearRect(0, 0, W, H);
+    let alive = 0;
+    for(const b of bits){
+      b.vy += 0.24; b.x += b.vx; b.y += b.vy; b.a += b.va;
+      if(b.y < H + 40) alive++;
+      ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(b.a);
+      ctx.globalAlpha = Math.max(0, 1 - t/150); ctx.fillStyle = b.c;
+      ctx.fillRect(-b.w/2, -b.h/2, b.w, b.h); ctx.restore();
+    }
+    if(alive && t < 150) requestAnimationFrame(frame); else ctx.clearRect(0, 0, W, H);
+  })();
+}
+
+/* ---------- A library of ready-made habits ---------- */
+const LIBRARY = [
+  {cat:'English', items:[
+    {t:'One English article + new words', e:'📰', p:1, w:7},
+    {t:'Learn 7 new words', e:'🔤', p:7, w:7},
+    {t:'Revise yesterday&#39;s words', e:'🔁', p:1, w:7},
+    {t:'20 pages of a book', e:'📖', p:1, w:7},
+    {t:'Ten minutes of watching, no subtitles', e:'🎬', p:1, w:5},
+    {t:'One podcast episode in English', e:'🎧', p:1, w:5},
+    {t:'Speak out loud for 5 minutes', e:'🗣️', p:1, w:7},
+    {t:'Three sentences in an English diary', e:'✍️', p:1, w:7},
+    {t:'One page of grammar practice', e:'📐', p:1, w:5},
+    {t:'Read the news in English', e:'🗞️', p:1, w:7},
+    {t:'Think in English for ten minutes', e:'💭', p:1, w:7}
+  ]},
+  {cat:'Body', items:[
+    {t:'Yoga', e:'🤸', p:1, w:7},
+    {t:'A 20-minute walk', e:'🚶', p:1, w:5},
+    {t:'10,000 steps', e:'👟', p:1, w:7},
+    {t:'Strength session', e:'🏋️', p:1, w:3},
+    {t:'Stretch for 10 minutes', e:'🧎', p:1, w:7},
+    {t:'Cold shower in the morning', e:'🚿', p:1, w:7},
+    {t:'Seven minutes of morning exercise', e:'⏱️', p:1, w:7},
+    {t:'Take the stairs, not the lift', e:'🪜', p:1, w:5},
+    {t:'Swim', e:'🏊', p:1, w:2},
+    {t:'Dance to one song', e:'💃', p:1, w:7}
+  ]},
+  {cat:'Mind', items:[
+    {t:'Meditate for 5 minutes', e:'🧘', p:1, w:7},
+    {t:'Three deep breaths before the first task', e:'🌬️', p:1, w:7},
+    {t:'Write down three good things', e:'✨', p:1, w:7},
+    {t:'Ten minutes with no phone and no noise', e:'🤫', p:1, w:7},
+    {t:'One page of journalling', e:'📓', p:1, w:7},
+    {t:'Plan tomorrow before bed', e:'🗒️', p:1, w:7},
+    {t:'Sit outside for ten minutes', e:'🌳', p:1, w:5},
+    {t:'Say no to one thing', e:'🚪', p:1, w:3}
+  ]},
+  {cat:'Care', items:[
+    {t:'Face massage', e:'💆', p:1, w:7},
+    {t:'Morning skincare', e:'🧴', p:1, w:7},
+    {t:'Evening skincare', e:'🌛', p:1, w:7},
+    {t:'Sunscreen', e:'🧢', p:1, w:7},
+    {t:'Eight glasses of water', e:'💧', p:8, w:7},
+    {t:'A glass of water on waking', e:'🥛', p:1, w:7},
+    {t:'Take vitamins', e:'💊', p:1, w:7},
+    {t:'Floss', e:'🪥', p:1, w:7},
+    {t:'Take makeup off before bed', e:'🧼', p:1, w:7},
+    {t:'Hand cream', e:'🤲', p:1, w:7}
+  ]},
+  {cat:'Food', items:[
+    {t:'Vegetables at every meal', e:'🥦', p:1, w:7},
+    {t:'Breakfast at home', e:'🍳', p:1, w:7},
+    {t:'No sugar today', e:'🚫', p:1, w:5},
+    {t:'Cook instead of ordering', e:'🥘', p:1, w:5},
+    {t:'One piece of fruit', e:'🍎', p:1, w:7},
+    {t:'Nothing to eat after nine', e:'🕘', p:1, w:7},
+    {t:'Protein at breakfast', e:'🥚', p:1, w:7}
+  ]},
+  {cat:'Home', items:[
+    {t:'Make the bed', e:'🛏️', p:1, w:7},
+    {t:'Fifteen minutes of tidying', e:'🧹', p:1, w:7},
+    {t:'Empty the sink before bed', e:'🍽️', p:1, w:7},
+    {t:'Throw out one thing', e:'🗑️', p:1, w:7},
+    {t:'Laundry', e:'🧺', p:1, w:2},
+    {t:'Water the plants', e:'🪴', p:1, w:3}
+  ]},
+  {cat:'Focus', items:[
+    {t:'Ninety minutes of deep work', e:'🎯', p:1, w:5},
+    {t:'Write the day&#39;s three tasks', e:'📝', p:1, w:5},
+    {t:'The hard thing first', e:'⛰️', p:1, w:5},
+    {t:'Inbox to zero', e:'📥', p:1, w:5},
+    {t:'Review the week', e:'🔍', p:1, w:1}
+  ]},
+  {cat:'Limits', items:[
+    {t:'Under 2 hours of games', e:'🎮', p:1, w:7},
+    {t:'No phone for the first hour', e:'📵', p:1, w:7},
+    {t:'No phone in bed', e:'🛌', p:1, w:7},
+    {t:'Under 30 minutes of social media', e:'⏳', p:1, w:7},
+    {t:'No screens after eleven', e:'🌑', p:1, w:7}
+  ]},
+  {cat:'Sleep', items:[
+    {t:'Lights out by 1:30', e:'🌙', p:1, w:7},
+    {t:'In bed by midnight', e:'🕛', p:1, w:7},
+    {t:'Eight hours of sleep', e:'😴', p:1, w:7},
+    {t:'Same wake-up time', e:'⏰', p:1, w:7},
+    {t:'No caffeine after four', e:'☕️', p:1, w:7}
+  ]},
+  {cat:'Money', items:[
+    {t:'Log today&#39;s spending', e:'💸', p:1, w:7},
+    {t:'No unplanned purchases', e:'🛍️', p:1, w:7},
+    {t:'Put something aside', e:'🏦', p:1, w:1}
+  ]},
+  {cat:'People', items:[
+    {t:'Message someone you miss', e:'💌', p:1, w:3},
+    {t:'Call family', e:'📞', p:1, w:2},
+    {t:'Say one genuine thank you', e:'🙏', p:1, w:7},
+    {t:'An hour with no talk about work', e:'❤️', p:1, w:3}
+  ]}
+];
+let libQuery = '', libCat = 'all';
+
+/* ---------- Storage ---------- */
+const KEY = 'ritm.v1';
+let memory = null;
+function load(){
+  try{ const raw = localStorage.getItem(KEY); if(raw) return JSON.parse(raw); }catch(e){}
+  return memory;
+}
+function save(){
+  memory = state;
+  try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+}
+
+function seed(){
+  return {
+    v:1, skin:null, font:'auto', voiceOn:true, voiceName:null, name:'', started: today(),
+    habits:[
+      {id:'h1', title:'One English article + new words', emoji:'📰', perDay:1, weekGoal:7},
+      {id:'h2', title:'Learn 7 new words',               emoji:'🔤', perDay:7, weekGoal:7},
+      {id:'h3', title:'20 pages of a book',              emoji:'📖', perDay:1, weekGoal:7},
+      {id:'h4', title:'Meditate for 5 minutes',          emoji:'🧘', perDay:1, weekGoal:7},
+      {id:'h5', title:'Yoga',                            emoji:'🤸', perDay:1, weekGoal:7},
+      {id:'h6', title:'Face massage',                    emoji:'💆', perDay:1, weekGoal:7},
+      {id:'h7', title:'Eight glasses of water',          emoji:'💧', perDay:8, weekGoal:7},
+      {id:'h8', title:'Cold shower in the morning',      emoji:'🚿', perDay:1, weekGoal:7},
+      {id:'h9', title:'Under 2 hours of games',          emoji:'🎮', perDay:1, weekGoal:7},
+      {id:'h10',title:'Lights out by 1:30',              emoji:'🌙', perDay:1, weekGoal:7}
+    ],
+    log:{}, xp:0, claimed:{}, prizes:[
+      {id:'p1', emoji:'☕️', title:'Coffee at my favourite place', kind:'streak', amount:7, claimed:false}
+    ]
+  };
+}
+
+/* ---------- Dates ---------- */
+function dk(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function today(){ return dk(new Date()); }
+function shift(key, n){ const p=key.split('-').map(Number); return dk(new Date(p[0], p[1]-1, p[2]+n)); }
+function toDate(key){ const p=key.split('-').map(Number); return new Date(p[0], p[1]-1, p[2]); }
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const WDAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const WSHORT=['M','T','W','T','F','S','S'];
+
+/* ---------- State ---------- */
+let state = load() || seed();
+if(!state.prizes) state.prizes=[];
+if(!state.claimed) state.claimed={};
+if(!state.recipes) state.recipes = seedRecipes();
+if(!state.learned) state.learned = {};
+if(!state.packXP) state.packXP = {};
+if(state.voiceOn === undefined) state.voiceOn = true;
+if(state.voiceName === undefined) state.voiceName = null;
+let openPack = null;
+let tab = 'today';
+
+/* ---------- Habit helpers ---------- */
+function count(h, key){ const l=state.log[h.id]; return (l && l[key]) || 0; }
+function isDone(h, key){ return count(h, key) >= (h.perDay||1); }
+function setCount(h, key, n){
+  if(!state.log[h.id]) state.log[h.id]={};
+  if(n<=0) delete state.log[h.id][key]; else state.log[h.id][key]=n;
+}
+function streakOf(h){
+  let k = today(), n = 0;
+  if(!isDone(h,k)) k = shift(k,-1);
+  while(isDone(h,k)){ n++; k = shift(k,-1); }
+  return n;
+}
+function weekStart(key){ const d=toDate(key); const w=(d.getDay()+6)%7; return shift(key, -w); }
+function weekDone(h){
+  const ws = weekStart(today()); let n=0;
+  for(let i=0;i<7;i++) if(isDone(h, shift(ws,i))) n++;
+  return n;
+}
+function activeHabits(){ return state.habits.filter(h=>!h.archived); }
+function doneToday(){ return activeHabits().filter(h=>isDone(h, today())).length; }
+
+function stats(){
+  const hs = activeHabits();
+  let total=0;
+  for(const id in state.log) for(const k in state.log[id]) total += state.log[id][k];
+  let best=0;
+  for(const h of state.habits){
+    const keys = Object.keys(state.log[h.id]||{}).sort();
+    let run=0, prev=null, mx=0;
+    for(const k of keys){
+      if(!isDone(h,k)) continue;
+      run = (prev && shift(prev,1)===k) ? run+1 : 1;
+      prev = k; if(run>mx) mx=run;
+    }
+    if(mx>best) best=mx;
+  }
+  let perfect=0;
+  if(hs.length){
+    const seen={};
+    for(const h of hs) for(const k in (state.log[h.id]||{})) seen[k]=1;
+    for(const k in seen) if(hs.every(h=>isDone(h,k))) perfect++;
+  }
+  return {total, best, perfect};
+}
+function levelInfo(){
+  let i=0; while(i+1<LEVELS.length && state.xp>=LEVELS[i+1].xp) i++;
+  const cur=LEVELS[i], next=LEVELS[i+1];
+  const pct = next ? Math.round((state.xp-cur.xp)/(next.xp-cur.xp)*100) : 100;
+  return {index:i+1, name:cur.name, pct, next:next?next.xp-state.xp:0};
+}
+
+/* ---------- DOM ---------- */
+const $ = s => document.querySelector(s);
+const view=$('#view'), sheet=$('#sheet'), scrim=$('#scrim'), toastEl=$('#toast');
+function esc(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+let toastT;
+function toast(msg){
+  toastEl.textContent = msg; toastEl.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(()=>toastEl.classList.remove('show'), 2200);
+}
+
+function applySkin(id){
+  document.documentElement.setAttribute('data-skin', id);
+  const m = document.querySelector('meta[name="theme-color"]');
+  if(m) m.setAttribute('content', THEME_COLOR[id] || '#FBE9DE');
+  const d = document.getElementById('decor');
+  if(d) d.innerHTML = DECOR[id] || '';
+}
+
+/* ---------- Theme card ---------- */
+function skinCard(s, selected){
+  return '<button class="skin" data-skin-pick="'+s.id+'" aria-pressed="'+(selected?'true':'false')+'" '+
+    'style="background:'+s.ground+';color:'+s.ink+';'+(selected?'border-color:'+s.accent+';':'')+'">'+
+      '<span class="tick" style="background:'+s.accent+';color:'+s.ground+'">'+
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'+
+      '</span>'+
+      '<span class="sname" style="font-family:'+s.font+';font-weight:'+s.fw+'">'+s.name+'</span>'+
+      '<span class="sdesc">'+s.desc+'</span>'+
+      '<span class="sprev" style="background:'+s.surface+'">'+
+        '<i class="d" style="background:'+s.gold+';opacity:.55"></i>'+
+        '<i class="l" style="background:'+s.ink+';opacity:.22"></i>'+
+        '<i class="c" style="background:'+s.accent+'"></i>'+
+      '</span>'+
+      '<span class="swatches"><i style="background:'+s.surface+'"></i><i style="background:'+s.accent+'"></i><i style="background:'+s.gold+'"></i><i style="background:'+s.ink+'"></i></span>'+
+    '</button>';
+}
+function renderSkinGrid(el){
+  el.innerHTML = SKINS.map(s=>skinCard(s, s.id===state.skin)).join('');
+}
+
+/* ---------- Day ring ---------- */
+function ring(){
+  const hs = activeHabits(), n = hs.length;
+  const R = 54, C = 2*Math.PI*R;
+  let segs = '';
+  if(n === 0){
+    segs = '<circle class="seg off" cx="62" cy="62" r="'+R+'"/>';
+  } else {
+    const gap = n>1 ? Math.min(14, Math.max(5, C/n*0.26)) : 0;
+    const seg = C/n, drawn = Math.max(2, seg-gap);
+    hs.forEach((h,i)=>{
+      const on = isDone(h, today());
+      segs += '<circle class="seg '+(on?'on':'off')+'" cx="62" cy="62" r="'+R+'" '+
+              'stroke-dasharray="'+drawn.toFixed(2)+' '+(C-drawn).toFixed(2)+'" '+
+              'stroke-dashoffset="'+(-i*seg).toFixed(2)+'"><title>'+esc(h.title)+'</title></circle>';
+    });
+  }
+  return '<div class="ring"><svg viewBox="0 0 124 124" aria-hidden="true">'+segs+'</svg>'+
+    '<span class="ring-center"><b class="num">'+doneToday()+'<small>/'+n+'</small></b><span>today</span></span></div>';
+}
+
+/* ---------- Today tab ---------- */
+function renderToday(){
+  const hs = activeHabits(), n = hs.length, d = doneToday();
+  const L = levelInfo();
+  let lead, sub;
+  if(n===0){ lead='Nothing here yet'; sub='Add your first habit and the rhythm starts counting.'; }
+  else if(d===0){ lead='A new day'; sub='Nothing checked off yet. Start with the easiest one.'; }
+  else if(d<n){ lead='Going well'; sub=(n-d)+' '+plural(n-d,'habit','habits')+' left to go.'; }
+  else { lead='A perfect day'; sub='Every habit is closed. That is rare, and it counts.'; }
+
+  let html = '<section class="ring-card">'+ring()+
+    '<div class="ring-side"><p class="eyebrow">Level '+L.index+' · '+L.name+'</p>'+
+    '<p class="lead">'+lead+'</p><p>'+sub+'</p>'+
+    '<div class="lvl"><div class="lvl-bar"><i style="width:'+L.pct+'%"></i></div><small class="num">'+state.xp+' XP</small></div>'+
+    '</div></section>';
+
+  html += '<button class="affirm-strip" data-act="go-english"><span class="eyebrow">Affirmation of the day</span>'+
+          '<q>'+affirmationOfDay()+'</q></button>';
+
+  if(n===0){
+    html += '<div class="empty"><div style="font-size:40px">🌱</div><p>Your habits will live here.<br>Start with one. Really, just one.</p>'+
+            '<button class="btn btn-primary" data-act="new-habit">Add a habit</button></div>';
+  } else {
+    html += '<div class="section-head"><p class="eyebrow">Habits</p>'+
+            '<button class="btn btn-ghost btn-sm" data-act="new-habit">+ Add</button></div><div class="list">';
+    for(const h of hs){
+      const c = count(h, today()), per = h.perDay||1, done = c>=per;
+      const st = streakOf(h);
+      let meta = '';
+      if((h.weekGoal||7) === 7){
+        meta = st>0 ? '<span class="streak">🔥 <span class="num">'+st+'</span> '+plural(st,'day','days')+'</span>' : '<span>every day</span>';
+      } else {
+        meta = '<span class="num">'+weekDone(h)+'/'+h.weekGoal+'</span><span>this week</span>';
+      }
+      let chain = '<span class="chain" aria-hidden="true">';
+      for(let i=6;i>=0;i--){ const k=shift(today(),-i);
+        chain += '<i class="'+(isDone(h,k)?'hit':'')+(i===0?' today':'')+'"></i>'; }
+      chain += '</span>';
+      html += '<article class="habit'+(done?' done':'')+'" data-habit="'+h.id+'">'+
+        '<button class="habit-emoji" data-act="edit-habit" data-id="'+h.id+'" aria-label="Edit &quot;'+esc(h.title)+'&quot;">'+esc(h.emoji||'⭐️')+'</button>'+
+        '<div class="habit-main"><p class="habit-name">'+esc(h.title)+'</p>'+
+        '<div class="habit-meta">'+meta+chain+'</div></div>'+
+        '<div class="counter">'+(per>1?'<span class="cnt num">'+c+'/'+per+'</span>':'')+
+        '<button class="check" data-act="toggle" data-id="'+h.id+'" aria-pressed="'+(done?'true':'false')+'" aria-label="Check off &quot;'+esc(h.title)+'&quot;">'+
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'+
+        '</button></div></article>';
+    }
+    html += '</div>';
+  }
+  view.innerHTML = html;
+}
+function plural(n,a,b){ return n === 1 ? a : b; }
+
+/* ---------- Rhythm tab ---------- */
+function renderStats(){
+  const s = stats(), hs = activeHabits();
+  let html = '<div class="stats">'+
+    '<div class="stat"><b class="num">'+s.total+'</b><span>check-ins in total</span></div>'+
+    '<div class="stat"><b class="num">'+s.best+'</b><span>longest streak</span></div>'+
+    '<div class="stat"><b class="num">'+s.perfect+'</b><span>perfect days</span></div>'+
+    '</div>';
+
+  if(!hs.length){
+    html += '<div class="empty"><p>A calendar for every habit will appear here.</p></div>';
+    view.innerHTML = html; return;
+  }
+
+  html += '<div class="section-head"><p class="eyebrow">The last 8 weeks</p></div>';
+  const ws = weekStart(today()), start = shift(ws, -49);
+  for(const h of hs){
+    let hit=0, poss=0, cols='';
+    for(let w=0; w<8; w++){
+      cols += '<span class="wcol">';
+      for(let d=0; d<7; d++){
+        const k = shift(start, w*7+d);
+        const future = k > today();
+        const c = count(h,k), per = h.perDay||1;
+        let cls = 'cell';
+        if(future) cls += ' future';
+        else { poss++;
+          if(c>=per){ cls += ' l3'; hit++; }
+          else if(c>=per*0.6) cls += ' l2';
+          else if(c>0) cls += ' l1';
+        }
+        if(k===today()) cls += ' today';
+        cols += '<i class="'+cls+'" title="'+k+'"></i>';
+      }
+      cols += '</span>';
+    }
+    const pct = poss ? Math.round(hit/poss*100) : 0;
+    html += '<section class="grid-card"><div class="grid-head">'+
+      '<span class="habit-emoji">'+esc(h.emoji||'⭐️')+'</span><b>'+esc(h.title)+'</b>'+
+      '<span class="pct num">'+pct+'%</span></div>'+
+      '<div class="weeks"><span class="daylabels">'+WSHORT.map(w=>'<span>'+w+'</span>').join('')+'</span>'+cols+'</div></section>';
+  }
+  view.innerHTML = html;
+}
+
+/* ---------- Rewards tab ---------- */
+function prizeProgress(p){
+  const s = stats();
+  const cur = p.kind==='streak' ? s.best : p.kind==='perfect' ? s.perfect : s.total;
+  return {cur:Math.min(cur,p.amount), goal:p.amount, ready:cur>=p.amount};
+}
+function prizeDesc(p){
+  if(p.kind==='streak') return 'A '+p.amount+'-day streak';
+  if(p.kind==='perfect') return p.amount+' perfect '+plural(p.amount,'day','days');
+  return p.amount+' '+plural(p.amount,'check-in','check-ins')+' in total';
+}
+function renderPrizes(){
+  const s = stats();
+  let html = '<div class="section-head"><p class="eyebrow">My rewards</p>'+
+             '<button class="btn btn-ghost btn-sm" data-act="new-prize">+ New one</button></div>';
+  if(!state.prizes.length){
+    html += '<div class="empty" style="padding:26px 14px"><p>A reward is something you promise <em>yourself</em> for keeping a streak. Coffee, a book, an afternoon with no plans.</p>'+
+            '<button class="btn btn-primary" data-act="new-prize">Promise yourself something</button></div>';
+  } else {
+    html += '<div class="list" style="margin-bottom:26px">';
+    for(const p of state.prizes){
+      const pr = prizeProgress(p);
+      const cls = p.claimed ? 'claimed' : pr.ready ? 'ready' : 'locked';
+      html += '<article class="prize '+cls+'">'+
+        '<span class="prize-badge">'+esc(p.emoji||'🎁')+'</span><div>'+
+        '<b>'+esc(p.title)+'</b><p>'+prizeDesc(p)+'</p>';
+      if(p.claimed) html += '<span class="claimed-tag">Claimed ✓</span>';
+      else if(pr.ready) html += '<div style="margin-top:9px"><button class="btn btn-primary btn-sm" data-act="claim" data-id="'+p.id+'">Claim it</button> '+
+                                '<button class="btn btn-ghost btn-sm" data-act="del-prize" data-id="'+p.id+'">Delete</button></div>';
+      else html += '<div class="pbar"><i style="width:'+Math.round(pr.cur/pr.goal*100)+'%"></i></div>'+
+                   '<p style="margin-top:6px"><span class="num">'+pr.cur+'</span> of <span class="num">'+pr.goal+'</span> · '+
+                   '<button data-act="del-prize" data-id="'+p.id+'" style="color:var(--ink-mute);text-decoration:underline">delete</button></p>';
+      html += '</div></article>';
+    }
+    html += '</div>';
+  }
+
+  html += '<div class="section-head"><p class="eyebrow">Achievements</p></div><div class="list">';
+  for(const b of BADGES){
+    const cur = Math.min(b.get(s), b.goal), got = cur >= b.goal;
+    html += '<article class="prize '+(got?'':'locked')+'">'+
+      '<span class="prize-badge">'+b.emoji+'</span><div><b>'+b.title+'</b><p>'+b.desc+'</p>'+
+      (got ? '<span class="claimed-tag">Unlocked ✓</span>'
+           : '<div class="pbar"><i style="width:'+Math.round(cur/b.goal*100)+'%"></i></div>'+
+             '<p style="margin-top:6px"><span class="num">'+cur+'</span> of <span class="num">'+b.goal+'</span></p>')+
+      '</div></article>';
+  }
+  html += '</div>';
+  view.innerHTML = html;
+}
+
+/* ---------- English tab ---------- */
+function packKey(pk, i){ return pk.topic + '|' + i; }
+function packLearned(pk){
+  let n = 0;
+  for(let i = 0; i < pk.phrases.length; i++) if(state.learned[packKey(pk, i)]) n++;
+  return n;
+}
+function renderEnglish(){
+  const isToday = openPack === null;
+  const pk = isToday ? packOfDay() : PACKS[openPack];
+  const done = packLearned(pk), total = pk.phrases.length;
+  let html = '';
+
+  if(isToday){
+    html += '<section class="affirm"><p class="eyebrow">Affirmation of the day</p>'+
+            '<blockquote>'+affirmationOfDay()+'</blockquote></section>';
+  } else {
+    html += '<button class="backbtn" data-act="back-today-pack">'+
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Today&#39;s pack</button>';
+  }
+
+  html += '<div class="section-head"><p class="eyebrow">'+(isToday ? 'Ten phrases today' : 'Phrase pack')+'</p>'+
+          '<button class="btn btn-ghost btn-sm" data-act="all-packs">All packs</button></div>'+
+          '<section class="pack-card">'+
+          '<div class="pack-top"><span class="habit-emoji">'+pk.emoji+'</span><h3>'+pk.topic+'</h3></div>'+
+          '<div class="pack-progress"><div class="pbar"><i style="width:'+Math.round(done/total*100)+'%"></i></div>'+
+          '<small class="num">'+done+' / '+total+'</small></div><div class="phrases">'+
+          pk.phrases.map(function(ph, i){
+            const on = !!state.learned[packKey(pk, i)];
+            return '<button class="phrase" data-act="learn" data-k="'+packKey(pk, i)+'" aria-pressed="'+(on?'true':'false')+'">'+
+              '<span class="n">'+(i+1)+'</span><span><b>'+ph[0]+'</b><em>'+ph[1]+'</em></span></button>';
+          }).join('')+
+          '</div></section>'+
+          '<p style="font-size:12.5px;color:var(--ink-mute);text-align:center;margin:4px 0 0">'+
+          'Tap a phrase once you can say it without looking.</p>';
+  view.innerHTML = html;
+}
+function sheetPacks(){
+  openSheet('<h2>Phrase packs</h2><p class="sub">Thirty topics, ten phrases each. A new one comes round every day.</p>'+
+    '<div class="packlist">'+PACKS.map(function(pk, i){
+      return '<button class="packrow" data-act="open-pack" data-i="'+i+'">'+
+        '<span class="habit-emoji">'+pk.emoji+'</span><span>'+pk.topic+'</span>'+
+        '<em>'+packLearned(pk)+'/'+pk.phrases.length+'</em></button>';
+    }).join('')+'</div>');
+}
+
+/* ---------- Recipes tab ---------- */
+function matches(r){
+  if(recFilter === 'fav' && !r.fav) return false;
+  if(recFilter !== 'all' && recFilter !== 'fav' && r.cat !== recFilter) return false;
+  const q = recQuery.trim().toLowerCase();
+  if(!q) return true;
+  return (r.title+' '+(r.cat||'')+' '+(r.ings||[]).join(' ')).toLowerCase().indexOf(q) !== -1;
+}
+function paintRecipeList(){
+  const box = $('#recList'); if(!box) return;
+  const found = state.recipes.filter(matches);
+  if(!found.length){
+    box.innerHTML = state.recipes.length
+      ? '<div class="empty" style="padding:34px 14px"><p>Nothing found.<br>Try another word or category.</p></div>'
+      : '<div class="empty" style="padding:34px 14px"><div style="font-size:40px">🍳</div><p>The book is still empty.<br>Write down the one you cook most often.</p><button class="btn btn-primary" data-act="new-recipe">Add a recipe</button></div>';
+    return;
+  }
+  box.innerHTML = found.map(function(r){
+    const ph = photos[r.id];
+    const meta = [];
+    if(r.cat) meta.push('<span class="rec-cat">'+esc(r.cat)+'</span>');
+    if(r.time) meta.push('<span class="num">'+r.time+' min</span>');
+    if((r.ings||[]).length) meta.push('<span class="num">'+r.ings.length+'</span><span>'+plural(r.ings.length,'ingredient','ingredients')+'</span>');
+    return '<div class="rec" role="button" tabindex="0" data-act="open-recipe" data-id="'+r.id+'">'+
+      '<span class="rec-thumb"'+(ph?' style="background-image:url('+ph+')"':'')+'>'+(ph?'':esc(r.emoji||'🍲'))+'</span>'+
+      '<span class="rec-body"><b>'+esc(r.title)+'</b><p>'+meta.join('<span style="opacity:.45">·</span>')+'</p></span>'+
+      '<button class="star" data-act="fav-recipe" data-id="'+r.id+'" aria-pressed="'+(r.fav?'true':'false')+'" aria-label="Add to favourites">'+
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="m12 2.8 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4-5.8-3-5.8 3 1.1-6.4L2.6 9.6l6.5-.9z"/></svg>'+
+      '</button></div>';
+  }).join('');
+}
+function renderRecipes(){
+  if(openRecipe){ renderRecipeDetail(); return; }
+  const chips = [['all','All'],['fav','★ Favourites']].concat(CATS.map(function(c){ return [c,c]; }));
+  let html = '<div class="searchbar">'+
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>'+
+    '<input type="search" id="recSearch" placeholder="Search a recipe or an ingredient" value="'+esc(recQuery)+'" autocomplete="off"></div>'+
+    '<div class="filters">'+chips.map(function(c){
+      return '<button class="chip" data-act="filter" data-f="'+esc(c[0])+'" aria-pressed="'+(recFilter===c[0]?'true':'false')+'">'+esc(c[1])+'</button>';
+    }).join('')+'</div>'+
+    '<div class="section-head"><p class="eyebrow">Recipe book</p>'+
+    '<button class="btn btn-ghost btn-sm" data-act="new-recipe">+ Add</button></div>'+
+    '<div class="rec-list" id="recList"></div>';
+  view.innerHTML = html;
+  paintRecipeList();
+}
+function renderRecipeDetail(){
+  const r = state.recipes.find(function(x){ return x.id === openRecipe; });
+  if(!r){ openRecipe = null; renderRecipes(); return; }
+  const ph = photos[r.id];
+  let html = '<button class="backbtn" data-act="back-recipes">'+
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>All recipes</button>'+
+    '<div class="rec-hero"'+(ph?' style="background-image:url('+ph+')"':'')+'>'+(ph?'':esc(r.emoji||'🍲'))+'</div>'+
+    '<h2 class="rec-title">'+esc(r.title)+'</h2><div class="rec-meta">'+
+    (r.cat?'<span class="pill accent">'+esc(r.cat)+'</span>':'')+
+    (r.time?'<span class="pill num">'+r.time+' min</span>':'')+
+    (r.serv?'<span class="pill num">'+r.serv+' '+plural(r.serv,'serving','servings')+'</span>':'')+
+    '<button class="pill star" style="width:auto;height:auto;padding:6px 12px;gap:5px;display:inline-flex" data-act="fav-recipe" data-id="'+r.id+'" aria-pressed="'+(r.fav?'true':'false')+'">'+
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="m12 2.8 2.9 5.9 6.5.9-4.7 4.6 1.1 6.4-5.8-3-5.8 3 1.1-6.4L2.6 9.6l6.5-.9z"/></svg>'+
+    (r.fav?'In favourites':'Add to favourites')+'</button></div>';
+
+  if((r.ings||[]).length){
+    html += '<section class="rec-block"><p class="eyebrow">What you need</p><div class="ings">'+
+      r.ings.map(function(t,i){
+        return '<button class="ing" data-act="ing" data-i="'+i+'" aria-pressed="'+(ingChecked[i]?'true':'false')+'">'+
+        '<span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>'+
+        '<span>'+esc(t)+'</span></button>';
+      }).join('')+'</div></section>';
+  }
+  if((r.steps||[]).length){
+    html += '<section class="rec-block"><p class="eyebrow">How to cook it</p><div class="steps">'+
+      r.steps.map(function(t,i){ return '<div class="step"><b class="num">'+(i+1)+'</b><p>'+esc(t)+'</p></div>'; }).join('')+
+      '</div></section>';
+  }
+  if(r.note) html += '<section class="rec-block"><p class="eyebrow">Worth remembering</p><div class="note">'+esc(r.note)+'</div></section>';
+  html += '<div class="sheet-actions" style="margin-bottom:8px"><button class="btn btn-full" data-act="edit-recipe" data-id="'+r.id+'">Edit this recipe</button></div>';
+  view.innerHTML = html;
+}
+
+/* ---------- Bottom sheet ---------- */
+function openSheet(html){
+  sheet.innerHTML = '<div class="grabber"></div>'+html;
+  sheet.classList.add('open'); scrim.classList.add('open');
+  const f = sheet.querySelector('input[type=text]');
+  if(f) setTimeout(()=>f.focus(), 340);
+}
+function closeSheet(){ sheet.classList.remove('open'); scrim.classList.remove('open'); }
+scrim.addEventListener('click', closeSheet);
+
+function sheetSettings(){
+  openSheet(
+    '<h2>Settings</h2><p class="sub">Everything stays on this device only.</p>'+
+    '<div class="field"><label for="nameIn">What should I call you</label>'+
+    '<input type="text" id="nameIn" maxlength="24" placeholder="Natali, for example" value="'+esc(state.name||'')+'"></div>'+
+    '<button class="rowlink" data-act="skins">Theme <span>'+ (SKINS.find(s=>s.id===state.skin)||{}).name +' ›</span></button>'+
+    '<button class="rowlink" data-act="fonts">Typeface <span>'+ (FONTSETS.find(f=>f.id===(state.font||'auto'))||{}).name +' ›</span></button>'+
+    '<button class="rowlink" data-act="voice">Voice <span>'+ (state.voiceOn === false ? 'Off' : 'On') +' ›</span></button>'+
+    '<button class="rowlink" data-act="new-habit">Add a habit <span>›</span></button>'+
+    '<button class="rowlink" data-act="data">Backup <span>save / restore ›</span></button>'+
+    '<button class="rowlink" data-act="reset" style="color:#C0392B">Start over <span style="color:inherit;opacity:.7">deletes everything ›</span></button>'+
+    '<div class="sheet-actions"><button class="btn btn-primary btn-full" data-act="save-settings">Done</button></div>'
+  );
+}
+
+function sheetSkins(){
+  openSheet('<h2>Theme</h2><p class="sub">Tap to try one on — it changes straight away.</p>'+
+    '<div class="skins" id="sheetSkins"></div>'+
+    '<div class="sheet-actions"><button class="btn btn-primary btn-full" data-act="close">Done</button></div>');
+  renderSkinGrid($('#sheetSkins'));
+}
+
+function fontCards(){
+  const cur = state.font || 'auto';
+  return FONTSETS.map(function(f){
+    const st = f.id === 'auto' ? '' :
+      'font-family:'+f.display.replace(/"/g,'&quot;')+';font-weight:'+f.w+';letter-spacing:'+f.t;
+    const bs = f.id === 'auto' ? '' : 'font-family:'+f.body.replace(/"/g,'&quot;');
+    return '<button class="fontcard" data-act="pick-font" data-f="'+f.id+'" aria-pressed="'+(f.id===cur?'true':'false')+'">'+
+      '<span class="fp" style="'+st+'">Good evening</span>'+
+      '<span class="fb" style="'+bs+'">Three habits left today. One step at a time.</span>'+
+      '<span class="fn">'+f.name+'</span></button>';
+  }).join('');
+}
+function sheetFonts(){
+  openSheet('<h2>Typeface</h2><p class="sub">Works with any theme — pick the one you like reading.</p>'+
+    fontCards()+
+    '<div class="sheet-actions"><button class="btn btn-primary btn-full" data-act="close">Done</button></div>');
+}
+
+function sheetVoice(){
+  loadVoices();
+  const on = state.voiceOn !== false;
+  const supported = 'speechSynthesis' in window;
+  const ranked = goodVoices().filter(function(v){ return voiceScore(v) > -100; });
+  const nice = ranked.filter(function(v){ return voiceScore(v) >= 40; });
+  const plain = ranked.filter(function(v){ return voiceScore(v) < 40; });
+  const opt = function(v){
+    return '<option value="'+esc(v.name)+'"'+(state.voiceName===v.name?' selected':'')+'>'+esc(v.name)+' · '+esc(v.lang)+'</option>';
+  };
+
+  let picker = '';
+  if(!supported){
+    picker = '<p class="sub">This browser has no speech built in. Safari on iPhone and Chrome on Android both do.</p>';
+  } else if(!ranked.length){
+    picker = '<p class="sub">No English voices have loaded yet. Tap <b>Try it</b> once — they usually appear straight after.</p>';
+  } else {
+    picker = '<div class="field"><label for="voiceSel">Which voice</label><select id="voiceSel">'+
+      '<option value="">Best available on this phone</option>'+
+      (nice.length ? '<optgroup label="Natural sounding">'+nice.map(opt).join('')+'</optgroup>' : '')+
+      (plain.length ? '<optgroup label="Basic">'+plain.map(opt).join('')+'</optgroup>' : '')+
+      '</select></div>';
+  }
+
+  const current = pickVoice();
+  openSheet('<h2>Voice</h2><p class="sub">A short cheer in English every time you close a habit for the day.</p>'+
+    '<div class="field"><label>Cheering</label><div class="chips" id="voiceOn">'+
+      '<button type="button" class="chip" data-von="1" aria-pressed="'+(on?'true':'false')+'">On</button>'+
+      '<button type="button" class="chip" data-von="0" aria-pressed="'+(on?'false':'true')+'">Off</button>'+
+    '</div></div>'+
+    picker+
+    (current ? '<p class="sub" style="margin-top:-8px">Right now: <b>'+esc(current.name)+'</b></p>' : '')+
+    '<div class="sheet-actions"><button class="btn" data-act="voice-test">Try it</button>'+
+    '<button class="btn btn-primary" data-act="voice-save">Done</button></div>'+
+    '<div class="note" style="margin-top:18px">'+
+      '<b>If it still sounds flat</b>, your phone is using a compact voice. On iPhone open '+
+      'Settings → Accessibility → Spoken Content → Voices → English and download one marked '+
+      '<b>Enhanced</b> or <b>Premium</b> — it appears in the list above straight after, and the '+
+      'difference is night and day.'+
+    '</div>'+
+    '<p class="sub" style="margin-top:14px">On iPhone the voice follows the silent switch — if you hear nothing, flip the switch on the side of the phone.</p>');
+}
+function readVoiceForm(){
+  const chip = sheet.querySelector('#voiceOn [aria-pressed="true"]');
+  if(chip) state.voiceOn = chip.getAttribute('data-von') === '1';
+  const sel = $('#voiceSel');
+  if(sel) state.voiceName = sel.value || null;
+}
+
+function libMeta(it){
+  const bits = [];
+  if(it.p > 1) bits.push(it.p + '× a day');
+  bits.push(it.w === 7 ? 'every day' : it.w + '× a week');
+  return bits.join(' · ');
+}
+function paintLibList(){
+  const box = $('#libList'); if(!box) return;
+  const q = libQuery.trim().toLowerCase();
+  const have = {};
+  state.habits.forEach(function(h){ if(!h.archived) have[h.title.toLowerCase()] = 1; });
+  let rows = '', found = 0;
+  LIBRARY.forEach(function(group, gi){
+    if(libCat !== 'all' && libCat !== group.cat) return;
+    const hits = group.items.filter(function(it){
+      return !q || (group.cat + ' ' + it.t).toLowerCase().replace(/&#39;/g, "'").indexOf(q) !== -1;
+    });
+    if(!hits.length) return;
+    if(libCat === 'all') rows += '<p class="eyebrow" style="margin:16px 0 6px">' + group.cat + '</p>';
+    group.items.forEach(function(it, ii){
+      if(hits.indexOf(it) === -1) return;
+      found++;
+      const owned = !!have[it.t.replace(/&#39;/g, "'").toLowerCase()];
+      rows += '<button class="librow'+(owned?' have':'')+'" data-act="add-lib" data-i="'+gi+':'+ii+'"'+
+        (owned ? ' aria-disabled="true"' : '')+'>'+
+        '<span class="habit-emoji">'+it.e+'</span>'+
+        '<span><b>'+it.t+'</b><em>'+libMeta(it)+'</em></span>'+
+        '<span class="plus">'+(owned ? '✓' : '+')+'</span></button>';
+    });
+  });
+  box.innerHTML = found ? rows :
+    '<div class="empty" style="padding:30px 14px"><p>Nothing matches that.<br>Write your own instead.</p>'+
+    '<button class="btn btn-primary" data-act="custom-habit">Write my own</button></div>';
+}
+function sheetLibrary(){
+  const cats = ['all'].concat(LIBRARY.map(function(g){ return g.cat; }));
+  openSheet('<h2>Add a habit</h2><p class="sub">Pick a ready-made one, or write your own from scratch.</p>'+
+    '<div class="searchbar" style="margin-bottom:10px">'+
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>'+
+      '<input type="search" id="libSearch" placeholder="Search the library" value="'+esc(libQuery)+'" autocomplete="off"></div>'+
+    '<div class="filters" style="margin-left:-18px;margin-right:-18px;padding-left:18px;padding-right:18px">'+
+      cats.map(function(c){
+        return '<button class="chip" data-act="libcat" data-c="'+esc(c)+'" aria-pressed="'+(libCat===c?'true':'false')+'">'+(c==='all'?'All':c)+'</button>';
+      }).join('')+
+    '</div>'+
+    '<button class="btn btn-full" data-act="custom-habit" style="margin-bottom:6px">Write my own</button>'+
+    '<div id="libList"></div>');
+  paintLibList();
+}
+
+function sheetHabit(id){
+  const h = id ? state.habits.find(x=>x.id===id) : null;
+  const per = h ? (h.perDay||1) : 1, wg = h ? (h.weekGoal||7) : 7, em = h ? (h.emoji||'⭐️') : '🌿';
+  let emojis = EMOJI.map(e=>'<button type="button" data-emoji="'+e+'" aria-pressed="'+(e===em?'true':'false')+'">'+e+'</button>').join('');
+  if(EMOJI.indexOf(em) === -1) emojis = '<button type="button" data-emoji="'+esc(em)+'" aria-pressed="true">'+esc(em)+'</button>'+emojis;
+  const perChips = [1,2,3,4,5].map(v=>'<button type="button" class="chip" data-per="'+v+'" aria-pressed="'+(v===per?'true':'false')+'">'+v+'</button>').join('');
+  const wgChips = [1,2,3,4,5,6,7].map(v=>'<button type="button" class="chip" data-wg="'+v+'" aria-pressed="'+(v===wg?'true':'false')+'">'+(v===7?'every day':v)+'</button>').join('');
+
+  openSheet('<h2>'+(h?'Habit':'New habit')+'</h2>'+
+    '<p class="sub">'+(h?'Change anything you like — your check-ins stay.':'Word it so you understand it in one second.')+'</p>'+
+    '<div class="field"><label for="tIn">Name</label>'+
+    '<input type="text" id="tIn" maxlength="60" placeholder="20 minutes of reading, for example" value="'+(h?esc(h.title):'')+'"></div>'+
+    '<div class="field"><label>Icon</label><div class="emojis" id="emojiPick">'+emojis+'</div></div>'+
+    '<div class="field"><label>Times per day</label><div class="chips" id="perPick">'+perChips+'</div></div>'+
+    '<div class="field"><label>Days per week</label><div class="chips" id="wgPick">'+wgChips+'</div></div>'+
+    '<div class="sheet-actions">'+
+      (h?'<button class="btn btn-danger" data-act="del-habit" data-id="'+h.id+'">Delete</button>':'')+
+      '<button class="btn btn-primary" data-act="save-habit" data-id="'+(h?h.id:'')+'">Save</button>'+
+    '</div>');
+}
+
+function sheetPrize(){
+  openSheet('<h2>Your own reward</h2><p class="sub">What will you promise yourself? It unlocks the moment the condition is met.</p>'+
+    '<div class="field"><label for="pTitle">Reward</label>'+
+    '<input type="text" id="pTitle" maxlength="60" placeholder="A new book, for example"></div>'+
+    '<div class="field"><label>Icon</label><div class="emojis" id="prizeEmoji">'+
+      ['🎁','☕️','📕','🌸','🎬','🛍️','🍰','🎧','✈️','🛁'].map((e,i)=>'<button type="button" data-emoji="'+e+'" aria-pressed="'+(i===0?'true':'false')+'">'+e+'</button>').join('')+
+    '</div></div>'+
+    '<div class="field"><label>Condition</label><div class="chips" id="pKind">'+
+      '<button type="button" class="chip" data-kind="streak" aria-pressed="true">days in a row</button>'+
+      '<button type="button" class="chip" data-kind="total" aria-pressed="false">check-ins in total</button>'+
+      '<button type="button" class="chip" data-kind="perfect" aria-pressed="false">perfect days</button>'+
+    '</div></div>'+
+    '<div class="field"><label for="pAmt">How many</label><input type="number" id="pAmt" min="1" max="999" value="7"></div>'+
+    '<div class="sheet-actions"><button class="btn btn-primary btn-full" data-act="save-prize">Add this reward</button></div>');
+}
+
+function sheetData(){
+  const json = JSON.stringify(state);
+  openSheet('<h2>Backup</h2><p class="sub">Copy the text below and keep it somewhere safe — habits, check-ins, rewards and recipes. Photos are not included; they are too heavy.</p>'+
+    '<div class="field"><label for="dataBox">Your data</label>'+
+    '<textarea id="dataBox" rows="7" spellcheck="false">'+esc(json)+'</textarea></div>'+
+    '<div class="sheet-actions"><button class="btn" data-act="copy-data">Copy</button>'+
+    '<button class="btn btn-primary" data-act="import-data">Restore</button></div>');
+}
+
+function downscale(file, max, cb){
+  const img = new Image(), url = URL.createObjectURL(file);
+  img.onload = function(){
+    const k = Math.min(1, max / Math.max(img.width, img.height));
+    const c = document.createElement('canvas');
+    c.width = Math.round(img.width*k); c.height = Math.round(img.height*k);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+    URL.revokeObjectURL(url);
+    try{ cb(c.toDataURL('image/jpeg', 0.7)); }catch(e){ cb(null); }
+  };
+  img.onerror = function(){ URL.revokeObjectURL(url); cb(null); };
+  img.src = url;
+}
+
+function sheetRecipe(id){
+  const r = id ? state.recipes.find(function(x){ return x.id === id; }) : null;
+  pendingPhoto = undefined;
+  const em = r ? (r.emoji || '🍲') : '🍲';
+  const cat = r ? (r.cat || CATS[0]) : CATS[0];
+  const ph = r ? photos[r.id] : null;
+  let ems = FOOD.map(function(e){ return '<button type="button" data-emoji="'+e+'" aria-pressed="'+(e===em?'true':'false')+'">'+e+'</button>'; }).join('');
+  if(FOOD.indexOf(em) === -1) ems = '<button type="button" data-emoji="'+esc(em)+'" aria-pressed="true">'+esc(em)+'</button>'+ems;
+
+  openSheet('<h2>'+(r?'Recipe':'New recipe')+'</h2>'+
+    '<p class="sub">Ingredients and steps go one per line. One line, one item.</p>'+
+    '<div class="field"><label for="rTitle">Name</label>'+
+    '<input type="text" id="rTitle" maxlength="80" placeholder="Grandma&#39;s cheese pancakes, for example" value="'+(r?esc(r.title):'')+'"></div>'+
+    '<div class="field"><label>Photo</label><div class="photo-row">'+
+      '<span class="photo-prev" id="photoPrev"'+(ph?' style="background-image:url('+ph+')"':'')+'>'+(ph?'':esc(em))+'</span>'+
+      '<button type="button" class="btn btn-sm" data-act="pick-photo">Choose a photo</button>'+
+      '<button type="button" class="btn btn-sm btn-ghost" data-act="drop-photo">Remove</button>'+
+    '</div><input type="file" accept="image/*" id="photoIn" style="display:none"></div>'+
+    '<div class="field"><label>Icon (used if there is no photo)</label><div class="emojis" id="recEmoji">'+ems+'</div></div>'+
+    '<div class="field"><label>Category</label><div class="chips" id="recCat">'+
+      CATS.map(function(c){ return '<button type="button" class="chip" data-cat="'+c+'" aria-pressed="'+(c===cat?'true':'false')+'">'+c+'</button>'; }).join('')+
+    '</div></div>'+
+    '<div style="display:flex;gap:11px">'+
+      '<div class="field" style="flex:1"><label for="rTime">Minutes</label><input type="number" id="rTime" min="0" max="999" value="'+(r&&r.time?r.time:'')+'" placeholder="30"></div>'+
+      '<div class="field" style="flex:1"><label for="rServ">Servings</label><input type="number" id="rServ" min="0" max="99" value="'+(r&&r.serv?r.serv:'')+'" placeholder="2"></div>'+
+    '</div>'+
+    '<div class="field"><label for="rIngs">Ingredients</label>'+
+    '<textarea id="rIngs" rows="6" placeholder="Flour — 200 g&#10;Eggs — 2&#10;Milk — 250 ml">'+(r?esc((r.ings||[]).join('\n')):'')+'</textarea></div>'+
+    '<div class="field"><label for="rSteps">Steps</label>'+
+    '<textarea id="rSteps" rows="7" placeholder="Mix the dry ingredients.&#10;Add the eggs and milk and whisk until smooth.">'+(r?esc((r.steps||[]).join('\n')):'')+'</textarea></div>'+
+    '<div class="field"><label for="rNote">Worth remembering</label>'+
+    '<textarea id="rNote" rows="3" placeholder="What not to forget next time">'+(r?esc(r.note||''):'')+'</textarea></div>'+
+    '<div class="sheet-actions">'+
+      (r?'<button class="btn btn-danger" data-act="del-recipe" data-id="'+r.id+'">Delete</button>':'')+
+      '<button class="btn btn-primary" data-act="save-recipe" data-id="'+(r?r.id:'')+'">Save</button>'+
+    '</div>');
+
+  const fi = $('#photoIn');
+  if(fi) fi.addEventListener('change', function(){
+    const f = fi.files && fi.files[0]; if(!f) return;
+    toast('Working on the photo…');
+    downscale(f, 720, function(url){
+      if(!url){ toast('Could not read that photo'); return; }
+      pendingPhoto = url;
+      const pv = $('#photoPrev');
+      if(pv){ pv.style.backgroundImage = 'url('+url+')'; pv.textContent = ''; }
+      toast('Photo added');
+    });
+  });
+}
+
+/* ---------- Actions ---------- */
+function celebrate(el){
+  if(el){ el.classList.add('pop'); setTimeout(()=>el.classList.remove('pop'), 200); }
+  if(navigator.vibrate) try{ navigator.vibrate(12); }catch(e){}
+}
+function checkBadges(silent){
+  const s = stats(); let msg = null;
+  for(const b of BADGES){
+    if(b.get(s) >= b.goal && !state.claimed[b.id]){ state.claimed[b.id] = true; if(!msg) msg = b.emoji+' '+b.title; }
+  }
+  if(msg && !silent) setTimeout(()=>toast('Achievement unlocked: '+msg), 700);
+}
+function toggleHabit(id, el){
+  const h = state.habits.find(x=>x.id===id); if(!h) return;
+  const k = today(), per = h.perDay||1, c = count(h,k);
+  if(c >= per){
+    setCount(h,k,0); state.xp = Math.max(0, state.xp - 10*per); toast('Check-in removed');
+  } else {
+    setCount(h,k,c+1); state.xp += 10; celebrate(el);
+    if(c+1 >= per){
+      const st = streakOf(h);
+      if(doneToday() === activeHabits().length){
+        confetti(); say(pickLine(PRAISE_ALL), true); toast('✨ Every habit is closed for today');
+      } else if(st > 1 && st % 7 === 0){
+        say(st+' days in a row! '+pickLine(PRAISE_STREAK), true);
+        toast('🔥 '+st+' '+plural(st,'day','days')+' in a row — '+h.title);
+      } else {
+        say(pickLine(PRAISE));
+      }
+    }
+  }
+  checkBadges(false); save(); renderToday();
+}
+
+document.addEventListener('click', function(e){
+  const pick = e.target.closest('[data-skin-pick]');
+  if(pick){
+    state.skin = pick.getAttribute('data-skin-pick'); applySkin(state.skin); save();
+    document.querySelectorAll('.skins').forEach(renderSkinGrid);
+    return;
+  }
+  const em = e.target.closest('[data-emoji]');
+  if(em){ em.parentElement.querySelectorAll('[data-emoji]').forEach(b=>b.setAttribute('aria-pressed','false'));
+          em.setAttribute('aria-pressed','true'); return; }
+  const chip = e.target.closest('.chip[data-per],.chip[data-wg],.chip[data-kind],.chip[data-cat],.chip[data-von]');
+  if(chip){ chip.parentElement.querySelectorAll('.chip').forEach(b=>b.setAttribute('aria-pressed','false'));
+            chip.setAttribute('aria-pressed','true'); return; }
+
+  const btn = e.target.closest('[data-act]'); if(!btn) return;
+  const act = btn.getAttribute('data-act'), id = btn.getAttribute('data-id');
+
+  if(act==='toggle') toggleHabit(id, btn.closest('.habit'));
+  else if(act==='new-habit'){
+    if(sheet.classList.contains('open')){ closeSheet(); setTimeout(sheetLibrary, 140); }
+    else sheetLibrary();
+  }
+  else if(act==='custom-habit'){ closeSheet(); setTimeout(()=>sheetHabit(null), 140); }
+  else if(act==='libcat'){ libCat = btn.getAttribute('data-c'); sheetLibrary(); }
+  else if(act==='add-lib'){
+    if(btn.getAttribute('aria-disabled') === 'true'){ toast('Already on your list'); return; }
+    const parts = btn.getAttribute('data-i').split(':');
+    const it = LIBRARY[+parts[0]].items[+parts[1]];
+    const title = it.t.replace(/&#39;/g, "'");
+    state.habits.push({id:'h'+Date.now().toString(36), title:title, emoji:it.e, perDay:it.p, weekGoal:it.w});
+    save(); paintLibList(); render(); toast('Added — ' + title);
+  }
+  else if(act==='edit-habit') sheetHabit(id);
+  else if(act==='skins') sheetSkins();
+  else if(act==='fonts') sheetFonts();
+  else if(act==='voice') sheetVoice();
+  else if(act==='voice-test'){
+    readVoiceForm();
+    if(state.voiceOn === false){ toast('Cheering is off — switch it on to hear it'); return; }
+    say(pickLine(PRAISE));
+    setTimeout(function(){ if(VOICES.length && !$('#voiceSel')) sheetVoice(); }, 900);
+  }
+  else if(act==='voice-save'){ readVoiceForm(); save(); closeSheet(); toast(state.voiceOn === false ? 'Cheering off' : 'Cheering on'); }
+  else if(act==='pick-font'){
+    state.font = btn.getAttribute('data-f');
+    applyFont(state.font); save();
+    if(sheet.classList.contains('open')) sheetFonts();
+    const ob = document.getElementById('onboardFonts');
+    if(ob) ob.innerHTML = fontCards();
+    render();
+  }
+  else if(act==='close') closeSheet();
+  else if(act==='data') sheetData();
+  else if(act==='new-prize'){ closeSheet(); setTimeout(sheetPrize, 120); }
+
+  else if(act==='save-settings'){
+    const v = $('#nameIn'); if(v) state.name = v.value.trim();
+    save(); closeSheet(); paintHeader(); toast('Saved');
+  }
+  else if(act==='save-habit'){
+    const title = ($('#tIn').value||'').trim();
+    if(!title){ toast('Give it a name'); $('#tIn').focus(); return; }
+    const emoji = (sheet.querySelector('#emojiPick [aria-pressed="true"]')||{}).dataset?.emoji || '⭐️';
+    const per = +(sheet.querySelector('#perPick [aria-pressed="true"]')||{dataset:{per:1}}).dataset.per;
+    const wg  = +(sheet.querySelector('#wgPick [aria-pressed="true"]')||{dataset:{wg:7}}).dataset.wg;
+    if(id){ const h = state.habits.find(x=>x.id===id); Object.assign(h,{title,emoji,perDay:per,weekGoal:wg}); }
+    else state.habits.push({id:'h'+Date.now().toString(36), title, emoji, perDay:per, weekGoal:wg});
+    save(); closeSheet(); render(); toast(id ? 'Updated' : 'Habit added');
+  }
+  else if(act==='del-habit'){
+    if(!confirm('Delete this habit and its whole history?')) return;
+    state.habits = state.habits.filter(x=>x.id!==id); delete state.log[id];
+    save(); closeSheet(); render(); toast('Deleted');
+  }
+  else if(act==='save-prize'){
+    const title = ($('#pTitle').value||'').trim();
+    if(!title){ toast('Say what the reward is'); $('#pTitle').focus(); return; }
+    const emoji = (sheet.querySelector('#prizeEmoji [aria-pressed="true"]')||{}).dataset?.emoji || '🎁';
+    const kind = (sheet.querySelector('#pKind [aria-pressed="true"]')||{dataset:{kind:'streak'}}).dataset.kind;
+    const amount = Math.max(1, Math.min(999, +$('#pAmt').value || 7));
+    state.prizes.push({id:'p'+Date.now().toString(36), title, emoji, kind, amount, claimed:false});
+    save(); closeSheet(); go('prizes'); toast('Reward added');
+  }
+  else if(act==='claim'){
+    const p = state.prizes.find(x=>x.id===id); if(p){ p.claimed = true; state.xp += 50; say('You earned it. Go and collect it!', true); save(); renderPrizes(); toast('🎉 Earned it. Now go and collect it.'); }
+  }
+  else if(act==='del-prize'){
+    state.prizes = state.prizes.filter(x=>x.id!==id); save(); renderPrizes();
+  }
+  else if(act==='go-english'){ openPack = null; go('english'); }
+  else if(act==='all-packs') sheetPacks();
+  else if(act==='open-pack'){ openPack = +btn.getAttribute('data-i'); closeSheet(); go('english'); }
+  else if(act==='back-today-pack'){ openPack = null; window.scrollTo(0,0); renderEnglish(); }
+  else if(act==='learn'){
+    const k = btn.getAttribute('data-k');
+    if(state.learned[k]) delete state.learned[k]; else state.learned[k] = 1;
+    const pk = openPack === null ? packOfDay() : PACKS[openPack];
+    const done = packLearned(pk);
+    if(done === pk.phrases.length && !state.packXP[pk.topic]){
+      state.packXP[pk.topic] = 1; state.xp += 40;
+      say('All ten phrases learned. Fantastic!', true);
+      toast('🎉 All ten learned — 40 XP');
+    }
+    save(); renderEnglish();
+  }
+  else if(act==='new-recipe'){ closeSheet(); setTimeout(function(){ sheetRecipe(null); }, 120); }
+  else if(act==='edit-recipe') sheetRecipe(id);
+  else if(act==='open-recipe'){ openRecipe = id; ingChecked = {}; window.scrollTo(0,0); renderRecipeDetail(); }
+  else if(act==='back-recipes'){ openRecipe = null; window.scrollTo(0,0); renderRecipes(); }
+  else if(act==='filter'){ recFilter = btn.getAttribute('data-f'); renderRecipes(); }
+  else if(act==='ing'){
+    const i = btn.getAttribute('data-i');
+    ingChecked[i] = !ingChecked[i];
+    btn.setAttribute('aria-pressed', ingChecked[i] ? 'true' : 'false');
+  }
+  else if(act==='fav-recipe'){
+    const r = state.recipes.find(function(x){ return x.id === id; });
+    if(r){ r.fav = !r.fav; save(); if(openRecipe) renderRecipeDetail(); else paintRecipeList(); }
+  }
+  else if(act==='pick-photo'){ const f = $('#photoIn'); if(f) f.click(); }
+  else if(act==='drop-photo'){
+    pendingPhoto = null;
+    const pv = $('#photoPrev');
+    if(pv){ pv.style.backgroundImage = ''; pv.textContent = '🍲'; }
+  }
+  else if(act==='save-recipe'){
+    const title = ($('#rTitle').value || '').trim();
+    if(!title){ toast('Give it a name'); $('#rTitle').focus(); return; }
+    const emoji = (sheet.querySelector('#recEmoji [aria-pressed="true"]') || {dataset:{emoji:'🍲'}}).dataset.emoji;
+    const cat   = (sheet.querySelector('#recCat [aria-pressed="true"]') || {dataset:{cat:''}}).dataset.cat;
+    const lines = function(v){ return v.split('\n').map(function(x){ return x.trim(); }).filter(Boolean); };
+    const patch = {
+      title: title, emoji: emoji, cat: cat,
+      time: Math.max(0, +$('#rTime').value || 0),
+      serv: Math.max(0, +$('#rServ').value || 0),
+      ings: lines($('#rIngs').value || ''),
+      steps: lines($('#rSteps').value || ''),
+      note: ($('#rNote').value || '').trim()
+    };
+    let rec;
+    if(id){ rec = state.recipes.find(function(x){ return x.id === id; }); Object.assign(rec, patch); }
+    else { rec = Object.assign({id:'r'+Date.now().toString(36), fav:false}, patch); state.recipes.push(rec); }
+    save();
+    let photoFailed = false;
+    if(pendingPhoto !== undefined){
+      const backup = photos[rec.id];
+      if(pendingPhoto === null) delete photos[rec.id]; else photos[rec.id] = pendingPhoto;
+      if(!savePhotos()){
+        if(backup === undefined) delete photos[rec.id]; else photos[rec.id] = backup;
+        savePhotos(); photoFailed = true;
+      }
+    }
+    pendingPhoto = undefined;
+    closeSheet(); openRecipe = rec.id; go('recipes');
+    toast(photoFailed ? 'Saved, but the photo would not fit — storage is full' : (id ? 'Updated' : 'Recipe added'));
+  }
+  else if(act==='del-recipe'){
+    if(!confirm('Delete this recipe?')) return;
+    state.recipes = state.recipes.filter(function(x){ return x.id !== id; });
+    delete photos[id]; savePhotos(); save();
+    closeSheet(); openRecipe = null; go('recipes'); toast('Deleted');
+  }
+  else if(act==='copy-data'){
+    const t = $('#dataBox'); t.select(); t.setSelectionRange(0, 99999);
+    let ok=false; try{ ok = document.execCommand('copy'); }catch(e){}
+    if(navigator.clipboard) navigator.clipboard.writeText(t.value).then(()=>toast('Copied')).catch(()=>{ if(!ok) toast('Select the text and copy it by hand'); });
+    else toast(ok ? 'Copied' : 'Select the text and copy it by hand');
+  }
+  else if(act==='import-data'){
+    try{
+      const obj = JSON.parse($('#dataBox').value);
+      if(!obj || !Array.isArray(obj.habits)) throw new Error('bad');
+      state = obj; if(!state.prizes) state.prizes=[]; if(!state.claimed) state.claimed={};
+      applySkin(state.skin||'peach'); applyFont(state.font||'auto'); save(); closeSheet(); paintHeader(); render(); toast('Data restored');
+    }catch(err){ toast('Could not read that — check the text'); }
+  }
+  else if(act==='reset'){
+    if(!confirm('Delete every habit, check-in, reward and recipe? This cannot be undone.')) return;
+    const skin = state.skin; state = seed(); state.skin = skin; state.habits = []; state.recipes = [];
+    photos = {}; savePhotos();
+    save(); closeSheet(); render(); toast('Starting over');
+  }
+});
+
+$('#openSettings').addEventListener('click', sheetSettings);
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click', function(){
+  if(t.dataset.tab === 'recipes' && tab === 'recipes') openRecipe = null;
+  if(t.dataset.tab === 'english' && tab === 'english') openPack = null;
+  go(t.dataset.tab);
+}));
+document.addEventListener('input', function(e){
+  if(e.target && e.target.id === 'recSearch'){ recQuery = e.target.value; paintRecipeList(); }
+  if(e.target && e.target.id === 'libSearch'){ libQuery = e.target.value; paintLibList(); }
+});
+document.addEventListener('keydown', function(e){
+  if((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('[role="button"][data-act]')){
+    e.preventDefault(); e.target.click();
+  }
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeSheet(); });
+
+/* ---------- Navigation and start-up ---------- */
+function go(t){
+  tab = t;
+  document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected', x.dataset.tab===t ? 'true':'false'));
+  window.scrollTo({top:0, behavior:'instant' in document.documentElement.style ? 'instant' : 'auto'});
+  render();
+}
+function render(){
+  if(tab==='today') renderToday();
+  else if(tab==='stats') renderStats();
+  else if(tab==='english') renderEnglish();
+  else if(tab==='recipes') renderRecipes();
+  else renderPrizes();
+}
+function paintHeader(){
+  const d = new Date();
+  $('#dateLine').textContent = WDAYS[d.getDay()] + ', ' + MONTHS[d.getMonth()] + ' ' + d.getDate();
+  const h = d.getHours();
+  const part = h<5 ? 'Good night' : h<12 ? 'Good morning' : h<18 ? 'Good afternoon' : 'Good evening';
+  $('#greeting').textContent = state.name ? part + ', ' + state.name : part;
+}
+
+function start(){
+  applySkin(state.skin);
+  applyFont(state.font || 'auto');
+  $('#onboard').classList.add('hidden');
+  $('#main').classList.remove('hidden');
+  paintHeader(); checkBadges(true); save(); render();
+}
+
+if(state.skin){ start(); }
+else {
+  state.skin = 'peach';
+  applySkin(state.skin); applyFont(state.font || 'auto');
+  $('#onboard').classList.remove('hidden');
+  renderSkinGrid($('#onboardSkins'));
+  $('#onboardFonts').innerHTML = fontCards();
+  $('#onboardDone').addEventListener('click', function(){
+    save(); start(); toast('Theme and typeface live in Settings');
+  });
+}
+
+/* New day — repaint */
+document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && state.skin) { paintHeader(); render(); } });
+
+if('serviceWorker' in navigator && location.protocol === 'https:'){
+  window.addEventListener('load', ()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+}
+})();
+</script>
+</body>
+</html>
