@@ -3,12 +3,17 @@
 A personal app: habit tracker, a daily English affirmation with ten phrases,
 and a recipe book. One HTML file, everything stored on the phone itself.
 
-## Put it on GitHub Pages
+## Live
 
-1. Create a repository on github.com (for example `rhythm`), public.
-2. Upload every file from this folder (**Add file → Upload files**).
-3. Settings → Pages → Source: **Deploy from a branch**, branch `main`, folder `/ (root)` → Save.
-4. A minute later the address is: `https://YOUR-USERNAME.github.io/rhythm/`
+**https://sergeyafin3-a11y.github.io/rhythm/**
+
+Repository: https://github.com/sergeyafin3-a11y/rhythm — public, GitHub Pages
+serving `main` / root.
+
+### Publishing a change
+
+Edit the files here, then on GitHub: **Add file → Upload files**, drop the changed
+file in, **Commit changes**. The site updates in about a minute.
 
 ## Add it to the home screen
 
@@ -19,8 +24,8 @@ and a recipe book. One HTML file, everything stored on the phone itself.
 
 | Tab | What it does |
 |---|---|
-| Today | The day ring, the affirmation, and the habits you tick off — each one answered out loud in English |
-| + Add | A library of 74 ready-made habits in 11 categories, searchable, one tap to add — or write your own |
+| Today | The day ring, the affirmation, and the habits you tick off |
+| + Add | A library of 79 ready-made habits in 11 categories, searchable, one tap to add — or write your own |
 | English | Affirmation of the day plus ten useful phrases, 30 topics in rotation |
 | Rhythm | Eight-week calendar per habit, totals, longest streak |
 | Rewards | Achievements, and rewards you promise yourself |
@@ -45,15 +50,11 @@ Afterwards: Settings → Theme, and Settings → Typeface.
 
 One English article + new words · Learn 7 new words · 20 pages of a book ·
 Meditate for 5 minutes · Yoga · Face massage · Eight glasses of water ·
-Cold shower in the morning · Under 2 hours of games · Lights out by 1:30
+Cold shower in the morning · Under 2 hours of games · Lights out by 1:30 ·
+Foot cream · Thigh roller · A morning without the phone ·
+Ask one question a day · No snapping, no grumbling
 
 Delete any of them, change how often, or add more from the library.
-
-## Voice
-
-Ticking a habit off plays a short English cheer through the phone's own speech
-engine — no internet needed. Settings → Voice to switch it off or pick a different
-voice. On iPhone it follows the silent switch.
 
 ## Data
 

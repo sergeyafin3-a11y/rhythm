@@ -1217,87 +1217,6 @@ const DECOR = {
     '<g stroke="var(--gold)" stroke-width="1.2" opacity=".45"><path d="M-10 118h190"/><path d="M-10 132h120"/><path d="M-10 146h64"/></g></svg>'
 };
 
-/* ---------- Voice: a short English cheer out loud ---------- */
-const PRAISE = [
-  'Nice one!', 'Well done — that&#39;s another one.', 'There you go! Keep it up.',
-  'Good job. You&#39;re on a roll.', 'Look at you go!', 'Brilliant — keep that up.',
-  'Yes! One more done.', 'Lovely. That&#39;s real progress.', 'You&#39;re doing great, honestly.',
-  'Another one down!', 'Way to go!', 'That&#39;s how it&#39;s done.',
-  'Nice work. On you go.', 'You showed up — and that counts.', 'Great stuff! Keep the streak alive.',
-  'I&#39;m proud of you.', 'Small step, big deal.', 'Beautiful. Keep that rhythm going.',
-  'Love to see it!', 'That&#39;s the one. Well done.'
-];
-const PRAISE_ALL = [
-  'That&#39;s a perfect day! Every single habit — done.',
-  'That&#39;s the whole list. Brilliant work!',
-  'All done for today. You&#39;ve earned this one.',
-  'Clean sweep! Honestly, brilliant.',
-  'Every single one. What a day!'
-];
-const PRAISE_STREAK = ['That&#39;s real consistency.', 'Keep it going!', 'You&#39;re on fire.', 'Incredible.'];
-let lastPraise = -1;
-function pickLine(list){
-  let i = Math.floor(Math.random()*list.length);
-  if(list.length > 1 && i === lastPraise) i = (i+1) % list.length;
-  lastPraise = i; return list[i];
-}
-
-let VOICES = [];
-function loadVoices(){
-  if(!('speechSynthesis' in window)) return;
-  try{ VOICES = speechSynthesis.getVoices().filter(function(v){ return /^en/i.test(v.lang); }); }catch(e){ VOICES = []; }
-}
-if('speechSynthesis' in window){
-  loadVoices();
-  speechSynthesis.addEventListener('voiceschanged', loadVoices);
-}
-function voiceScore(v){
-  const n = (v.name || '').toLowerCase();
-  let sc = 0;
-  if(/natural|neural|premium|enhanced|siri/.test(n)) sc += 120;   // Apple / Microsoft neural voices
-  if(/google/.test(n)) sc += 70;                                   // Chrome network voices
-  if(/online/.test(n)) sc += 40;
-  if(/^microsoft/.test(n)) sc += 15;
-  if(v.localService === false) sc += 25;
-  if(/en[-_]gb/i.test(v.lang)) sc += 6;
-  if(/en[-_]us/i.test(v.lang)) sc += 5;
-  // novelty and compact system voices — these are the robotic ones
-  if(/compact|eloquence|zarvox|trinoids|bells|boing|bubbles|cellos|deranged|hysterical|jester|organ|superstar|whisper|wobble|bahh|bad news|good news|albert|fred|ralph|junior|kathy|princess|bruce|agnes|victoria/.test(n)) sc -= 300;
-  return sc;
-}
-function goodVoices(){
-  return VOICES.slice().sort(function(a, b){ return voiceScore(b) - voiceScore(a); });
-}
-function pickVoice(){
-  if(!VOICES.length) loadVoices();
-  if(state.voiceName){
-    const chosen = VOICES.find(function(v){ return v.name === state.voiceName; });
-    if(chosen) return chosen;
-  }
-  const ranked = goodVoices();
-  return ranked[0] || null;
-}
-function say(text, excited){
-  if(state.voiceOn === false || !('speechSynthesis' in window)) return;
-  try{
-    if(speechSynthesis.speaking || speechSynthesis.pending) speechSynthesis.cancel();
-    // one phrase, spoken as two breaths — a flat single line is what sounds robotic
-    const parts = String(text).split(/\s+(?=[A-ZА-Я])|\s+—\s+/).filter(Boolean);
-    const chunks = parts.length > 1 ? [parts[0], parts.slice(1).join(' ')] : [text];
-    const v = pickVoice();
-    chunks.forEach(function(chunk, i){
-      const u = new SpeechSynthesisUtterance(chunk.replace(/&#39;/g, "'"));
-      if(v){ u.voice = v; u.lang = v.lang; } else { u.lang = 'en-GB'; }
-      // humans start a little higher and drift down; nothing is ever twice the same
-      const base = excited ? 1.06 : 1.0;
-      u.pitch = Math.max(0.8, base + (Math.random()*0.08) - (i * 0.07));
-      u.rate  = (excited ? 1.03 : 0.98) + (Math.random()*0.06) - 0.03;
-      u.volume = 1;
-      speechSynthesis.speak(u);
-    });
-  }catch(e){}
-}
-
 /* ---------- Confetti for a perfect day ---------- */
 function confetti(){
   if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -1364,7 +1283,8 @@ const LIBRARY = [
     {t:'One page of journalling', e:'📓', p:1, w:7},
     {t:'Plan tomorrow before bed', e:'🗒️', p:1, w:7},
     {t:'Sit outside for ten minutes', e:'🌳', p:1, w:5},
-    {t:'Say no to one thing', e:'🚪', p:1, w:3}
+    {t:'Say no to one thing', e:'🚪', p:1, w:3},
+    {t:'Ask one question a day', e:'💬', p:1, w:7}
   ]},
   {cat:'Care', items:[
     {t:'Face massage', e:'💆', p:1, w:7},
@@ -1376,7 +1296,10 @@ const LIBRARY = [
     {t:'Take vitamins', e:'💊', p:1, w:7},
     {t:'Floss', e:'🪥', p:1, w:7},
     {t:'Take makeup off before bed', e:'🧼', p:1, w:7},
-    {t:'Hand cream', e:'🤲', p:1, w:7}
+    {t:'Hand cream', e:'🤲', p:1, w:7},
+    {t:'Foot cream', e:'🦶', p:1, w:7},
+    {t:'Thigh roller', e:'🦵', p:1, w:7},
+    {t:'Dry brushing', e:'🪮', p:1, w:3}
   ]},
   {cat:'Food', items:[
     {t:'Vegetables at every meal', e:'🥦', p:1, w:7},
@@ -1404,7 +1327,7 @@ const LIBRARY = [
   ]},
   {cat:'Limits', items:[
     {t:'Under 2 hours of games', e:'🎮', p:1, w:7},
-    {t:'No phone for the first hour', e:'📵', p:1, w:7},
+    {t:'A morning without the phone', e:'📵', p:1, w:7},
     {t:'No phone in bed', e:'🛌', p:1, w:7},
     {t:'Under 30 minutes of social media', e:'⏳', p:1, w:7},
     {t:'No screens after eleven', e:'🌑', p:1, w:7}
@@ -1425,7 +1348,8 @@ const LIBRARY = [
     {t:'Message someone you miss', e:'💌', p:1, w:3},
     {t:'Call family', e:'📞', p:1, w:2},
     {t:'Say one genuine thank you', e:'🙏', p:1, w:7},
-    {t:'An hour with no talk about work', e:'❤️', p:1, w:3}
+    {t:'An hour with no talk about work', e:'❤️', p:1, w:3},
+    {t:'No snapping, no grumbling', e:'😌', p:1, w:7}
   ]}
 ];
 let libQuery = '', libCat = 'all';
@@ -1444,7 +1368,7 @@ function save(){
 
 function seed(){
   return {
-    v:1, skin:null, font:'auto', voiceOn:true, voiceName:null, name:'', started: today(),
+    v:1, skin:null, font:'auto', name:'', started: today(),
     habits:[
       {id:'h1', title:'One English article + new words', emoji:'📰', perDay:1, weekGoal:7},
       {id:'h2', title:'Learn 7 new words',               emoji:'🔤', perDay:7, weekGoal:7},
@@ -1455,7 +1379,12 @@ function seed(){
       {id:'h7', title:'Eight glasses of water',          emoji:'💧', perDay:8, weekGoal:7},
       {id:'h8', title:'Cold shower in the morning',      emoji:'🚿', perDay:1, weekGoal:7},
       {id:'h9', title:'Under 2 hours of games',          emoji:'🎮', perDay:1, weekGoal:7},
-      {id:'h10',title:'Lights out by 1:30',              emoji:'🌙', perDay:1, weekGoal:7}
+      {id:'h10',title:'Lights out by 1:30',              emoji:'🌙', perDay:1, weekGoal:7},
+      {id:'h11',title:'Foot cream',                      emoji:'🦶', perDay:1, weekGoal:7},
+      {id:'h12',title:'Thigh roller',                    emoji:'🦵', perDay:1, weekGoal:7},
+      {id:'h13',title:'A morning without the phone',     emoji:'📵', perDay:1, weekGoal:7},
+      {id:'h14',title:'Ask one question a day',          emoji:'💬', perDay:1, weekGoal:7},
+      {id:'h15',title:'No snapping, no grumbling',       emoji:'😌', perDay:1, weekGoal:7}
     ],
     log:{}, xp:0, claimed:{}, prizes:[
       {id:'p1', emoji:'☕️', title:'Coffee at my favourite place', kind:'streak', amount:7, claimed:false}
@@ -1479,8 +1408,6 @@ if(!state.claimed) state.claimed={};
 if(!state.recipes) state.recipes = seedRecipes();
 if(!state.learned) state.learned = {};
 if(!state.packXP) state.packXP = {};
-if(state.voiceOn === undefined) state.voiceOn = true;
-if(state.voiceName === undefined) state.voiceName = null;
 let openPack = null;
 let tab = 'today';
 
@@ -1888,7 +1815,6 @@ function sheetSettings(){
     '<input type="text" id="nameIn" maxlength="24" placeholder="Natali, for example" value="'+esc(state.name||'')+'"></div>'+
     '<button class="rowlink" data-act="skins">Theme <span>'+ (SKINS.find(s=>s.id===state.skin)||{}).name +' ›</span></button>'+
     '<button class="rowlink" data-act="fonts">Typeface <span>'+ (FONTSETS.find(f=>f.id===(state.font||'auto'))||{}).name +' ›</span></button>'+
-    '<button class="rowlink" data-act="voice">Voice <span>'+ (state.voiceOn === false ? 'Off' : 'On') +' ›</span></button>'+
     '<button class="rowlink" data-act="new-habit">Add a habit <span>›</span></button>'+
     '<button class="rowlink" data-act="data">Backup <span>save / restore ›</span></button>'+
     '<button class="rowlink" data-act="reset" style="color:#C0392B">Start over <span style="color:inherit;opacity:.7">deletes everything ›</span></button>'+
@@ -1921,54 +1847,6 @@ function sheetFonts(){
     '<div class="sheet-actions"><button class="btn btn-primary btn-full" data-act="close">Done</button></div>');
 }
 
-function sheetVoice(){
-  loadVoices();
-  const on = state.voiceOn !== false;
-  const supported = 'speechSynthesis' in window;
-  const ranked = goodVoices().filter(function(v){ return voiceScore(v) > -100; });
-  const nice = ranked.filter(function(v){ return voiceScore(v) >= 40; });
-  const plain = ranked.filter(function(v){ return voiceScore(v) < 40; });
-  const opt = function(v){
-    return '<option value="'+esc(v.name)+'"'+(state.voiceName===v.name?' selected':'')+'>'+esc(v.name)+' · '+esc(v.lang)+'</option>';
-  };
-
-  let picker = '';
-  if(!supported){
-    picker = '<p class="sub">This browser has no speech built in. Safari on iPhone and Chrome on Android both do.</p>';
-  } else if(!ranked.length){
-    picker = '<p class="sub">No English voices have loaded yet. Tap <b>Try it</b> once — they usually appear straight after.</p>';
-  } else {
-    picker = '<div class="field"><label for="voiceSel">Which voice</label><select id="voiceSel">'+
-      '<option value="">Best available on this phone</option>'+
-      (nice.length ? '<optgroup label="Natural sounding">'+nice.map(opt).join('')+'</optgroup>' : '')+
-      (plain.length ? '<optgroup label="Basic">'+plain.map(opt).join('')+'</optgroup>' : '')+
-      '</select></div>';
-  }
-
-  const current = pickVoice();
-  openSheet('<h2>Voice</h2><p class="sub">A short cheer in English every time you close a habit for the day.</p>'+
-    '<div class="field"><label>Cheering</label><div class="chips" id="voiceOn">'+
-      '<button type="button" class="chip" data-von="1" aria-pressed="'+(on?'true':'false')+'">On</button>'+
-      '<button type="button" class="chip" data-von="0" aria-pressed="'+(on?'false':'true')+'">Off</button>'+
-    '</div></div>'+
-    picker+
-    (current ? '<p class="sub" style="margin-top:-8px">Right now: <b>'+esc(current.name)+'</b></p>' : '')+
-    '<div class="sheet-actions"><button class="btn" data-act="voice-test">Try it</button>'+
-    '<button class="btn btn-primary" data-act="voice-save">Done</button></div>'+
-    '<div class="note" style="margin-top:18px">'+
-      '<b>If it still sounds flat</b>, your phone is using a compact voice. On iPhone open '+
-      'Settings → Accessibility → Spoken Content → Voices → English and download one marked '+
-      '<b>Enhanced</b> or <b>Premium</b> — it appears in the list above straight after, and the '+
-      'difference is night and day.'+
-    '</div>'+
-    '<p class="sub" style="margin-top:14px">On iPhone the voice follows the silent switch — if you hear nothing, flip the switch on the side of the phone.</p>');
-}
-function readVoiceForm(){
-  const chip = sheet.querySelector('#voiceOn [aria-pressed="true"]');
-  if(chip) state.voiceOn = chip.getAttribute('data-von') === '1';
-  const sel = $('#voiceSel');
-  if(sel) state.voiceName = sel.value || null;
-}
 
 function libMeta(it){
   const bits = [];
@@ -2153,12 +2031,9 @@ function toggleHabit(id, el){
     if(c+1 >= per){
       const st = streakOf(h);
       if(doneToday() === activeHabits().length){
-        confetti(); say(pickLine(PRAISE_ALL), true); toast('✨ Every habit is closed for today');
+        confetti(); toast('✨ Every habit is closed for today');
       } else if(st > 1 && st % 7 === 0){
-        say(st+' days in a row! '+pickLine(PRAISE_STREAK), true);
         toast('🔥 '+st+' '+plural(st,'day','days')+' in a row — '+h.title);
-      } else {
-        say(pickLine(PRAISE));
       }
     }
   }
@@ -2175,7 +2050,7 @@ document.addEventListener('click', function(e){
   const em = e.target.closest('[data-emoji]');
   if(em){ em.parentElement.querySelectorAll('[data-emoji]').forEach(b=>b.setAttribute('aria-pressed','false'));
           em.setAttribute('aria-pressed','true'); return; }
-  const chip = e.target.closest('.chip[data-per],.chip[data-wg],.chip[data-kind],.chip[data-cat],.chip[data-von]');
+  const chip = e.target.closest('.chip[data-per],.chip[data-wg],.chip[data-kind],.chip[data-cat]');
   if(chip){ chip.parentElement.querySelectorAll('.chip').forEach(b=>b.setAttribute('aria-pressed','false'));
             chip.setAttribute('aria-pressed','true'); return; }
 
@@ -2200,14 +2075,6 @@ document.addEventListener('click', function(e){
   else if(act==='edit-habit') sheetHabit(id);
   else if(act==='skins') sheetSkins();
   else if(act==='fonts') sheetFonts();
-  else if(act==='voice') sheetVoice();
-  else if(act==='voice-test'){
-    readVoiceForm();
-    if(state.voiceOn === false){ toast('Cheering is off — switch it on to hear it'); return; }
-    say(pickLine(PRAISE));
-    setTimeout(function(){ if(VOICES.length && !$('#voiceSel')) sheetVoice(); }, 900);
-  }
-  else if(act==='voice-save'){ readVoiceForm(); save(); closeSheet(); toast(state.voiceOn === false ? 'Cheering off' : 'Cheering on'); }
   else if(act==='pick-font'){
     state.font = btn.getAttribute('data-f');
     applyFont(state.font); save();
@@ -2249,7 +2116,7 @@ document.addEventListener('click', function(e){
     save(); closeSheet(); go('prizes'); toast('Reward added');
   }
   else if(act==='claim'){
-    const p = state.prizes.find(x=>x.id===id); if(p){ p.claimed = true; state.xp += 50; say('You earned it. Go and collect it!', true); save(); renderPrizes(); toast('🎉 Earned it. Now go and collect it.'); }
+    const p = state.prizes.find(x=>x.id===id); if(p){ p.claimed = true; state.xp += 50; save(); renderPrizes(); toast('🎉 Earned it. Now go and collect it.'); }
   }
   else if(act==='del-prize'){
     state.prizes = state.prizes.filter(x=>x.id!==id); save(); renderPrizes();
@@ -2265,7 +2132,6 @@ document.addEventListener('click', function(e){
     const done = packLearned(pk);
     if(done === pk.phrases.length && !state.packXP[pk.topic]){
       state.packXP[pk.topic] = 1; state.xp += 40;
-      say('All ten phrases learned. Fantastic!', true);
       toast('🎉 All ten learned — 40 XP');
     }
     save(); renderEnglish();

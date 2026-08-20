@@ -1,5 +1,5 @@
 /* Офлайн-кэш: приложение открывается без интернета. */
-const CACHE = 'ritm-v1';
+const CACHE = 'ritm-v2';
 const SHELL = ['./', './index.html', './manifest.json', './icon-180.png', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
