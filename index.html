@@ -1310,55 +1310,146 @@ const DECOR = {
     '<g stroke="var(--gold)" stroke-width="1.2" opacity=".45"><path d="M-10 118h190"/><path d="M-10 132h120"/><path d="M-10 146h64"/></g></svg>'
 };
 
+/* ---------- Sound: a fanfare built from oscillators, no files needed ---------- */
+let AC = null;
+function audio(){
+  if(state.sound === false) return null;
+  try{
+    if(!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
+    if(AC.state === 'suspended') AC.resume();
+    return AC;
+  }catch(e){ return null; }
+}
+function note(ac, at, freq, dur, gain, type){
+  const o = ac.createOscillator(), g = ac.createGain();
+  o.type = type || 'triangle'; o.frequency.setValueAtTime(freq, at);
+  g.gain.setValueAtTime(0.0001, at);
+  g.gain.linearRampToValueAtTime(gain, at + 0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001, at + dur);
+  o.connect(g); g.connect(ac.destination);
+  o.start(at); o.stop(at + dur + 0.05);
+}
+function boom(ac, at, gain){
+  const len = Math.floor(ac.sampleRate * 0.6);
+  const buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
+  for(let i = 0; i < len; i++) d[i] = (Math.random()*2 - 1) * Math.pow(1 - i/len, 2.6);
+  const src = ac.createBufferSource(); src.buffer = buf;
+  const f = ac.createBiquadFilter(); f.type = 'lowpass';
+  f.frequency.setValueAtTime(2200, at);
+  f.frequency.exponentialRampToValueAtTime(110, at + 0.45);
+  const g = ac.createGain();
+  g.gain.setValueAtTime(gain, at);
+  g.gain.exponentialRampToValueAtTime(0.0001, at + 0.6);
+  src.connect(f); f.connect(g); g.connect(ac.destination);
+  src.start(at);
+}
+function whoosh(ac, at){
+  const len = Math.floor(ac.sampleRate * 0.5);
+  const buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
+  for(let i = 0; i < len; i++) d[i] = (Math.random()*2 - 1) * 0.5;
+  const src = ac.createBufferSource(); src.buffer = buf;
+  const f = ac.createBiquadFilter(); f.type = 'bandpass'; f.Q.value = 6;
+  f.frequency.setValueAtTime(400, at);
+  f.frequency.exponentialRampToValueAtTime(2600, at + 0.42);
+  const g = ac.createGain();
+  g.gain.setValueAtTime(0.0001, at);
+  g.gain.linearRampToValueAtTime(0.12, at + 0.1);
+  g.gain.exponentialRampToValueAtTime(0.0001, at + 0.46);
+  src.connect(f); f.connect(g); g.connect(ac.destination);
+  src.start(at);
+}
+function fanfare(){
+  const ac = audio(); if(!ac) return;
+  const t = ac.currentTime + 0.06;
+  const C5 = 523.25, E5 = 659.25, G5 = 783.99, C6 = 1046.5, C4 = 261.63, G3 = 196.0;
+  [[C5, 0], [E5, 0.11], [G5, 0.22], [C6, 0.33]].forEach(function(n){
+    note(ac, t + n[1], n[0], 0.42, 0.16);
+    note(ac, t + n[1], n[0] / 2, 0.42, 0.07, 'sine');
+  });
+  [C5, E5, G5, C6].forEach(function(f){ note(ac, t + 0.58, f, 1.5, 0.12); });
+  note(ac, t + 0.58, C4, 1.7, 0.11, 'sine');
+  note(ac, t + 0.58, G3, 1.7, 0.08, 'sine');
+  [0.02, 0.55, 1.05, 1.55, 2.1, 2.6].forEach(function(d, i){ boom(ac, t + d, 0.5 - i*0.03); });
+  [0.5, 1.0, 1.5, 2.05, 2.55].forEach(function(d){ whoosh(ac, t + d - 0.42); });
+}
+
 /* ---------- Fireworks ---------- */
-function fireworks(points){
+let fxRunning = false;
+function fireworks(opt){
   if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  opt = opt || {};
   const cv = document.getElementById('confetti'), ctx = cv.getContext('2d');
-  const dpr = window.devicePixelRatio || 1, W = innerWidth, H = innerHeight;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2), W = innerWidth, H = innerHeight;
   cv.width = W*dpr; cv.height = H*dpr; cv.style.width = W+'px'; cv.style.height = H+'px';
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
   const cs = getComputedStyle(document.documentElement);
-  const cols = [cs.getPropertyValue('--accent').trim(), cs.getPropertyValue('--gold').trim(),
-                '#FF7BA9', '#7BD8C9', '#FFD36E', '#F6F1E8'];
+  const COLS = [cs.getPropertyValue('--accent').trim(), cs.getPropertyValue('--gold').trim(),
+                '#FF5C8A', '#4FE3C1', '#FFD84D', '#7AA5FF', '#FF9F45', '#FFFFFF'];
 
+  const veilMax = opt.veil == null ? 0.34 : opt.veil;
+  const total = opt.duration || 130;
   const parts = [];
-  points.forEach(function(pt){
-    const n = pt.count || 70, power = pt.power || 1;
+  const queue = (opt.bursts || []).slice().sort(function(a, b){ return (a.at||0) - (b.at||0); });
+
+  function spawn(b){
+    const n = b.count || 150, power = b.power || 1.6;
+    const hue = b.mono ? COLS[(Math.random()*COLS.length)|0] : null;
     for(let i = 0; i < n; i++){
       const a = Math.random() * Math.PI * 2;
-      const v = (2.4 + Math.random() * 6.4) * power;
+      const v = (1.5 + Math.pow(Math.random(), 0.6) * 9) * power;
       parts.push({
-        x: pt.x, y: pt.y, px: pt.x, py: pt.y,
-        vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1.6 * power,
-        c: cols[(Math.random() * cols.length) | 0],
-        w: 1.6 + Math.random() * 2.6,
-        life: 0, max: 60 + Math.random() * 45,
-        delay: pt.delay || 0
+        x: b.x, y: b.y, px: b.x, py: b.y,
+        vx: Math.cos(a)*v, vy: Math.sin(a)*v - 1.2*power,
+        c: hue || COLS[(Math.random()*COLS.length)|0],
+        w: 1.4 + Math.random()*2.8,
+        life: 0, max: 55 + Math.random()*55
       });
     }
-  });
+  }
 
   let t = 0;
+  if(fxRunning) fxRunning = false;
+  fxRunning = true;
   (function frame(){
     t++;
+    const fade = t < 8 ? t/8 : (t > total - 34 ? Math.max(0, (total - t)/34) : 1);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalAlpha = 1;
     ctx.clearRect(0, 0, W, H);
-    let alive = 0;
+    if(veilMax > 0){
+      ctx.fillStyle = 'rgba(9,7,16,' + (veilMax * fade).toFixed(3) + ')';
+      ctx.fillRect(0, 0, W, H);
+    }
+    while(queue.length && (queue[0].at || 0) <= t) spawn(queue.shift());
+
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.lineCap = 'round';
     for(const p of parts){
-      if(t < p.delay) { alive++; continue; }
       p.life++;
       if(p.life > p.max) continue;
-      alive++;
       p.px = p.x; p.py = p.y;
-      p.vy += 0.16;            // gravity
-      p.vx *= 0.985; p.vy *= 0.985;   // drag
+      p.vy += 0.15;
+      p.vx *= 0.982; p.vy *= 0.982;
       p.x += p.vx; p.y += p.vy;
-      ctx.globalAlpha = Math.max(0, 1 - p.life / p.max);
-      ctx.strokeStyle = p.c; ctx.lineWidth = p.w; ctx.lineCap = 'round';
+      const a = Math.max(0, 1 - p.life / p.max) * fade;
+      ctx.strokeStyle = p.c;
+      ctx.globalAlpha = a * 0.28;                       // glow
+      ctx.lineWidth = p.w * 3.4;
+      ctx.beginPath(); ctx.moveTo(p.px, p.py); ctx.lineTo(p.x, p.y); ctx.stroke();
+      ctx.globalAlpha = a;                              // core
+      ctx.lineWidth = p.w;
       ctx.beginPath(); ctx.moveTo(p.px, p.py); ctx.lineTo(p.x, p.y); ctx.stroke();
     }
-    if(alive && t < 260) requestAnimationFrame(frame);
-    else { ctx.globalAlpha = 1; ctx.clearRect(0, 0, W, H); }
+
+    if(t < total && fxRunning) requestAnimationFrame(frame);
+    else {
+      fxRunning = false;
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = 1;
+      ctx.clearRect(0, 0, W, H);
+    }
   })();
 }
 
@@ -1482,7 +1573,7 @@ function save(){
 
 function seed(){
   return {
-    v:1, skin:null, font:'auto', name:'', started: today(),
+    v:1, skin:null, font:'auto', sound:true, name:'', started: today(),
     habits:[
       {id:'h1', title:'One English article + new words', emoji:'📰', perDay:1, weekGoal:7, when:'day'},
       {id:'h2', title:'Learn 7 new words',               emoji:'🔤', perDay:7, weekGoal:7, when:'day'},
@@ -1526,6 +1617,7 @@ state.recipesV = 2;
 state.habits.forEach(function(h){ if(!h.when) h.when = guessWhen(h.title); });
 if(!state.learned) state.learned = {};
 if(!state.packXP) state.packXP = {};
+if(state.sound === undefined) state.sound = true;
 let openPack = null;
 let tab = 'today';
 
@@ -1939,6 +2031,7 @@ function sheetSettings(){
     '<div class="field"><label for="nameIn">What should I call you</label>'+
     '<input type="text" id="nameIn" maxlength="24" placeholder="Natali, for example" value="'+esc(state.name||'')+'"></div>'+
     '<button class="rowlink" data-act="skins">Theme <span>'+ (SKINS.find(s=>s.id===state.skin)||{}).name +' ›</span></button>'+
+    '<button class="rowlink" data-act="toggle-sound">Fireworks sound <span>'+ (state.sound === false ? 'Off' : 'On') +' ›</span></button>'+
     '<button class="rowlink" data-act="fonts">Typeface <span>'+ (FONTSETS.find(f=>f.id===(state.font||'auto'))||{}).name +' ›</span></button>'+
     '<button class="rowlink" data-act="new-habit">Add a habit <span>›</span></button>'+
     '<button class="rowlink" data-act="data">Backup <span>save / restore ›</span></button>'+
@@ -2165,19 +2258,30 @@ function toggleHabit(id, el){
       const fy = r ? r.top + r.height/2 : innerHeight/2;
       const st = streakOf(h);
       if(doneToday() === activeHabits().length){
-        fireworks([
-          {x: fx, y: fy, count: 90, power: 1.25},
-          {x: innerWidth*0.24, y: innerHeight*0.32, count: 80, power: 1.35, delay: 16},
-          {x: innerWidth*0.78, y: innerHeight*0.26, count: 80, power: 1.35, delay: 30},
-          {x: innerWidth*0.5,  y: innerHeight*0.55, count: 90, power: 1.5,  delay: 46}
-        ]);
+        const W = innerWidth, H = innerHeight;
+        fanfare();
+        fireworks({
+          veil: 0.72, duration: 330,
+          bursts: [
+            {x: fx,     y: fy,     count: 200, power: 1.9, at: 1},
+            {x: W*0.22, y: H*0.26, count: 200, power: 2.1, at: 34},
+            {x: W*0.78, y: H*0.20, count: 200, power: 2.1, at: 64},
+            {x: W*0.50, y: H*0.42, count: 240, power: 2.4, at: 96},
+            {x: W*0.16, y: H*0.50, count: 180, power: 2.0, at: 128},
+            {x: W*0.84, y: H*0.46, count: 180, power: 2.0, at: 158},
+            {x: W*0.50, y: H*0.24, count: 280, power: 2.7, at: 192}
+          ]
+        });
         toast('✨ Every habit is closed for today');
       } else {
-        fireworks([
-          {x: fx, y: fy, count: 70, power: 1.1},
-          {x: innerWidth*(0.28 + Math.random()*0.44), y: innerHeight*(0.2 + Math.random()*0.2),
-           count: 55, power: 1.25, delay: 20}
-        ]);
+        fireworks({
+          veil: 0.3, duration: 125,
+          bursts: [
+            {x: fx, y: fy, count: 190, power: 1.7, at: 1},
+            {x: innerWidth*(0.18 + Math.random()*0.64), y: innerHeight*(0.14 + Math.random()*0.24),
+             count: 150, power: 1.95, at: 18}
+          ]
+        });
         if(st > 1 && st % 7 === 0) toast('🔥 '+st+' '+plural(st,'day','days')+' in a row — '+h.title);
       }
     }
@@ -2220,6 +2324,11 @@ document.addEventListener('click', function(e){
   else if(act==='edit-habit') sheetHabit(id);
   else if(act==='skins') sheetSkins();
   else if(act==='fonts') sheetFonts();
+  else if(act==='toggle-sound'){
+    state.sound = state.sound === false;
+    save(); sheetSettings();
+    if(state.sound){ fanfare(); toast('Sound on — that is the fanfare'); } else toast('Sound off');
+  }
   else if(act==='pick-font'){
     state.font = btn.getAttribute('data-f');
     applyFont(state.font); save();

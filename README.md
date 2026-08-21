@@ -24,7 +24,7 @@ file in, **Commit changes**. The site updates in about a minute.
 
 | Tab | What it does |
 |---|---|
-| Today | The day ring, the affirmation, and the habits — split into **Morning · Day · Evening**. Every tick sets off fireworks |
+| Today | The day ring, the affirmation, and the habits — split into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
 | + Add | A library of 79 ready-made habits in 11 categories, searchable, one tap to add — or write your own |
 | English | Affirmation of the day plus ten useful phrases, 30 topics in rotation |
 | Rhythm | Eight-week calendar per habit, totals, longest streak |
@@ -58,6 +58,16 @@ Each habit belongs to a time of day — Morning, Day or Evening — and the list
 Today tab is grouped under those three headings. Change it in the habit editor.
 
 Delete any of them, change how often, or add more from the library.
+
+## Fireworks
+
+Every completed habit fires a burst that spreads across the whole screen, drawn on a
+dimmed backdrop with additive blending so the sparks glow on any theme. Closing the
+last habit of the day sets off a seven-burst show with a fanfare — the sound is
+synthesised with the Web Audio API, so there are no audio files and it works offline.
+
+Settings → Fireworks sound to silence it. It also respects the system
+"reduce motion" setting: no animation when that is on.
 
 ## Data
 
