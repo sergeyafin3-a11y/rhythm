@@ -26,7 +26,7 @@ file in, **Commit changes**. The site updates in about a minute.
 |---|---|
 | Today | The day ring, the affirmation, and the habits — split into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
 | + Add | A library of 79 ready-made habits in 11 categories, searchable, one tap to add — or write your own |
-| English | Affirmation of the day plus ten useful phrases, 30 topics in rotation |
+| English | Two halves. **Daily pack** — the affirmation and ten useful phrases, 30 topics in rotation. **My words** — your own vocabulary: each word saved with the sentence you met it in, plus a recall drill |
 | Rhythm | Eight-week calendar per habit, totals, longest streak |
 | Rewards | Achievements, and rewards you promise yourself |
 | Recipes | 23 recipes across 8 courses — Breakfast, Soups, Salads, Snacks, Mains, Baking, Desserts, Drinks. Search, photos, tappable ingredients, numbered steps |
@@ -58,6 +58,16 @@ Each habit belongs to a time of day — Morning, Day or Evening — and the list
 Today tab is grouped under those three headings. Change it in the habit editor.
 
 Delete any of them, change how often, or add more from the library.
+
+## My words
+
+Add a word or phrase together with the real sentence you met it in. The app finds that
+phrase inside the sentence and highlights it — placeholders work too, so *to keep someone
+posted* is found inside *"I will keep you posted…"*.
+
+**Practise** takes ten words, weakest first, blanks the phrase out of its sentence and asks
+you to recall it. *I knew it* moves the word up a level (five levels to "known by heart");
+*Not yet* sends it back to the start so it comes round sooner.
 
 ## Fireworks
 

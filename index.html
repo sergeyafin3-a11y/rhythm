@@ -390,6 +390,56 @@ main{ flex:1; padding-bottom:104px; }
   background:linear-gradient(to top, var(--ground) 62%, transparent);
 }
 
+/* ---- My words ---- */
+.seg{
+  display:flex; gap:4px; background:var(--surface-2); border-radius:999px;
+  padding:4px; margin-bottom:18px;
+}
+.seg button{
+  flex:1; padding:9px 8px; border-radius:999px; font-size:13px; font-weight:700;
+  color:var(--ink-mute); transition:background .2s ease, color .2s ease;
+}
+.seg button[aria-selected="true"]{ background:var(--surface); color:var(--ink); box-shadow:var(--shadow); }
+.seg small{ font-weight:700; opacity:.6; }
+
+.words{ display:flex; flex-direction:column; gap:10px; }
+.word{
+  background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:14px 15px; width:100%; text-align:left;
+  transition:transform .18s cubic-bezier(.2,.8,.2,1);
+}
+.word:active{ transform:scale(.99); }
+.word-top{ display:flex; align-items:center; gap:10px; }
+.word-top b{ font-size:16.5px; line-height:1.25; overflow-wrap:anywhere; }
+.boxdots{ display:flex; gap:3px; margin-left:auto; flex:none; }
+.boxdots i{ display:block; width:6px; height:6px; border-radius:99px; background:var(--surface-2); }
+.boxdots i.on{ background:var(--accent); }
+.word .ctx{ margin:8px 0 0; font-size:14px; line-height:1.45; color:var(--ink-soft); }
+.word .ctx mark{ background:var(--accent-soft); color:var(--accent); padding:0 3px; border-radius:4px; font-weight:700; }
+.word .mean{ margin:7px 0 0; font-size:12.5px; color:var(--ink-mute); line-height:1.4; }
+
+.pwrap{ display:flex; flex-direction:column; gap:14px; }
+.pcard{
+  background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius-lg);
+  box-shadow:var(--shadow); padding:26px 20px; text-align:center; min-height:230px;
+  display:flex; flex-direction:column; justify-content:center; gap:14px;
+}
+.pcard .q{ font-size:17.5px; line-height:1.55; color:var(--ink); }
+.pcard .q mark{ background:none; color:var(--accent); font-weight:700; }
+.blank{ display:inline-block; min-width:76px; border-bottom:2.5px solid var(--accent); vertical-align:baseline; }
+.pcard .a{
+  font-family:var(--font-display); font-weight:var(--display-weight); letter-spacing:var(--display-tracking);
+  font-size:27px; line-height:1.15; color:var(--ink);
+}
+.pcard .m{ font-size:13.5px; color:var(--ink-mute); line-height:1.45; }
+.pbtns{ display:flex; gap:9px; }
+.pbtns .btn{ flex:1; }
+.pdone{ text-align:center; padding:36px 16px; }
+.pdone .big{
+  font-family:var(--font-display); font-weight:var(--display-weight); letter-spacing:var(--display-tracking);
+  font-size:30px; line-height:1.15; margin:10px 0 6px;
+}
+
 /* ============================================================
    DECOR — a drawn motif behind the header, one per theme
    ============================================================ */
@@ -692,7 +742,9 @@ const BADGES = [
   {id:'p7',      emoji:'🏆', title:'Perfect week',      desc:'7 perfect days',                goal:7,   get:s=>s.perfect},
   {id:'t100',    emoji:'🌳', title:'100 check-ins',     desc:'100 completions in total',      goal:100, get:s=>s.total},
   {id:'s30',     emoji:'👑', title:'A whole month',     desc:'A 30-day streak',               goal:30,  get:s=>s.best},
-  {id:'t365',    emoji:'💎', title:'365 check-ins',     desc:'365 completions in total',      goal:365, get:s=>s.total}
+  {id:'t365',    emoji:'💎', title:'365 check-ins',     desc:'365 completions in total',      goal:365, get:s=>s.total},
+  {id:'w25',     emoji:'📓', title:'25 words of your own', desc:'25 words in your vocabulary',  goal:25,  get:s=>s.words},
+  {id:'w100',    emoji:'🗝️', title:'100 words of your own',desc:'100 words in your vocabulary', goal:100, get:s=>s.words}
 ];
 
 const DAYPARTS = [['morning','Morning'],['day','Day'],['evening','Evening']];
@@ -1618,6 +1670,7 @@ state.habits.forEach(function(h){ if(!h.when) h.when = guessWhen(h.title); });
 if(!state.learned) state.learned = {};
 if(!state.packXP) state.packXP = {};
 if(state.sound === undefined) state.sound = true;
+if(!state.words) state.words = seedWords();
 let openPack = null;
 let tab = 'today';
 
@@ -1664,7 +1717,7 @@ function stats(){
     for(const h of hs) for(const k in (state.log[h.id]||{})) seen[k]=1;
     for(const k in seen) if(hs.every(h=>isDone(h,k))) perfect++;
   }
-  return {total, best, perfect};
+  return {total, best, perfect, words: (state.words||[]).length};
 }
 function levelInfo(){
   let i=0; while(i+1<LEVELS.length && state.xp>=LEVELS[i+1].xp) i++;
@@ -1890,6 +1943,56 @@ function renderPrizes(){
   view.innerHTML = html;
 }
 
+let engView = 'pack', wordQuery = '', practice = null;
+
+function seedWords(){
+  return [
+    {id:'w1', term:'to keep someone posted',
+     ctx:'I will keep you posted as soon as the results come in.',
+     mean:'to keep someone updated about something',
+     box:0, seen:0, right:0, last:''}
+  ];
+}
+function escRx(t){ return String(t).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+// "to keep someone posted" has to find "keep you posted" in a real sentence
+const PLACEHOLDER = /^(someone|somebody|something|sb|sth|one's|oneself|your|yours|his|her|hers|their|theirs|my|mine|its)$/i;
+function termRx(words){
+  const parts = words.map(function(w){
+    return PLACEHOLDER.test(w)
+      ? '(?:(?:the|a|an|my|your|his|her|their|our|its)\\s+)?[\\w\\u2019\\u0027-]+'
+      : escRx(w).replace(/\\?['’]/g, '[\\u0027\\u2019]');
+  });
+  try{ return new RegExp(parts.join('[\\s,]+'), 'i'); }catch(e){ return null; }
+}
+function findTerm(ctx, term){
+  let words = String(term || '').trim().split(/\s+/).filter(Boolean);
+  if(!words.length) return null;
+  if(words.length > 1 && /^to$/i.test(words[0])) words = words.slice(1);
+  for(let drop = 0; drop < words.length; drop++){
+    const sub = words.slice(drop).filter(function(w){ return drop === 0 || !PLACEHOLDER.test(w); });
+    if(!sub.length) continue;
+    const rx = termRx(sub);
+    if(!rx) continue;
+    const m = rx.exec(ctx);
+    if(m && m[0]) return [m.index, m.index + m[0].length];
+  }
+  return null;
+}
+function markTerm(ctx, term, mode){
+  if(!ctx) return '';
+  const r = term ? findTerm(ctx, term) : null;
+  if(!r) return esc(ctx);
+  const before = esc(ctx.slice(0, r[0])), hit = esc(ctx.slice(r[0], r[1])), after = esc(ctx.slice(r[1]));
+  return before + (mode === 'blank' ? '<span class="blank"></span>' : '<mark>' + hit + '</mark>') + after;
+}
+function wordsDue(){
+  return state.words.slice().sort(function(a, b){
+    if(a.box !== b.box) return a.box - b.box;
+    return (a.last || '').localeCompare(b.last || '');
+  });
+}
+
 /* ---------- English tab ---------- */
 function packKey(pk, i){ return pk.topic + '|' + i; }
 function packLearned(pk){
@@ -1897,11 +2000,102 @@ function packLearned(pk){
   for(let i = 0; i < pk.phrases.length; i++) if(state.learned[packKey(pk, i)]) n++;
   return n;
 }
+function segBar(){
+  const n = state.words.length;
+  return '<div class="seg" role="tablist">'+
+    '<button role="tab" data-act="eng-view" data-v="pack" aria-selected="'+(engView==='pack'?'true':'false')+'">Daily pack</button>'+
+    '<button role="tab" data-act="eng-view" data-v="words" aria-selected="'+(engView!=='pack'?'true':'false')+'">My words'+(n?' <small>'+n+'</small>':'')+'</button>'+
+    '</div>';
+}
+
+function renderWords(){
+  const q = wordQuery.trim().toLowerCase();
+  const list = state.words.filter(function(w){
+    return !q || (w.term + ' ' + (w.ctx||'') + ' ' + (w.mean||'')).toLowerCase().indexOf(q) !== -1;
+  });
+  const mastered = state.words.filter(function(w){ return w.box >= 5; }).length;
+
+  let html = segBar();
+  if(state.words.length){
+    html += '<div class="searchbar" style="margin-bottom:12px">'+
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>'+
+      '<input type="search" id="wordSearch" placeholder="Search your words" value="'+esc(wordQuery)+'" autocomplete="off"></div>'+
+      '<div class="stats" style="margin-bottom:18px">'+
+        '<div class="stat"><b class="num">'+state.words.length+'</b><span>words of your own</span></div>'+
+        '<div class="stat"><b class="num">'+mastered+'</b><span>known by heart</span></div>'+
+        '<div class="stat"><b class="num">'+state.words.reduce(function(a,w){ return a + (w.right||0); }, 0)+'</b><span>correct recalls</span></div>'+
+      '</div>'+
+      '<div class="sheet-actions" style="margin:0 0 18px"><button class="btn btn-primary" data-act="practice-start">Practise</button>'+
+      '<button class="btn" data-act="new-word">+ Add a word</button></div>';
+  }
+
+  html += '<div class="section-head" style="margin-top:0"><p class="eyebrow">'+
+          (q ? 'Found ' + list.length : 'Your vocabulary')+'</p></div><div class="words">';
+
+  if(!state.words.length){
+    html = segBar() + '<div class="empty" style="padding:40px 14px"><div style="font-size:42px">📓</div>'+
+      '<p>This is your own vocabulary.<br>Add a word together with the sentence you met it in — context is what makes it stick.</p>'+
+      '<button class="btn btn-primary" data-act="new-word">Add your first word</button></div>';
+    view.innerHTML = html; return;
+  }
+  if(!list.length){
+    html += '<div class="empty" style="padding:30px 14px"><p>Nothing matches that.</p></div>';
+  } else {
+    html += list.map(function(w){
+      let dots = '<span class="boxdots" aria-hidden="true">';
+      for(let i = 0; i < 5; i++) dots += '<i class="'+((w.box||0) > i ? 'on' : '')+'"></i>';
+      dots += '</span>';
+      return '<button class="word" data-act="edit-word" data-id="'+w.id+'">'+
+        '<span class="word-top"><b>'+esc(w.term)+'</b>'+dots+'</span>'+
+        (w.ctx ? '<p class="ctx">'+markTerm(w.ctx, w.term)+'</p>' : '')+
+        (w.mean ? '<p class="mean">'+esc(w.mean)+'</p>' : '')+
+        '</button>';
+    }).join('');
+  }
+  html += '</div>';
+  view.innerHTML = html;
+}
+
+function renderPractice(){
+  const p = practice;
+  if(!p || p.i >= p.items.length){
+    const got = p ? p.right : 0, total = p ? p.items.length : 0;
+    view.innerHTML = segBar() +
+      '<div class="pdone"><div style="font-size:44px">'+(got === total ? '🎉' : '👏')+'</div>'+
+      '<p class="big">'+got+' of '+total+'</p>'+
+      '<p style="color:var(--ink-mute);font-size:14px;margin:0 0 22px">'+
+      (got === total ? 'Every one of them. Beautifully done.' : 'The ones you missed come back sooner.')+'</p>'+
+      '<div class="sheet-actions" style="justify-content:center"><button class="btn btn-primary" data-act="practice-start">Again</button>'+
+      '<button class="btn" data-act="eng-view" data-v="words">Back to my words</button></div></div>';
+    practice = null;
+    return;
+  }
+  const w = p.items[p.i];
+  const q = w.ctx ? markTerm(w.ctx, w.term, 'blank')
+                  : '<span class="m">No context saved for this one — do you remember what it means?</span>';
+  view.innerHTML = segBar() +
+    '<p class="eyebrow" style="margin-bottom:12px">Practice · '+(p.i + 1)+' of '+p.items.length+'</p>'+
+    '<div class="pwrap"><div class="pcard">'+
+      (p.shown
+        ? '<p class="a">'+esc(w.term)+'</p>'+
+          (w.mean ? '<p class="m">'+esc(w.mean)+'</p>' : '')+
+          (w.ctx ? '<p class="q">'+markTerm(w.ctx, w.term)+'</p>' : '')
+        : '<p class="q">'+q+'</p>')+
+    '</div>'+
+    (p.shown
+      ? '<div class="pbtns"><button class="btn" data-act="practice-mark" data-ok="0">Not yet</button>'+
+        '<button class="btn btn-primary" data-act="practice-mark" data-ok="1">I knew it</button></div>'
+      : '<button class="btn btn-primary btn-full" data-act="practice-show">Show the word</button>')+
+    '</div>';
+}
+
 function renderEnglish(){
+  if(engView === 'words') return renderWords();
+  if(engView === 'practice') return renderPractice();
   const isToday = openPack === null;
   const pk = isToday ? packOfDay() : PACKS[openPack];
   const done = packLearned(pk), total = pk.phrases.length;
-  let html = '';
+  let html = segBar();
 
   if(isToday){
     html += '<section class="affirm"><p class="eyebrow">Affirmation of the day</p>'+
@@ -2100,6 +2294,23 @@ function paintLibList(){
     '<div class="empty" style="padding:30px 14px"><p>Nothing matches that.<br>Write your own instead.</p>'+
     '<button class="btn btn-primary" data-act="custom-habit">Write my own</button></div>';
 }
+function sheetWord(id){
+  const w = id ? state.words.find(function(x){ return x.id === id; }) : null;
+  openSheet('<h2>'+(w ? 'Word' : 'A new word')+'</h2>'+
+    '<p class="sub">Save it with the sentence you actually met it in — that sentence is what you will remember.</p>'+
+    '<div class="field"><label for="wTerm">Word or phrase</label>'+
+    '<input type="text" id="wTerm" maxlength="80" placeholder="to keep someone posted" value="'+(w?esc(w.term):'')+'"></div>'+
+    '<div class="field"><label for="wCtx">The sentence you met it in</label>'+
+    '<textarea id="wCtx" rows="3" placeholder="I will keep you posted as soon as the results come in.">'+(w?esc(w.ctx||''):'')+'</textarea></div>'+
+    '<div class="field"><label for="wMean">What it means</label>'+
+    '<textarea id="wMean" rows="2" placeholder="to keep someone updated about something">'+(w?esc(w.mean||''):'')+'</textarea></div>'+
+    (w ? '<p class="sub" style="margin-bottom:4px">Recalled correctly '+(w.right||0)+' '+plural(w.right||0,'time','times')+' · level '+(w.box||0)+' of 5</p>' : '')+
+    '<div class="sheet-actions">'+
+      (w ? '<button class="btn btn-danger" data-act="del-word" data-id="'+w.id+'">Delete</button>' : '')+
+      '<button class="btn btn-primary" data-act="save-word" data-id="'+(w?w.id:'')+'">Save</button>'+
+    '</div>');
+}
+
 function sheetLibrary(){
   const cats = ['all'].concat(LIBRARY.map(function(g){ return g.cat; }));
   openSheet('<h2>Add a habit</h2><p class="sub">Pick a ready-made one, or write your own from scratch.</p>'+
@@ -2377,6 +2588,45 @@ document.addEventListener('click', function(e){
     state.prizes = state.prizes.filter(x=>x.id!==id); save(); renderPrizes();
   }
   else if(act==='go-english'){ openPack = null; go('english'); }
+  else if(act==='eng-view'){
+    engView = btn.getAttribute('data-v'); practice = null; window.scrollTo(0,0); renderEnglish();
+  }
+  else if(act==='new-word'){ closeSheet(); setTimeout(function(){ sheetWord(null); }, 120); }
+  else if(act==='edit-word') sheetWord(id);
+  else if(act==='save-word'){
+    const term = ($('#wTerm').value || '').trim();
+    if(!term){ toast('Write the word first'); $('#wTerm').focus(); return; }
+    const patch = { term: term, ctx: ($('#wCtx').value||'').trim(), mean: ($('#wMean').value||'').trim() };
+    if(id){ Object.assign(state.words.find(function(x){ return x.id === id; }), patch); }
+    else { state.words.push(Object.assign({id:'w'+Date.now().toString(36), box:0, seen:0, right:0, last:''}, patch)); state.xp += 5; }
+    save(); closeSheet(); engView = 'words'; go('english'); toast(id ? 'Updated' : 'Added to your words');
+  }
+  else if(act==='del-word'){
+    if(!confirm('Delete this word?')) return;
+    state.words = state.words.filter(function(x){ return x.id !== id; });
+    save(); closeSheet(); engView = 'words'; go('english'); toast('Deleted');
+  }
+  else if(act==='practice-start'){
+    if(!state.words.length){ toast('Add a word first'); return; }
+    practice = { items: wordsDue().slice(0, 10), i: 0, right: 0, shown: false };
+    engView = 'practice'; window.scrollTo(0,0); renderEnglish();
+  }
+  else if(act==='practice-show'){ if(practice){ practice.shown = true; renderPractice(); } }
+  else if(act==='practice-mark'){
+    if(!practice) return;
+    const ok = btn.getAttribute('data-ok') === '1';
+    const w = practice.items[practice.i];
+    const real = state.words.find(function(x){ return x.id === w.id; });
+    if(real){
+      real.seen = (real.seen || 0) + 1;
+      real.last = today();
+      if(ok){ real.right = (real.right || 0) + 1; real.box = Math.min(5, (real.box || 0) + 1); state.xp += 5; }
+      else real.box = 0;
+    }
+    if(ok) practice.right++;
+    practice.i++; practice.shown = false;
+    save(); renderPractice();
+  }
   else if(act==='all-packs') sheetPacks();
   else if(act==='open-pack'){ openPack = +btn.getAttribute('data-i'); closeSheet(); go('english'); }
   else if(act==='back-today-pack'){ openPack = null; window.scrollTo(0,0); renderEnglish(); }
@@ -2473,12 +2723,18 @@ document.addEventListener('click', function(e){
 $('#openSettings').addEventListener('click', sheetSettings);
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click', function(){
   if(t.dataset.tab === 'recipes' && tab === 'recipes') openRecipe = null;
-  if(t.dataset.tab === 'english' && tab === 'english') openPack = null;
+  if(t.dataset.tab === 'english' && tab === 'english'){ openPack = null; engView = 'pack'; practice = null; }
   go(t.dataset.tab);
 }));
 document.addEventListener('input', function(e){
   if(e.target && e.target.id === 'recSearch'){ recQuery = e.target.value; paintRecipeList(); }
   if(e.target && e.target.id === 'libSearch'){ libQuery = e.target.value; paintLibList(); }
+  if(e.target && e.target.id === 'wordSearch'){
+    wordQuery = e.target.value;
+    const box = document.querySelector('.words');
+    if(box){ const at = e.target.selectionStart; renderWords();
+      const f = document.getElementById('wordSearch'); if(f){ f.focus(); f.setSelectionRange(at, at); } }
+  }
 });
 document.addEventListener('keydown', function(e){
   if((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('[role="button"][data-act]')){
