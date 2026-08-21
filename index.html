@@ -163,7 +163,8 @@ main{ flex:1; padding-bottom:104px; }
 /* ============================================================
    HABIT LIST
    ============================================================ */
-.section-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin:0 2px 10px; }
+.section-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin:22px 2px 10px; }
+.section-head:first-of-type{ margin-top:0; }
 .list{ display:flex; flex-direction:column; gap:10px; }
 .habit{
   background:var(--surface); border:var(--border-w) solid var(--line);
@@ -693,6 +694,14 @@ const BADGES = [
   {id:'s30',     emoji:'👑', title:'A whole month',     desc:'A 30-day streak',               goal:30,  get:s=>s.best},
   {id:'t365',    emoji:'💎', title:'365 check-ins',     desc:'365 completions in total',      goal:365, get:s=>s.total}
 ];
+
+const DAYPARTS = [['morning','Morning'],['day','Day'],['evening','Evening']];
+function guessWhen(title){
+  const t = String(title).toLowerCase();
+  if(/morning|wake|breakfast|sunscreen|cold shower|first hour|first task|stairs|10,000 steps|make the bed/.test(t)) return 'morning';
+  if(/bed|night|evening|sleep|lights out|makeup|caffeine after|screens after|tomorrow|after nine|tidying|washing|sink|journal/.test(t)) return 'evening';
+  return 'day';
+}
 
 const EMOJI = ['🌿','💧','📚','🏃','🧘','☀️','🌙','✍️','🎧','🥗','💤','🧴','🇬🇧','💸','🧹','📵','🎹','🚶','🧊','❤️','⭐️','🫖'];
 
@@ -1301,34 +1310,55 @@ const DECOR = {
     '<g stroke="var(--gold)" stroke-width="1.2" opacity=".45"><path d="M-10 118h190"/><path d="M-10 132h120"/><path d="M-10 146h64"/></g></svg>'
 };
 
-/* ---------- Confetti for a perfect day ---------- */
-function confetti(){
+/* ---------- Fireworks ---------- */
+function fireworks(points){
   if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const cv = document.getElementById('confetti'), ctx = cv.getContext('2d');
   const dpr = window.devicePixelRatio || 1, W = innerWidth, H = innerHeight;
   cv.width = W*dpr; cv.height = H*dpr; cv.style.width = W+'px'; cv.style.height = H+'px';
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
   const cs = getComputedStyle(document.documentElement);
-  const cols = [cs.getPropertyValue('--accent').trim(), cs.getPropertyValue('--gold').trim(), cs.getPropertyValue('--ink').trim()];
-  const bits = [];
-  for(let i = 0; i < 70; i++) bits.push({
-    x: W/2 + (i%2?1:-1)*(i*3%90), y: H*0.34,
-    vx: (i%13 - 6) * 0.9, vy: -6 - (i%9)*0.7,
-    w: 5 + i%5, h: 8 + i%7, a: i, va: (i%7 - 3)*0.1,
-    c: cols[i%3]
+  const cols = [cs.getPropertyValue('--accent').trim(), cs.getPropertyValue('--gold').trim(),
+                '#FF7BA9', '#7BD8C9', '#FFD36E', '#F6F1E8'];
+
+  const parts = [];
+  points.forEach(function(pt){
+    const n = pt.count || 70, power = pt.power || 1;
+    for(let i = 0; i < n; i++){
+      const a = Math.random() * Math.PI * 2;
+      const v = (2.4 + Math.random() * 6.4) * power;
+      parts.push({
+        x: pt.x, y: pt.y, px: pt.x, py: pt.y,
+        vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1.6 * power,
+        c: cols[(Math.random() * cols.length) | 0],
+        w: 1.6 + Math.random() * 2.6,
+        life: 0, max: 60 + Math.random() * 45,
+        delay: pt.delay || 0
+      });
+    }
   });
+
   let t = 0;
   (function frame(){
-    t++; ctx.clearRect(0, 0, W, H);
+    t++;
+    ctx.clearRect(0, 0, W, H);
     let alive = 0;
-    for(const b of bits){
-      b.vy += 0.24; b.x += b.vx; b.y += b.vy; b.a += b.va;
-      if(b.y < H + 40) alive++;
-      ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(b.a);
-      ctx.globalAlpha = Math.max(0, 1 - t/150); ctx.fillStyle = b.c;
-      ctx.fillRect(-b.w/2, -b.h/2, b.w, b.h); ctx.restore();
+    for(const p of parts){
+      if(t < p.delay) { alive++; continue; }
+      p.life++;
+      if(p.life > p.max) continue;
+      alive++;
+      p.px = p.x; p.py = p.y;
+      p.vy += 0.16;            // gravity
+      p.vx *= 0.985; p.vy *= 0.985;   // drag
+      p.x += p.vx; p.y += p.vy;
+      ctx.globalAlpha = Math.max(0, 1 - p.life / p.max);
+      ctx.strokeStyle = p.c; ctx.lineWidth = p.w; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(p.px, p.py); ctx.lineTo(p.x, p.y); ctx.stroke();
     }
-    if(alive && t < 150) requestAnimationFrame(frame); else ctx.clearRect(0, 0, W, H);
+    if(alive && t < 260) requestAnimationFrame(frame);
+    else { ctx.globalAlpha = 1; ctx.clearRect(0, 0, W, H); }
   })();
 }
 
@@ -1454,21 +1484,21 @@ function seed(){
   return {
     v:1, skin:null, font:'auto', name:'', started: today(),
     habits:[
-      {id:'h1', title:'One English article + new words', emoji:'📰', perDay:1, weekGoal:7},
-      {id:'h2', title:'Learn 7 new words',               emoji:'🔤', perDay:7, weekGoal:7},
-      {id:'h3', title:'20 pages of a book',              emoji:'📖', perDay:1, weekGoal:7},
-      {id:'h4', title:'Meditate for 5 minutes',          emoji:'🧘', perDay:1, weekGoal:7},
-      {id:'h5', title:'Yoga',                            emoji:'🤸', perDay:1, weekGoal:7},
-      {id:'h6', title:'Face massage',                    emoji:'💆', perDay:1, weekGoal:7},
-      {id:'h7', title:'Eight glasses of water',          emoji:'💧', perDay:8, weekGoal:7},
-      {id:'h8', title:'Cold shower in the morning',      emoji:'🚿', perDay:1, weekGoal:7},
-      {id:'h9', title:'Under 2 hours of games',          emoji:'🎮', perDay:1, weekGoal:7},
-      {id:'h10',title:'Lights out by 1:30',              emoji:'🌙', perDay:1, weekGoal:7},
-      {id:'h11',title:'Foot cream',                      emoji:'🦶', perDay:1, weekGoal:7},
-      {id:'h12',title:'Thigh roller',                    emoji:'🦵', perDay:1, weekGoal:7},
-      {id:'h13',title:'A morning without the phone',     emoji:'📵', perDay:1, weekGoal:7},
-      {id:'h14',title:'Ask one question a day',          emoji:'💬', perDay:1, weekGoal:7},
-      {id:'h15',title:'No snapping, no grumbling',       emoji:'😌', perDay:1, weekGoal:7}
+      {id:'h1', title:'One English article + new words', emoji:'📰', perDay:1, weekGoal:7, when:'day'},
+      {id:'h2', title:'Learn 7 new words',               emoji:'🔤', perDay:7, weekGoal:7, when:'day'},
+      {id:'h3', title:'20 pages of a book',              emoji:'📖', perDay:1, weekGoal:7, when:'evening'},
+      {id:'h4', title:'Meditate for 5 minutes',          emoji:'🧘', perDay:1, weekGoal:7, when:'morning'},
+      {id:'h5', title:'Yoga',                            emoji:'🤸', perDay:1, weekGoal:7, when:'morning'},
+      {id:'h6', title:'Face massage',                    emoji:'💆', perDay:1, weekGoal:7, when:'evening'},
+      {id:'h7', title:'Eight glasses of water',          emoji:'💧', perDay:8, weekGoal:7, when:'day'},
+      {id:'h8', title:'Cold shower in the morning',      emoji:'🚿', perDay:1, weekGoal:7, when:'morning'},
+      {id:'h9', title:'Under 2 hours of games',          emoji:'🎮', perDay:1, weekGoal:7, when:'evening'},
+      {id:'h10',title:'Lights out by 1:30',              emoji:'🌙', perDay:1, weekGoal:7, when:'evening'},
+      {id:'h11',title:'Foot cream',                      emoji:'🦶', perDay:1, weekGoal:7, when:'evening'},
+      {id:'h12',title:'Thigh roller',                    emoji:'🦵', perDay:1, weekGoal:7, when:'evening'},
+      {id:'h13',title:'A morning without the phone',     emoji:'📵', perDay:1, weekGoal:7, when:'morning'},
+      {id:'h14',title:'Ask one question a day',          emoji:'💬', perDay:1, weekGoal:7, when:'day'},
+      {id:'h15',title:'No snapping, no grumbling',       emoji:'😌', perDay:1, weekGoal:7, when:'day'}
     ],
     log:{}, xp:0, claimed:{}, prizes:[
       {id:'p1', emoji:'☕️', title:'Coffee at my favourite place', kind:'streak', amount:7, claimed:false}
@@ -1493,6 +1523,7 @@ if(!state.recipes) state.recipes = seedRecipes();
 else if(state.recipesV !== 2 && state.recipes.every(function(r){ return r.id === 'r1' || r.id === 'r2'; }))
   state.recipes = seedRecipes();
 state.recipesV = 2;
+state.habits.forEach(function(h){ if(!h.when) h.when = guessWhen(h.title); });
 if(!state.learned) state.learned = {};
 if(!state.packXP) state.packXP = {};
 let openPack = null;
@@ -1634,31 +1665,38 @@ function renderToday(){
     html += '<div class="empty"><div style="font-size:40px">🌱</div><p>Your habits will live here.<br>Start with one. Really, just one.</p>'+
             '<button class="btn btn-primary" data-act="new-habit">Add a habit</button></div>';
   } else {
-    html += '<div class="section-head"><p class="eyebrow">Habits</p>'+
-            '<button class="btn btn-ghost btn-sm" data-act="new-habit">+ Add</button></div><div class="list">';
-    for(const h of hs){
-      const c = count(h, today()), per = h.perDay||1, done = c>=per;
-      const st = streakOf(h);
-      let meta = '';
-      if((h.weekGoal||7) === 7){
-        meta = st>0 ? '<span class="streak">🔥 <span class="num">'+st+'</span> '+plural(st,'day','days')+'</span>' : '<span>every day</span>';
-      } else {
-        meta = '<span class="num">'+weekDone(h)+'/'+h.weekGoal+'</span><span>this week</span>';
+    let first = true;
+    DAYPARTS.forEach(function(part){
+      const group = hs.filter(function(h){ return (h.when || 'day') === part[0]; });
+      if(!group.length) return;
+      html += '<div class="section-head"><p class="eyebrow">'+part[1]+'</p>'+
+              (first ? '<button class="btn btn-ghost btn-sm" data-act="new-habit">+ Add</button>' : '')+
+              '</div><div class="list">';
+      first = false;
+      for(const h of group){
+        const c = count(h, today()), per = h.perDay||1, done = c>=per;
+        const st = streakOf(h);
+        let meta = '';
+        if((h.weekGoal||7) === 7){
+          meta = st>0 ? '<span class="streak">🔥 <span class="num">'+st+'</span> '+plural(st,'day','days')+'</span>' : '<span>every day</span>';
+        } else {
+          meta = '<span class="num">'+weekDone(h)+'/'+h.weekGoal+'</span><span>this week</span>';
+        }
+        let chain = '<span class="chain" aria-hidden="true">';
+        for(let i=6;i>=0;i--){ const k=shift(today(),-i);
+          chain += '<i class="'+(isDone(h,k)?'hit':'')+(i===0?' today':'')+'"></i>'; }
+        chain += '</span>';
+        html += '<article class="habit'+(done?' done':'')+'" data-habit="'+h.id+'">'+
+          '<button class="habit-emoji" data-act="edit-habit" data-id="'+h.id+'" aria-label="Edit &quot;'+esc(h.title)+'&quot;">'+esc(h.emoji||'⭐️')+'</button>'+
+          '<div class="habit-main"><p class="habit-name">'+esc(h.title)+'</p>'+
+          '<div class="habit-meta">'+meta+chain+'</div></div>'+
+          '<div class="counter">'+(per>1?'<span class="cnt num">'+c+'/'+per+'</span>':'')+
+          '<button class="check" data-act="toggle" data-id="'+h.id+'" aria-pressed="'+(done?'true':'false')+'" aria-label="Check off &quot;'+esc(h.title)+'&quot;">'+
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'+
+          '</button></div></article>';
       }
-      let chain = '<span class="chain" aria-hidden="true">';
-      for(let i=6;i>=0;i--){ const k=shift(today(),-i);
-        chain += '<i class="'+(isDone(h,k)?'hit':'')+(i===0?' today':'')+'"></i>'; }
-      chain += '</span>';
-      html += '<article class="habit'+(done?' done':'')+'" data-habit="'+h.id+'">'+
-        '<button class="habit-emoji" data-act="edit-habit" data-id="'+h.id+'" aria-label="Edit &quot;'+esc(h.title)+'&quot;">'+esc(h.emoji||'⭐️')+'</button>'+
-        '<div class="habit-main"><p class="habit-name">'+esc(h.title)+'</p>'+
-        '<div class="habit-meta">'+meta+chain+'</div></div>'+
-        '<div class="counter">'+(per>1?'<span class="cnt num">'+c+'/'+per+'</span>':'')+
-        '<button class="check" data-act="toggle" data-id="'+h.id+'" aria-pressed="'+(done?'true':'false')+'" aria-label="Check off &quot;'+esc(h.title)+'&quot;">'+
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'+
-        '</button></div></article>';
-    }
-    html += '</div>';
+      html += '</div>';
+    });
   }
   view.innerHTML = html;
 }
@@ -1990,6 +2028,10 @@ function sheetHabit(id){
   const per = h ? (h.perDay||1) : 1, wg = h ? (h.weekGoal||7) : 7, em = h ? (h.emoji||'⭐️') : '🌿';
   let emojis = EMOJI.map(e=>'<button type="button" data-emoji="'+e+'" aria-pressed="'+(e===em?'true':'false')+'">'+e+'</button>').join('');
   if(EMOJI.indexOf(em) === -1) emojis = '<button type="button" data-emoji="'+esc(em)+'" aria-pressed="true">'+esc(em)+'</button>'+emojis;
+  const when = h ? (h.when || 'day') : 'day';
+  const whenChips = DAYPARTS.map(function(d){
+    return '<button type="button" class="chip" data-when="'+d[0]+'" aria-pressed="'+(d[0]===when?'true':'false')+'">'+d[1]+'</button>';
+  }).join('');
   const perChips = [1,2,3,4,5].map(v=>'<button type="button" class="chip" data-per="'+v+'" aria-pressed="'+(v===per?'true':'false')+'">'+v+'</button>').join('');
   const wgChips = [1,2,3,4,5,6,7].map(v=>'<button type="button" class="chip" data-wg="'+v+'" aria-pressed="'+(v===wg?'true':'false')+'">'+(v===7?'every day':v)+'</button>').join('');
 
@@ -1998,6 +2040,7 @@ function sheetHabit(id){
     '<div class="field"><label for="tIn">Name</label>'+
     '<input type="text" id="tIn" maxlength="60" placeholder="20 minutes of reading, for example" value="'+(h?esc(h.title):'')+'"></div>'+
     '<div class="field"><label>Icon</label><div class="emojis" id="emojiPick">'+emojis+'</div></div>'+
+    '<div class="field"><label>Time of day</label><div class="chips" id="whenPick">'+whenChips+'</div></div>'+
     '<div class="field"><label>Times per day</label><div class="chips" id="perPick">'+perChips+'</div></div>'+
     '<div class="field"><label>Days per week</label><div class="chips" id="wgPick">'+wgChips+'</div></div>'+
     '<div class="sheet-actions">'+
@@ -2116,11 +2159,26 @@ function toggleHabit(id, el){
   } else {
     setCount(h,k,c+1); state.xp += 10; celebrate(el);
     if(c+1 >= per){
+      const box = el && el.querySelector('.check');
+      const r = box ? box.getBoundingClientRect() : null;
+      const fx = r ? r.left + r.width/2 : innerWidth/2;
+      const fy = r ? r.top + r.height/2 : innerHeight/2;
       const st = streakOf(h);
       if(doneToday() === activeHabits().length){
-        confetti(); toast('✨ Every habit is closed for today');
-      } else if(st > 1 && st % 7 === 0){
-        toast('🔥 '+st+' '+plural(st,'day','days')+' in a row — '+h.title);
+        fireworks([
+          {x: fx, y: fy, count: 90, power: 1.25},
+          {x: innerWidth*0.24, y: innerHeight*0.32, count: 80, power: 1.35, delay: 16},
+          {x: innerWidth*0.78, y: innerHeight*0.26, count: 80, power: 1.35, delay: 30},
+          {x: innerWidth*0.5,  y: innerHeight*0.55, count: 90, power: 1.5,  delay: 46}
+        ]);
+        toast('✨ Every habit is closed for today');
+      } else {
+        fireworks([
+          {x: fx, y: fy, count: 70, power: 1.1},
+          {x: innerWidth*(0.28 + Math.random()*0.44), y: innerHeight*(0.2 + Math.random()*0.2),
+           count: 55, power: 1.25, delay: 20}
+        ]);
+        if(st > 1 && st % 7 === 0) toast('🔥 '+st+' '+plural(st,'day','days')+' in a row — '+h.title);
       }
     }
   }
@@ -2137,7 +2195,7 @@ document.addEventListener('click', function(e){
   const em = e.target.closest('[data-emoji]');
   if(em){ em.parentElement.querySelectorAll('[data-emoji]').forEach(b=>b.setAttribute('aria-pressed','false'));
           em.setAttribute('aria-pressed','true'); return; }
-  const chip = e.target.closest('.chip[data-per],.chip[data-wg],.chip[data-kind],.chip[data-cat]');
+  const chip = e.target.closest('.chip[data-per],.chip[data-wg],.chip[data-kind],.chip[data-cat],.chip[data-when]');
   if(chip){ chip.parentElement.querySelectorAll('.chip').forEach(b=>b.setAttribute('aria-pressed','false'));
             chip.setAttribute('aria-pressed','true'); return; }
 
@@ -2156,7 +2214,7 @@ document.addEventListener('click', function(e){
     const parts = btn.getAttribute('data-i').split(':');
     const it = LIBRARY[+parts[0]].items[+parts[1]];
     const title = it.t.replace(/&#39;/g, "'");
-    state.habits.push({id:'h'+Date.now().toString(36), title:title, emoji:it.e, perDay:it.p, weekGoal:it.w});
+    state.habits.push({id:'h'+Date.now().toString(36), title:title, emoji:it.e, perDay:it.p, weekGoal:it.w, when:(it.d || guessWhen(title))});
     save(); paintLibList(); render(); toast('Added — ' + title);
   }
   else if(act==='edit-habit') sheetHabit(id);
@@ -2184,8 +2242,9 @@ document.addEventListener('click', function(e){
     const emoji = (sheet.querySelector('#emojiPick [aria-pressed="true"]')||{}).dataset?.emoji || '⭐️';
     const per = +(sheet.querySelector('#perPick [aria-pressed="true"]')||{dataset:{per:1}}).dataset.per;
     const wg  = +(sheet.querySelector('#wgPick [aria-pressed="true"]')||{dataset:{wg:7}}).dataset.wg;
-    if(id){ const h = state.habits.find(x=>x.id===id); Object.assign(h,{title,emoji,perDay:per,weekGoal:wg}); }
-    else state.habits.push({id:'h'+Date.now().toString(36), title, emoji, perDay:per, weekGoal:wg});
+    const wh  = (sheet.querySelector('#whenPick [aria-pressed="true"]')||{dataset:{when:'day'}}).dataset.when;
+    if(id){ const h = state.habits.find(x=>x.id===id); Object.assign(h,{title,emoji,perDay:per,weekGoal:wg,when:wh}); }
+    else state.habits.push({id:'h'+Date.now().toString(36), title, emoji, perDay:per, weekGoal:wg, when:wh});
     save(); closeSheet(); render(); toast(id ? 'Updated' : 'Habit added');
   }
   else if(act==='del-habit'){

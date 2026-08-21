@@ -24,7 +24,7 @@ file in, **Commit changes**. The site updates in about a minute.
 
 | Tab | What it does |
 |---|---|
-| Today | The day ring, the affirmation, and the habits you tick off |
+| Today | The day ring, the affirmation, and the habits — split into **Morning · Day · Evening**. Every tick sets off fireworks |
 | + Add | A library of 79 ready-made habits in 11 categories, searchable, one tap to add — or write your own |
 | English | Affirmation of the day plus ten useful phrases, 30 topics in rotation |
 | Rhythm | Eight-week calendar per habit, totals, longest streak |
@@ -53,6 +53,9 @@ Meditate for 5 minutes · Yoga · Face massage · Eight glasses of water ·
 Cold shower in the morning · Under 2 hours of games · Lights out by 1:30 ·
 Foot cream · Thigh roller · A morning without the phone ·
 Ask one question a day · No snapping, no grumbling
+
+Each habit belongs to a time of day — Morning, Day or Evening — and the list on the
+Today tab is grouped under those three headings. Change it in the habit editor.
 
 Delete any of them, change how often, or add more from the library.
 
