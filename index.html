@@ -390,6 +390,36 @@ main{ flex:1; padding-bottom:104px; }
   background:linear-gradient(to top, var(--ground) 62%, transparent);
 }
 
+/* ---- Why: the point of all this ---- */
+.why{ width:100%; text-align:left; display:block; margin:0 0 20px; padding:0; }
+.why > span{
+  display:block; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase;
+  font-weight:700; color:var(--ink-mute); margin-bottom:5px;
+}
+.why q{
+  quotes:none; display:block; color:var(--accent);
+  font-family:var(--font-display); font-weight:var(--display-weight);
+  letter-spacing:var(--display-tracking); font-size:16.5px; line-height:1.35;
+}
+.why.blank q{ color:var(--ink-mute); font-family:var(--font-body); font-weight:500; font-size:14px; }
+.habit-why{
+  margin:6px 0 0; font-size:12.5px; line-height:1.4; color:var(--ink-mute);
+  border-left:2px solid var(--accent-soft); padding-left:8px;
+}
+.recap{
+  background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius-lg);
+  box-shadow:var(--shadow); padding:20px 18px; margin-bottom:18px;
+}
+.recap .eyebrow{ margin-bottom:12px; }
+.recap p{ margin:0 0 11px; font-size:14.5px; line-height:1.5; color:var(--ink-soft); }
+.recap p:last-child{ margin-bottom:0; }
+.recap b{
+  font-family:var(--font-display); font-weight:var(--display-weight);
+  letter-spacing:var(--display-tracking); font-size:19px; color:var(--ink);
+  font-variant-numeric:tabular-nums;
+}
+.recap .close{ color:var(--ink); font-size:14px; padding-top:4px; border-top:var(--border-w) solid var(--line); margin-top:14px; }
+
 /* ---- My words ---- */
 .seg{
   display:flex; gap:4px; background:var(--surface-2); border-radius:999px;
@@ -1527,7 +1557,6 @@ const LIBRARY = [
     {t:'Strength session', e:'🏋️', p:1, w:3},
     {t:'Stretch for 10 minutes', e:'🧎', p:1, w:7},
     {t:'Cold shower in the morning', e:'🚿', p:1, w:7},
-    {t:'Seven minutes of morning exercise', e:'⏱️', p:1, w:7},
     {t:'Take the stairs, not the lift', e:'🪜', p:1, w:5},
     {t:'Swim', e:'🏊', p:1, w:2},
     {t:'Dance to one song', e:'💃', p:1, w:7}
@@ -1550,11 +1579,11 @@ const LIBRARY = [
     {t:'Sunscreen', e:'🧢', p:1, w:7},
     {t:'Eight glasses of water', e:'💧', p:8, w:7},
     {t:'A glass of water on waking', e:'🥛', p:1, w:7},
-    {t:'Take vitamins', e:'💊', p:1, w:7},
     {t:'Floss', e:'🪥', p:1, w:7},
     {t:'Take makeup off before bed', e:'🧼', p:1, w:7},
     {t:'Hand cream', e:'🤲', p:1, w:7},
     {t:'Foot cream', e:'🦶', p:1, w:7},
+    {t:'Lymph drainage drink', e:'🥤', p:1, w:7},
     {t:'Thigh roller', e:'🦵', p:1, w:7},
     {t:'Dry brushing', e:'🪮', p:1, w:3}
   ]},
@@ -1625,7 +1654,7 @@ function save(){
 
 function seed(){
   return {
-    v:1, skin:null, font:'auto', sound:true, name:'', started: today(),
+    v:1, skin:null, font:'auto', sound:true, why:'', name:'', started: today(),
     habits:[
       {id:'h1', title:'One English article + new words', emoji:'📰', perDay:1, weekGoal:7, when:'day'},
       {id:'h2', title:'Learn 7 new words',               emoji:'🔤', perDay:7, weekGoal:7, when:'day'},
@@ -1641,7 +1670,8 @@ function seed(){
       {id:'h12',title:'Thigh roller',                    emoji:'🦵', perDay:1, weekGoal:7, when:'evening'},
       {id:'h13',title:'A morning without the phone',     emoji:'📵', perDay:1, weekGoal:7, when:'morning'},
       {id:'h14',title:'Ask one question a day',          emoji:'💬', perDay:1, weekGoal:7, when:'day'},
-      {id:'h15',title:'No snapping, no grumbling',       emoji:'😌', perDay:1, weekGoal:7, when:'day'}
+      {id:'h15',title:'No snapping, no grumbling',       emoji:'😌', perDay:1, weekGoal:7, when:'day'},
+      {id:'h16',title:'Lymph drainage drink',            emoji:'🥤', perDay:1, weekGoal:7, when:'morning'}
     ],
     log:{}, xp:0, claimed:{}, prizes:[
       {id:'p1', emoji:'☕️', title:'Coffee at my favourite place', kind:'streak', amount:7, claimed:false}
@@ -1671,6 +1701,8 @@ if(!state.learned) state.learned = {};
 if(!state.packXP) state.packXP = {};
 if(state.sound === undefined) state.sound = true;
 if(!state.words) state.words = seedWords();
+if(state.why === undefined) state.why = '';
+if(!state.started) state.started = today();
 let openPack = null;
 let tab = 'today';
 
@@ -1797,7 +1829,17 @@ function renderToday(){
   else if(d<n){ lead='Going well'; sub=(n-d)+' '+plural(n-d,'habit','habits')+' left to go.'; }
   else { lead='A perfect day'; sub='Every habit is closed. That is rare, and it counts.'; }
 
-  let html = '<section class="ring-card">'+ring()+
+  const nowH = new Date().getHours();
+  const part = nowH < 12 ? 'morning' : nowH < 18 ? 'day' : 'evening';
+  const partLeft = hs.filter(function(x){ return (x.when||'day') === part && !isDone(x, today()); }).length;
+  const BEFORE = {morning:'before noon', day:'before the evening', evening:'before bed'};
+  if(d > 0 && d < n && partLeft) sub = partLeft + ' to go ' + BEFORE[part] + '.';
+
+  let html = '<button class="why'+(state.why ? '' : ' blank')+'" data-act="edit-why">'+
+    '<span>Why I am doing this</span>'+
+    '<q>'+(state.why ? esc(state.why) : 'Tap to write it in your own words — it will sit here every day.')+'</q>'+
+    '</button>'+
+    '<section class="ring-card">'+ring()+
     '<div class="ring-side"><p class="eyebrow">Level '+L.index+' · '+L.name+'</p>'+
     '<p class="lead">'+lead+'</p><p>'+sub+'</p>'+
     '<div class="lvl"><div class="lvl-bar"><i style="width:'+L.pct+'%"></i></div><small class="num">'+state.xp+' XP</small></div>'+
@@ -1834,7 +1876,8 @@ function renderToday(){
         html += '<article class="habit'+(done?' done':'')+'" data-habit="'+h.id+'">'+
           '<button class="habit-emoji" data-act="edit-habit" data-id="'+h.id+'" aria-label="Edit &quot;'+esc(h.title)+'&quot;">'+esc(h.emoji||'⭐️')+'</button>'+
           '<div class="habit-main"><p class="habit-name">'+esc(h.title)+'</p>'+
-          '<div class="habit-meta">'+meta+chain+'</div></div>'+
+          '<div class="habit-meta">'+meta+chain+'</div>'+
+          (h.why ? '<p class="habit-why">'+esc(h.why)+'</p>' : '')+'</div>'+
           '<div class="counter">'+(per>1?'<span class="cnt num">'+c+'/'+per+'</span>':'')+
           '<button class="check" data-act="toggle" data-id="'+h.id+'" aria-pressed="'+(done?'true':'false')+'" aria-label="Check off &quot;'+esc(h.title)+'&quot;">'+
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'+
@@ -1850,7 +1893,21 @@ function plural(n,a,b){ return n === 1 ? a : b; }
 /* ---------- Rhythm tab ---------- */
 function renderStats(){
   const s = stats(), hs = activeHabits();
-  let html = '<div class="stats">'+
+  const days = Math.max(1, Math.round((toDate(today()) - toDate(state.started || today())) / 86400000) + 1);
+  const lines = [];
+  lines.push('You have been at this for <b>'+days+'</b> '+plural(days,'day','days')+'.');
+  if(s.total) lines.push('<b>'+s.total+'</b> '+plural(s.total,'check-in','check-ins')+' in that time — that many small promises kept.');
+  if(s.best) lines.push('Your longest run so far is <b>'+s.best+'</b> '+plural(s.best,'day','days')+'.');
+  if(s.perfect) lines.push('<b>'+s.perfect+'</b> '+plural(s.perfect,'day','days')+' when you closed every single habit.');
+  if(s.words) lines.push('<b>'+s.words+'</b> '+plural(s.words,'word','words')+' you saved and are learning.');
+  const closing = s.total === 0
+    ? 'Nothing here yet — and that is fine. One tick today and this page starts filling up.'
+    : (state.why ? esc(state.why) : 'None of this disappears. It is all still here tomorrow.');
+
+  let html = '<section class="recap"><p class="eyebrow">Look how far you have come</p>'+
+    lines.map(function(l){ return '<p>'+l+'</p>'; }).join('')+
+    '<p class="close">'+closing+'</p></section>'+
+    '<div class="stats">'+
     '<div class="stat"><b class="num">'+s.total+'</b><span>check-ins in total</span></div>'+
     '<div class="stat"><b class="num">'+s.best+'</b><span>longest streak</span></div>'+
     '<div class="stat"><b class="num">'+s.perfect+'</b><span>perfect days</span></div>'+
@@ -2225,6 +2282,7 @@ function sheetSettings(){
     '<div class="field"><label for="nameIn">What should I call you</label>'+
     '<input type="text" id="nameIn" maxlength="24" placeholder="Natali, for example" value="'+esc(state.name||'')+'"></div>'+
     '<button class="rowlink" data-act="skins">Theme <span>'+ (SKINS.find(s=>s.id===state.skin)||{}).name +' ›</span></button>'+
+    '<button class="rowlink" data-act="edit-why">Why I am doing this <span>'+ (state.why ? 'written ›' : 'not set yet ›') +'</span></button>'+
     '<button class="rowlink" data-act="toggle-sound">Fireworks sound <span>'+ (state.sound === false ? 'Off' : 'On') +' ›</span></button>'+
     '<button class="rowlink" data-act="fonts">Typeface <span>'+ (FONTSETS.find(f=>f.id===(state.font||'auto'))||{}).name +' ›</span></button>'+
     '<button class="rowlink" data-act="new-habit">Add a habit <span>›</span></button>'+
@@ -2294,6 +2352,14 @@ function paintLibList(){
     '<div class="empty" style="padding:30px 14px"><p>Nothing matches that.<br>Write your own instead.</p>'+
     '<button class="btn btn-primary" data-act="custom-habit">Write my own</button></div>';
 }
+function sheetWhy(){
+  openSheet('<h2>Why you are doing this</h2>'+
+    '<p class="sub">One sentence, in your own words. It sits at the top of every day — for the mornings when the list feels like a chore.</p>'+
+    '<div class="field"><label for="whyIn">The point of all this</label>'+
+    '<textarea id="whyIn" rows="3" placeholder="Because I want to be the person who keeps her word to herself.">'+esc(state.why||'')+'</textarea></div>'+
+    '<div class="sheet-actions"><button class="btn btn-primary btn-full" data-act="save-why">Save</button></div>');
+}
+
 function sheetWord(id){
   const w = id ? state.words.find(function(x){ return x.id === id; }) : null;
   openSheet('<h2>'+(w ? 'Word' : 'A new word')+'</h2>'+
@@ -2344,6 +2410,8 @@ function sheetHabit(id){
     '<div class="field"><label for="tIn">Name</label>'+
     '<input type="text" id="tIn" maxlength="60" placeholder="20 minutes of reading, for example" value="'+(h?esc(h.title):'')+'"></div>'+
     '<div class="field"><label>Icon</label><div class="emojis" id="emojiPick">'+emojis+'</div></div>'+
+    '<div class="field"><label for="hWhy">Why this one</label>'+
+    '<textarea id="hWhy" rows="2" placeholder="So my back stops aching by Friday">'+(h?esc(h.why||''):'')+'</textarea></div>'+
     '<div class="field"><label>Time of day</label><div class="chips" id="whenPick">'+whenChips+'</div></div>'+
     '<div class="field"><label>Times per day</label><div class="chips" id="perPick">'+perChips+'</div></div>'+
     '<div class="field"><label>Days per week</label><div class="chips" id="wgPick">'+wgChips+'</div></div>'+
@@ -2563,8 +2631,8 @@ document.addEventListener('click', function(e){
     const per = +(sheet.querySelector('#perPick [aria-pressed="true"]')||{dataset:{per:1}}).dataset.per;
     const wg  = +(sheet.querySelector('#wgPick [aria-pressed="true"]')||{dataset:{wg:7}}).dataset.wg;
     const wh  = (sheet.querySelector('#whenPick [aria-pressed="true"]')||{dataset:{when:'day'}}).dataset.when;
-    if(id){ const h = state.habits.find(x=>x.id===id); Object.assign(h,{title,emoji,perDay:per,weekGoal:wg,when:wh}); }
-    else state.habits.push({id:'h'+Date.now().toString(36), title, emoji, perDay:per, weekGoal:wg, when:wh});
+    if(id){ const h = state.habits.find(x=>x.id===id); Object.assign(h,{title,emoji,perDay:per,weekGoal:wg,when:wh,why:($('#hWhy').value||'').trim()}); }
+    else state.habits.push({id:'h'+Date.now().toString(36), title, emoji, perDay:per, weekGoal:wg, when:wh, why:($('#hWhy').value||'').trim()});
     save(); closeSheet(); render(); toast(id ? 'Updated' : 'Habit added');
   }
   else if(act==='del-habit'){
@@ -2590,6 +2658,11 @@ document.addEventListener('click', function(e){
   else if(act==='go-english'){ openPack = null; go('english'); }
   else if(act==='eng-view'){
     engView = btn.getAttribute('data-v'); practice = null; window.scrollTo(0,0); renderEnglish();
+  }
+  else if(act==='edit-why') sheetWhy();
+  else if(act==='save-why'){
+    state.why = ($('#whyIn').value || '').trim();
+    save(); closeSheet(); render(); toast(state.why ? 'Saved — you will see it every day' : 'Cleared');
   }
   else if(act==='new-word'){ closeSheet(); setTimeout(function(){ sheetWord(null); }, 120); }
   else if(act==='edit-word') sheetWord(id);
