@@ -26,6 +26,7 @@ file in, **Commit changes**. The site updates in about a minute.
 |---|---|
 | Today | Your **why** at the top, the day ring, the affirmation, and the habits — split into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
 | + Add | A library of ready-made habits in 11 categories, searchable, one tap to add — or write your own |
+| 📰 What's new | A card on Today opens the article of the day: Russian, English or French, never announced in advance, with comprehension questions, words you can push straight into My words, and a speaking prompt |
 | 🏋️ Workout | A card on Today opens a full **Workouts** page: today's focus, five matching videos, filters by length and energy, and one tap to log it |
 | English | Two halves. **Daily pack** — the affirmation and ten useful phrases, 30 topics in rotation. **My words** — your own vocabulary: each word saved with the sentence you met it in, plus a recall drill |
 | Rhythm | Eight-week calendar per habit, totals, longest streak |
@@ -59,6 +60,27 @@ Each habit belongs to a time of day — Morning, Day or Evening — and the list
 Today tab is grouped under those three headings. Change it in the habit editor.
 
 Delete any of them, change how often, or add more from the library.
+
+## What's new
+
+One short article a day, thirty in rotation, across twelve subject areas — brain, animals,
+physics, earth, history, language, art, food, body, how-things-work, money and habits, care.
+The language rotates unpredictably: 12 English, 9 Russian, 9 French, never more than two of
+the same in a row.
+
+Under every article:
+
+- **Did you get it?** — three questions, tap to check yourself.
+- **Words worth keeping** — tap + and the word goes into *English → My words* with the sentence
+  from the article as its context.
+- **Now say it yourself** — a prompt plus three ready structures. Russian articles ask for the
+  answer in English on purpose.
+
+Marking the day's article read closes the "One English article + new words" habit.
+
+Where a card carries a **Read the original** button, the article is a real, checked piece from
+a real publication and the button opens it. The text inside the app is always a short summary
+written for the app — full magazine articles are not reproduced here.
 
 ## Workouts
 
