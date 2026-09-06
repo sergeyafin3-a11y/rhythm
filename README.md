@@ -25,7 +25,8 @@ file in, **Commit changes**. The site updates in about a minute.
 | Tab | What it does |
 |---|---|
 | Today | Your **why** at the top, the day ring, the affirmation, and the habits — split into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
-| + Add | A library of 79 ready-made habits in 11 categories, searchable, one tap to add — or write your own |
+| + Add | A library of ready-made habits in 11 categories, searchable, one tap to add — or write your own |
+| 🏋️ Workout | A card on Today opens a full **Workouts** page: today's focus, five matching videos, filters by length and energy, and one tap to log it |
 | English | Two halves. **Daily pack** — the affirmation and ten useful phrases, 30 topics in rotation. **My words** — your own vocabulary: each word saved with the sentence you met it in, plus a recall drill |
 | Rhythm | Eight-week calendar per habit, totals, longest streak |
 | Rewards | Achievements, and rewards you promise yourself |
@@ -58,6 +59,28 @@ Each habit belongs to a time of day — Morning, Day or Evening — and the list
 Today tab is grouped under those three headings. Change it in the habit editor.
 
 Delete any of them, change how often, or add more from the library.
+
+## Workouts
+
+The week rotates on its own: **Mon** glutes + legs · **Tue** walking · **Wed** upper body + core ·
+**Thu** walking · **Fri** glutes + legs · **Sat** full body · **Sun** rest. Any day can be
+changed by hand, skipped, or turned into a recovery day.
+
+Whatever the focus is, all five options train **the same thing** — they differ only in length
+(10 → 45 min), intensity and trainer. Filter by how long you have (≤15 / 20–25 / 30–35 / 40+)
+and by how you feel (no energy / normal / plenty) — the mood filter re-sorts the list, it never
+hides anything.
+
+Tapping **Start** opens the video on YouTube; **Done** logs which workout you did and how long
+it took, and closes the "Workout" habit for the day. The page keeps a weekly count: workouts,
+minutes, strength vs cardio, and a seven-day strip.
+
+39 real YouTube videos are built in, with thumbnails pulled from the video id. If a video ever
+disappears the card falls back to an emoji tile instead of breaking.
+
+**On the wording:** the app never promises fat loss in a particular spot. Training builds the
+muscle that shapes a leg or a waist; fat comes down across the whole body, and the descriptions
+say so.
 
 ## Why
 

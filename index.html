@@ -204,7 +204,7 @@ main{ flex:1; padding-bottom:104px; }
   display:inline-flex; align-items:center; justify-content:center; gap:8px;
   padding:12px 18px; border-radius:999px; font-weight:700; font-size:14.5px;
   border:var(--border-w) solid var(--line); background:var(--surface); color:var(--ink);
-  transition:transform .15s ease, opacity .2s ease;
+  text-decoration:none; transition:transform .15s ease, opacity .2s ease;
 }
 .btn:active{ transform:scale(.96); }
 .btn-primary{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
@@ -389,6 +389,81 @@ main{ flex:1; padding-bottom:104px; }
   position:sticky; bottom:0; padding:14px 0 calc(16px + env(safe-area-inset-bottom));
   background:linear-gradient(to top, var(--ground) 62%, transparent);
 }
+
+/* ---- Workouts ---- */
+.wk-card{
+  background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius-lg);
+  box-shadow:var(--shadow); padding:16px 16px 14px; margin-bottom:20px; width:100%; text-align:left; display:block;
+}
+.wk-card .top{ display:flex; align-items:center; gap:10px; margin-bottom:2px; }
+.wk-card .top .eyebrow{ margin:0; }
+.wk-card .go{ margin-left:auto; font-size:12.5px; font-weight:700; color:var(--accent); }
+.wk-card h3{
+  margin:6px 0 3px; font-family:var(--font-display); font-weight:var(--display-weight);
+  letter-spacing:var(--display-tracking); font-size:20px; line-height:1.15;
+}
+.wk-card p{ margin:0; font-size:13px; color:var(--ink-mute); line-height:1.4; }
+.wk-mins{ display:flex; gap:6px; flex-wrap:wrap; margin-top:13px; }
+.wk-mins span{
+  padding:7px 12px; border-radius:999px; font-size:12.5px; font-weight:700;
+  background:var(--surface-2); color:var(--ink-soft); font-variant-numeric:tabular-nums;
+}
+.wk-card.done{ border-color:var(--accent); }
+.wk-done-line{ display:flex; align-items:center; gap:8px; margin-top:12px; font-size:13px; color:var(--accent); font-weight:700; }
+
+.wk-list{ display:flex; flex-direction:column; gap:16px; }
+.wk{
+  background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius-lg);
+  box-shadow:var(--shadow); overflow:hidden;
+}
+.wk.picked{ border-color:var(--accent); }
+a.wk-thumb{ text-decoration:none; }
+.wk-thumb{
+  display:block; width:100%; aspect-ratio:16/9; background:var(--surface-2); position:relative;
+  border:0; padding:0; overflow:hidden;
+}
+.wk-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+.wk-thumb .fallback{
+  position:absolute; inset:0; display:none; place-items:center; font-size:40px;
+  background:linear-gradient(140deg, var(--surface-2), var(--accent-soft));
+}
+.wk-thumb.broken img{ display:none; }
+.wk-thumb.broken .fallback{ display:grid; }
+.wk-thumb .play{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:52px; height:52px; border-radius:999px; background:rgba(12,10,14,.55);
+  display:grid; place-items:center; backdrop-filter:blur(3px);
+}
+.wk-thumb .play svg{ width:20px; height:20px; color:#fff; margin-left:3px; }
+.wk-thumb .len{
+  position:absolute; right:9px; bottom:9px; background:rgba(12,10,14,.78); color:#fff;
+  font-size:11.5px; font-weight:700; padding:3px 7px; border-radius:6px; font-variant-numeric:tabular-nums;
+}
+.wk-body{ padding:14px 15px 15px; }
+.wk-body b{ display:block; font-size:15.5px; line-height:1.3; overflow-wrap:anywhere; }
+.wk-meta{ display:flex; flex-wrap:wrap; gap:7px; margin:10px 0 0; }
+.wk-meta span{
+  padding:5px 10px; border-radius:999px; font-size:11.5px; font-weight:700;
+  background:var(--surface-2); color:var(--ink-soft);
+}
+.wk-meta span.hard{ background:var(--accent-soft); color:var(--accent); }
+.wk-body p{ margin:10px 0 0; font-size:13px; line-height:1.45; color:var(--ink-mute); }
+.wk-acts{ display:flex; gap:9px; margin-top:14px; }
+.wk-acts .btn{ flex:1; }
+
+.wk-note{
+  background:var(--surface); border:var(--border-w) solid var(--line); border-left:3px solid var(--accent);
+  border-radius:var(--radius); padding:13px 15px; font-size:13.5px; line-height:1.5;
+  color:var(--ink-soft); margin-bottom:18px;
+}
+.wk-strip{ display:flex; gap:6px; margin:14px 0 0; }
+.wk-strip div{ flex:1; text-align:center; }
+.wk-strip i{
+  display:block; height:30px; border-radius:8px; background:var(--surface-2); margin-bottom:5px;
+  display:grid; place-items:center; font-size:14px; font-style:normal;
+}
+.wk-strip i.hit{ background:var(--accent-soft); }
+.wk-strip span{ font-size:9.5px; font-weight:700; color:var(--ink-mute); }
 
 /* ---- Why: the point of all this ---- */
 .why{ width:100%; text-align:left; display:block; margin:0 0 20px; padding:0; }
@@ -1640,6 +1715,135 @@ const LIBRARY = [
 ];
 let libQuery = '', libCat = 'all';
 
+/* ---------- Workouts: real videos, one focus a day ---------- */
+const WK_TYPES = {
+  glutes:{emoji:'🍑', name:'Glutes + legs',    kind:'strength',
+          note:'Strength work for the glutes, quads and hamstrings. It builds the muscle that shapes your legs — the fat side of the picture comes down across the whole body, not in one spot.'},
+  upper: {emoji:'💪', name:'Upper body + core', kind:'strength',
+          note:'Arms, shoulders, back and the whole midsection. Enough to hold you upright and strong, without chasing bulk.'},
+  full:  {emoji:'🔥', name:'Full body',         kind:'strength',
+          note:'One session that touches everything. Good when the week has been uneven and you just want to move well.'},
+  walk:  {emoji:'🚶', name:'Active recovery',   kind:'cardio',
+          note:'Easy, low-impact movement. This is what makes the strength days possible — it is not a lesser day.'},
+  rest:  {emoji:'🧘', name:'Rest and recovery', kind:'recovery',
+          note:'Stretching and mobility, or nothing at all. Rest is part of the plan, not a gap in it.'}
+};
+// index = getDay(): 0 Sun … 6 Sat
+const WK_WEEK = ['rest','glutes','walk','upper','walk','glutes','full'];
+
+const WORKOUTS = [
+  // 🍑 glutes + legs
+  {id:'g1', v:'ggSfmY8gmO4', t:'10 min Booty — knee friendly, low impact', min:10, diff:'easy',   type:'glutes', by:'Pamela Reif', desc:'No squats, no jumps. The gentlest way to still do something.'},
+  {id:'g2', v:'p-uUnrCdhR8', t:'15 min Booty — low impact',                min:15, diff:'easy',   type:'glutes', by:'Pamela Reif', desc:'Floor work, knee friendly, no jumping. A good default on a tired day.'},
+  {id:'g3', v:'iCG4zlvuUok', t:'20 min Legs + Booty',                      min:20, diff:'medium', type:'glutes', by:'Pamela Reif', desc:'Standing and floor work together. The classic middle option.'},
+  {id:'g4', v:'ViY2LPDbU5A', t:'25 min Legs & Glutes — beginner friendly', min:25, diff:'medium', type:'glutes', by:'Back to Basics', desc:'Slower tempo, clear form cues. Good if the movement is still new.'},
+  {id:'g5', v:'htL4XYk20Mc', t:'30 min Beginner Legs + Booty',             min:30, diff:'medium', type:'glutes', by:'Pamela Reif', desc:'A full session that still keeps the pace kind.'},
+  {id:'g6', v:'irrXLzbTm2A', t:'30 min Booty — knee friendly',             min:30, diff:'medium', type:'glutes', by:'Pamela Reif', desc:'Thirty minutes with no pressure on the knees.'},
+  {id:'g7', v:'s5FelRwRBD4', t:'40 min Legs & Booty — no repeats',         min:40, diff:'hard',   type:'glutes', by:'no equipment', desc:'Every exercise appears once. Long, but it never gets boring.'},
+  {id:'g8', v:'tyvhmmeVWKE', t:'45 min Legs and Glutes — power',           min:45, diff:'hard',   type:'glutes', by:'Caroline Girvan', desc:'The heaviest option here. Save it for a day with real energy.'},
+
+  // 💪 upper body + core
+  {id:'u1', v:'1f8yoFFdkcY', t:'10 min Beginner Abs',            min:10, diff:'easy',   type:'upper', by:'Pamela Reif', desc:'The shortest way in. Nothing complicated.'},
+  {id:'u2', v:'eBnSe3CIPn4', t:'10 min Upper Body',              min:10, diff:'easy',   type:'upper', by:'Pamela Reif', desc:'Arms, chest and back with your own bodyweight.'},
+  {id:'u3', v:'aCIk7YHM8ik', t:'10 min Upper Body + Abs',        min:10, diff:'medium', type:'upper', by:'Pamela Reif', desc:'Arms and core in one short block, done to music.'},
+  {id:'u4', v:'o3mfKLCerec', t:'10 min Ab Lines',                min:10, diff:'medium', type:'upper', by:'Pamela Reif', desc:'Middle, side and upper abs. Short and precise.'},
+  {id:'u5', v:'jn5IMNPMRR0', t:'15 min Abs',                     min:15, diff:'medium', type:'upper', by:'Pamela Reif', desc:'A proper core session without the sprint feeling.'},
+  {id:'u6', v:'1GxTkJpufx0', t:'15 min Total Core — intense',    min:15, diff:'hard',   type:'upper', by:'no equipment', desc:'Short and genuinely hard. Fifteen minutes is enough.'},
+  {id:'u7', v:'EfJ4aB_enVE', t:'15 min Sixpack — intense abs',   min:15, diff:'hard',   type:'upper', by:'Pamela Reif', desc:'The strongest core option on the list.'},
+  {id:'u8', v:'c01hlF_EdRk', t:'30 min Upper Body & Abs',        min:30, diff:'medium', type:'upper', by:'Pamela Reif', desc:'Arms, shoulders, back and core in one full session.'},
+
+  // 🔥 full body
+  {id:'f1', v:'F8v9SA4Ptu4', t:'15 min Full Body — beginner friendly', min:15, diff:'easy',   type:'full', by:'Pamela Reif', desc:'Everything at once, at a pace that will not break you.'},
+  {id:'f2', v:'UBMk30rjy0o', t:'20 min Full Body',                      min:20, diff:'medium', type:'full', by:'Pamela Reif', desc:'The reliable middle. Twenty minutes, whole body, done.'},
+  {id:'f3', v:'Y2eOW7XYWxc', t:'20 min Full Body — intense',            min:20, diff:'hard',   type:'full', by:'Pamela Reif', desc:'Same length, much more effort.'},
+  {id:'f4', v:'3rdsdh5fVeY', t:'30 min Full Body — total beginners',    min:30, diff:'easy',   type:'full', by:'all standing', desc:'All standing, low impact, nothing on the floor.'},
+  {id:'f5', v:'6zIaiaeWRWQ', t:'30 min Full Body — small space',        min:30, diff:'medium', type:'full', by:'no jumping', desc:'No repeats and no jumping. Fits a flat with neighbours.'},
+  {id:'f6', v:'zmCbNjCTYFY', t:'Full Body HIIT — spontaneous',          min:30, diff:'hard',   type:'full', by:'Caroline Girvan', desc:'Fast intervals, no equipment. For a day with energy to spend.'},
+  {id:'f7', v:'mZErE1n4DuU', t:'40 min Full Body',                      min:40, diff:'hard',   type:'full', by:'no equipment', desc:'The long one. A whole workout in a single sitting.'},
+
+  // 🚶 active recovery / light cardio
+  {id:'w1', v:'HW9ZtzTGRTA', t:'10 min Walk at Home',                 min:10, diff:'easy',   type:'walk', by:'walking workout', desc:'Ten minutes on the spot. Counts on the busiest day.'},
+  {id:'w2', v:'MUq4dnV9Z1E', t:'10 min Indoor Walking — low impact',  min:10, diff:'easy',   type:'walk', by:'walking workout', desc:'Quiet, low impact, nothing to set up.'},
+  {id:'w3', v:'UkJhynyuU2c', t:'10 min Walking Workout at Home',      min:10, diff:'easy',   type:'walk', by:'walking workout', desc:'Another short one, so it is not the same every time.'},
+  {id:'w4', v:'TRtuK_pfvIg', t:'20 min Walk at Home',                 min:20, diff:'easy',   type:'walk', by:'walking workout', desc:'Twenty minutes to music. Easy to keep up with.'},
+  {id:'w5', v:'WlOLKP_xmXI', t:'20 min Indoor Walking Workout',       min:20, diff:'easy',   type:'walk', by:'walking workout', desc:'Steady pace, arms moving, nothing jarring.'},
+  {id:'w6', v:'wIr2C2JH728', t:'30 min Low Impact Walk at Home',      min:30, diff:'easy',   type:'walk', by:'to the music beat', desc:'Half an hour that feels like dancing more than training.'},
+  {id:'w7', v:'9K1dsiGC__A', t:'30 min Low Impact Cardio — no repeats', min:30, diff:'medium', type:'walk', by:'growwithjo', desc:'No jumping, no equipment, and never the same move twice.'},
+  {id:'w8', v:'b57vHauk31g', t:'45 min Indoor Walking — low impact',  min:45, diff:'medium', type:'walk', by:'walk at home', desc:'The long walk, indoors. Put a podcast on top if you like.'},
+
+  // 🧘 rest and recovery
+  {id:'r1', v:'pJPAmAdv-DI', t:'10 min Recovery Stretch',            min:10, diff:'easy', type:'rest', by:'Yoga With Adriene', desc:'Gentle reset for the body and the head.'},
+  {id:'r2', v:'lxuTCHJSers', t:'10 min Full Body Stretch',           min:10, diff:'easy', type:'rest', by:'stretch routine', desc:'Ten minutes to let everything unclench.'},
+  {id:'r3', v:'dy-5Cj1S94w', t:'10 min Full Body Yoga Stretch',      min:10, diff:'easy', type:'rest', by:'mobility routine', desc:'Slow mobility work. Good before bed.'},
+  {id:'r4', v:'KrUnq66qn_k', t:'12 min Yoga Stretch for Recovery',   min:12, diff:'easy', type:'rest', by:'recovery days', desc:'Made specifically for the day after a hard session.'},
+  {id:'r5', v:'wuWW5j54qEk', t:'20 min Rest Day Mobility',           min:20, diff:'easy', type:'rest', by:'recovery & mobility', desc:'A longer reset when everything feels stiff.'},
+  {id:'r6', v:'GLUyjdyXXcI', t:'30 min Rest Day Routine',            min:30, diff:'easy', type:'rest', by:'mobility & stretch', desc:'Half an hour of soft movement, no strain anywhere.'},
+  {id:'r7', v:'-b-8Y3bh9AU', t:'30 min Yoga Full Body Stretch',      min:30, diff:'easy', type:'rest', by:'Move With Nicole', desc:'A calm full-body flow with nothing sharp in it.'},
+  {id:'r8', v:'RvCntPg7oPE', t:'30 min Yoga Flow for Flexibility',   min:30, diff:'medium', type:'rest', by:'Move With Nicole', desc:'A flow rather than held stretches. Warms you up as it goes.'}
+];
+
+const DIFF_LABEL = {easy:'Easy', medium:'Medium', hard:'Intense'};
+const WK_BANDS = [
+  ['all','All',       function(){ return true; }],
+  ['s','≤ 15 min',    function(w){ return w.min <= 15; }],
+  ['m','20–25 min',   function(w){ return w.min >= 16 && w.min <= 25; }],
+  ['l','30–35 min',   function(w){ return w.min >= 26 && w.min <= 36; }],
+  ['xl','40+ min',    function(w){ return w.min >= 37; }]
+];
+const ENERGY = [['low','😴 No energy'],['ok','🙂 Normal'],['high','🔥 Plenty']];
+
+let wkBand = 'all', wkEnergy = 'ok', todayView = 'main';
+
+function wkTypeFor(key){
+  const saved = state.workouts[key];
+  if(saved && saved.type) return saved.type;
+  return WK_WEEK[toDate(key).getDay()];
+}
+function wkPool(type){ return WORKOUTS.filter(function(w){ return w.type === type; }); }
+
+// five options, always the same target, always a ladder of lengths, rotating day to day
+function wkPicks(type, key){
+  const pool = wkPool(type).slice().sort(function(a, b){ return a.min - b.min || a.diff.localeCompare(b.diff); });
+  if(pool.length <= 5) return pool;
+  const seed = Math.floor(Date.parse(key + 'T00:00:00Z') / 86400000);
+  const out = [], size = pool.length / 5;
+  for(let i = 0; i < 5; i++){
+    const from = Math.floor(i * size), to = Math.max(from + 1, Math.floor((i + 1) * size));
+    const group = pool.slice(from, to);
+    out.push(group[(seed + i) % group.length]);
+  }
+  return out;
+}
+function wkSort(list){
+  const rank = {easy:0, medium:1, hard:2};
+  return list.slice().sort(function(a, b){
+    if(wkEnergy === 'low')  return a.min - b.min || rank[a.diff] - rank[b.diff];
+    if(wkEnergy === 'high') return b.min - a.min || rank[b.diff] - rank[a.diff];
+    return Math.abs(a.min - 25) - Math.abs(b.min - 25) || rank[a.diff] - rank[b.diff];
+  });
+}
+function wkVisible(key){
+  const type = wkTypeFor(key);
+  const band = WK_BANDS.find(function(b){ return b[0] === wkBand; });
+  const base = wkBand === 'all' ? wkPicks(type, key) : wkPool(type).filter(band[2]).slice(0, 6);
+  return wkSort(base);
+}
+function wkById(id){ return WORKOUTS.find(function(w){ return w.id === id; }); }
+function wkHabit(){ return state.habits.find(function(h){ return h.id === 'hw'; }); }
+function wkWeek(){
+  const ws = weekStart(today());
+  let n = 0, mins = 0, strength = 0, cardio = 0;
+  for(let i = 0; i < 7; i++){
+    const rec = state.workouts[shift(ws, i)];
+    if(!rec || !rec.doneId) continue;
+    const w = wkById(rec.doneId);
+    n++; mins += (rec.min || (w ? w.min : 0));
+    const kind = w ? WK_TYPES[w.type].kind : 'strength';
+    if(kind === 'cardio') cardio++; else if(kind === 'strength') strength++;
+  }
+  return {n:n, mins:mins, strength:strength, cardio:cardio};
+}
+
 /* ---------- Storage ---------- */
 const KEY = 'ritm.v1';
 let memory = null;
@@ -1701,6 +1905,8 @@ if(!state.learned) state.learned = {};
 if(!state.packXP) state.packXP = {};
 if(state.sound === undefined) state.sound = true;
 if(!state.words) state.words = seedWords();
+if(!state.workouts) state.workouts = {};
+if(!wkHabit()) state.habits.push({id:'hw', title:'Workout', emoji:'🏋️', perDay:1, weekGoal:3, when:'day', why:''});
 if(state.why === undefined) state.why = '';
 if(!state.started) state.started = today();
 let openPack = null;
@@ -1819,8 +2025,123 @@ function ring(){
     '<span class="ring-center"><b class="num">'+doneToday()+'<small>/'+n+'</small></b><span>today</span></span></div>';
 }
 
+/* ---------- Workouts: the card on Today ---------- */
+function wkTodayCard(){
+  const key = today(), type = wkTypeFor(key), T = WK_TYPES[type];
+  const rec = state.workouts[key] || {};
+  const picks = wkPicks(type, key);
+  let body;
+  if(rec.doneId){
+    const w = wkById(rec.doneId);
+    body = '<div class="wk-done-line">✓ Done — '+esc(w ? w.t : 'workout')+'</div>';
+  } else if(rec.skipped){
+    body = '<p>Skipped today. That is a decision, not a failure.</p>';
+  } else {
+    body = '<p>'+esc(T.note.split('.')[0])+'.</p>'+
+      '<div class="wk-mins">'+picks.map(function(w){ return '<span>'+w.min+' min</span>'; }).join('')+'</div>';
+  }
+  return '<button class="wk-card'+(rec.doneId ? ' done' : '')+'" data-act="open-workouts">'+
+    '<span class="top"><p class="eyebrow">🏋️ Workout</p><span class="go">See all →</span></span>'+
+    '<h3>'+T.emoji+' '+T.name+'</h3>'+ body + '</button>';
+}
+
+/* ---------- Workouts: the page ---------- */
+function renderWorkouts(){
+  const key = today(), type = wkTypeFor(key), T = WK_TYPES[type];
+  const rec = state.workouts[key] || {};
+  const wk = wkWeek();
+  const list = wkVisible(key);
+
+  let html = '<button class="backbtn" data-act="close-workouts">'+
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to today</button>'+
+    '<p class="eyebrow">Today</p>'+
+    '<h2 class="rec-title">'+T.emoji+' '+T.name+'</h2>'+
+    '<div class="wk-note">'+esc(T.note)+'</div>';
+
+  html += '<div class="stats" style="margin-bottom:16px">'+
+    '<div class="stat"><b class="num">'+wk.n+'</b><span>workouts this week</span></div>'+
+    '<div class="stat"><b class="num">'+wk.mins+'</b><span>minutes</span></div>'+
+    '<div class="stat"><b class="num">'+wk.strength+'<span style="opacity:.4">/</span>'+wk.cardio+'</b><span>strength / cardio</span></div>'+
+    '</div>';
+
+  // last seven days
+  const ws = weekStart(key);
+  html += '<div class="wk-strip">';
+  for(let i = 0; i < 7; i++){
+    const d = shift(ws, i), r = state.workouts[d] || {};
+    const t2 = WK_TYPES[wkTypeFor(d)];
+    html += '<div><i class="'+(r.doneId ? 'hit' : '')+'">'+(r.doneId ? t2.emoji : (r.skipped ? '·' : ''))+'</i>'+
+            '<span>'+WSHORT[i]+'</span></div>';
+  }
+  html += '</div>';
+
+  if(rec.doneId){
+    const w = wkById(rec.doneId);
+    html += '<div class="wk-note" style="border-left-color:var(--gold);margin-top:18px">✓ Today you did <b>'+esc(w ? w.t : 'a workout')+'</b>'+
+            ' — '+(rec.min || (w ? w.min : 0))+' minutes of '+T.name.toLowerCase()+'.</div>';
+  }
+
+  html += '<div class="section-head" style="margin-top:20px"><p class="eyebrow">How long have you got</p></div>'+
+    '<div class="filters">'+WK_BANDS.map(function(b){
+      return '<button class="chip" data-act="wk-band" data-b="'+b[0]+'" aria-pressed="'+(wkBand===b[0]?'true':'false')+'">'+b[1]+'</button>';
+    }).join('')+'</div>'+
+    '<div class="section-head"><p class="eyebrow">How do you feel</p></div>'+
+    '<div class="filters" style="margin-bottom:20px">'+ENERGY.map(function(e){
+      return '<button class="chip" data-act="wk-energy" data-e="'+e[0]+'" aria-pressed="'+(wkEnergy===e[0]?'true':'false')+'">'+e[1]+'</button>';
+    }).join('')+'</div>';
+
+  if(!list.length){
+    html += '<div class="empty" style="padding:30px 14px"><p>Nothing in that length for today&#39;s focus.<br>Try another band.</p></div>';
+  } else {
+    html += '<div class="wk-list">'+list.map(function(w){
+      const url = 'https://www.youtube.com/watch?v=' + w.v;
+      const picked = rec.doneId === w.id;
+      return '<article class="wk'+(picked ? ' picked' : '')+'">'+
+        '<a class="wk-thumb" href="'+url+'" target="_blank" rel="noopener" data-act="wk-open" data-id="'+w.id+'">'+
+          '<img src="https://i.ytimg.com/vi/'+w.v+'/hqdefault.jpg" alt="" loading="lazy" '+
+            'onerror="this.parentNode.classList.add(&quot;broken&quot;)">'+
+          '<span class="fallback">'+WK_TYPES[w.type].emoji+'</span>'+
+          '<span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>'+
+          '<span class="len">'+w.min+' min</span>'+
+        '</a>'+
+        '<div class="wk-body"><b>'+esc(w.t)+'</b>'+
+          '<div class="wk-meta"><span>⏱ '+w.min+' min</span>'+
+          '<span class="'+(w.diff === 'hard' ? 'hard' : '')+'">🔥 '+DIFF_LABEL[w.diff]+'</span>'+
+          '<span>'+WK_TYPES[w.type].emoji+' '+WK_TYPES[w.type].name+'</span>'+
+          (w.by ? '<span>'+esc(w.by)+'</span>' : '')+'</div>'+
+          '<p>'+esc(w.desc)+'</p>'+
+          '<div class="wk-acts">'+
+            '<a class="btn btn-primary" href="'+url+'" target="_blank" rel="noopener" data-act="wk-open" data-id="'+w.id+'">Start →</a>'+
+            '<button class="btn'+(picked ? ' btn-ghost' : '')+'" data-act="wk-done" data-id="'+w.id+'">'+(picked ? 'Done ✓' : '✓ Done')+'</button>'+
+          '</div>'+
+        '</div></article>';
+    }).join('')+'</div>';
+  }
+
+  html += '<div class="section-head" style="margin-top:26px"><p class="eyebrow">Not today?</p></div>'+
+    '<div class="sheet-actions" style="margin:0 0 10px">'+
+      '<button class="btn" data-act="wk-skip">Skip today</button>'+
+      '<button class="btn" data-act="wk-set" data-t="rest">Make it recovery</button>'+
+    '</div>'+
+    '<button class="btn btn-full btn-ghost" data-act="wk-change">Change today&#39;s focus</button>'+
+    '<p class="sub" style="margin-top:16px;text-align:center">Three strength days a week, walking in between, and real rest. That is the whole plan.</p>';
+
+  view.innerHTML = html;
+}
+
+function sheetWkType(){
+  openSheet('<h2>Today&#39;s focus</h2><p class="sub">The week rotates on its own, but today is yours to change.</p>'+
+    '<div class="packlist">'+Object.keys(WK_TYPES).map(function(k){
+      const T = WK_TYPES[k];
+      return '<button class="packrow" data-act="wk-set" data-t="'+k+'">'+
+        '<span class="habit-emoji">'+T.emoji+'</span><span>'+T.name+'</span>'+
+        '<em>'+wkPool(k).length+'</em></button>';
+    }).join('')+'</div>');
+}
+
 /* ---------- Today tab ---------- */
 function renderToday(){
+  if(todayView === 'workout') return renderWorkouts();
   const hs = activeHabits(), n = hs.length, d = doneToday();
   const L = levelInfo();
   let lead, sub;
@@ -1844,6 +2165,8 @@ function renderToday(){
     '<p class="lead">'+lead+'</p><p>'+sub+'</p>'+
     '<div class="lvl"><div class="lvl-bar"><i style="width:'+L.pct+'%"></i></div><small class="num">'+state.xp+' XP</small></div>'+
     '</div></section>';
+
+  html += wkTodayCard();
 
   html += '<button class="affirm-strip" data-act="go-english"><span class="eyebrow">Affirmation of the day</span>'+
           '<q>'+affirmationOfDay()+'</q></button>';
@@ -2656,6 +2979,38 @@ document.addEventListener('click', function(e){
     state.prizes = state.prizes.filter(x=>x.id!==id); save(); renderPrizes();
   }
   else if(act==='go-english'){ openPack = null; go('english'); }
+  else if(act==='open-workouts'){ todayView = 'workout'; window.scrollTo(0,0); renderToday(); }
+  else if(act==='close-workouts'){ todayView = 'main'; window.scrollTo(0,0); renderToday(); }
+  else if(act==='wk-band'){ wkBand = btn.getAttribute('data-b'); renderWorkouts(); }
+  else if(act==='wk-energy'){ wkEnergy = btn.getAttribute('data-e'); renderWorkouts(); }
+  else if(act==='wk-change') sheetWkType();
+  else if(act==='wk-set'){
+    const key = today();
+    const rec = state.workouts[key] || (state.workouts[key] = {});
+    rec.type = btn.getAttribute('data-t');
+    save(); closeSheet(); wkBand = 'all'; renderWorkouts();
+    toast('Today is now ' + WK_TYPES[rec.type].name.toLowerCase());
+  }
+  else if(act==='wk-skip'){
+    const key = today();
+    const rec = state.workouts[key] || (state.workouts[key] = {});
+    rec.skipped = true; delete rec.doneId; delete rec.min;
+    save(); renderWorkouts(); toast('Skipped — no harm done');
+  }
+  else if(act==='wk-done'){
+    const key = today(), w = wkById(id);
+    const rec = state.workouts[key] || (state.workouts[key] = {});
+    if(rec.doneId === id){
+      delete rec.doneId; delete rec.min;
+      save(); renderWorkouts(); toast('Unmarked'); return;
+    }
+    rec.type = wkTypeFor(key); rec.doneId = id; rec.min = w ? w.min : 0; delete rec.skipped;
+    save();
+    const h = wkHabit();
+    if(h && !isDone(h, key)) toggleHabit(h.id, null);
+    else renderWorkouts();
+    toast('✓ ' + (w ? w.min + ' min logged' : 'Logged'));
+  }
   else if(act==='eng-view'){
     engView = btn.getAttribute('data-v'); practice = null; window.scrollTo(0,0); renderEnglish();
   }
@@ -2795,6 +3150,7 @@ document.addEventListener('click', function(e){
 
 $('#openSettings').addEventListener('click', sheetSettings);
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click', function(){
+  if(t.dataset.tab === 'today') todayView = 'main';
   if(t.dataset.tab === 'recipes' && tab === 'recipes') openRecipe = null;
   if(t.dataset.tab === 'english' && tab === 'english'){ openPack = null; engView = 'pack'; practice = null; }
   go(t.dataset.tab);
