@@ -224,17 +224,17 @@ main{ flex:1; padding-bottom:104px; }
 }
 .tabs-inner{
   pointer-events:auto; width:100%; max-width:488px;
-  display:grid; grid-template-columns:repeat(5,1fr); gap:1px;
+  display:grid; grid-template-columns:repeat(6,1fr); gap:1px;
   background:var(--surface); border:var(--border-w) solid var(--line);
   border-radius:999px; padding:5px; box-shadow:var(--shadow);
 }
 .tab{
   display:flex; flex-direction:column; align-items:center; gap:3px;
   padding:8px 1px 7px; border-radius:999px; color:var(--ink-mute);
-  font-size:9.5px; font-weight:700; letter-spacing:.03em;
+  font-size:8.8px; font-weight:700; letter-spacing:.03em;
   transition:background .2s ease, color .2s ease;
 }
-.tab svg{ width:19px; height:19px; }
+.tab svg{ width:18px; height:18px; }
 .tab[aria-selected="true"]{ background:var(--accent-soft); color:var(--accent); }
 [data-skin="charcoal"] .tab[aria-selected="true"],
 [data-skin="midnight"] .tab[aria-selected="true"]{ color:var(--accent); }
@@ -405,6 +405,57 @@ main{ flex:1; padding-bottom:104px; }
 .tip b{ display:block; font-size:11px; letter-spacing:.08em; text-transform:uppercase; opacity:.65; margin-bottom:3px; font-weight:700; }
 .tip i{ font-style:normal; opacity:.65; }
 .rd-hint{ margin:12px 0 0; font-size:12.5px; color:var(--ink-mute); text-align:center; }
+
+/* ---- To-do ---- */
+.td-add{ display:flex; gap:8px; margin-bottom:18px; }
+.td-add input{
+  flex:1; padding:13px 15px; border-radius:999px; font-size:15px;
+  border:var(--border-w) solid var(--line); background:var(--surface); color:var(--ink);
+}
+.td-add input:focus{ outline:2px solid var(--accent); outline-offset:-1px; }
+.td-add button{
+  width:46px; height:46px; flex:none; border-radius:999px; display:grid; place-items:center;
+  background:var(--accent); color:var(--accent-ink); font-size:24px; line-height:1;
+}
+.td-group{ margin-bottom:22px; }
+.td-group > .eyebrow{ display:block; margin-bottom:9px; }
+.td-group.late > .eyebrow{ color:#C0392B; }
+.td-list{ display:flex; flex-direction:column; gap:8px; }
+.td{
+  background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius);
+  box-shadow:var(--shadow); padding:12px 13px;
+  display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center;
+  transition:transform .16s cubic-bezier(.2,.8,.2,1);
+}
+.td:active{ transform:scale(.99); }
+.td .box{
+  width:26px; height:26px; flex:none; border-radius:8px; border:2px solid var(--line);
+  display:grid; place-items:center; color:transparent;
+  transition:background .18s ease, border-color .18s ease, color .18s ease;
+}
+.td .box svg{ width:15px; height:15px; }
+.td.done .box{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+.td-main{ min-width:0; text-align:left; }
+.td-main b{ display:block; font-size:15px; line-height:1.3; font-weight:600; overflow-wrap:anywhere; }
+.td.done .td-main b{ text-decoration:line-through; color:var(--ink-mute); }
+.td-main em{ display:block; font-style:normal; font-size:12px; color:var(--ink-mute); margin-top:4px; line-height:1.35; }
+.td-time{
+  flex:none; font-size:13px; font-weight:700; color:var(--accent);
+  font-variant-numeric:tabular-nums; padding:5px 9px; border-radius:8px; background:var(--accent-soft);
+}
+.td.done .td-time{ background:var(--surface-2); color:var(--ink-mute); }
+.td-late .td-time{ background:#C0392B; color:#fff; }
+.td-card{
+  background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius-lg);
+  box-shadow:var(--shadow); padding:16px; margin-bottom:20px; width:100%; text-align:left; display:block;
+}
+.td-card .top{ display:flex; align-items:center; gap:10px; }
+.td-card .top .eyebrow{ margin:0; }
+.td-card .go{ margin-left:auto; font-size:12.5px; font-weight:700; color:var(--accent); }
+.td-card ul{ margin:12px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:7px; }
+.td-card li{ font-size:14px; line-height:1.35; display:flex; gap:9px; align-items:baseline; }
+.td-card li span{ font-size:12px; font-weight:700; color:var(--accent); flex:none; font-variant-numeric:tabular-nums; }
+.td-card p{ margin:10px 0 0; font-size:13px; color:var(--ink-mute); }
 
 /* ---- What's New ---- */
 .rd-card{
@@ -845,6 +896,10 @@ a.wk-thumb{ text-decoration:none; }
         <button class="tab" role="tab" data-tab="today" aria-selected="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
           Today
+        </button>
+        <button class="tab" role="tab" data-tab="todo" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5h10M9 12h10M9 19h10"/><path d="m3 5 1.6 1.6L7.4 3.8"/><path d="m3 12 1.6 1.6L7.4 10.8"/><path d="m3 19 1.6 1.6L7.4 17.8"/></svg>
+          To-do
         </button>
         <button class="tab" role="tab" data-tab="english" aria-selected="false">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.3-.6L3 21l1.8-5.1A8.2 8.2 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/></svg>
@@ -2172,6 +2227,7 @@ if(state.sound === undefined) state.sound = true;
 if(!state.words) state.words = seedWords();
 if(!state.workouts) state.workouts = {};
 if(!state.reads) state.reads = {};
+if(!state.todos) state.todos = [];
 if(!wkHabit()) state.habits.push({id:'hw', title:'Workout', emoji:'🏋️', perDay:1, weekGoal:3, when:'day', why:''});
 if(state.why === undefined) state.why = '';
 if(!state.started) state.started = today();
@@ -2289,6 +2345,127 @@ function ring(){
   }
   return '<div class="ring"><svg viewBox="0 0 124 124" aria-hidden="true">'+segs+'</svg>'+
     '<span class="ring-center"><b class="num">'+doneToday()+'<small>/'+n+'</small></b><span>today</span></span></div>';
+}
+
+/* ---------- To-do: the things that are not habits ---------- */
+let todoDraft = '';
+function todos(){ return state.todos || (state.todos = []); }
+function tdSort(list){
+  return list.slice().sort(function(a, b){
+    if(!!a.done !== !!b.done) return a.done ? 1 : -1;
+    const at = a.time || '99:99', bt = b.time || '99:99';
+    if(at !== bt) return at < bt ? -1 : 1;
+    return (a.made || 0) - (b.made || 0);
+  });
+}
+function tdGroups(){
+  const key = today(), tom = shift(key, 1);
+  const g = {late:[], today:[], tomorrow:[], later:[], someday:[]};
+  todos().forEach(function(t){
+    if(!t.date) { g.someday.push(t); return; }
+    if(t.date < key) { (t.done ? g.today : g.late).push(t); return; }
+    if(t.date === key) { g.today.push(t); return; }
+    if(t.date === tom) { g.tomorrow.push(t); return; }
+    g.later.push(t);
+  });
+  Object.keys(g).forEach(function(k){ g[k] = tdSort(g[k]); });
+  return g;
+}
+function tdOpenToday(){
+  return todos().filter(function(t){ return !t.done && t.date && t.date <= today(); });
+}
+function tdWhen(t){
+  if(!t.date) return 'no date';
+  if(t.date === today()) return 'today';
+  if(t.date === shift(today(), 1)) return 'tomorrow';
+  const d = toDate(t.date);
+  return WDAYS[d.getDay()].slice(0,3) + ', ' + MONTHS[d.getMonth()].slice(0,3) + ' ' + d.getDate();
+}
+
+function tdRow(t, showWhen){
+  const late = !t.done && t.date && t.date < today();
+  const bits = [];
+  if(showWhen) bits.push(tdWhen(t));
+  if(t.note) bits.push(esc(t.note));
+  return '<article class="td'+(t.done ? ' done' : '')+(late ? ' td-late' : '')+'">'+
+    '<button class="box" data-act="td-toggle" data-id="'+t.id+'" aria-pressed="'+(t.done?'true':'false')+'" aria-label="Done">'+
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'+
+    '</button>'+
+    '<button class="td-main" data-act="td-edit" data-id="'+t.id+'"><b>'+esc(t.t)+'</b>'+
+      (bits.length ? '<em>'+bits.join(' · ')+'</em>' : '')+'</button>'+
+    (t.time ? '<span class="td-time">'+esc(t.time)+'</span>' : '<span></span>')+
+    '</article>';
+}
+
+function renderTodos(){
+  const g = tdGroups();
+  const left = tdOpenToday().length;
+
+  let html = '<div class="td-add">'+
+    '<input type="text" id="tdQuick" placeholder="What needs doing?" value="'+esc(todoDraft)+'" autocomplete="off" enterkeyhint="done">'+
+    '<button data-act="td-quick" aria-label="Add">+</button></div>';
+
+  const blocks = [
+    ['late', 'Overdue', true],
+    ['today', left ? 'Today · ' + left + ' left' : 'Today', false],
+    ['tomorrow', 'Tomorrow', false],
+    ['later', 'Later', true],
+    ['someday', 'No date yet', false]
+  ];
+  let any = false;
+  blocks.forEach(function(b){
+    const list = g[b[0]];
+    if(!list.length) return;
+    any = true;
+    html += '<section class="td-group'+(b[0] === 'late' ? ' late' : '')+'"><p class="eyebrow">'+b[1]+'</p>'+
+      '<div class="td-list">'+list.map(function(t){ return tdRow(t, b[2]); }).join('')+'</div></section>';
+  });
+
+  if(!any){
+    html += '<div class="empty" style="padding:44px 16px"><div style="font-size:42px">📋</div>'+
+      '<p>Nothing written down.<br>Type it above — a phone call, an appointment, anything that is not a habit.</p></div>';
+  } else {
+    html += '<p class="sub" style="text-align:center;margin-top:6px">Tap a task to set a time, a day or a note.</p>';
+  }
+  view.innerHTML = html;
+}
+
+function tdTodayCard(){
+  const open = tdSort(tdOpenToday());
+  if(!open.length) return '';
+  return '<button class="td-card" data-act="go-todo">'+
+    '<span class="top"><p class="eyebrow">📋 To-do</p><span class="go">Open →</span></span>'+
+    '<ul>'+open.slice(0,3).map(function(t){
+      return '<li><span>'+(t.time || '—')+'</span>'+esc(t.t)+'</li>';
+    }).join('')+'</ul>'+
+    (open.length > 3 ? '<p>and '+(open.length - 3)+' more</p>' : '')+
+    '</button>';
+}
+
+function sheetTodo(id){
+  const t = todos().find(function(x){ return x.id === id; });
+  if(!t) return;
+  openSheet('<h2>Task</h2><p class="sub">A day and a time are optional — some things just need writing down.</p>'+
+    '<div class="field"><label for="tdT">What</label>'+
+    '<input type="text" id="tdT" maxlength="120" value="'+esc(t.t)+'"></div>'+
+    '<div style="display:flex;gap:11px">'+
+      '<div class="field" style="flex:3"><label for="tdDate">Day</label>'+
+      '<input type="date" id="tdDate" value="'+esc(t.date || '')+'"></div>'+
+      '<div class="field" style="flex:2"><label for="tdTime">Time</label>'+
+      '<input type="time" id="tdTime" value="'+esc(t.time || '')+'"></div>'+
+    '</div>'+
+    '<div class="chips" style="margin:-6px 0 16px">'+
+      '<button type="button" class="chip" data-act="td-day" data-d="'+today()+'">Today</button>'+
+      '<button type="button" class="chip" data-act="td-day" data-d="'+shift(today(),1)+'">Tomorrow</button>'+
+      '<button type="button" class="chip" data-act="td-day" data-d="'+shift(today(),7)+'">In a week</button>'+
+      '<button type="button" class="chip" data-act="td-day" data-d="">No date</button>'+
+    '</div>'+
+    '<div class="field"><label for="tdNote">Note</label>'+
+    '<textarea id="tdNote" rows="2" placeholder="Address, phone number, what to bring">'+esc(t.note || '')+'</textarea></div>'+
+    '<div class="sheet-actions">'+
+      '<button class="btn btn-danger" data-act="td-del" data-id="'+t.id+'">Delete</button>'+
+      '<button class="btn btn-primary" data-act="td-save" data-id="'+t.id+'">Save</button>'+
+    '</div>');
 }
 
 /* ---------- What's New: the card on Today ---------- */
@@ -2508,6 +2685,7 @@ function renderToday(){
     '<div class="lvl"><div class="lvl-bar"><i style="width:'+L.pct+'%"></i></div><small class="num">'+state.xp+' XP</small></div>'+
     '</div></section>';
 
+  html += tdTodayCard();
   html += rdTodayCard();
   html += wkTodayCard();
 
@@ -3322,6 +3500,41 @@ document.addEventListener('click', function(e){
     state.prizes = state.prizes.filter(x=>x.id!==id); save(); renderPrizes();
   }
   else if(act==='go-english'){ openPack = null; go('english'); }
+  else if(act==='go-todo'){ go('todo'); }
+  else if(act==='td-quick'){
+    const f = $('#tdQuick'); const v = (f ? f.value : '').trim();
+    if(!v){ if(f) f.focus(); return; }
+    todos().push({id:'t'+Date.now().toString(36), t:v, date:today(), time:'', note:'', done:false, made:Date.now()});
+    todoDraft = ''; save(); renderTodos();
+    const f2 = $('#tdQuick'); if(f2) f2.focus();
+  }
+  else if(act==='td-toggle'){
+    const t = todos().find(function(x){ return x.id === id; });
+    if(!t) return;
+    t.done = !t.done; t.doneAt = t.done ? today() : '';
+    if(t.done){ state.xp += 5; celebrate(btn.closest('.td')); }
+    save(); renderTodos();
+  }
+  else if(act==='td-edit') sheetTodo(id);
+  else if(act==='td-day'){
+    const f = $('#tdDate'); if(f) f.value = btn.getAttribute('data-d');
+    sheet.querySelectorAll('[data-act="td-day"]').forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+    btn.setAttribute('aria-pressed','true');
+  }
+  else if(act==='td-save'){
+    const t = todos().find(function(x){ return x.id === id; });
+    if(!t) return;
+    const v = ($('#tdT').value || '').trim();
+    if(!v){ toast('Give it a name'); $('#tdT').focus(); return; }
+    t.t = v; t.date = $('#tdDate').value || ''; t.time = $('#tdTime').value || '';
+    t.note = ($('#tdNote').value || '').trim();
+    save(); closeSheet(); go('todo'); toast('Saved');
+  }
+  else if(act==='td-del'){
+    if(!confirm('Delete this task?')) return;
+    state.todos = todos().filter(function(x){ return x.id !== id; });
+    save(); closeSheet(); go('todo'); toast('Deleted');
+  }
   else if(act==='open-read'){ openRead = null; todayView = 'read'; window.scrollTo(0,0); renderToday(); }
   else if(act==='close-read'){
     if(openRead !== null){ openRead = null; window.scrollTo(0,0); renderRead(); }
@@ -3535,6 +3748,7 @@ document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click', functio
 document.addEventListener('input', function(e){
   if(e.target && e.target.id === 'recSearch'){ recQuery = e.target.value; paintRecipeList(); }
   if(e.target && e.target.id === 'libSearch'){ libQuery = e.target.value; paintLibList(); }
+  if(e.target && e.target.id === 'tdQuick'){ todoDraft = e.target.value; }
   if(e.target && e.target.id === 'wordSearch'){
     wordQuery = e.target.value;
     const box = document.querySelector('.words');
@@ -3543,6 +3757,11 @@ document.addEventListener('input', function(e){
   }
 });
 document.addEventListener('keydown', function(e){
+  if(e.key === 'Enter' && e.target && e.target.id === 'tdQuick'){
+    e.preventDefault();
+    const b = document.querySelector('[data-act="td-quick"]'); if(b) b.click();
+    return;
+  }
   if((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('[role="button"][data-act]')){
     e.preventDefault(); e.target.click();
   }
@@ -3604,6 +3823,7 @@ function go(t){
 function render(){
   if(tab==='today') renderToday();
   else if(tab==='stats') renderStats();
+  else if(tab==='todo') renderTodos();
   else if(tab==='english') renderEnglish();
   else if(tab==='recipes') renderRecipes();
   else renderPrizes();

@@ -26,6 +26,7 @@ file in, **Commit changes**. The site updates in about a minute.
 |---|---|
 | Today | Your **why** at the top, the day ring, the affirmation, and the habits — split into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
 | + Add | A library of ready-made habits in 11 categories, searchable, one tap to add — or write your own |
+| To-do | Tasks that are not habits — a call, an appointment, a bill. Quick-add at the top, optional day and time, grouped into Overdue · Today · Tomorrow · Later · No date |
 | 📰 What's new | A card on Today opens the article of the day: Russian, English or French, never announced in advance, with comprehension questions, words you can push straight into My words, and a speaking prompt |
 | 🏋️ Workout | A card on Today opens a full **Workouts** page: today's focus, five matching videos, filters by length and energy, and one tap to log it |
 | English | Two halves. **Daily pack** — the affirmation and ten useful phrases, 30 topics in rotation. **My words** — your own vocabulary: each word saved with the sentence you met it in, plus a recall drill |
@@ -60,6 +61,16 @@ Each habit belongs to a time of day — Morning, Day or Evening — and the list
 Today tab is grouped under those three headings. Change it in the habit editor.
 
 Delete any of them, change how often, or add more from the library.
+
+## To-do
+
+Habits repeat; tasks do not, so they live apart. Type into the field at the top and it lands
+on today. Tap the task to give it a day, a time and a note — or leave it undated.
+
+The list groups itself: **Overdue · Today · Tomorrow · Later · No date yet**. Overdue is
+flagged in red, timed tasks sort by the clock, and finished ones drop to the bottom with the
+text struck through. Whatever is still open today also shows on the Today screen, so the
+morning answer to "what now" includes the phone calls, not only the habits.
 
 ## What's new
 
