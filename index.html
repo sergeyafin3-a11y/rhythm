@@ -2098,7 +2098,7 @@ function renderWorkouts(){
       const picked = rec.doneId === w.id;
       return '<article class="wk'+(picked ? ' picked' : '')+'">'+
         '<a class="wk-thumb" href="'+url+'" target="_blank" rel="noopener" data-act="wk-open" data-id="'+w.id+'">'+
-          '<img src="https://i.ytimg.com/vi/'+w.v+'/hqdefault.jpg" alt="" loading="lazy" '+
+          '<img src="https://i.ytimg.com/vi/'+w.v+'/hqdefault.jpg" alt="" decoding="async" '+
             'onerror="this.parentNode.classList.add(&quot;broken&quot;)">'+
           '<span class="fallback">'+WK_TYPES[w.type].emoji+'</span>'+
           '<span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>'+
