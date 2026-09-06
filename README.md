@@ -68,6 +68,13 @@ physics, earth, history, language, art, food, body, how-things-work, money and h
 The language rotates unpredictably: 12 English, 9 Russian, 9 French, never more than two of
 the same in a row.
 
+Every English and French word in an article is tappable: tap it and the Russian appears in a
+bubble right there. The glossary is built from the articles themselves — 563 English forms and
+452 French ones, every single word in every text, so a tap never comes back empty. It works
+offline; nothing is looked up over the network.
+
+Each article carries its level — **B1 → B2+** across the month, so it gets harder as you go.
+
 Under every article:
 
 - **Did you get it?** — three questions, tap to check yourself.
