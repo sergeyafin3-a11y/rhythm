@@ -447,16 +447,28 @@ main{ flex:1; padding-bottom:104px; }
 .td.done .td-time{ background:var(--surface-2); color:var(--ink-mute); }
 .td-late .td-time{ background:#C0392B; color:#fff; }
 .td-card{
-  background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius-lg);
-  box-shadow:var(--shadow); padding:16px; margin-bottom:20px; width:100%; text-align:left; display:block;
+  background:var(--accent-soft);
+  border:var(--border-w) solid var(--accent); border-left-width:5px;
+  border-radius:var(--radius-lg); box-shadow:var(--shadow);
+  padding:17px; margin-bottom:20px; width:100%; text-align:left; display:block;
+  transition:transform .18s cubic-bezier(.2,.8,.2,1);
 }
-.td-card .top{ display:flex; align-items:center; gap:10px; }
-.td-card .top .eyebrow{ margin:0; }
+.td-card:active{ transform:scale(.985); }
+.td-card .top{ display:flex; align-items:center; gap:9px; }
+.td-card .top .eyebrow{ margin:0; color:var(--accent); }
+.td-card .count{
+  font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+  background:var(--accent); color:var(--accent-ink); padding:3px 9px; border-radius:999px; flex:none;
+}
 .td-card .go{ margin-left:auto; font-size:12.5px; font-weight:700; color:var(--accent); }
-.td-card ul{ margin:12px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:7px; }
-.td-card li{ font-size:14px; line-height:1.35; display:flex; gap:9px; align-items:baseline; }
-.td-card li span{ font-size:12px; font-weight:700; color:var(--accent); flex:none; font-variant-numeric:tabular-nums; }
-.td-card p{ margin:10px 0 0; font-size:13px; color:var(--ink-mute); }
+.td-card ul{ margin:14px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:9px; }
+.td-card li{ font-size:15px; line-height:1.3; display:flex; gap:10px; align-items:baseline; color:var(--ink); font-weight:600; }
+.td-card li span{
+  font-size:12px; font-weight:700; color:var(--accent-ink); background:var(--accent); flex:none;
+  font-variant-numeric:tabular-nums; padding:3px 7px; border-radius:7px; min-width:48px; text-align:center;
+}
+.td-card li span.none{ background:transparent; color:var(--accent); box-shadow:inset 0 0 0 1px var(--accent); }
+.td-card p{ margin:12px 0 0; font-size:12.5px; color:var(--accent); font-weight:600; }
 
 /* ---- What's New ---- */
 .rd-card{
@@ -1894,11 +1906,12 @@ const READS = [
    q:[['What did Homer compare the sea to?','Wine — he calls it wine-dark, not blue.'],['Which colour word almost always comes last?','Blue.'],['Do these people see colours differently?','No. They see the same colours but name them differently.']],
    w:[['colour-blind','дальтоник, не различающий цвета','People thought the Greeks were colour-blind.'],['a fixed order','строгий, определённый порядок','Colour words appear in a fixed order.'],['a kind of','разновидность, что-то вроде','They treat blue as a kind of green.'],['to cut something into pieces','делить на части','They cut the spectrum into different pieces.']],
    say:{prompt:'Name a Russian word that is hard to translate into English. What does it mean, and why is it hard?', helpers:['There is a Russian word that means…','The closest English word is…, but it is not the same.','You need a whole sentence to explain it.']}},
-  {d:5, lang:'en', lvl:'B1+', topic:'Physics', title:'Your phone knows about relativity',
-   body:['GPS satellites carry very precise clocks. Those clocks do not agree with the clocks on the ground, and there are two reasons.','The satellites move fast, so their clocks run slow — about seven microseconds a day. But they are also far from Earth, where gravity is weaker, so their clocks run fast — about forty-five microseconds a day.','Together that is about thirty-eight microseconds. It sounds like nothing, but light travels eleven kilometres in that time. Without a correction, your position on the map would move eleven kilometres every day. So engineers build Einstein into the system.'],
-   q:[['Why do the clocks run slow?','Because the satellites move fast.'],['Why do they also run fast?','Because gravity is weaker far from Earth.'],['What happens without a correction?','Your position moves about eleven kilometres a day.']],
-   w:[['precise','точный','GPS satellites carry very precise clocks.'],['to agree with','совпадать, сходиться','Those clocks do not agree with the ones on the ground.'],['a correction','поправка','Without a correction, the map is useless.'],['to build something into something','встроить во что-то','Engineers build Einstein into the system.']],
-   say:{prompt:'Talk about something you use every day without knowing how it works.', helpers:['I use it all the time and I have no idea how…','What I do not understand is…','I would like someone to explain…']}},
+  {d:5, lang:'en', lvl:'B2', topic:'Wellbeing', title:'Embrace the whole idea',
+   src:{name:'Breathe Magazine', url:'https://www.breathemagazine.com/2018/12/18/embrace-the-whole-idea/', by:'Beverley D\'Silva · Breathe, issue 13', date:''},
+   body:['Self-acceptance is not the same thing as self-esteem, and the difference turns out to matter a great deal. Read it on Breathe, then come back.'],
+   q:[['At what age can children form their own separate sense of self?','After about eight — before that they depend on their guardians for their self-image.'],['What does Tara Brach identify as the heart of Buddhism?','Compassion, and especially compassion for ourselves.'],['Name two practical suggestions from Professor David Hamilton.','Writing affirmations such as “I am not my accomplishments”, and understanding that opinions are subjective and can change.']],
+   w:[['warts-and-all','как есть, со всеми недостатками','The value of accepting oneself warts-and-all.'],['to dwell on something','зацикливаться, долго думать о плохом','Dwelling on so-called negative aspects.'],['a tenet','основной принцип','Striving to be non-judgemental is one of its main tenets.'],['unconditional','безусловный, без всяких условий','Self-acceptance is unconditional.']],
+   say:{prompt:'Is there something about yourself you keep trying to fix instead of accepting? Say what it is and what accepting it would look like.', helpers:['The thing I keep trying to fix is…','If I accepted it, I would probably…','I am not sure I am ready to, because…']}},
   {d:6, lang:'ru', lvl:'native', topic:'Биология', title:'Тардиграды: животное, которое умеет выключаться',
    body:['Тардиграды — это восьминогие существа долей миллиметра, живущие во мхах и в лужах. При высыхании они теряют почти всю воду и превращаются в крошечную бочку — обмен веществ падает практически до нуля.','В таком состоянии они переносят кипяток, жидкий азот, дозы радиации, смертельные для нас в сотни раз, и даже открытый космос. Секрет — особые белки, которые застекловывают содержимое клетки и держат его в целости.','Важная оговорка: активный тардиград ничем не выдающийся и гибнет легко. Сверхспособность у него ровно одна — вовремя отключиться.'],
    q:[['Что происходит с тардиградом при высыхании?','Он теряет воду, сжимается в «бочку», а обмен веществ падает почти до нуля.'],['За счёт чего он выживает?','Белки застекловывают содержимое клетки и сохраняют его.'],['Почему нельзя сказать, что он неуязвим?','В активном состоянии он обычное хрупкое животное.']],
@@ -1978,12 +1991,12 @@ const READS = [
    q:[['Qu\'est-ce que l\'effet nocebo ?','Des symptômes qui apparaissent parce qu\'on les attend, sans médicament actif.'],['Quel est le problème pour le médecin ?','Informer des effets secondaires peut les provoquer.'],['Que font certains hôpitaux ?','Ils reformulent la même statistique de façon positive.']],
    w:[['un comprimé','таблетка','Un comprimé sans médicament.'],['soulager','облегчать','Un comprimé qui soulage.'],['prévenir quelqu\'un','предупредить кого-то','Si on prévient un patient…'],['supporter','переносить (лечение)','Quatre-vingt-dix patients le supportent bien.']],
    say:{prompt:'Penses-tu que les mots d\'un médecin changent ce qu\'on ressent ? Donne ton avis.', helpers:['Je pense que oui, parce que…','Il m\'est déjà arrivé de…','Cela dit, il ne faut pas exagérer :…']}},
-  {d:21, lang:'en', lvl:'B2+', topic:'Botany', title:'The wood wide web, with an asterisk',
-   src:{name:'The Conversation', url:'https://theconversation.com/do-trees-really-stay-in-touch-via-a-wood-wide-web-heres-what-the-evidence-says-199806'},
-   body:['Trees are connected underground by fungal threads. Through them, carbon, nitrogen and water can move between plants, and the fungi take sugar in return. That much is well established.','The popular story goes further: mother trees deliberately feeding their seedlings, forests behaving as one organism. In 2023 a review of the evidence found that the most repeated claims rest on very few field studies, and some do not replicate.','So the network is real and remarkable. Whether it is generous is a separate question — and one the data has not answered yet.'],
-   q:[['What is well established?','That fungal threads connect trees and that substances move between them.'],['What did the 2023 review find?','The most repeated claims rest on very few studies, and some do not replicate.'],['What is the honest summary?','The network exists; its supposed generosity is unproven.']],
-   w:[['well established','твёрдо установленный, доказанный','That much is well established.'],['to rest on something','опираться на что-то','The claims rest on very few studies.'],['to replicate','воспроизводиться (об исследовании)','Some results do not replicate.'],['a separate question','отдельный вопрос','Whether it is generous is a separate question.']],
-   say:{prompt:'Have you ever believed a fact for years and then found out it was wrong? Tell the story.', helpers:['For years I was convinced that…','Then I read that…','I still catch myself repeating it.']}},
+  {d:21, lang:'en', lvl:'B2+', topic:'Botany', title:'Do trees really stay in touch via a \'wood-wide web\'?',
+   src:{name:'The Conversation', url:'https://theconversation.com/do-trees-really-stay-in-touch-via-a-wood-wide-web-heres-what-the-evidence-says-199806', by:'Katie Field, Professor in Plant-Soil Processes, University of Sheffield', date:'13 February 2023'},
+   body:['A professor of plant-soil processes goes through the famous claim about trees feeding each other underground — and finds the evidence much thinner than the story. Read it there, then come back.'],
+   q:[['What happens to most of the carbon that moves through fungal networks?','Most of it stays inside the fungus rather than reaching another plant.'],['Why do the misconceptions persist?','Positive citation bias: studies that show transfer get cited far more often than those that do not.'],['What communication between plants has actually been shown?','Fungi can carry defensive signals — bean plants prepared for aphid attacks — though the signal itself is still unknown.']],
+   w:[['inconclusive','неубедительный, не дающий ответа','The evidence remains inconclusive.'],['to perpetuate a misconception','закреплять заблуждение','Perpetuating misconceptions among the public and scientists.'],['anthropomorphic','приписывающий человеческие черты','Anthropomorphic language such as “talk”, “share” and “trade”.'],['a conduit','канал, проводник','Fungi act as conduits for defensive signals.']],
+   say:{prompt:'This is a story that got more beautiful than the data allowed. Have you ever repeated a fact you later found was overstated?', helpers:['I used to tell people that…','Then I found out that…','I think the story spread because…']}},
   {d:22, lang:'ru', lvl:'native', topic:'Деньги и привычки', title:'Почему отменить подписку труднее, чем оформить',
    body:['Оформление занимает два касания, отмена — семь экранов, звонок или письмо. Это не лень разработчиков, а проектное решение: приёмы такого рода называют тёмными паттернами.','Работают они на нашей инерции. Каждое лишнее действие отсеивает часть людей, и компании это измеряют. Отсюда же предвыбранные галочки, кнопка «остаться» крупнее кнопки «уйти» и фраза «вы потеряете все данные».','С 2023–2024 годов регуляторы в ЕС и США начали требовать симметрии: отписка должна быть не сложнее подписки. Пока это работает не везде, и самая надёжная защита прежняя — календарное напоминание за день до списания.'],
    q:[['Почему отмена сложная?','Это спроектировано специально: каждое лишнее действие отсеивает часть людей.'],['Какие ещё приёмы используются?','Предвыбранные галочки, крупная кнопка «остаться», предупреждение о потере данных.'],['Что требуют регуляторы?','Чтобы отписка была не сложнее подписки.']],
@@ -2449,9 +2462,10 @@ function tdTodayCard(){
   const open = tdSort(tdOpenToday());
   if(!open.length) return '';
   return '<button class="td-card" data-act="go-todo">'+
-    '<span class="top"><p class="eyebrow">📋 To-do</p><span class="go">Open →</span></span>'+
+    '<span class="top"><p class="eyebrow">📋 To-do</p><span class="count">'+open.length+' today</span>'+
+    '<span class="go">Open →</span></span>'+
     '<ul>'+open.slice(0,3).map(function(t){
-      return '<li><span>'+(t.time || '—')+'</span>'+esc(t.t)+'</li>';
+      return '<li><span'+(t.time ? '' : ' class="none"')+'>'+(t.time || 'any')+'</span>'+esc(t.t)+'</li>';
     }).join('')+'</ul>'+
     (open.length > 3 ? '<p>and '+(open.length - 3)+' more</p>' : '')+
     '</button>';
