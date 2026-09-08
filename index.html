@@ -2032,7 +2032,10 @@ const READS = [
    say:{prompt:'Décris un animal que tu connais bien. Qu\'est-ce qu\'il fait que personne ne comprend ?', helpers:['Il a une habitude bizarre :…','Personne n\'a jamais compris pourquoi…','À force, on s\'y habitue.']}}
 ];
 let openRead = null, shown = {};
-function readOfDay(){ return READS[dayIndex() % READS.length]; }
+function readOfDay(){
+  if(state.readIdx == null) state.readIdx = dayIndex() % READS.length;
+  return READS[((state.readIdx % READS.length) + READS.length) % READS.length];
+}
 function currentRead(){ return openRead === null ? readOfDay() : (READS.find(function(r){ return r.d === openRead; }) || readOfDay()); }
 
 /* ---------- Workouts: real videos, one focus a day ---------- */
@@ -2114,6 +2117,16 @@ const ENERGY = [['low','😴 No energy'],['ok','🙂 Normal'],['high','🔥 Plen
 
 let wkBand = 'all', wkEnergy = 'ok', todayView = 'main';
 
+// the day on offer. It does not move on until you finish one or skip it,
+// however many days go by.
+function wkAnchor(){
+  let a = state.wkAnchor || today();
+  if(a > today()) a = today();
+  return a;
+}
+function wkResolve(){
+  state.wkAnchor = shift(today(), 1);
+}
 function wkTypeFor(key){
   const saved = state.workouts[key];
   if(saved && saved.type) return saved.type;
@@ -2494,12 +2507,13 @@ function renderRead(){
     (a.lvl && a.lvl !== 'native' ? '<span class="pill">'+a.lvl+'</span>' : '')+
     '<span class="pill num">Day '+a.d+'</span></div>'+
     '<h2 class="rec-title">'+esc(a.title)+'</h2>'+
-    '<div class="rd-body">'+a.body.map(function(p){ return '<p>'+wordify(p, a.lang)+'</p>'; }).join('')+'</div>'+
-    (a.lang === 'ru' ? '' : '<p class="rd-hint">Tap any word you do not know — the Russian appears right there.</p>')+
+    '<div class="rd-body"><p>'+wordify(a.body[0], a.lang)+'</p></div>'+
     (a.src
-      ? '<a class="btn btn-full" href="'+a.src.url+'" target="_blank" rel="noopener" style="margin-top:16px">'+
-        'Read the original in '+esc(a.src.name)+' →</a>'
-      : '');
+      ? '<a class="btn btn-primary btn-full" href="'+a.src.url+'" target="_blank" rel="noopener" style="margin-top:18px">'+
+        'Read it on '+esc(a.src.name)+' →</a>'+
+        '<p class="rd-hint">Read it there, then come back for the tasks below.</p>'
+      : '<div class="wk-note" style="margin-top:18px">No source picked for this one yet — tell me which magazines you want and I will link it.</div>')+
+    (a.lang === 'ru' ? '' : '<p class="rd-hint">Tap any word above for the Russian.</p>');
 
   html += '<section class="rd-block"><p class="eyebrow">Did you get it?</p>'+
     a.q.map(function(pair, i){
@@ -2545,8 +2559,8 @@ function sheetReads(){
 
 /* ---------- Workouts: the card on Today ---------- */
 function wkTodayCard(){
-  const key = today(), type = wkTypeFor(key), T = WK_TYPES[type];
-  const rec = state.workouts[key] || {};
+  const key = wkAnchor(), type = wkTypeFor(key), T = WK_TYPES[type];
+  const rec = state.workouts[today()] || {};
   const picks = wkPicks(type, key);
   let body;
   if(rec.doneId){
@@ -2565,8 +2579,8 @@ function wkTodayCard(){
 
 /* ---------- Workouts: the page ---------- */
 function renderWorkouts(){
-  const key = today(), type = wkTypeFor(key), T = WK_TYPES[type];
-  const rec = state.workouts[key] || {};
+  const key = wkAnchor(), type = wkTypeFor(key), T = WK_TYPES[type];
+  const rec = state.workouts[today()] || {};
   const wk = wkWeek();
   const list = wkVisible(key);
 
@@ -3563,6 +3577,7 @@ document.addEventListener('click', function(e){
     const rec = state.reads[a.d] || (state.reads[a.d] = {});
     if(rec.read){ delete state.reads[a.d]; save(); renderRead(); toast('Unmarked'); return; }
     rec.read = true; rec.date = today();
+    if(a.d === readOfDay().d) state.readIdx = (state.readIdx || 0) + 1;
     save();
     const h = state.habits.find(function(x){ return x.id === 'h1'; });
     if(a.d === readOfDay().d && h && !isDone(h, today())) toggleHabit(h.id, null);
@@ -3575,7 +3590,7 @@ document.addEventListener('click', function(e){
   else if(act==='wk-energy'){ wkEnergy = btn.getAttribute('data-e'); renderWorkouts(); }
   else if(act==='wk-change') sheetWkType();
   else if(act==='wk-set'){
-    const key = today();
+    const key = wkAnchor();
     const rec = state.workouts[key] || (state.workouts[key] = {});
     rec.type = btn.getAttribute('data-t');
     save(); closeSheet(); wkBand = 'all'; renderWorkouts();
@@ -3584,18 +3599,19 @@ document.addEventListener('click', function(e){
   else if(act==='wk-skip'){
     const key = today();
     const rec = state.workouts[key] || (state.workouts[key] = {});
+    rec.type = wkTypeFor(wkAnchor());
     rec.skipped = true; delete rec.doneId; delete rec.min;
-    save(); renderWorkouts(); toast('Skipped — no harm done');
+    wkResolve(); save(); renderWorkouts(); toast('Skipped — no harm done');
   }
   else if(act==='wk-done'){
     const key = today(), w = wkById(id);
     const rec = state.workouts[key] || (state.workouts[key] = {});
     if(rec.doneId === id){
-      delete rec.doneId; delete rec.min;
+      delete rec.doneId; delete rec.min; state.wkAnchor = today();
       save(); renderWorkouts(); toast('Unmarked'); return;
     }
-    rec.type = wkTypeFor(key); rec.doneId = id; rec.min = w ? w.min : 0; delete rec.skipped;
-    save();
+    rec.type = wkTypeFor(wkAnchor()); rec.doneId = id; rec.min = w ? w.min : 0; delete rec.skipped;
+    wkResolve(); save();
     const h = wkHabit();
     if(h && !isDone(h, key)) toggleHabit(h.id, null);
     else renderWorkouts();

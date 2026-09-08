@@ -86,6 +86,9 @@ offline; nothing is looked up over the network.
 
 Each article carries its level — **B1 → B2+** across the month, so it gets harder as you go.
 
+The article page leads with the link to the original — you read it on the publication's own
+site and come back for the tasks.
+
 Under every article:
 
 - **Did you get it?** — three questions, tap to check yourself.
@@ -105,6 +108,10 @@ written for the app — full magazine articles are not reproduced here.
 The week rotates on its own: **Mon** glutes + legs · **Tue** walking · **Wed** upper body + core ·
 **Thu** walking · **Fri** glutes + legs · **Sat** full body · **Sun** rest. Any day can be
 changed by hand, skipped, or turned into a recovery day.
+
+**Nothing moves on until you finish it.** Miss a day and the same focus and the same five
+videos are still waiting tomorrow, and the day after. Only *Done* or *Skip today* advances the
+plan. The article behaves the same way: it waits until you mark it read.
 
 Whatever the focus is, all five options train **the same thing** — they differ only in length
 (10 → 45 min), intensity and trainer. Filter by how long you have (≤15 / 20–25 / 30–35 / 40+)
