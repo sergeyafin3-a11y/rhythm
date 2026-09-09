@@ -390,6 +390,43 @@ main{ flex:1; padding-bottom:104px; }
   background:linear-gradient(to top, var(--ground) 62%, transparent);
 }
 
+/* ---------- Vocabulary games ---------- */
+.vc-modes{ display:flex; flex-direction:column; gap:10px; margin:18px 0 4px; }
+.vc-mode{
+  width:100%; text-align:left; padding:15px 16px; border-radius:var(--radius-lg);
+  background:var(--surface); border:var(--border-w) solid var(--line); box-shadow:var(--shadow);
+  transition:transform .16s cubic-bezier(.2,.8,.2,1);
+}
+.vc-mode:active{ transform:scale(.99); }
+.vc-mode b{ display:block; font-size:16px; }
+.vc-mode span{ display:block; font-size:12.5px; color:var(--ink-mute); margin-top:4px; line-height:1.45; }
+.vc-all{ display:flex; flex-direction:column; gap:7px; }
+.vc-row{ display:flex; align-items:baseline; gap:9px; font-size:14px; line-height:1.35; }
+.vc-row b{ flex:none; max-width:46%; }
+.vc-row span{ flex:1; min-width:0; color:var(--ink-mute); font-size:12.5px; }
+.vc-row i{ flex:none; font-style:normal; font-size:9px; color:var(--accent); letter-spacing:1px; }
+.vc-row.known b{ color:var(--accent); }
+.vc-card{
+  width:100%; min-height:230px; margin-top:6px; padding:26px 22px; display:flex;
+  flex-direction:column; align-items:center; justify-content:center; gap:12px; text-align:center;
+  background:var(--surface); border:var(--border-w) solid var(--line);
+  border-radius:var(--radius-lg); box-shadow:var(--shadow);
+}
+.vc-card.open{ border-color:var(--accent); }
+.vc-card b{ font-family:var(--font-display); font-weight:var(--display-weight); font-size:27px; line-height:1.2; }
+.vc-tap{ font-size:12.5px; color:var(--ink-mute); }
+.vc-mean{ font-size:17px; color:var(--accent); font-weight:600; line-height:1.35; }
+.vc-ctx{ font-size:14px; color:var(--ink-mute); line-height:1.5; font-style:italic; }
+.vc-judge{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
+.vc-match{ display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:8px; }
+.vc-col{ display:flex; flex-direction:column; gap:9px; }
+.vc-chip{
+  padding:12px 11px; border-radius:var(--radius-lg); font-size:13.5px; line-height:1.3;
+  background:var(--surface); border:var(--border-w) solid var(--line); color:var(--ink); text-align:left;
+}
+.vc-chip.on{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent); font-weight:700; }
+.vc-chip.done{ opacity:.32; border-style:dashed; }
+.vc-chip[disabled]{ pointer-events:none; }
 /* ---------- Flight mode ---------- */
 .fl-lede{ margin:0 0 6px; font-size:15px; line-height:1.55; color:var(--ink-soft); }
 .fl-ready{
@@ -3800,7 +3837,46 @@ document.addEventListener('click', function(e){
   else if(act==='fl-read'){  flightView = {t:'read',  id:id}; window.scrollTo(0,0); renderFlight(); }
   else if(act==='fl-drill'){ flightView = {t:'drill', id:id}; flAnswered = -1; window.scrollTo(0,0); renderFlight(); }
   else if(act==='fl-write'){ flightView = {t:'write', id:id}; window.scrollTo(0,0); renderFlight(); }
-  else if(act==='fl-back'){  flightView = null; flAnswered = -1; window.scrollTo(0,0); renderFlight(); }
+  else if(act==='fl-back'){  flightView = null; flAnswered = -1; vcPack = null; vcMode = null; window.scrollTo(0,0); renderFlight(); }
+  else if(act==='vc-pack'){  vcPack = id; vcMode = null; window.scrollTo(0,0); renderFlight(); }
+  else if(act==='vc-modes'){ vcMode = null; window.scrollTo(0,0); renderFlight(); }
+  else if(act==='vc-start'){
+    vcMode = btn.getAttribute('data-m');
+    vcQueue = vcBuildQueue(vcPackById(vcPack), vcMode === 'match' ? 6 : VC_SESSION);
+    vcAt = 0; vcRight = 0; vcShown = false; vcPicked = null; vcDone = {}; vcAnswer = -1; vcRightOrder = null;
+    window.scrollTo(0,0); renderFlight();
+  }
+  else if(act==='vc-flip'){ vcShown = true; renderFlight(); }
+  else if(act==='vc-mark'){
+    const good = btn.getAttribute('data-g') === '1';
+    vcBump(vcQueue[vcAt], good);
+    if(good){ vcRight++; state.xp += 2; }
+    vcAt++; vcShown = false; save(); window.scrollTo(0,0); renderFlight();
+  }
+  else if(act==='vc-pick'){ vcPicked = +btn.getAttribute('data-n'); renderFlight(); }
+  else if(act==='vc-drop'){
+    if(vcPicked === null) return;
+    const chosen = vcQueue[vcPicked], term = btn.getAttribute('data-t');
+    if(chosen.term === term){
+      vcDone[term] = true; vcBump(chosen, true); vcRight++; state.xp += 2;
+      celebrate(btn);
+      if(Object.keys(vcDone).length >= Math.min(6, vcQueue.length)) vcAt = vcQueue.length;
+    } else {
+      vcBump(chosen, false); toast('Not that one');
+    }
+    vcPicked = null; save(); renderFlight();
+  }
+  else if(act==='vc-gap'){
+    if(vcAnswer > -1) return;
+    const it = vcQueue[vcAt];
+    vcAnswer = +btn.getAttribute('data-n');
+    const good = vcAnswer === it.correct;
+    vcBump(it, good);
+    if(good){ vcRight++; state.xp += 2; }
+    save(); renderFlight();
+  }
+  else if(act==='vc-next'){ vcAt++; vcAnswer = -1; window.scrollTo(0,0); renderFlight(); }
+
   else if(act==='fl-pg'){
     const r = longRead(flightView.id), st = flRead(r.id);
     st.pg += (+btn.getAttribute('data-d'));
@@ -4397,6 +4473,454 @@ const DRILLS = [
 ]}
 ];
 
+/* ---------- Vocabulary: packs to play with, entirely offline ----------
+   Each word is [term, Russian, an example sentence that contains the term].
+   The gap game blanks the term out of that sentence, so the sentence has to
+   carry it. */
+const VOCAB = [
+{id:'v_air', lang:'en', title:'Airports and delays', sub:'The words you need on exactly this day', words:[
+ ['a layover','пересадка с ожиданием','We had a six-hour layover in Istanbul and slept on the floor.'],
+ ['to board','садиться в самолёт','They started to board twenty minutes late.'],
+ ['a gate','выход на посадку','The gate changed twice before anyone told us.'],
+ ['hand luggage','ручная кладь','Everything I need is in my hand luggage.'],
+ ['to check in','зарегистрироваться','You can check in online the night before.'],
+ ['a connecting flight','стыковочный рейс','If we land late I will miss my connecting flight.'],
+ ['to be delayed','быть задержанным','The flight was delayed by three hours.'],
+ ['turbulence','турбулентность','A bit of turbulence over the mountains, nothing serious.'],
+ ['an aisle seat','место у прохода','I always ask for an aisle seat so I can get up.'],
+ ['jet lag','джетлаг, сбой ритма','The jet lag hit me on the second day, not the first.'],
+ ['to reschedule','перенести на другое время','They rescheduled us onto the morning flight.'],
+ ['a stopover','остановка в пути','We made a stopover in Dubai and saw nothing of it.'],
+ ['baggage reclaim','выдача багажа','I stood at baggage reclaim for forty minutes.'],
+ ['to overbook','продать больше мест, чем есть','The airline had overbooked and asked for volunteers.'],
+ ['a boarding pass','посадочный талон','Keep your boarding pass, they check it again at the gate.'],
+ ['to land','приземляться','We land at half past six local time.']
+]},
+
+{id:'v_feel', lang:'en', title:'Past happy and sad', sub:'Precise words for what you actually feel', words:[
+ ['restless','беспокойный, не находящий места','I get restless if I sit still for too long.'],
+ ['content','довольный, в спокойном довольстве','She is not excited, just quietly content.'],
+ ['overwhelmed','перегруженный, накрытый','By Thursday I was completely overwhelmed.'],
+ ['relieved','испытывающий облегчение','I was relieved when the email finally came.'],
+ ['uneasy','встревоженный, не по себе','Something about his answer made me uneasy.'],
+ ['drained','опустошённый, выжатый','Two lessons back to back and I am drained.'],
+ ['wistful','с лёгкой грустью по прошлому','She went quiet and wistful when the song came on.'],
+ ['fed up','сытый по горло','I am fed up with explaining the same thing.'],
+ ['giddy','головокружительно радостный','The good news left her giddy for an hour.'],
+ ['apprehensive','с опаской, тревожный перед чем-то','I am a little apprehensive about the meeting.'],
+ ['at a loose end','не знающий, чем себя занять','I was at a loose end all Sunday afternoon.'],
+ ['touched','тронутый','I was genuinely touched that they remembered.'],
+ ['deflated','сдувшийся, упавший духом','He looked deflated after the results came out.'],
+ ['on edge','на взводе, взвинченный','I have been on edge since the phone call.'],
+ ['grateful','благодарный','I am grateful that it happened this way.'],
+ ['numb','оцепеневший, ничего не чувствующий','For the first hour I just felt numb.']
+]},
+
+{id:'v_people', lang:'en', title:'People and how they behave', sub:'Character words that carry a judgement', words:[
+ ['blunt','прямолинейный до грубости','She is blunt, but you always know where you stand.'],
+ ['tactful','тактичный','A more tactful person would not have said that.'],
+ ['self-absorbed','поглощённый собой','He is not unkind, just completely self-absorbed.'],
+ ['level-headed','рассудительный, не теряющий головы','You want someone level-headed in a crisis.'],
+ ['flaky','ненадёжный, вечно отменяющий','She is lovely but flaky about arrangements.'],
+ ['generous','щедрый','He was generous with his time, which is rarer.'],
+ ['petty','мелочный','It was a petty thing to bring up.'],
+ ['down-to-earth','приземлённый, без пафоса','For someone that successful she is very down-to-earth.'],
+ ['stubborn','упрямый','My father is stubborn about the smallest things.'],
+ ['perceptive','проницательный','That was a perceptive question.'],
+ ['insufferable','невыносимый','He becomes insufferable the moment he is right.'],
+ ['easy-going','лёгкий в общении','They are easy-going about when you arrive.'],
+ ['patronising','снисходительный, свысока','Do not use that patronising tone with me.'],
+ ['reliable','надёжный','She is the only reliable one in the department.'],
+ ['highly strung','нервный, натянутый как струна','He is highly strung before every presentation.'],
+ ['warm','тёплый (о человеке)','Her students describe her as warm and a bit strict.']
+]},
+
+{id:'v_work', lang:'en', title:'Getting things done', sub:'Verbs for admin, work and not-quite-finishing', words:[
+ ['to put off','откладывать','I keep putting off the phone call.'],
+ ['to get round to','наконец добраться до','I never get round to sorting the photographs.'],
+ ['to chase up','напомнить, дожать','I will chase up the invoice on Monday.'],
+ ['to sort out','разобраться, уладить','Give me an hour to sort out the timetable.'],
+ ['to follow up','вернуться к вопросу','Nobody followed up after the meeting.'],
+ ['to run behind','отставать от графика','We are running behind on everything this week.'],
+ ['a deadline','срок сдачи','The deadline moved and nobody told me.'],
+ ['to prioritise','расставить приоритеты','I had to prioritise and drop two of them.'],
+ ['to delegate','делегировать','Learning to delegate took me ten years.'],
+ ['to wrap up','закончить, свернуть','Let us wrap up and continue tomorrow.'],
+ ['a workaround','обходной путь','It is not a fix, it is a workaround.'],
+ ['to touch base','связаться, свериться','I will touch base with you on Thursday.'],
+ ['to take on','взять на себя','Do not take on more than you can carry.'],
+ ['backlog','накопившиеся дела','My backlog of marking is genuinely frightening.'],
+ ['to sign off on','утвердить, дать добро','Someone above me has to sign off on it.'],
+ ['to fall through','сорваться, не состояться','The whole arrangement fell through in a day.']
+]},
+
+{id:'v_body', lang:'en', title:'The body, honestly', sub:'Tiredness, aches and how you actually describe them', words:[
+ ['stiff','затёкший, тугой','My neck is stiff from the flight.'],
+ ['sore','болезненный, ноющий','My legs are sore two days after the class.'],
+ ['bloated','раздутый, вздутый','I feel bloated every time I eat late.'],
+ ['light-headed','с лёгким головокружением','I stood up too fast and went light-headed.'],
+ ['run down','вымотанный, ослабленный','I have been run down since February.'],
+ ['to ache','ныть, болеть','My back aches when I sit for too long.'],
+ ['a twinge','укол боли, потягивание','I get a twinge in my knee on the stairs.'],
+ ['well rested','выспавшийся','I have not felt well rested in weeks.'],
+ ['to swell','отекать, распухать','My ankles swell on long flights.'],
+ ['dehydrated','обезвоженный','You get dehydrated on a plane without noticing.'],
+ ['groggy','вялый, соображающий с трудом','I am groggy for the first hour after waking.'],
+ ['to stretch out','вытянуться, размяться','I need to stretch out my shoulders.'],
+ ['restless legs','беспокойные ноги','Restless legs make long flights miserable.'],
+ ['a knot','узел, зажим (в мышце)','There is a knot between my shoulder blades.'],
+ ['posture','осанка','My posture collapses by the third lesson.'],
+ ['to unwind','расслабиться, отпустить','It takes me an hour to unwind after teaching.']
+]},
+
+{id:'v_food', lang:'en', title:'Food, properly described', sub:'Beyond tasty and delicious', words:[
+ ['tender','мягкий, нежный (о мясе)','Slow cooking makes it properly tender.'],
+ ['crisp','хрустящий','The skin should be crisp, not leathery.'],
+ ['bland','пресный, без вкуса','Without salt the whole thing is bland.'],
+ ['rich','насыщенный, жирный','It is very rich, so a small portion is enough.'],
+ ['tangy','с кислинкой','A tangy yoghurt sauce cuts through the fat.'],
+ ['to simmer','томить на медленном огне','Let it simmer for forty minutes, uncovered.'],
+ ['to season','приправить','Season it at the end, not at the beginning.'],
+ ['a pinch','щепотка','Just a pinch of salt in the dough.'],
+ ['stodgy','тяжёлый, забивающий','The pudding was stodgy and I regretted it.'],
+ ['to sear','обжарить на сильном огне','Sear the meat first for the colour.'],
+ ['zest','цедра','The zest of one lemon changes everything.'],
+ ['to fold in','аккуратно вмешать','Fold in the egg whites, do not stir.'],
+ ['moreish','такой, что не оторваться','These are dangerously moreish.'],
+ ['leftovers','остатки еды','The leftovers were better the next day.'],
+ ['to marinate','мариновать','Marinate it overnight if you have time.'],
+ ['a stock','бульон','A good stock is worth the two hours.']
+]},
+
+{id:'v_talk', lang:'en', title:'Sounding natural', sub:'The small phrases that give you away', words:[
+ ['to be honest','честно говоря','To be honest, I had forgotten completely.'],
+ ['come to think of it','если подумать','Come to think of it, she did mention it.'],
+ ['fair enough','ладно, справедливо','Fair enough, I see your point.'],
+ ['I would rather','я бы предпочла','I would rather we did this tomorrow.'],
+ ['no wonder','неудивительно','No wonder you are exhausted.'],
+ ['as far as I know','насколько я знаю','As far as I know, nothing has changed.'],
+ ['it turns out','оказывается','It turns out I had the wrong address.'],
+ ['I am not fussed','мне всё равно, без разницы','I am not fussed either way.'],
+ ['that said','при этом, тем не менее','That said, I would still go.'],
+ ['to be fair','надо признать','To be fair, nobody warned him.'],
+ ['I take your point','принимаю твой довод','I take your point, but the timing is wrong.'],
+ ['off the top of my head','навскидку','Off the top of my head, about thirty.'],
+ ['in the end','в итоге','In the end we stayed home.'],
+ ['if anything','скорее уж, если на то пошло','If anything, it got worse.'],
+ ['let alone','не говоря уже о','I cannot manage one, let alone three.'],
+ ['bear with me','подожди немного','Bear with me, I am nearly finished.']
+]},
+
+{id:'v_money', lang:'en', title:'Money and what it costs', sub:'Prices, waste and value', words:[
+ ['to be worth it','стоить того','It is expensive, but it is worth it.'],
+ ['a rip-off','грабёж, обдираловка','Four euros for a coffee is a rip-off.'],
+ ['to splash out','раскошелиться','We splashed out on a proper dinner.'],
+ ['to be strapped for cash','сидеть без денег','I am strapped for cash until the fifteenth.'],
+ ['a bargain','выгодная покупка','It was a genuine bargain at that price.'],
+ ['overpriced','переоценённый, задранный по цене','The hotel was clean but overpriced.'],
+ ['to afford','позволить себе','I cannot afford it this month.'],
+ ['to save up','копить','We are saving up for the summer.'],
+ ['a refund','возврат денег','They refused to give me a refund.'],
+ ['pricey','дороговатый','The area is nice but pricey.'],
+ ['to break even','выйти в ноль','After the costs we barely broke even.'],
+ ['value for money','соотношение цены и качества','It is not cheap, but it is value for money.'],
+ ['a deposit','залог, предоплата','They kept the deposit without explaining why.'],
+ ['to chip in','скинуться','Everyone chipped in for the present.'],
+ ['out of pocket','в убытке, потратившийся','I am forty pounds out of pocket.'],
+ ['a one-off','разовый расход','It was a one-off, not a monthly thing.']
+]},
+
+{id:'v_time', lang:'en', title:'Time, vaguely and precisely', sub:'When Russian has one word and English has six', words:[
+ ['eventually','в конце концов','Eventually she agreed, after two hours.'],
+ ['meanwhile','тем временем','Meanwhile, nobody had told the students.'],
+ ['at short notice','в последний момент, срочно','They cancelled at short notice.'],
+ ['for the time being','пока что','For the time being we are staying put.'],
+ ['sooner or later','рано или поздно','Sooner or later someone will ask.'],
+ ['in due course','в своё время','You will hear from us in due course.'],
+ ['any minute now','вот-вот','The plane should board any minute now.'],
+ ['long overdue','давно назревший','This conversation is long overdue.'],
+ ['on and off','с перерывами','It has been raining on and off all week.'],
+ ['in the meantime','а пока','In the meantime, read the first chapter.'],
+ ['well into','уже глубоко в (о времени)','We were well into the second hour.'],
+ ['ages ago','сто лет назад','I read it ages ago and remember nothing.'],
+ ['from time to time','время от времени','From time to time I still check.'],
+ ['first thing','с самого утра','I will call them first thing tomorrow.'],
+ ['no sooner had','не успел, как','No sooner had I sat down than she rang.'],
+ ['round the clock','круглосуточно','The kitchen runs round the clock.']
+]},
+
+{id:'v_read', lang:'en', title:'Talking about what you read', sub:'For books, articles and arguments', words:[
+ ['compelling','захватывающий, убедительный','The first chapter is genuinely compelling.'],
+ ['far-fetched','притянутый за уши','The ending was a bit far-fetched.'],
+ ['nuanced','с оттенками, неоднозначный','It is a nuanced argument, not a slogan.'],
+ ['to skim','пробежать глазами','I only had time to skim it.'],
+ ['dense','плотный, тяжёлый для чтения','The middle section is very dense.'],
+ ['a page-turner','книга, которую не оторвать','It is a proper page-turner.'],
+ ['to gloss over','обойти вскользь','The author glosses over the hardest part.'],
+ ['plausible','правдоподобный','The explanation is at least plausible.'],
+ ['to make a case for','приводить доводы за','She makes a strong case for the opposite view.'],
+ ['self-indulgent','самолюбующийся','The last fifty pages are self-indulgent.'],
+ ['understated','сдержанный, без нажима','The style is understated and all the better for it.'],
+ ['convoluted','запутанный','The plot is unnecessarily convoluted.'],
+ ['to resonate','отзываться, находить отклик','That chapter really resonated with me.'],
+ ['dated','устаревший','Some of the references feel dated now.'],
+ ['a premise','исходная посылка','The whole book rests on a shaky premise.'],
+ ['gripping','держащий в напряжении','It is gripping from about page forty.']
+]},
+
+{id:'v_fr_voyage', lang:'fr', title:'En voyage', sub:'Aéroport, retards, hôtel', words:[
+ ['un vol','рейс','Mon vol part à six heures du matin.'],
+ ['une escale','пересадка, остановка','Nous avons une escale de trois heures.'],
+ ['un retard','опоздание, задержка','Le retard était de deux heures.'],
+ ['un bagage à main','ручная кладь','Je voyage seulement avec un bagage à main.'],
+ ['embarquer','садиться в самолёт','On commence à embarquer dans dix minutes.'],
+ ['atterrir','приземляться','Nous allons atterrir avec du retard.'],
+ ['une correspondance','стыковка','Je vais rater ma correspondance.'],
+ ['une porte','выход на посадку','La porte a changé encore une fois.'],
+ ['annuler','отменить','Ils ont annulé le vol sans explication.'],
+ ['une place couloir','место у прохода','Je préfère une place couloir.'],
+ ['le décalage horaire','разница во времени, джетлаг','Le décalage horaire m\'assomme toujours.'],
+ ['une valise','чемодан','Ma valise est arrivée le lendemain.'],
+ ['faire la queue','стоять в очереди','On a fait la queue pendant une heure.'],
+ ['un séjour','пребывание, поездка','Bon séjour et repose-toi bien.'],
+ ['réserver','забронировать','J\'ai réservé la chambre en janvier.'],
+ ['se renseigner','навести справки','Je vais me renseigner au comptoir.']
+]},
+
+{id:'v_fr_sentir', lang:'fr', title:'Ce qu\'on ressent', sub:'Les mots pour l\'humeur', words:[
+ ['épuisé','измотанный','Je suis épuisée après ces deux jours.'],
+ ['soulagé','испытывающий облегчение','J\'étais tellement soulagée de l\'apprendre.'],
+ ['agacé','раздражённый','Son ton m\'a agacée immédiatement.'],
+ ['inquiet','встревоженный','Il a l\'air inquiet depuis ce matin.'],
+ ['ravi','в восторге','Je suis ravie de te revoir.'],
+ ['déçu','разочарованный','J\'ai été un peu déçue par la fin.'],
+ ['ému','растроганный','Elle était visiblement émue.'],
+ ['gêné','смущённый, неловко','Je me sens gênée de demander.'],
+ ['détendu','расслабленный','Après une heure, j\'étais enfin détendue.'],
+ ['angoissé','тревожный, с тоской','Les nuits blanches me rendent angoissée.'],
+ ['reconnaissant','благодарный','Je lui suis très reconnaissante.'],
+ ['vexé','обиженный','Il est vexé pour une bêtise.'],
+ ['serein','безмятежный','Elle reste sereine dans le désordre.'],
+ ['dépassé','не справляющийся, накрытый','Je me sens complètement dépassée cette semaine.'],
+ ['content','довольный','Je suis contente que ça se termine ainsi.'],
+ ['à bout','на пределе','Le soir, je suis à bout.']
+]}
+];
+
+/* ---------- Vocabulary games: cards, matching, gap-fill ----------
+   Progress is a Leitner box per term, 0 to 5. Four or more counts as learned.
+   Words saved from articles (state.words) already carry their own box, so the
+   "My words" pack reads and writes that instead of the vocab store. */
+
+const VC_SESSION = 8;          /* items in one round — short enough to finish */
+
+let vcPack = null;             /* pack id being played */
+let vcMode = null;             /* 'cards' | 'match' | 'gap' */
+let vcQueue = [];              /* terms in this round */
+let vcAt = 0;
+let vcShown = false;           /* card flipped */
+let vcPicked = null;           /* match: the English side waiting for a pair */
+let vcDone = {};               /* match: pairs already solved this round */
+let vcAnswer = -1;             /* gap: option chosen */
+let vcRight = 0;
+
+function vcStore(){
+  if(!state.vocab) state.vocab = {box:{}};
+  if(!state.vocab.box) state.vocab.box = {};
+  return state.vocab;
+}
+function vcPacks(){
+  const list = VOCAB.slice();
+  if(state.words && state.words.length){
+    list.unshift({id:'v_mine', lang:'en', title:'My words', sub:'Everything you saved from the articles', mine:true});
+  }
+  return list;
+}
+function vcPackById(id){ return vcPacks().find(function(p){ return p.id === id; }); }
+
+/* One shape for both sources: {term, mean, ctx, box} */
+function vcItems(pack){
+  if(pack.mine){
+    return (state.words || []).map(function(w){
+      return {term:w.term, mean:w.mean, ctx:w.ctx, box:w.box || 0, ref:w};
+    });
+  }
+  const box = vcStore().box;
+  return pack.words.map(function(w){
+    return {term:w[0], mean:w[1], ctx:w[2], box:box[w[0].toLowerCase()] || 0};
+  });
+}
+function vcBump(item, good){
+  const next = good ? Math.min(5, item.box + 1) : 0;
+  item.box = next;
+  if(item.ref){ item.ref.box = next; item.ref.seen = (item.ref.seen || 0) + 1;
+                if(good) item.ref.right = (item.ref.right || 0) + 1;
+                item.ref.last = today(); }
+  else { vcStore().box[item.term.toLowerCase()] = next; }
+  save();
+}
+function vcLearned(items){ return items.filter(function(i){ return i.box >= 4; }).length; }
+function vcShuffle(a){
+  const x = a.slice();
+  for(let i = x.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); const t = x[i]; x[i] = x[j]; x[j] = t; }
+  return x;
+}
+/* Weakest words first, so a round is always the ones she does not know */
+function vcBuildQueue(pack, n){
+  const items = vcItems(pack);
+  const sorted = vcShuffle(items).sort(function(a, b){ return a.box - b.box; });
+  return sorted.slice(0, Math.min(n, sorted.length));
+}
+/* The gap game needs the term to appear in its own sentence. It often does not
+   appear in the same shape — "to be delayed" turns up as "was delayed" — so we
+   try the whole phrase first, then just its last word as a stem. Returns null
+   when the sentence cannot carry the gap at all. */
+function vcBlank(item){
+  const core = item.term.replace(/^(to|a|an|the)\s+/i, '');
+  const tries = [core];
+  const last = core.split(/\s+/).pop();
+  if(last && last !== core) tries.push(last);
+  if(last) tries.push(last.replace(/(e?d|ing|e?s)$/i, ''));
+
+  for(const t of tries){
+    if(!t || t.length < 3) continue;
+    const rx = new RegExp('\\b' + escRx(t).replace(/\s+/g, '\\s+') + '[\\w\'’-]*', 'i');
+    if(rx.test(item.ctx)) return item.ctx.replace(rx, '_____');
+  }
+  return null;
+}
+
+function vcRenderIndex(){
+  let h = '<section class="rd-block"><p class="eyebrow">Word games</p><div class="fl-list">';
+  vcPacks().forEach(function(p){
+    const items = vcItems(p);
+    const done = vcLearned(items);
+    const pct = items.length ? Math.round(100 * done / items.length) : 0;
+    h += '<button class="fl-item" data-act="vc-pack" data-id="' + p.id + '">' +
+      '<span class="fl-flag">' + (p.lang === 'fr' ? '🇫🇷' : '🇬🇧') + '</span>' +
+      '<span class="fl-body"><b>' + esc(p.title) + '</b>' +
+      '<span class="fl-meta">' + esc(p.sub) + ' · ' + items.length + ' words</span>' +
+      '<span class="fl-bar"><i style="width:' + pct + '%"></i></span></span>' +
+      '<span class="fl-pct">' + done + '/' + items.length + '</span></button>';
+  });
+  return h + '</div></section>';
+}
+
+function vcRender(){
+  const pack = vcPackById(vcPack);
+  if(!pack){ vcPack = null; return renderFlight(); }
+  const items = vcItems(pack);
+
+  let head = '<button class="backbtn" data-act="' + (vcMode ? 'vc-modes' : 'fl-back') + '">' +
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>' +
+    (vcMode ? 'Modes' : 'Flight') + '</button>' +
+    '<div class="rd-head"><span class="pill accent">' + (pack.lang === 'fr' ? '🇫🇷 Français' : '🇬🇧 English') + '</span>' +
+    '<span class="pill num">' + vcLearned(items) + ' / ' + items.length + ' learned</span></div>' +
+    '<h2 class="rec-title">' + esc(pack.title) + '</h2>';
+
+  if(!vcMode){
+    view.innerHTML = head +
+      '<p class="fl-lede">' + esc(pack.sub) + '. A round is ' + VC_SESSION +
+      ' words, and it always picks the ones you know least well.</p>' +
+      '<div class="vc-modes">' +
+        '<button class="vc-mode" data-act="vc-start" data-m="cards"><b>🃏 Cards</b><span>Word on one side, meaning on the other. Be honest with yourself.</span></button>' +
+        '<button class="vc-mode" data-act="vc-start" data-m="match"><b>🔀 Match</b><span>Six pairs at once. Fastest way to warm the words up.</span></button>' +
+        '<button class="vc-mode" data-act="vc-start" data-m="gap"><b>✍️ Gap</b><span>The word is missing from its own sentence. Put it back.</span></button>' +
+      '</div>' +
+      '<section class="rd-block"><p class="eyebrow">All ' + items.length + ' words</p><div class="vc-all">' +
+      items.map(function(i){
+        return '<div class="vc-row' + (i.box >= 4 ? ' known' : '') + '"><b>' + esc(i.term) + '</b><span>' + esc(i.mean) + '</span>' +
+               '<i>' + '●'.repeat(i.box) + '○'.repeat(5 - i.box) + '</i></div>';
+      }).join('') + '</div></section>';
+    return;
+  }
+
+  if(vcAt >= vcQueue.length){
+    view.innerHTML = head +
+      '<div class="fl-score"><b>' + vcRight + ' / ' + vcQueue.length + '</b>' +
+      '<p>' + (vcRight === vcQueue.length ? 'Every one. Take the next mode.'
+              : vcRight >= vcQueue.length / 2 ? 'Good — the ones you missed come back sooner.'
+              : 'These will come round again. That is the whole point.') + '</p>' +
+      '<button class="btn btn-primary" data-act="vc-start" data-m="' + vcMode + '">Another round</button>' +
+      '<button class="btn btn-ghost" data-act="vc-modes" style="margin-top:8px">Change mode</button></div>';
+    return;
+  }
+
+  if(vcMode === 'cards')  return vcRenderCards(head);
+  if(vcMode === 'match')  return vcRenderMatch(head);
+  if(vcMode === 'gap')    return vcRenderGap(head);
+}
+
+function vcRenderCards(head){
+  const it = vcQueue[vcAt];
+  view.innerHTML = head +
+    '<p class="fl-count">Card ' + (vcAt + 1) + ' of ' + vcQueue.length + '</p>' +
+    '<div class="vc-card' + (vcShown ? ' open' : '') + '" data-act="vc-flip">' +
+      '<b>' + esc(it.term) + '</b>' +
+      (vcShown ? '<span class="vc-mean">' + esc(it.mean) + '</span><span class="vc-ctx">' + esc(it.ctx) + '</span>'
+               : '<span class="vc-tap">Tap to turn it over</span>') +
+    '</div>' +
+    (vcShown
+      ? '<div class="vc-judge">' +
+        '<button class="btn btn-ghost" data-act="vc-mark" data-g="0">Not yet</button>' +
+        '<button class="btn btn-primary" data-act="vc-mark" data-g="1">I knew it</button></div>'
+      : '');
+}
+
+function vcRenderMatch(head){
+  const left = vcQueue.slice(0, 6);
+  const right = vcShuffleFixed(left);
+  view.innerHTML = head +
+    '<p class="fl-count">Pair them up · ' + Object.keys(vcDone).length + ' of ' + left.length + '</p>' +
+    '<div class="vc-match">' +
+      '<div class="vc-col">' + left.map(function(i, n){
+        const st = vcDone[i.term] ? ' done' : (vcPicked === n ? ' on' : '');
+        return '<button class="vc-chip' + st + '" data-act="vc-pick" data-n="' + n + '"' +
+               (vcDone[i.term] ? ' disabled' : '') + '>' + esc(i.term) + '</button>';
+      }).join('') + '</div>' +
+      '<div class="vc-col">' + right.map(function(i){
+        const st = vcDone[i.term] ? ' done' : '';
+        return '<button class="vc-chip' + st + '" data-act="vc-drop" data-t="' + esc(i.term) + '"' +
+               (vcDone[i.term] ? ' disabled' : '') + '>' + esc(i.mean) + '</button>';
+      }).join('') + '</div>' +
+    '</div>';
+}
+/* The right-hand column must not reshuffle on every tap */
+let vcRightOrder = null;
+function vcShuffleFixed(left){
+  if(!vcRightOrder || vcRightOrder.length !== left.length) vcRightOrder = vcShuffle(left);
+  return vcRightOrder;
+}
+
+function vcRenderGap(head){
+  const it = vcQueue[vcAt];
+  const pack = vcPackById(vcPack);
+  const pool = vcItems(pack).filter(function(x){ return x.term !== it.term; });
+  if(!it.opts){
+    it.opts = vcShuffle([it].concat(vcShuffle(pool).slice(0, 3)));
+    it.correct = it.opts.findIndex(function(x){ return x.term === it.term; });
+  }
+  const gap = vcBlank(it);
+  view.innerHTML = head +
+    '<p class="fl-count">Sentence ' + (vcAt + 1) + ' of ' + vcQueue.length + '</p>' +
+    '<p class="fl-prompt">' + (gap ? esc(gap) : 'Which one means <b>' + esc(it.mean) + '</b>?') + '</p>' +
+    '<div class="fl-opts">' + it.opts.map(function(o, n){
+      let cls = 'fl-opt';
+      if(vcAnswer > -1){
+        if(n === it.correct) cls += ' right';
+        else if(n === vcAnswer) cls += ' wrong';
+        else cls += ' dim';
+      }
+      return '<button class="' + cls + '" data-act="vc-gap" data-n="' + n + '"' +
+             (vcAnswer > -1 ? ' disabled' : '') + '>' + esc(o.term) + '</button>';
+    }).join('') + '</div>' +
+    (vcAnswer > -1
+      ? '<p class="fl-why' + (vcAnswer === it.correct ? ' ok' : '') + '">' + esc(it.term) + ' — ' + esc(it.mean) + '</p>' +
+        '<button class="btn btn-primary btn-full" data-act="vc-next" style="margin-top:14px">' +
+        (vcAt + 1 < vcQueue.length ? 'Next →' : 'See the score →') + '</button>'
+      : '');
+}
+
 /* ---------- Flight: everything on this screen works with no connection ----------
    The long reads are public-domain texts carried inside the app itself. Drills and
    the writing desk never touch the network. Progress lives in localStorage. */
@@ -4440,6 +4964,7 @@ function wordCount(s){ const t = String(s || '').trim(); return t ? t.split(/\s+
 function flFlag(l){ return l === 'fr' ? '🇫🇷' : '🇬🇧'; }
 
 function renderFlight(){
+  if(vcPack) return vcRender();
   if(flightView && flightView.t === 'read')  return flRenderRead();
   if(flightView && flightView.t === 'drill') return flRenderDrill();
   if(flightView && flightView.t === 'write') return flRenderWrite();
@@ -4477,6 +5002,7 @@ function renderFlight(){
   });
   h += '</div></section>';
 
+  h += vcRenderIndex();
   h += '<section class="rd-block"><p class="eyebrow">Writing desk</p><div class="fl-list">';
   WRITING.forEach(function(w){
     const n = wordCount(f.writing[w.id]);
