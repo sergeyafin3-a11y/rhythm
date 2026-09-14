@@ -5,7 +5,7 @@
    offline. Everything else cross-origin — YouTube thumbnails above all — is
    left entirely to the browser: intercepting them bought nothing and risked
    serving back opaque responses that never render. */
-const CACHE = 'ritm-v5';
+const CACHE = 'ritm-v6';
 const SHELL = ['./', './index.html', './manifest.json', './icon-180.png', './icon-192.png', './icon-512.png', './icon-512-maskable.png'];
 const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 
