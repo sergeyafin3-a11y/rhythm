@@ -687,6 +687,30 @@ a.wk-thumb{ text-decoration:none; }
   border-radius:var(--radius); padding:13px 15px; font-size:13.5px; line-height:1.5;
   color:var(--ink-soft); margin-bottom:18px;
 }
+/* ---------- The hike plan ---------- */
+.wk-card .wk-hike{ margin:5px 0 3px; font-size:12px; font-weight:700; color:var(--accent); }
+.hike-box{ margin:4px 0 0; padding:15px 16px; border-radius:var(--radius-lg); background:var(--accent-soft); }
+.hike-box .top{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
+.hike-box .top b{ font-family:var(--font-display); font-weight:var(--display-weight); font-size:30px; line-height:1; color:var(--accent); }
+.hike-box .top button{ font-size:12.5px; font-weight:700; color:var(--accent); flex:none; }
+.hike-box small{ display:block; margin-top:5px; font-size:12.5px; color:var(--ink-mute); }
+.hike-box p{ margin:10px 0 0; font-size:13.5px; line-height:1.5; color:var(--ink); }
+.hike-do{
+  margin:14px 0 0; padding:15px 16px; border-radius:var(--radius-lg);
+  background:var(--surface); border:var(--border-w) solid var(--accent); box-shadow:var(--shadow);
+}
+.hike-do .eyebrow{ margin:0 0 7px; color:var(--accent); }
+.hike-do p{ margin:0; font-size:15px; line-height:1.55; color:var(--ink); }
+.swim-topic{ margin:26px 2px 11px; }
+.swim-topic h4{ margin:0; font-size:17px; line-height:1.3; }
+.swim-topic p{ margin:4px 0 0; font-size:13px; line-height:1.45; color:var(--ink-mute); }
+.swim-topic.now h4::after{
+  content:'this week'; margin-left:8px; padding:2px 8px; border-radius:999px; vertical-align:2px;
+  font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  background:var(--accent); color:var(--accent-ink);
+}
+.wk-strip i.now{ box-shadow:inset 0 0 0 2px var(--accent); }
+.linkbtn{ font:inherit; font-weight:700; color:var(--accent); text-decoration:underline; text-underline-offset:2px; padding:0; }
 .wk-strip{ display:flex; gap:6px; margin:14px 0 0; }
 .wk-strip div{ flex:1; text-align:center; }
 .wk-strip i{
@@ -2345,6 +2369,22 @@ function currentRead(){ return openRead === null ? readOfDay() : (READS.find(fun
 
 /* ---------- Workouts: real videos, one focus a day ---------- */
 const WK_TYPES = {
+  // ---- the hiking plan: these seven run the week ----
+  legs:     {emoji:'🦵', name:'Hiking legs',           kind:'strength',
+             note:'Step-ups, lunges, squats and calves — the muscles that carry you uphill for hours. Go slowly on the way down: that part is what protects your knees.'},
+  climb:    {emoji:'⛰️', name:'Stairs + incline',      kind:'cardio',
+             note:'Steady climbing at a pace where you can still talk in short sentences. This is the engine for a long ascent.'},
+  swim:     {emoji:'🏊', name:'Pool day',               kind:'cardio',
+             note:'Your lungs work hard while your knees and ankles get a full day off. It sits between two leg days on purpose.'},
+  stability:{emoji:'🦶', name:'Knees, balance + core',  kind:'strength',
+             note:'Descents are where hikers get hurt. Slow step-downs, standing on one leg and a steady core are what keep you safe on uneven ground with a pack on.'},
+  stretch:  {emoji:'🤸', name:'Yoga for hikers',        kind:'recovery',
+             note:'Hips, hamstrings and calves. Not a workout — this is what lets tomorrow feel good.'},
+  long:     {emoji:'🎒', name:'The long walk',          kind:'cardio',
+             note:'The one session most like the hike itself. Outdoors, in the shoes you will hike in, a little longer every week.'},
+  yoga:     {emoji:'🧘', name:'Restorative yoga',       kind:'recovery',
+             note:'Real rest. Training only turns into fitness while you recover from it.'},
+  // ---- still here if you want to swap a day by hand ----
   glutes:{emoji:'🍑', name:'Glutes + legs',    kind:'strength',
           note:'Strength work for the glutes, quads and hamstrings. It builds the muscle that shapes your legs — the fat side of the picture comes down across the whole body, not in one spot.'},
   upper: {emoji:'💪', name:'Upper body + core', kind:'strength',
@@ -2357,7 +2397,7 @@ const WK_TYPES = {
           note:'Stretching and mobility, or nothing at all. Rest is part of the plan, not a gap in it.'}
 };
 // index = getDay(): 0 Sun … 6 Sat
-const WK_WEEK = ['rest','glutes','walk','upper','walk','glutes','full'];
+const WK_WEEK = ['yoga','legs','climb','swim','stability','stretch','long'];
 
 const WORKOUTS = [
   // 🍑 glutes + legs
@@ -2407,7 +2447,77 @@ const WORKOUTS = [
   {id:'r5', v:'wuWW5j54qEk', t:'20 min Rest Day Mobility',           min:20, diff:'easy', type:'rest', by:'recovery & mobility', desc:'A longer reset when everything feels stiff.'},
   {id:'r6', v:'GLUyjdyXXcI', t:'30 min Rest Day Routine',            min:30, diff:'easy', type:'rest', by:'mobility & stretch', desc:'Half an hour of soft movement, no strain anywhere.'},
   {id:'r7', v:'-b-8Y3bh9AU', t:'30 min Yoga Full Body Stretch',      min:30, diff:'easy', type:'rest', by:'Move With Nicole', desc:'A calm full-body flow with nothing sharp in it.'},
-  {id:'r8', v:'RvCntPg7oPE', t:'30 min Yoga Flow for Flexibility',   min:30, diff:'medium', type:'rest', by:'Move With Nicole', desc:'A flow rather than held stretches. Warms you up as it goes.'}
+  {id:'r8', v:'RvCntPg7oPE', t:'30 min Yoga Flow for Flexibility',   min:30, diff:'medium', type:'rest', by:'Move With Nicole', desc:'A flow rather than held stretches. Warms you up as it goes.'},
+
+  // 🦵 hiking legs — every ID checked on YouTube, lengths are the real running time
+  {id:'hl1', v:'vUwGRLn6aoE', t:'3 strength moves for hiking',              min:5,  diff:'easy',   type:'legs', by:'At-Home Exercise 55+', desc:'The gentlest start: three moves, clearly explained. Good for learning the form.'},
+  {id:'hl2', v:'dO502jAmNbI', t:'Top 5 leg exercises for hiking, at home',   min:6,  diff:'easy',   type:'legs', by:'The Grateful Hiker', desc:'Why each move matters on a trail. Watch once, then do the rounds from the plan.'},
+  {id:'hl3', v:'urju0fO9BK0', t:'3 must-do leg exercises for hikers',       min:10, diff:'easy',   type:'legs', by:'Amanda Outside', desc:'An athletic trainer on the three exercises that matter most.'},
+  {id:'hl4', v:'qHD5IrA_EaU', t:'Leg strength for hiking and stairs',       min:11, diff:'easy',   type:'legs', by:'Upright Health', desc:'Beginner level, careful about knees. Good in the first week.'},
+  {id:'hl5', v:'Kz5JL8cxKh4', t:'Hiking leg strength — follow along',       min:14, diff:'medium', type:'legs', by:'Chase Mountains', desc:'Press play and do it with him. A proper short session.'},
+  {id:'hl6', v:'QoWMpAIO6E0', t:'Bodyweight workout for hikers',            min:21, diff:'medium', type:'legs', by:'Chase Mountains', desc:'No equipment, the whole lower body, at a steady pace.'},
+  {id:'hl7', v:'o672bsZX3gU', t:'Trek Stronger — leg workout for trekkers', min:32, diff:'hard',   type:'legs', by:'Outdoor Adventure Training', desc:'Strength, stability and control in one long session. For the build and peak weeks.'},
+  {id:'hl8', v:'fs21RhNdH6k', t:'Hiker\'s workout — leg stability and endurance', min:37, diff:'hard', type:'legs', by:'Outdoor Adventure Training', desc:'The full version. The hardest leg day on the list.'},
+
+  // ⛰️ stairs + incline
+  {id:'hc1', v:'ROTVHh1ZxKY', t:'At-home stair workout',                    min:9,  diff:'medium', type:'climb', by:'Trainer Paige', desc:'Uses one step or the stairs in your building. Short but it climbs.'},
+  {id:'hc2', v:'A0dUuUTe4jQ', t:'Low-impact step workout for beginners',    min:11, diff:'easy',   type:'climb', by:'FitnessType', desc:'No jumping, easy on the joints. A good first week.'},
+  {id:'hc3', v:'glQg0DMbFQM', t:'Cardio step workout',                      min:22, diff:'medium', type:'climb', by:'Sunny Health & Fitness', desc:'Upbeat step routine that keeps you climbing for twenty minutes.'},
+  {id:'hc4', v:'9K1dsiGC__A', t:'Low-impact cardio, no repeats',     min:32, diff:'medium', type:'climb', by:'growwithjo', desc:'For a rainy day when there are no stairs to go to.'},
+  {id:'hc5', v:'b57vHauk31g', t:'Indoor walking workout',                    min:43, diff:'medium', type:'climb', by:'Lucy Wyndham-Read', desc:'Long and steady. Put on a backpack to make it count for more.'},
+
+  // 🏊 pool day — lessons to watch before you go, grouped by topic
+  {id:'hs1', v:'EElzlIMjk_c', t:'How to swim breaststroke',                 min:4,  diff:'easy', type:'swim', topic:'breast', by:'Global Triathlon Network', desc:'The whole stroke in four minutes — watch it right before the pool.'},
+  {id:'hs2', v:'Gq2asyrI0MI', t:'Freestyle breathing, step by step',        min:5,  diff:'easy', type:'swim', topic:'breath', by:'Rocket Swimming', desc:'Short drills you can do at the wall before you swim a length.'},
+  {id:'hs3', v:'XS3_lChWJC4', t:'How to swim without getting tired',        min:7,  diff:'easy', type:'swim', topic:'longer', by:'Global Triathlon Network', desc:'The basics of pacing yourself so a length stops feeling like a sprint.'},
+  {id:'hs4', v:'6Q8O6pO4Ebc', t:'Learning the freestyle breathing',         min:8,  diff:'easy', type:'swim', topic:'breath', by:'Global Triathlon Network', desc:'Part of a learn-to-swim series. Very calm, very clear.'},
+  {id:'hs5', v:'mD9vdPPnZVY', t:'6 ways to swim further',                   min:8,  diff:'easy', type:'swim', topic:'longer', by:'Global Triathlon Network', desc:'Six specific fixes for running out of breath.'},
+  {id:'hs6', v:'l2tudg3N_XQ', t:'Freestyle breathing for beginners',        min:9,  diff:'easy', type:'swim', topic:'breath', by:'SWIMVICE', desc:'Where to look, when to breathe, how not to swallow water.'},
+  {id:'hs7', v:'ppuDgfdk9y8', t:'Breaststroke for beginners, in detail',    min:9,  diff:'easy', type:'swim', topic:'breast', by:'Rocket Swimming', desc:'The kick broken down slowly — the part most adults get wrong.'},
+  {id:'hs8', v:'iirQv93FLnY', t:'Breaststroke done correctly',              min:9,  diff:'easy', type:'swim', topic:'breast', by:'MySwimPro', desc:'Body position, head, pull, kick and timing, one at a time.'},
+  {id:'hs9', v:'m0p0dHDnRcE', t:'How to improve your swimming endurance',   min:9,  diff:'easy', type:'swim', topic:'longer', by:'Global Triathlon Network', desc:'Nine tips for lasting longer in the water.'},
+  {id:'hs10', v:'V9qU-P5O1h8', t:'Exhausted after one lap? 5 fixes',        min:13, diff:'easy', type:'swim', topic:'longer', by:'Effortless Swimming', desc:'If one length leaves you gasping, start here.'},
+  {id:'hs11', v:'AHwinLuCYUY', t:'Side breathing in 4 easy steps',          min:17, diff:'easy', type:'swim', topic:'breath', by:'Rocket Swimming', desc:'The longest breathing lesson — builds it up from standing in the shallow end.'},
+  {id:'hs12', v:'PBd1jvJK67s', t:'Smooth freestyle: balance and rotation',  min:18, diff:'easy', type:'swim', topic:'drills', by:'Rocket Swimming', desc:'Drills that fix body position so you stop fighting the water.'},
+
+  // 🦶 knees, balance + core
+  {id:'hb1', v:'etAt1fK8yuE', t:'3 beginner knee exercises for hikers',     min:6,  diff:'easy',   type:'stability', by:'Chase Mountains', desc:'No equipment. The simplest way to start protecting your knees.'},
+  {id:'hb2', v:'cWuKxxFXAic', t:'Make downhill easier on the knees',        min:9,  diff:'easy',   type:'stability', by:'Alyssa Kuhn', desc:'Three strengthening exercises aimed exactly at descents.'},
+  {id:'hb3', v:'Iue5gVqqHEE', t:'Knees for pain-free downhill hiking',      min:9,  diff:'easy',   type:'stability', by:'Marius Visser', desc:'Controlled lowering — the skill a long descent really tests.'},
+  {id:'hb4', v:'j6FBqDlfoh0', t:'Core stability for hikers — follow along', min:11, diff:'medium', type:'stability', by:'Chase Mountains', desc:'A steady core so the backpack does not pull you around.'},
+  {id:'hb5', v:'oiOVXEOc1Ec', t:'Core workout for hikers',                  min:14, diff:'medium', type:'stability', by:'Outdoor Adventure Training', desc:'Stability and endurance for carrying a pack all day.'},
+  {id:'hb6', v:'VByreP-1bco', t:'Core circuit for hikers',                  min:15, diff:'medium', type:'stability', by:'Outdoor Adventure Training', desc:'Abs and obliques in one short, honest circuit.'},
+  {id:'hb7', v:'FbMzRLQR0pY', t:'Core for hikers and backpackers',          min:20, diff:'medium', type:'stability', by:'Outdoor Adventure Training', desc:'Posture and anti-rotation work — standing straight under load.'},
+  {id:'hb8', v:'Y8lWr0OutEg', t:'Knee strength workout for trekkers',       min:31, diff:'hard',   type:'stability', by:'Outdoor Adventure Training', desc:'Built for long, technical descents. For the build and peak weeks.'},
+  {id:'hb9', v:'Yp3MlQw4CYw', t:'Save your knees on the downhill',          min:33, diff:'hard',   type:'stability', by:'Outdoor Adventure Training', desc:'The descent is where nobody trains. This session does.'},
+  {id:'hb10', v:'kMLJnS8Aw4k', t:'Knee strength for hikers',                min:36, diff:'hard',   type:'stability', by:'Outdoor Adventure Training', desc:'Glutes and hamstrings that hold the knee steady. The longest here.'},
+
+  // 🤸 yoga for hikers
+  {id:'hy1', v:'szvO7YgKuXo', t:'Yoga for hikers — tired legs',             min:12, diff:'easy', type:'stretch', by:'Amanda Outside', desc:'Made for the day after a long walk. Short and exactly on target.'},
+  {id:'hy2', v:'xcjpoxfaJ0w', t:'Yoga for tight hamstrings and hips',       min:18, diff:'easy', type:'stretch', by:'Brett Larkin Yoga', desc:'Beginner friendly and very clearly explained.'},
+  {id:'hy3', v:'5L8hnL4V-24', t:'Yoga stretch for hips and hamstrings',     min:20, diff:'easy', type:'stretch', by:'Yoga with Kassandra', desc:'Slow holds, nothing rushed. Twenty good minutes.'},
+  {id:'hy4', v:'lupXygvF8jY', t:'Yoga for sore hips, calves and hamstrings',min:22, diff:'easy', type:'stretch', by:'Boho Beautiful Yoga', desc:'For when the legs are genuinely sore, not just tight.'},
+  {id:'hy5', v:'am-vNVojWh4', t:'Yin yoga for hamstrings and calves',       min:31, diff:'easy', type:'stretch', by:'Yoga with Joelle', desc:'Long, quiet holds. The calves will thank you after a peak week.'},
+  {id:'hy6', v:'RG-O5SgwUWU', t:'Yoga for hips, hamstrings, calves and feet',min:34, diff:'easy', type:'stretch', by:'PagodaYoga', desc:'The only one that gets to the feet as well — they carry the whole hike.'},
+
+  // 🎒 the long walk — you do it outdoors; these are worth watching before you go
+  {id:'hw1', v:'GVG7Ykda2qw', t:'How to use trekking poles',                min:5,  diff:'easy', type:'long', by:'Outdoor Goyo', desc:'Pole length, grip and rhythm in five minutes.'},
+  {id:'hw2', v:'-ttJUZ5zo9Q', t:'Trekking poles like a mountaineer',        min:8,  diff:'easy', type:'long', by:'LEKI', desc:'Tips from a professional mountaineer on using poles properly.'},
+  {id:'hw3', v:'ieEWa4pJcvc', t:'Are your poles making uphills harder?',    min:8,  diff:'easy', type:'long', by:'Chase Mountains', desc:'The common pole mistakes that waste energy on a climb.'},
+  {id:'hw4', v:'dwYBhYLLytI', t:'Trekking poles, plus trail tips',          min:9,  diff:'easy', type:'long', by:'Russ Hepton Hikes', desc:'Poles on the way up and the way down, and a few extra tricks.'},
+  {id:'hw5', v:'HrvvXhyjbxQ', t:'The ultimate hiking training guide',       min:16, diff:'easy', type:'long', by:'James Appleton', desc:'A guide and strength coach on the whole physical preparation.'},
+  {id:'hw6', v:'42qKDlnt59Q', t:'Training for hiking without mountains',    min:16, diff:'easy', type:'long', by:'Outdoor Adventure Training', desc:'Exactly your situation: getting ready when there are no hills nearby.'},
+  {id:'hw7', v:'Zmc90Hl6NKI', t:'Building endurance for mountain hikes',    min:17, diff:'easy', type:'long', by:'James Appleton', desc:'The four kinds of endurance a long hike asks for.'},
+  {id:'hw8', v:'qHO8m0tQ0j0', t:'Hike stronger, longer and pain-free',      min:20, diff:'easy', type:'long', by:'Outdoor Adventure Training', desc:'How to pace a long day so you finish it well.'},
+
+  // 🧘 restorative yoga
+  {id:'hr2', v:'KrUnq66qn_k', t:'Yoga stretch for recovery',                min:12, diff:'easy', type:'yoga', by:'Yoga With Adriene', desc:'Made for the day after a hard session.'},
+  {id:'hr3', v:'-IPhLNtVXkI', t:'Gentle restorative yin yoga',              min:20, diff:'easy', type:'yoga', by:'Steph Chilvers Yoga', desc:'Slow, quiet, nothing to prove.'},
+  {id:'hr4', v:'WrhRWx-8bt0', t:'Restorative yoga for relaxation',          min:21, diff:'easy', type:'yoga', by:'Yoga With Bird', desc:'Mostly lying down. Good on a Sunday evening.'},
+  {id:'hr5', v:'1SEFNpUpe7U', t:'Twenty minute yin',                        min:23, diff:'easy', type:'yoga', by:'Yoga with Sacha', desc:'A short restorative sequence with long holds.'},
+  {id:'hr6', v:'hnfZYBhvnBI', t:'Restorative yin yoga, no props',           min:24, diff:'easy', type:'yoga', by:'Yin Yoga with Matt', desc:'Nothing to set up — a mat is enough.'},
+  {id:'hr7', v:'VU6u-Fjtbd4', t:'Restorative full body stretch',            min:24, diff:'easy', type:'yoga', by:'Yoga With Bird', desc:'The whole body, slowly, head to feet.'}
+
 ];
 
 const DIFF_LABEL = {easy:'Easy', medium:'Medium', hard:'Intense'};
@@ -2418,24 +2528,154 @@ const WK_BANDS = [
   ['l','30–35 min',   function(w){ return w.min >= 26 && w.min <= 36; }],
   ['xl','40+ min',    function(w){ return w.min >= 37; }]
 ];
+
+/* ---------- The hike: a date, a countdown and a plan that changes as it gets closer ----------
+   Three weeks that build, one that eases off. Hard days never sit next to each
+   other: legs Monday, knees and core Thursday, the long walk Saturday. The pool
+   is always Wednesday, and Sunday is real rest. */
+const HIKE_DEFAULT = '2026-10-16';
+const HIKE_PHASES = {
+  base:  {name:'Base week',  line:'Learning the moves and getting used to moving every day. Nothing should leave you wrecked.'},
+  build: {name:'Build week', line:'A little more in every session. This is where the fitness actually comes from.'},
+  peak:  {name:'Peak week',  line:'Your hardest week. The long walk gets as close to the real hike as it will get.'},
+  taper: {name:'Taper week', line:'Less, on purpose. You arrive rested rather than sore — that is worth more than one extra session.'},
+  hike:  {name:'Hike day',   line:'Today is the day.'},
+  after: {name:'Recovery',   line:'Easy movement, plenty of water and sleep. Your legs earned it.'},
+  done:  {name:'',           line:''}
+};
+/* What to actually do, by session and by week. The videos below each one are
+   there to follow or to learn the moves from; this is the target. */
+const HIKE_DO = {
+  legs:{
+    base: 'Two rounds: 10 step-ups, 10 reverse lunges and 12 squats on each side, then 15 calf raises. Take three seconds on every way down.',
+    build:'Three rounds of the same, 12 of each. Put 2–3 kg in a backpack for the step-ups.',
+    peak: 'Three or four rounds with 4–5 kg in the backpack. The last reps should feel hard but stay clean.',
+    taper:'Two easy rounds, no backpack. You are keeping the pattern, not building anything new.'},
+  climb:{
+    base: '30 minutes on stairs or uphill, at a pace where you can still talk in short sentences.',
+    build:'40 minutes, climbing for most of it. The stairs in your building count.',
+    peak: '45 minutes with the backpack on.',
+    taper:'20–30 easy minutes. Nothing that leaves your legs heavy tomorrow.'},
+  swim:{
+    base: '30 minutes in the pool. Easy lengths, rest at the wall whenever you want. Pick one thing from the lessons below and practise only that.',
+    build:'35–40 minutes. Try a few lengths in a row without stopping, then rest.',
+    peak: '40 minutes of steady, easy swimming. After the hard days this is recovery for your legs, not a test.',
+    taper:'30 relaxed minutes. Float, stretch in the water, enjoy it.'},
+  stability:{
+    base: 'Stand on one leg for 30 seconds, three times each side. Then slow step-downs from a stair, glute bridges and a short core block.',
+    build:'Make the step-downs slower — a full three seconds down. That is exactly what a descent asks of your knees.',
+    peak: 'Step-downs with the backpack on. Try the balance with your eyes closed.',
+    taper:'Balance and core only. Skip anything that makes your legs sore.'},
+  stretch:{
+    base: '20 minutes. Hips, hamstrings and calves — start with whatever feels tightest.',
+    build:'20–30 minutes. Hold each stretch a little longer than feels necessary.',
+    peak: '30 minutes. After the hardest week this one is not optional.',
+    taper:'20 slow minutes, and go to bed a little earlier tonight.'},
+  long:{
+    base: '60–75 minutes outdoors, with hills or stairs if you can find them. Wear the shoes you will hike in.',
+    build:'About 90 minutes with 4–5 kg in the backpack. Take the steepest route you know.',
+    peak: 'Your longest: 2–3 hours, with the pack at the weight you will really carry. Practise eating and drinking on the move.',
+    taper:'One easy hour in full kit. Check boots, socks and straps now — nothing new on hike day.'},
+  yoga:{
+    base: 'Restorative yoga, or a slow walk and nothing else.',
+    build:'Restorative yoga. Sleep is part of today’s plan.',
+    peak: 'Restorative yoga. Resting is how the hard week turns into fitness.',
+    taper:'Restorative yoga and an early night.'}
+};
+const SWIM_TOPICS = [
+  ['breath', 'Breathing',                          'The first thing that goes wrong for most adults. Fix it and everything else gets easier.'],
+  ['drills', 'Freestyle drills',                   'Body position, balance and rotation — how to stop fighting the water.'],
+  ['breast', 'Breaststroke',                       'The kick and the timing, done properly.'],
+  ['longer', 'Swimming longer without getting tired', 'How to keep going for a whole length, and then another one.']
+];
+const SWIM_FOCUS = {base:'breath', build:'drills', peak:'longer', taper:'breast', hike:'breath', after:'longer', done:'breath'};
+
+function hikeDate(){ return state.hikeDate || HIKE_DEFAULT; }
+function hikeDaysFor(key){ return Math.round((toDate(hikeDate()) - toDate(key)) / 86400000); }
+function hikeDays(){ return hikeDaysFor(today()); }
+function hikePhaseFor(key){
+  const d = hikeDaysFor(key);
+  if(d > 21) return 'base';
+  if(d > 14) return 'build';
+  if(d > 7)  return 'peak';
+  if(d > 0)  return 'taper';
+  if(d === 0) return 'hike';
+  if(d >= -4) return 'after';
+  return 'done';
+}
+function hikePhase(){ return hikePhaseFor(today()); }
+function hikeDateLabel(){
+  const d = toDate(hikeDate());
+  return WDAYS[d.getDay()] + ', ' + d.getDate() + ' ' + MONTHS[d.getMonth()];
+}
+/* The one line that sits on the Today card */
+function hikeLine(){
+  const d = hikeDays(), ph = hikePhase();
+  if(ph === 'done') return '';
+  if(d > 0) return '🏔 ' + d + (d === 1 ? ' day' : ' days') + ' to the hike · ' + HIKE_PHASES[ph].name;
+  if(d === 0) return '🏔 Hike day';
+  return '🏔 Recovering from the hike';
+}
+/* Today's concrete target for a session */
+function hikeDo(type, key){
+  const ph = hikePhaseFor(key);
+  if(ph === 'hike')  return 'Start slower than you want to. Eat and drink before you feel hungry or thirsty. Short steps and poles on the descents — and turn back if the weather turns.';
+  if(ph === 'after') return type === 'swim'
+    ? 'An easy swim is perfect recovery today. Go slowly and get out whenever you feel like it.'
+    : 'Gentle stretching and a short walk. Drink more than usual — sore legs for two or three days are completely normal.';
+  if(ph === 'done') return '';
+  const t = HIKE_DO[type];
+  return t ? (t[ph] || '') : '';
+}
+function sheetHike(){
+  openSheet('<h2>When is the hike?</h2>'+
+    '<p class="sub">The plan counts back from this date. Three weeks build up, and the last one eases off so you arrive rested.</p>'+
+    '<div class="field"><label for="hikeDateInput">Hike day</label>'+
+    '<input type="date" id="hikeDateInput" value="'+esc(hikeDate())+'"></div>'+
+    '<div class="sheet-actions"><button class="btn btn-primary" data-act="hike-save">Save</button></div>');
+}
+/* One video card — shared by the normal list and the pool lessons */
+function wkArticle(w, rec){
+  const url = 'https://www.youtube.com/watch?v=' + w.v;
+  const picked = rec.doneId === w.id;
+  const lesson = w.type === 'swim' || w.type === 'long';
+  return '<article class="wk'+(picked ? ' picked' : '')+'">'+
+    '<a class="wk-thumb" href="'+url+'" target="_blank" rel="noopener" data-act="wk-open" data-id="'+w.id+'">'+
+      '<img src="https://i.ytimg.com/vi/'+w.v+'/hqdefault.jpg" alt="" decoding="async" '+
+        'onerror="this.parentNode.classList.add(&quot;broken&quot;)">'+
+      '<span class="fallback">'+WK_TYPES[w.type].emoji+'</span>'+
+      '<span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>'+
+      '<span class="len">'+w.min+' min</span>'+
+    '</a>'+
+    '<div class="wk-body"><b>'+esc(w.t)+'</b>'+
+      '<div class="wk-meta"><span>⏱ '+w.min+' min</span>'+
+      (lesson ? '<span>📺 Lesson</span>'
+              : '<span class="'+(w.diff === 'hard' ? 'hard' : '')+'">🔥 '+DIFF_LABEL[w.diff]+'</span>')+
+      (w.by ? '<span>'+esc(w.by)+'</span>' : '')+'</div>'+
+      '<p>'+esc(w.desc)+'</p>'+
+      '<div class="wk-acts">'+
+        '<a class="btn btn-primary" href="'+url+'" target="_blank" rel="noopener" data-act="wk-open" data-id="'+w.id+'">'+(lesson ? 'Watch →' : 'Start →')+'</a>'+
+        (lesson ? '' : '<button class="btn'+(picked ? ' btn-ghost' : '')+'" data-act="wk-done" data-id="'+w.id+'">'+(picked ? 'Done ✓' : '✓ Done')+'</button>')+
+      '</div>'+
+    '</div></article>';
+}
+
 const ENERGY = [['low','😴 No energy'],['ok','🙂 Normal'],['high','🔥 Plenty']];
 
 let wkBand = 'all', wkEnergy = 'ok', todayView = 'main';
 
-// the day on offer. It does not move on until you finish one or skip it,
-// however many days go by.
-function wkAnchor(){
-  let a = state.wkAnchor || today();
-  if(a > today()) a = today();
-  return a;
-}
-function wkResolve(){
-  state.wkAnchor = shift(today(), 1);
-}
+// the day on offer is simply today. The plan runs on the calendar, so Wednesday
+// is always the pool and the countdown to the hike stays honest.
+function wkAnchor(){ return today(); }
+function wkResolve(){}
 function wkTypeFor(key){
   const saved = state.workouts[key];
   if(saved && saved.type) return saved.type;
-  return WK_WEEK[toDate(key).getDay()];
+  const planned = WK_WEEK[toDate(key).getDay()];
+  const ph = hikePhaseFor(key);
+  if(ph === 'hike') return 'long';
+  if(ph === 'after' && planned !== 'swim') return 'stretch';
+  return planned;
 }
 function wkPool(type){ return WORKOUTS.filter(function(w){ return w.type === type; }); }
 
@@ -2474,9 +2714,9 @@ function wkWeek(){
   for(let i = 0; i < 7; i++){
     const rec = state.workouts[shift(ws, i)];
     if(!rec || !rec.doneId) continue;
-    const w = wkById(rec.doneId);
-    n++; mins += (rec.min || (w ? w.min : 0));
-    const kind = w ? WK_TYPES[w.type].kind : 'strength';
+    const info = wkDoneInfo(rec);
+    n++; mins += info.min;
+    const kind = WK_TYPES[info.type] ? WK_TYPES[info.type].kind : 'strength';
     if(kind === 'cardio') cardio++; else if(kind === 'strength') strength++;
   }
   return {n:n, mins:mins, strength:strength, cardio:cardio};
@@ -2868,20 +3108,41 @@ function sheetReads(){
 function wkTodayCard(){
   const key = wkAnchor(), type = wkTypeFor(key), T = WK_TYPES[type];
   const rec = state.workouts[today()] || {};
-  const picks = wkPicks(type, key);
+  const done = wkDoneInfo(rec);
+  const hl = hikeLine();
+  const todo = hikeDo(type, key);
   let body;
-  if(rec.doneId){
-    const w = wkById(rec.doneId);
-    body = '<div class="wk-done-line">✓ Done — '+esc(w ? w.t : 'workout')+'</div>';
+  if(done){
+    body = '<div class="wk-done-line">✓ Done — '+esc(done.title)+'</div>';
   } else if(rec.skipped){
     body = '<p>Skipped today. That is a decision, not a failure.</p>';
   } else {
-    body = '<p>'+esc(T.note.split('.')[0])+'.</p>'+
-      '<div class="wk-mins">'+picks.map(function(w){ return '<span>'+w.min+' min</span>'; }).join('')+'</div>';
+    const lesson = type === 'swim' || type === 'long';
+    body = '<p>'+esc(todo || (T.note.split('.')[0] + '.'))+'</p>'+
+      (lesson ? '' : '<div class="wk-mins">'+wkPicks(type, key).map(function(w){ return '<span>'+w.min+' min</span>'; }).join('')+'</div>');
   }
-  return '<button class="wk-card'+(rec.doneId ? ' done' : '')+'" data-act="open-workouts">'+
-    '<span class="top"><p class="eyebrow">🏋️ Workout</p><span class="go">See all →</span></span>'+
+  return '<button class="wk-card'+(done ? ' done' : '')+'" data-act="open-workouts">'+
+    '<span class="top"><p class="eyebrow">'+(type === 'swim' ? '🏊 Pool day' : '🏋️ Workout')+'</p><span class="go">See all →</span></span>'+
+    (hl ? '<p class="wk-hike">'+esc(hl)+'</p>' : '')+
     '<h3>'+T.emoji+' '+T.name+'</h3>'+ body + '</button>';
+}
+
+/* What was logged today, whether it was a video or a whole outdoor session */
+function wkDoneInfo(rec){
+  if(!rec || !rec.doneId) return null;
+  if(rec.doneId.indexOf('session:') === 0){
+    const t = rec.doneId.slice(8), T = WK_TYPES[t];
+    return {title: t === 'swim' ? 'the pool' : (t === 'long' ? 'the long walk' : (T ? T.name.toLowerCase() : 'a session')),
+            min: rec.min || 0, type: t};
+  }
+  const w = wkById(rec.doneId);
+  return {title: w ? w.t : 'a workout', min: rec.min || (w ? w.min : 0), type: w ? w.type : 'full'};
+}
+function wkSessionMin(type, key){
+  const ph = hikePhaseFor(key);
+  if(type === 'swim') return (ph === 'build' || ph === 'peak') ? 40 : 30;
+  if(type === 'long') return {base:70, build:90, peak:150, taper:60, hike:360}[ph] || 60;
+  return 30;
 }
 
 /* ---------- Workouts: the page ---------- */
@@ -2889,81 +3150,102 @@ function renderWorkouts(){
   const key = wkAnchor(), type = wkTypeFor(key), T = WK_TYPES[type];
   const rec = state.workouts[today()] || {};
   const wk = wkWeek();
-  const list = wkVisible(key);
+  const ph = hikePhase(), d = hikeDays();
+  const todo = hikeDo(type, key);
+  const done = wkDoneInfo(rec);
 
   let html = '<button class="backbtn" data-act="close-workouts">'+
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to today</button>'+
-    '<p class="eyebrow">Today</p>'+
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to today</button>';
+
+  // the hike, counting down
+  if(ph !== 'done'){
+    html += '<div class="hike-box">'+
+      '<div class="top"><b>'+(d > 0 ? d + (d === 1 ? ' day' : ' days') : (d === 0 ? 'Today' : 'Done ✓'))+'</b>'+
+      '<button data-act="hike-date">Change date</button></div>'+
+      '<small>'+(d > 0 ? 'to the hike · ' : (d === 0 ? 'is the hike · ' : 'since the hike on '))+esc(hikeDateLabel())+'</small>'+
+      '<p><strong>'+esc(HIKE_PHASES[ph].name)+'.</strong> '+esc(HIKE_PHASES[ph].line)+'</p></div>';
+  } else {
+    html += '<div class="hike-box"><div class="top"><b>No hike set</b>'+
+      '<button data-act="hike-date">Set a date</button></div>'+
+      '<p>The week below still runs on its own. Give it a date and it starts counting down again.</p></div>';
+  }
+
+  html += '<p class="eyebrow" style="margin-top:20px">Today · '+WDAYS[toDate(key).getDay()]+'</p>'+
     '<h2 class="rec-title">'+T.emoji+' '+T.name+'</h2>'+
     '<div class="wk-note">'+esc(T.note)+'</div>';
 
-  html += '<div class="stats" style="margin-bottom:16px">'+
-    '<div class="stat"><b class="num">'+wk.n+'</b><span>workouts this week</span></div>'+
+  if(todo){
+    const outdoor = type === 'swim' || type === 'long';
+    html += '<div class="hike-do"><p class="eyebrow">Today’s target</p><p>'+esc(todo)+'</p>'+
+      (outdoor && !done
+        ? '<button class="btn btn-primary btn-full" data-act="wk-session" style="margin-top:13px">'+
+          (type === 'swim' ? '✓ I went to the pool' : '✓ I did the long walk')+'</button>'
+        : '')+
+      '</div>';
+  }
+
+  html += '<div class="stats" style="margin:18px 0 16px">'+
+    '<div class="stat"><b class="num">'+wk.n+'</b><span>sessions this week</span></div>'+
     '<div class="stat"><b class="num">'+wk.mins+'</b><span>minutes</span></div>'+
     '<div class="stat"><b class="num">'+wk.strength+'<span style="opacity:.4">/</span>'+wk.cardio+'</b><span>strength / cardio</span></div>'+
     '</div>';
 
-  // last seven days
+  // this week at a glance
   const ws = weekStart(key);
   html += '<div class="wk-strip">';
   for(let i = 0; i < 7; i++){
-    const d = shift(ws, i), r = state.workouts[d] || {};
-    const t2 = WK_TYPES[wkTypeFor(d)];
-    html += '<div><i class="'+(r.doneId ? 'hit' : '')+'">'+(r.doneId ? t2.emoji : (r.skipped ? '·' : ''))+'</i>'+
+    const dk2 = shift(ws, i), r = state.workouts[dk2] || {};
+    const t2 = WK_TYPES[wkTypeFor(dk2)];
+    const hit = !!r.doneId, isToday = dk2 === key;
+    html += '<div><i class="'+(hit ? 'hit' : '')+(isToday ? ' now' : '')+'">'+(hit ? '✓' : t2.emoji)+'</i>'+
             '<span>'+WSHORT[i]+'</span></div>';
   }
   html += '</div>';
 
-  if(rec.doneId){
-    const w = wkById(rec.doneId);
-    html += '<div class="wk-note" style="border-left-color:var(--gold);margin-top:18px">✓ Today you did <b>'+esc(w ? w.t : 'a workout')+'</b>'+
-            ' — '+(rec.min || (w ? w.min : 0))+' minutes of '+T.name.toLowerCase()+'.</div>';
+  if(done){
+    html += '<div class="wk-note" style="border-left-color:var(--gold);margin-top:18px">✓ Today you did <b>'+esc(done.title)+'</b>'+
+            (done.min ? ' — about '+done.min+' minutes' : '')+'. '+
+            '<button class="linkbtn" data-act="wk-undo">Undo</button></div>';
   }
 
-  html += '<div class="section-head" style="margin-top:20px"><p class="eyebrow">How long have you got</p></div>'+
-    '<div class="filters">'+WK_BANDS.map(function(b){
-      return '<button class="chip" data-act="wk-band" data-b="'+b[0]+'" aria-pressed="'+(wkBand===b[0]?'true':'false')+'">'+b[1]+'</button>';
-    }).join('')+'</div>'+
-    '<div class="section-head"><p class="eyebrow">How do you feel</p></div>'+
-    '<div class="filters" style="margin-bottom:20px">'+ENERGY.map(function(e){
-      return '<button class="chip" data-act="wk-energy" data-e="'+e[0]+'" aria-pressed="'+(wkEnergy===e[0]?'true':'false')+'">'+e[1]+'</button>';
-    }).join('')+'</div>';
-
-  if(!list.length){
-    html += '<div class="empty" style="padding:30px 14px"><p>Nothing in that length for today&#39;s focus.<br>Try another band.</p></div>';
+  if(type === 'swim'){
+    const focus = SWIM_FOCUS[ph] || 'breath';
+    html += '<p class="sub" style="margin:24px 2px 0">Watch one lesson before you go, then practise only that one thing in the water. One fix per swim is plenty.</p>';
+    SWIM_TOPICS.forEach(function(tp){
+      const list = wkPool('swim').filter(function(w){ return w.topic === tp[0]; })
+                                 .sort(function(a, b){ return a.min - b.min; });
+      if(!list.length) return;
+      html += '<div class="swim-topic'+(tp[0] === focus ? ' now' : '')+'"><h4>'+esc(tp[1])+'</h4><p>'+esc(tp[2])+'</p></div>'+
+              '<div class="wk-list">'+list.map(function(w){ return wkArticle(w, rec); }).join('')+'</div>';
+    });
   } else {
-    html += '<div class="wk-list">'+list.map(function(w){
-      const url = 'https://www.youtube.com/watch?v=' + w.v;
-      const picked = rec.doneId === w.id;
-      return '<article class="wk'+(picked ? ' picked' : '')+'">'+
-        '<a class="wk-thumb" href="'+url+'" target="_blank" rel="noopener" data-act="wk-open" data-id="'+w.id+'">'+
-          '<img src="https://i.ytimg.com/vi/'+w.v+'/hqdefault.jpg" alt="" decoding="async" '+
-            'onerror="this.parentNode.classList.add(&quot;broken&quot;)">'+
-          '<span class="fallback">'+WK_TYPES[w.type].emoji+'</span>'+
-          '<span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>'+
-          '<span class="len">'+w.min+' min</span>'+
-        '</a>'+
-        '<div class="wk-body"><b>'+esc(w.t)+'</b>'+
-          '<div class="wk-meta"><span>⏱ '+w.min+' min</span>'+
-          '<span class="'+(w.diff === 'hard' ? 'hard' : '')+'">🔥 '+DIFF_LABEL[w.diff]+'</span>'+
-          '<span>'+WK_TYPES[w.type].emoji+' '+WK_TYPES[w.type].name+'</span>'+
-          (w.by ? '<span>'+esc(w.by)+'</span>' : '')+'</div>'+
-          '<p>'+esc(w.desc)+'</p>'+
-          '<div class="wk-acts">'+
-            '<a class="btn btn-primary" href="'+url+'" target="_blank" rel="noopener" data-act="wk-open" data-id="'+w.id+'">Start →</a>'+
-            '<button class="btn'+(picked ? ' btn-ghost' : '')+'" data-act="wk-done" data-id="'+w.id+'">'+(picked ? 'Done ✓' : '✓ Done')+'</button>'+
-          '</div>'+
-        '</div></article>';
-    }).join('')+'</div>';
+    let list;
+    if(type === 'long'){
+      html += '<div class="section-head" style="margin-top:24px"><p class="eyebrow">Worth watching before you go</p></div>';
+      list = wkPool('long').slice().sort(function(a, b){ return a.min - b.min; });
+    } else {
+      html += '<div class="section-head" style="margin-top:22px"><p class="eyebrow">How long have you got</p></div>'+
+        '<div class="filters">'+WK_BANDS.map(function(b){
+          return '<button class="chip" data-act="wk-band" data-b="'+b[0]+'" aria-pressed="'+(wkBand===b[0]?'true':'false')+'">'+b[1]+'</button>';
+        }).join('')+'</div>'+
+        '<div class="section-head"><p class="eyebrow">How do you feel</p></div>'+
+        '<div class="filters" style="margin-bottom:20px">'+ENERGY.map(function(e){
+          return '<button class="chip" data-act="wk-energy" data-e="'+e[0]+'" aria-pressed="'+(wkEnergy===e[0]?'true':'false')+'">'+e[1]+'</button>';
+        }).join('')+'</div>';
+      list = wkVisible(key);
+    }
+    html += list.length
+      ? '<div class="wk-list">'+list.map(function(w){ return wkArticle(w, rec); }).join('')+'</div>'
+      : '<div class="empty" style="padding:30px 14px"><p>Nothing in that length for today&#39;s focus.<br>Try another band.</p></div>';
   }
 
   html += '<div class="section-head" style="margin-top:26px"><p class="eyebrow">Not today?</p></div>'+
     '<div class="sheet-actions" style="margin:0 0 10px">'+
       '<button class="btn" data-act="wk-skip">Skip today</button>'+
-      '<button class="btn" data-act="wk-set" data-t="rest">Make it recovery</button>'+
+      '<button class="btn" data-act="wk-set" data-t="stretch">Make it a stretch day</button>'+
     '</div>'+
     '<button class="btn btn-full btn-ghost" data-act="wk-change">Change today&#39;s focus</button>'+
-    '<p class="sub" style="margin-top:16px;text-align:center">Three strength days a week, walking in between, and real rest. That is the whole plan.</p>';
+    '<p class="sub" style="margin-top:16px;text-align:center">Hard days never back to back, the pool every Wednesday, Sunday off. If something hurts sharply rather than just burns, stop and swap the day for a stretch.</p>';
 
   view.innerHTML = html;
 }
@@ -3932,10 +4214,34 @@ document.addEventListener('click', function(e){
   else if(act==='wk-band'){ wkBand = btn.getAttribute('data-b'); renderWorkouts(); }
   else if(act==='wk-energy'){ wkEnergy = btn.getAttribute('data-e'); renderWorkouts(); }
   else if(act==='wk-change') sheetWkType();
+  else if(act==='hike-date') sheetHike();
+  else if(act==='hike-save'){
+    const v = ($('#hikeDateInput') || {}).value;
+    if(!v){ toast('Pick a date first'); return; }
+    state.hikeDate = v; save(); closeSheet(); renderWorkouts();
+    const n = hikeDays();
+    toast(n > 0 ? n + (n === 1 ? ' day to go' : ' days to go') : 'Date saved');
+  }
+  else if(act==='wk-session'){
+    const key = today(), type = wkTypeFor(key);
+    const rec = state.workouts[key] || (state.workouts[key] = {});
+    rec.type = type; rec.doneId = 'session:' + type; rec.min = wkSessionMin(type, key); delete rec.skipped;
+    save();
+    const h = wkHabit();
+    if(h && !isDone(h, key)) toggleHabit(h.id, null);
+    else renderWorkouts();
+    toast(type === 'swim' ? '🏊 Pool logged' : '🎒 Long walk logged');
+  }
+  else if(act==='wk-undo'){
+    const rec = state.workouts[today()];
+    if(rec){ delete rec.doneId; delete rec.min; if(!rec.chosen) delete rec.type; }
+    save(); renderWorkouts(); toast('Unmarked');
+  }
   else if(act==='wk-set'){
     const key = wkAnchor();
     const rec = state.workouts[key] || (state.workouts[key] = {});
     rec.type = btn.getAttribute('data-t');
+    rec.chosen = true;
     save(); closeSheet(); wkBand = 'all'; renderWorkouts();
     toast('Today is now ' + WK_TYPES[rec.type].name.toLowerCase());
   }
@@ -3950,7 +4256,7 @@ document.addEventListener('click', function(e){
     const key = today(), w = wkById(id);
     const rec = state.workouts[key] || (state.workouts[key] = {});
     if(rec.doneId === id){
-      delete rec.doneId; delete rec.min; state.wkAnchor = today();
+      delete rec.doneId; delete rec.min; if(!rec.chosen) delete rec.type;
       save(); renderWorkouts(); toast('Unmarked'); return;
     }
     rec.type = wkTypeFor(wkAnchor()); rec.doneId = id; rec.min = w ? w.min : 0; delete rec.skipped;
