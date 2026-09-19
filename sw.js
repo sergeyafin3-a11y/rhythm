@@ -5,7 +5,7 @@
    offline. Everything else cross-origin — YouTube thumbnails above all — is
    left entirely to the browser: intercepting them bought nothing and risked
    serving back opaque responses that never render. */
-const CACHE = 'ritm-v6';
+const CACHE = 'ritm-v7';
 const SHELL = ['./', './index.html', './manifest.json', './icon-180.png', './icon-192.png', './icon-512.png', './icon-512-maskable.png'];
 const FONT_HOSTS = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 
@@ -40,15 +40,21 @@ self.addEventListener('fetch', e => {
 
   /* Network-first, but only briefly. Airline and hotel wifi answers a TCP
      connection and then never finishes the request; without a deadline the app
-     would sit on a blank screen. Three seconds, then the cache wins. */
+     would sit on a blank screen. Three seconds, then the cache wins — and when
+     there is nothing cached yet (the textbook on its first, slow download) the
+     network keeps its chance instead of the request failing. */
+  const net = fetch(req).then(res => {
+    if (res.ok) {
+      const copy = res.clone();
+      caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
+    }
+    return res;
+  });
+  net.catch(() => {});
+  const slow = new Promise((_, reject) => setTimeout(() => reject(new Error('slow')), 3000));
   e.respondWith(
-    Promise.race([
-      fetch(req).then(res => {
-        const copy = res.clone();
-        caches.open(CACHE).then(c => c.put(req, copy)).catch(() => {});
-        return res;
-      }),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('slow')), 3000))
-    ]).catch(() => caches.match(req).then(hit => hit || caches.match('./index.html')))
+    Promise.race([net, slow])
+      .catch(() => caches.match(req).then(hit => hit || net))
+      .catch(() => caches.match('./index.html'))
   );
 });

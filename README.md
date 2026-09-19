@@ -1,7 +1,8 @@
 # Rhythm
 
-A personal app: habit tracker, a daily English affirmation with ten phrases,
-and a recipe book. One HTML file, everything stored on the phone itself.
+A personal app: habits, an article a day, workouts, English speaking practice and the
+Armenian driving-theory course. One HTML file plus its content files; everything you do
+stays on the phone itself.
 
 ## Live
 
@@ -24,22 +25,80 @@ file in, **Commit changes**. The site updates in about a minute.
 
 | Tab | What it does |
 |---|---|
-| Today | Your **why** at the top, the day ring, the affirmation, and the habits — split into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
-| + Add | A library of ready-made habits in 11 categories, searchable, one tap to add — or write your own |
+| Today | The day's to-do card, the article of the day, the workout of the day, and the habits — grouped into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
 | To-do | Tasks that are not habits — a call, an appointment, a bill. Quick-add at the top, optional day and time, grouped into Overdue · Today · Tomorrow · Later · No date |
-| 📰 What's new | A card on Today opens the article of the day: Russian, English or French, never announced in advance, with comprehension questions, words you can push straight into My words, and a speaking prompt |
-| 🏋️ Workout | A card on Today opens a full **Workouts** page: today's focus, five matching videos, filters by length and energy, and one tap to log it |
-| English | Two halves. **Daily pack** — the affirmation and ten useful phrases, 30 topics in rotation. **My words** — your own vocabulary: each word saved with the sentence you met it in, plus a recall drill |
-| Rhythm | Eight-week calendar per habit, totals, longest streak |
-| Rewards | Achievements, and rewards you promise yourself |
-| Recipes | 23 recipes across 8 courses — Breakfast, Soups, Salads, Snacks, Mains, Baking, Desserts, Drinks. Search, photos, tappable ingredients, numbered steps |
+| English | **Speak** — the speaking roulette: a topic, a minute, a recording, then the language you could have used. **Phrases** — the affirmation and ten phrases a day. **Saved** — the phrases you kept |
+| Practice | **Driving theory** — the interactive textbook and the official Armenian question bank. **Diction** — ten minutes of Russian speech practice a day |
+| 📰 Article | A card on Today opens the article of the day: Russian, English or French, never announced in advance, with comprehension questions, words worth keeping and a speaking prompt |
+| 🏋️ Workout | A card on Today opens the **Workouts** page: today's focus in the hiking plan, videos that match it, ten minutes for the neck, and one tap to log it |
 
 ## Files
 
 - `index.html` — the whole app
+- `pdd/q.json` — the official question bank, 1030 questions
+- `pdd/learn.json` — the driving-theory textbook: 10 chapters, 82 lessons, and an explanation for every question
+- `pdd/img/` — 662 pictures from the official tickets
+- `english/talk.json` — 200 speaking topics with a model answer and nine phrases each
 - `manifest.json` — name and icon on the home screen
 - `sw.js` — works without internet
 - `icon-*.png` — icons
+
+## Driving theory
+
+The course for the Armenian category B theory exam, in Russian. **The textbook comes first:**
+the daily questions only draw on the lessons already finished.
+
+**The textbook** — 10 chapters in learning order: terms → traffic lights and the officer →
+road signs → markings, stopping and parking → manoeuvres → junctions → overtaking and signals →
+speed, towing and loads → vehicle faults → first aid. Every lesson is 3–8 minutes: short rules
+in plain Russian, key numbers highlighted, diagrams whose numbered markers open an explanation
+when tapped, tap-to-reveal cards, "Remember" and "Exam trap" boxes, and real ticket questions
+answered inside the lesson.
+
+Press **Got it** and that lesson's questions join the daily practice. Every one of the 1030
+questions belongs to exactly one lesson and carries a short explanation of why the official
+answer is right; get one wrong in practice and the explanation appears with a link back to
+its lesson.
+
+**Practice** — 15 questions a day (your mistakes first, then ones you have not seen),
+practice by chapter or by single lesson, a Mistakes list that empties as you answer correctly,
+and an exam ticket: 20 random questions, 30 minutes, at most two mistakes, answers only at the end.
+
+Source: the Road Police of Armenia bank ([roadpolice.am](https://roadpolice.am/en/viv-exam)),
+in Russian. Everything the lessons teach comes from those official answers. Two questions are
+missing an answer in the source PDFs and were left out.
+
+## Speaking roulette
+
+English → **Speak**. Spin the wheel: one of 200 topics comes up. Tap **Start** and the minute
+counts down while the phone records you — the first take is deliberately without any help.
+
+Afterwards the app shows how the answer could have sounded: a model monologue with nine
+phrases highlighted by level — **B1** green, **B2** amber, **C1** rose. Tap a highlighted
+phrase and its card opens: what it means, a Russian equivalent, and another example. Then a
+three-step plan and a second take with the phrases in front of you. Both takes play back side
+by side; nothing is uploaded or saved anywhere.
+
+Mark the topic **Done** and it leaves the wheel for good. The topics you have spoken stay in a
+list you can reopen.
+
+## Saved words
+
+The **+** on any phrase card keeps it, with its meaning, its Russian equivalent and the
+example sentence — the app highlights the phrase inside that sentence, placeholders and all, so
+*to keep someone posted* lights up inside *"I will keep you posted…"*. **Hide meanings** blurs
+the backs of the cards so you can test yourself; tap a card to check.
+
+## Diction
+
+Practice → **Diction**. Ten minutes a day in Russian: an articulation warm-up, the video of
+the day from a speech teacher, and three tongue twisters, each said three ways. A week strip
+shows what you have done.
+
+## Neck and posture
+
+Ten minutes inside every workout day: six exercises, a video of the day, and a note that pain
+which is there almost all the time belongs to a doctor, not to an app.
 
 ## Themes and typefaces
 
@@ -51,16 +110,12 @@ Afterwards: Settings → Theme, and Settings → Typeface.
 
 ## The habits it starts with
 
-One English article + new words · Learn 7 new words · 20 pages of a book ·
-Meditate for 5 minutes · Yoga · Face massage · Eight glasses of water ·
-Cold shower in the morning · Under 2 hours of games · Lights out by 1:30 ·
-Foot cream · Thigh roller · A morning without the phone ·
-Ask one question a day · No snapping, no grumbling
+Workout · One English article · Learn 7 new words · Eight glasses of water ·
+Meditate for 5 minutes · Yoga · 20 pages of a book · Face massage · Foot cream · Thigh roller
 
-Each habit belongs to a time of day — Morning, Day or Evening — and the list on the
-Today tab is grouped under those three headings. Change it in the habit editor.
-
-Delete any of them, change how often, or add more from the library.
+Each habit belongs to a time of day — Morning, Day or Evening — and the Today list is grouped
+under those three headings. Change it in the habit editor, delete any of them, or add more from
+the library of ready-made habits.
 
 ## To-do
 
@@ -69,86 +124,43 @@ on today. Tap the task to give it a day, a time and a note — or leave it undat
 
 The list groups itself: **Overdue · Today · Tomorrow · Later · No date yet**. Overdue is
 flagged in red, timed tasks sort by the clock, and finished ones drop to the bottom with the
-text struck through. Whatever is still open today also shows on the Today screen, so the
-morning answer to "what now" includes the phone calls, not only the habits.
+text struck through. Whatever is still open today also shows on the Today screen.
 
-## What's new
+## The article of the day
 
-One short article a day, thirty in rotation, across twelve subject areas — brain, animals,
+One short article a day, 38 in rotation, across twelve subject areas — brain, animals,
 physics, earth, history, language, art, food, body, how-things-work, money and habits, care.
-The language rotates unpredictably: 12 English, 9 Russian, 9 French, never more than two of
-the same in a row.
+The language rotates unpredictably: English, Russian and French, never more than two of the
+same in a row. A new one appears every day, whether or not the last one was read.
 
 Every English and French word in an article is tappable: tap it and the Russian appears in a
-bubble right there. The glossary is built from the articles themselves — 563 English forms and
-452 French ones, every single word in every text, so a tap never comes back empty. It works
-offline; nothing is looked up over the network.
-
-Each article carries its level — **B1 → B2+** across the month, so it gets harder as you go.
+bubble right there. The glossary is built from the articles themselves, so a tap never comes
+back empty, and it works offline.
 
 The article page leads with the link to the original — you read it on the publication's own
-site and come back for the tasks.
+site and come back for the tasks: three comprehension questions, words worth keeping, and a
+speaking prompt. Russian articles ask for the answer in English on purpose.
 
-Under every article:
-
-- **Did you get it?** — three questions, tap to check yourself.
-- **Words worth keeping** — tap + and the word goes into *English → My words* with the sentence
-  from the article as its context.
-- **Now say it yourself** — a prompt plus three ready structures. Russian articles ask for the
-  answer in English on purpose.
-
-Marking the day's article read closes the "One English article + new words" habit.
-
-Where a card carries a **Read the original** button, the article is a real, checked piece from
-a real publication and the button opens it. The text inside the app is always a short summary
-written for the app — full magazine articles are not reproduced here.
+The text inside the app is always a short summary written for the app — full magazine articles
+are not reproduced here.
 
 ## Workouts
 
-The week rotates on its own: **Mon** glutes + legs · **Tue** walking · **Wed** upper body + core ·
-**Thu** walking · **Fri** glutes + legs · **Sat** full body · **Sun** rest. Any day can be
-changed by hand, skipped, or turned into a recovery day.
+A four-week plan for a hard hike, with the date set in the app and a countdown on the card.
+The week rotates: **Mon** hiking legs · **Tue** stairs and incline · **Wed** pool day ·
+**Thu** knees, balance and core · **Fri** stretching · **Sat** the long walk · **Sun** yoga for hikers. Wednesday is the pool on purpose — lungs work, knees rest — and it comes
+with swimming lessons on video.
 
-**Nothing moves on until you finish it.** Miss a day and the same focus and the same five
-videos are still waiting tomorrow, and the day after. Only *Done* or *Skip today* advances the
-plan. The article behaves the same way: it waits until you mark it read.
+**Nothing moves on until you finish it.** Miss a day and the same focus is still waiting
+tomorrow. Only *Done* or *Skip today* advances the plan.
 
-Whatever the focus is, all five options train **the same thing** — they differ only in length
-(10 → 45 min), intensity and trainer. Filter by how long you have (≤15 / 20–25 / 30–35 / 40+)
-and by how you feel (no energy / normal / plenty) — the mood filter re-sorts the list, it never
-hides anything.
-
-Tapping **Start** opens the video on YouTube; **Done** logs which workout you did and how long
-it took, and closes the "Workout" habit for the day. The page keeps a weekly count: workouts,
-minutes, strength vs cardio, and a seven-day strip.
-
-39 real YouTube videos are built in, with thumbnails pulled from the video id. If a video ever
-disappears the card falls back to an emoji tile instead of breaking.
+Every day carries videos that train the same thing and differ only in length and intensity,
+plus the ten minutes for the neck. **Done** logs the session and closes the "Workout" habit for
+the day.
 
 **On the wording:** the app never promises fat loss in a particular spot. Training builds the
 muscle that shapes a leg or a waist; fat comes down across the whole body, and the descriptions
 say so.
-
-## Why
-
-Three things answer the question "what is all this for":
-
-- **Your why** — one sentence you write yourself, sitting at the top of every day.
-- **A why per habit** — an optional line on the card, right where you decide whether to skip it.
-- **Look how far you have come** — on the Rhythm tab, your history written out in plain
-  sentences instead of numbers: days at it, promises kept, longest run, perfect days, words learned.
-
-The day ring also tells you what is still ahead: *4 to go before the evening.*
-
-## My words
-
-Add a word or phrase together with the real sentence you met it in. The app finds that
-phrase inside the sentence and highlights it — placeholders work too, so *to keep someone
-posted* is found inside *"I will keep you posted…"*.
-
-**Practise** takes ten words, weakest first, blanks the phrase out of its sentence and asks
-you to recall it. *I knew it* moves the word up a level (five levels to "known by heart");
-*Not yet* sends it back to the start so it comes round sooner.
 
 ## Fireworks
 
@@ -162,7 +174,6 @@ Settings → Fireworks sound to silence it. It also respects the system
 
 ## Data
 
-Habits, check-ins, rewards, learned phrases and recipes live in `localStorage`.
-Recipe photos are kept under a separate key (`ritm.photos.v1`) so a full storage
-quota can never block saving your habit progress.
-Backup: Settings → Backup.
+Habits, check-ins, to-dos, read articles, workouts, saved words, lessons finished and
+questions answered live in `localStorage` on the device. Voice recordings are never stored:
+they exist only until you leave the topic. Backup: Settings → Backup.

@@ -795,6 +795,152 @@ a.wk-thumb{ text-decoration:none; }
 .dc-title span{ font-size:12px; font-weight:700; color:var(--ink-mute); margin-left:6px; }
 .dc-how{ margin:8px 0 10px; font-size:13.5px; line-height:1.5; color:var(--ink-mute); }
 .dc-tw{ margin:0 0 9px; padding:11px 14px; border-radius:10px; background:var(--surface); border:var(--border-w) solid var(--line); font-size:15.5px; line-height:1.5; color:var(--ink); }
+/* ---------- Driving theory: the textbook ---------- */
+.btn[disabled]{ opacity:.5; pointer-events:none; }
+.ln-next{ margin:4px 0 0; padding:16px; border-radius:var(--radius-lg); background:var(--surface); border:var(--border-w) solid var(--line); box-shadow:var(--shadow); }
+.ln-next .eyebrow{ display:flex; justify-content:space-between; gap:10px; margin:0 0 9px; }
+.ln-next .eyebrow span:first-child{ color:var(--accent); }
+.ln-next h3{ margin:0 0 5px; font-family:var(--font-display); font-weight:var(--display-weight); letter-spacing:var(--display-tracking); font-size:22px; line-height:1.2; text-wrap:balance; }
+.ln-next > p:not(.eyebrow){ margin:0 0 14px; font-size:13px; color:var(--ink-mute); }
+.ln-next .pbar{ margin:0 0 14px; }
+.ln-today{ margin-top:12px; }
+.ln-note{ margin:10px 0 0; font-size:12.5px; line-height:1.45; color:var(--ink-mute); }
+.ln-lead{ margin:14px 4px 0; }
+.ln-chs, .ln-ls{ display:flex; flex-direction:column; gap:9px; }
+.ln-ch, .ln-row{ width:100%; display:grid; grid-template-columns:34px 1fr auto; gap:6px 12px; align-items:center; text-align:left; padding:12px 14px; border-radius:var(--radius-lg); background:var(--surface); border:var(--border-w) solid var(--line); color:var(--ink); }
+.ln-ch .n, .ln-row .n{ width:34px; height:34px; border-radius:50%; display:grid; place-items:center; font-weight:700; font-size:14px; background:var(--surface-2); color:var(--ink-soft); }
+.ln-ch.done .n, .ln-row.done .n{ background:var(--accent); color:var(--accent-ink); }
+.ln-row.next{ border-color:var(--accent); box-shadow:var(--shadow); }
+.ln-row.next .n{ background:var(--accent-soft); color:var(--accent); }
+.ln-ch .t, .ln-row .t{ min-width:0; }
+.ln-ch b, .ln-row b{ display:block; font-size:14.5px; line-height:1.3; }
+.ln-ch small, .ln-row small{ display:block; margin-top:2px; font-size:12.5px; line-height:1.3; color:var(--ink-mute); }
+.ln-ch .c{ font-size:12px; font-weight:700; color:var(--ink-mute); }
+.ln-ch .pd-tbar{ grid-column:2 / -1; }
+.ln-row .go{ font-size:22px; line-height:1; color:var(--ink-mute); }
+.ln-title{ margin:4px 0 4px; font-family:var(--font-display); font-weight:var(--display-weight); letter-spacing:var(--display-tracking); font-size:27px; line-height:1.14; text-wrap:balance; }
+.ln-sub{ margin:0 0 12px; font-size:15px; font-weight:600; color:var(--ink-soft); }
+.ln-intro{ margin:0 0 18px; font-size:15px; line-height:1.55; color:var(--ink-soft); }
+.ln-meta{ margin:0 0 20px; font-size:13px; color:var(--ink-mute); }
+.ln-body{ display:flex; flex-direction:column; gap:16px; }
+.ln-body b, .ln-key b, .ln-intro b, .pd-why b{ font-weight:700; }
+.ln-body mark, .ln-key mark, .ln-intro mark, .pd-why mark{ background:var(--accent-soft); color:inherit; padding:0 3px; border-radius:4px; -webkit-box-decoration-break:clone; box-decoration-break:clone; }
+.ln-p{ margin:0; font-size:16px; line-height:1.62; }
+.ln-list{ margin:0; padding-left:20px; display:flex; flex-direction:column; gap:7px; font-size:15.5px; line-height:1.55; }
+.ln-steps{ margin:0; padding:0; list-style:none; counter-reset:lnstep; display:flex; flex-direction:column; gap:10px; }
+.ln-steps li{ position:relative; min-height:26px; padding:2px 0 0 38px; font-size:15.5px; line-height:1.5; counter-increment:lnstep; }
+.ln-steps li::before{ content:counter(lnstep); position:absolute; left:0; top:0; width:26px; height:26px; border-radius:50%; display:grid; place-items:center; font-size:13px; font-weight:700; background:var(--accent); color:var(--accent-ink); }
+.ln-key{ display:grid; grid-template-columns:repeat(auto-fit, minmax(132px, 1fr)); gap:9px; }
+.ln-key div{ padding:12px 13px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); }
+.ln-key div > b{ display:block; font-family:var(--font-display); font-weight:var(--display-weight); font-size:23px; line-height:1.1; color:var(--accent); }
+.ln-key div > span{ display:block; margin-top:5px; font-size:13px; line-height:1.4; color:var(--ink-soft); }
+.ln-cmp{ display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:9px; }
+.ln-cmp div{ padding:13px 14px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); border-top:3px solid var(--accent); }
+.ln-cmp div:nth-child(2){ border-top-color:var(--gold); }
+.ln-cmp div:nth-child(3){ border-top-color:var(--ink-mute); }
+.ln-cmp div > b{ display:block; margin-bottom:6px; font-size:15px; }
+.ln-cmp p{ margin:0; font-size:14px; line-height:1.5; color:var(--ink-soft); }
+.ln-flips{ display:flex; flex-direction:column; gap:8px; }
+.ln-flip{ width:100%; display:flex; flex-direction:column; gap:6px; text-align:left; padding:13px 14px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) dashed var(--line); color:var(--ink); transition:transform .15s ease; }
+.ln-flip:active{ transform:scale(.97); }
+.ln-flip .f{ font-size:14.5px; font-weight:700; line-height:1.35; }
+.ln-flip .b{ display:none; font-size:14px; line-height:1.5; color:var(--ink-soft); }
+.ln-flip i{ margin-top:auto; font-style:normal; font-size:10.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); }
+.ln-flip.open{ border-style:solid; border-color:var(--accent); }
+.ln-flip.open .b{ display:block; }
+.ln-flip.open i{ display:none; }
+.ln-tip, .ln-trap{ padding:13px 15px; border-radius:var(--radius); }
+.ln-tip{ background:var(--accent-soft); }
+.ln-trap{ background:rgba(217,142,60,.13); border-left:3px solid var(--gold); }
+.ln-tip .eyebrow, .ln-trap .eyebrow{ margin:0 0 5px; }
+.ln-tip .eyebrow{ color:var(--accent); }
+.ln-trap .eyebrow{ color:var(--gold); }
+.ln-tip p:last-child, .ln-trap p:last-child{ margin:0; font-size:15px; line-height:1.55; }
+.ln-tip mark{ background:var(--surface); }
+.ln-fig{ margin:0; }
+.ln-fig img{ display:block; width:100%; border-radius:var(--radius); background:#fff; }
+.ln-fig svg{ display:block; width:100%; height:auto; border-radius:14px; font-family:var(--font-body); }
+.ln-fig figcaption{ margin-top:8px; font-size:13px; line-height:1.45; color:var(--ink-mute); text-align:center; }
+.ln-svg [data-h]{ cursor:pointer; }
+.ln-svg [data-h] circle[r="11"]{ transition:fill .15s ease; }
+.ln-svg [data-h].on circle[r="11"]{ fill:#1F2937; }
+.ln-hot-out{ margin-top:9px; padding:11px 13px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); font-size:14.5px; line-height:1.5; color:var(--ink-soft); }
+.ln-hot-out b{ display:block; margin-bottom:2px; color:var(--ink); }
+.ln-hot-out.hint{ text-align:center; font-size:12px; font-weight:700; letter-spacing:.06em; color:var(--accent); border-style:dashed; }
+.ln-check{ padding:15px 14px; border-radius:var(--radius-lg); background:var(--surface); border:var(--border-w) solid var(--line); box-shadow:var(--shadow); }
+.ln-check .eyebrow{ margin:0 0 11px; color:var(--accent); }
+.ln-check .pd-q{ font-size:15.5px; }
+.ln-check .pd-opt{ font-size:14.5px; }
+.ln-check .pd-opt:not(.right):not(.wrong){ background:var(--ground); }
+.ln-check .pd-feedback{ margin-top:12px; }
+.ln-why, .pd-why{ margin:8px 0 0; font-size:14.5px; line-height:1.55; color:var(--ink-soft); }
+.pd-lesson{ display:block; margin-top:10px; font-size:13.5px; text-align:left; }
+.ln-end{ margin-top:28px; padding-top:18px; border-top:var(--border-w) solid var(--line); }
+.ln-end .neck-done{ margin:0; }
+.ln-end .sheet-actions{ margin-top:14px; }
+/* ---------- English: speaking roulette and saved words ---------- */
+.tk-spin, .tk-card{ margin-top:4px; padding:16px; border-radius:var(--radius-lg); background:var(--surface); border:var(--border-w) solid var(--line); box-shadow:var(--shadow); }
+.tk-spin .eyebrow, .tk-card .eyebrow{ display:flex; justify-content:space-between; gap:10px; margin:0 0 8px; }
+.tk-spin .eyebrow span:first-child, .tk-card .eyebrow span:first-child{ color:var(--accent); }
+.tk-spin h3{ margin:0 0 4px; font-family:var(--font-display); font-weight:var(--display-weight); letter-spacing:var(--display-tracking); font-size:22px; line-height:1.2; }
+.tk-sub{ margin:0 0 14px; font-size:13.5px; line-height:1.5; color:var(--ink-mute); }
+.tk-wheel{ position:relative; width:min(268px, 76vw); margin:10px auto 18px; }
+.tk-wheel svg{ display:block; width:100%; height:auto; border-radius:50%; box-shadow:var(--shadow); transition:transform 3.4s cubic-bezier(.12,.7,.16,1); }
+.tk-wheel .sa{ fill:var(--accent-soft); stroke:var(--surface); stroke-width:2; }
+.tk-wheel .sb{ fill:var(--surface-2); stroke:var(--surface); stroke-width:2; }
+.tk-wheel text{ font-size:21px; text-anchor:middle; dominant-baseline:central; }
+.tk-wheel .hub{ fill:var(--surface); stroke:var(--line); stroke-width:2; }
+.tk-ptr{ position:absolute; z-index:1; left:50%; top:-9px; width:0; height:0; margin-left:-11px; border-left:11px solid transparent; border-right:11px solid transparent; border-top:21px solid var(--accent); filter:drop-shadow(0 2px 2px rgba(0,0,0,.18)); }
+.tk-history{ display:block; margin:16px auto 0; font-size:13.5px; }
+.tk-q{ margin:2px 0 10px; font-family:var(--font-display); font-weight:var(--display-weight); letter-spacing:var(--display-tracking); font-size:24px; line-height:1.22; text-wrap:balance; }
+.tk-row{ display:flex; gap:8px; margin-top:8px; }
+.tk-row .btn{ flex:1; padding-left:10px; padding-right:10px; }
+.tk-timer{ position:relative; width:170px; height:170px; margin:12px auto 6px; }
+.tk-timer svg{ display:block; width:100%; height:100%; transform:rotate(-90deg); }
+.tk-timer circle{ fill:none; stroke-width:8; }
+.tk-timer .bg{ stroke:var(--surface-2); }
+.tk-timer .fg{ stroke:var(--accent); stroke-linecap:round; transition:stroke-dashoffset .25s linear; }
+.tk-timer b{ position:absolute; inset:0; display:grid; place-items:center; font-family:var(--font-display); font-weight:var(--display-weight); font-size:42px; }
+.tk-status{ margin:0 0 14px; text-align:center; font-size:13px; font-weight:700; color:var(--ink-mute); }
+.tk-dot{ display:inline-block; width:9px; height:9px; margin-right:7px; border-radius:50%; background:#D93025; vertical-align:0; animation:tkPulse 1.6s ease-in-out infinite; }
+@keyframes tkPulse{ 50%{ opacity:.3; } }
+.tk-chips{ display:flex; flex-wrap:wrap; gap:6px; margin:0 0 14px; }
+.tk-chip{ padding:6px 11px; border-radius:999px; font-size:13px; font-weight:600; line-height:1.3; text-align:left; background:var(--ground); border:var(--border-w) solid var(--line); color:var(--ink); }
+span.tk-chip{ border-color:transparent; }
+button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+.tk-takes{ display:flex; flex-direction:column; gap:8px; margin:6px 0 0; }
+.tk-take{ display:grid; grid-template-columns:52px 1fr; gap:8px; align-items:center; }
+.tk-take span{ font-size:12px; font-weight:700; color:var(--ink-mute); }
+.tk-take audio{ width:100%; height:38px; }
+.lv{ display:inline-block; flex:none; padding:2px 7px; border-radius:999px; font-size:10.5px; font-weight:800; letter-spacing:.04em; line-height:1.5; }
+.lv-B1{ background:rgba(47,122,85,.15); color:#2F7A55; }
+.lv-B2{ background:rgba(217,142,60,.2); color:#9A5E1C; }
+.lv-C1{ background:var(--accent-soft); color:var(--accent); }
+.tk-legend{ display:flex; align-items:center; gap:6px; margin:22px 2px 9px; font-size:12px; color:var(--ink-mute); }
+.tk-model{ padding:16px; border-radius:var(--radius-lg); background:var(--surface); border:var(--border-w) solid var(--line); box-shadow:var(--shadow); }
+.tk-model .eyebrow{ margin:0 0 8px; }
+.tk-text{ margin:0; font-size:16.5px; line-height:1.85; }
+.tk-text .tk-hl{ display:inline; font:inherit; font-weight:600; color:var(--ink); padding:1px 3px; margin:0 -3px; border-radius:6px; -webkit-box-decoration-break:clone; box-decoration-break:clone; }
+.tk-text .tk-hl.on{ box-shadow:inset 0 -2px 0 currentColor; }
+.tk-pop:empty{ display:none; }
+.tk-pop{ margin-top:12px; }
+.tk-words{ display:flex; flex-direction:column; gap:9px; }
+.tk-word{ padding:13px 14px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); }
+.tk-pop .tk-word{ background:var(--ground); }
+.tk-wtop, .sw-top{ display:flex; align-items:center; gap:8px; }
+.tk-wtop b, .sw-top b{ font-size:15.5px; line-height:1.3; }
+.tk-save{ margin-left:auto; flex:none; width:34px; height:34px; border-radius:50%; display:grid; place-items:center; font-size:19px; font-weight:700; border:var(--border-w) solid var(--line); color:var(--accent); background:var(--surface); }
+.tk-save.on{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); font-size:15px; }
+.tk-mean, .sw-mean{ margin:6px 0 0; font-size:14px; line-height:1.45; color:var(--ink-soft); }
+.tk-ex, .sw-ex{ margin:7px 0 0; font-size:14.5px; line-height:1.5; font-style:italic; color:var(--ink); }
+.tk-ex mark, .sw-ex mark{ background:var(--accent-soft); color:inherit; padding:0 2px; border-radius:4px; font-style:normal; }
+.tk-ru, .sw-ru{ margin:5px 0 0; font-size:13px; color:var(--ink-mute); }
+.tk-plan{ margin:0 0 14px; padding-left:20px; display:flex; flex-direction:column; gap:6px; font-size:15px; line-height:1.45; }
+.sw-list{ display:flex; flex-direction:column; gap:9px; }
+.sw{ padding:13px 14px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); cursor:pointer; }
+.sw-del{ margin-left:auto; flex:none; width:30px; height:30px; border-radius:50%; font-size:19px; line-height:1; color:var(--ink-mute); }
+.sw-back{ transition:filter .2s ease, opacity .2s ease; }
+.sw-list.hide .sw:not(.open) .sw-back{ filter:blur(6px); opacity:.55; }
 .wk-strip{ display:flex; gap:6px; margin:14px 0 0; }
 .wk-strip div{ flex:1; text-align:center; }
 .wk-strip i{
@@ -2740,6 +2886,8 @@ if(state.sound === undefined) state.sound = true;
 if(!state.workouts) state.workouts = {};
 if(!state.reads) state.reads = {};
 if(!state.todos) state.todos = [];
+if(!state.words) state.words = [];
+if(!state.talk) state.talk = {done:{}};
 if(!state.neck) state.neck = {};
 if(!state.diction) state.diction = {};
 if(!wkHabit()) state.habits.push({id:'hw', title:'Workout', emoji:'🏋️', perDay:1, weekGoal:3, when:'day', why:''});
@@ -3205,11 +3353,300 @@ function packLearned(pk){
   for(let i = 0; i < pk.phrases.length; i++) if(state.learned[packKey(pk, i)]) n++;
   return n;
 }
+/* ---------- English tab: speaking roulette, daily phrases, saved words ---------- */
 function renderEnglish(){
+  const v = state.enView || 'speak';
+  if(v === 'words') return renderSavedWords();
+  if(v === 'phrases') return renderPhrases();
+  renderTalk();
+}
+function enSeg(){
+  const v = state.enView || 'speak', n = (state.words || []).length;
+  return '<div class="seg" role="tablist">'+
+    '<button role="tab" data-act="en-view" data-v="speak" aria-selected="'+(v === 'speak')+'">Speak</button>'+
+    '<button role="tab" data-act="en-view" data-v="phrases" aria-selected="'+(v === 'phrases')+'">Phrases</button>'+
+    '<button role="tab" data-act="en-view" data-v="words" aria-selected="'+(v === 'words')+'">Saved'+(n ? ' <small>'+n+'</small>' : '')+'</button></div>';
+}
+
+/* ---- Speaking roulette: spin, talk for a minute unaided, see the phrases, talk again ---- */
+const TALK_CATS = {
+  choice:{n:'This or that', e:'⚖️'}, advice:{n:'Advice', e:'💡'}, work:{n:'Work', e:'💼'},
+  learning:{n:'Learning', e:'🎓'}, tech:{n:'Technology', e:'📱'}, travel:{n:'Travel', e:'✈️'},
+  life:{n:'Everyday life', e:'🍲'}, money:{n:'Money', e:'💳'}, health:{n:'Health', e:'🌿'},
+  people:{n:'People', e:'🤝'}, society:{n:'Society', e:'🌍'}, culture:{n:'Culture', e:'🎬'},
+  whatif:{n:'What if', e:'🔮'}, story:{n:'Your story', e:'📖'}
+};
+const TALK_ORDER = Object.keys(TALK_CATS);
+const TALK_SECS = 60, TALK_RING = 326.73;
+let TALK = null, talkLoading = false, talkFailed = false;
+/* the current round lives only in memory: recordings are never stored */
+const tk = {id:null, stage:'idle', take:1, takes:{}, rec:null, started:0, timer:null, noMic:false, angle:0, spinning:false, used:{}};
+
+function talkLoad(){
+  if(TALK || talkLoading) return;
+  talkLoading = true; talkFailed = false;
+  fetch('english/talk.json').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(d){
+      d.byId = {};
+      d.topics.forEach(function(t){ d.byId[t.id] = t; });
+      TALK = d; talkLoading = false;
+      if(tab === 'english') renderEnglish();
+    })
+    .catch(function(){ talkLoading = false; talkFailed = true; if(tab === 'english') renderEnglish(); });
+}
+function talkDone(){
+  if(!state.talk) state.talk = {done:{}};
+  if(!state.talk.done) state.talk.done = {};
+  return state.talk.done;
+}
+function talkClock(s){ s = Math.ceil(s); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+
+function tkWheel(){
+  const n = TALK_ORDER.length, a = 360 / n, r = 146, c = 150, rad = Math.PI / 180;
+  let s = '<div class="tk-wheel"><span class="tk-ptr" aria-hidden="true"></span>'+
+    '<svg viewBox="0 0 300 300" aria-hidden="true" style="transform:rotate('+tk.angle+'deg)">';
+  TALK_ORDER.forEach(function(k, i){
+    const x0 = c + r * Math.sin(i * a * rad), y0 = c - r * Math.cos(i * a * rad);
+    const x1 = c + r * Math.sin((i + 1) * a * rad), y1 = c - r * Math.cos((i + 1) * a * rad);
+    const m = (i + .5) * a, tx = (c + 108 * Math.sin(m * rad)).toFixed(1), ty = (c - 108 * Math.cos(m * rad)).toFixed(1);
+    s += '<path class="'+(i % 2 ? 'sa' : 'sb')+'" d="M'+c+' '+c+' L'+x0.toFixed(1)+' '+y0.toFixed(1)+' A'+r+' '+r+' 0 0 1 '+x1.toFixed(1)+' '+y1.toFixed(1)+' Z"/>'+
+         '<text x="'+tx+'" y="'+ty+'" transform="rotate('+m.toFixed(1)+' '+tx+' '+ty+')">'+TALK_CATS[k].e+'</text>';
+  });
+  return s + '<circle class="hub" cx="150" cy="150" r="26"/></svg></div>';
+}
+
+function renderTalk(){
+  talkLoad();
+  let h = enSeg();
+  if(!TALK){
+    h += talkFailed
+      ? '<div class="empty" style="padding:40px 14px"><p>Could not load the topics. They load once and then work offline.</p><button class="btn" data-act="tk-retry">Try again</button></div>'
+      : '<div class="empty" style="padding:40px 14px"><p>Loading the topics…</p></div>';
+    view.innerHTML = h; return;
+  }
+  const done = talkDone(), total = TALK.topics.length;
+  const spoken = Object.keys(done).filter(function(id){ return TALK.byId[id]; }).length;
+  const t = tk.id ? TALK.byId[tk.id] : null;
+
+  if(!t || tk.stage === 'idle'){
+    h += '<section class="tk-spin">'+
+      '<p class="eyebrow"><span>Speaking roulette</span><span class="num">'+spoken+' / '+total+' spoken</span></p>'+
+      '<h3>Spin, then talk for a minute</h3>'+
+      '<p class="tk-sub">First on your own, with no help. Then the phrases you could have used — and a second go.</p>'+
+      tkWheel()+
+      (spoken < total
+        ? '<button class="btn btn-primary btn-full" data-act="tk-spin"'+(tk.spinning ? ' disabled' : '')+'>'+(tk.spinning ? 'Spinning…' : 'Spin')+'</button>'
+        : '<p class="tk-sub" style="text-align:center;margin:0">Every topic spoken. Impressive.</p>')+
+      '</section>';
+    if(spoken) h += '<button class="linkbtn tk-history" data-act="tk-history">Topics you’ve spoken · '+spoken+'</button>';
+    view.innerHTML = h; return;
+  }
+
+  const cat = TALK_CATS[t.cat] || {n:'', e:''};
+  h += '<section class="tk-card">'+
+    '<p class="eyebrow"><span>'+cat.e+' '+esc(cat.n)+'</span><span>'+(tk.stage === 'rec' ? 'Take '+tk.take : done[t.id] ? '✓ Spoken' : '')+'</span></p>'+
+    '<h3 class="tk-q">'+esc(t.q)+'</h3>';
+
+  if(tk.stage === 'topic'){
+    h += '<p class="tk-sub">One minute, no hints — just start talking. The recording is only for you to listen back.</p>'+
+      '<button class="btn btn-primary btn-full" data-act="tk-go" data-n="1">● Start · 1:00</button>'+
+      '<div class="tk-row"><button class="btn btn-ghost" data-act="tk-again">Spin again</button>'+
+      '<button class="btn btn-ghost" data-act="tk-skip">Show the phrases</button></div></section>';
+    view.innerHTML = h; return;
+  }
+
+  if(tk.stage === 'rec'){
+    const left = tk.started ? talkLeft() : TALK_SECS;
+    h += '<div class="tk-timer"><svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="52"/>'+
+      '<circle class="fg" id="tkRing" cx="60" cy="60" r="52" style="stroke-dasharray:'+TALK_RING+';stroke-dashoffset:'+(TALK_RING * (1 - left / TALK_SECS)).toFixed(1)+'"/></svg>'+
+      '<b class="num" id="tkClock">'+talkClock(left)+'</b></div>'+
+      '<p class="tk-status" id="tkStatus">'+tkStatus()+'</p>';
+    if(tk.take === 2){
+      h += '<div class="tk-chips">'+t.words.map(function(w){ return '<span class="tk-chip lv-'+w.lvl+'">'+esc(w.w)+'</span>'; }).join('')+'</div>';
+    }
+    h += '<button class="btn btn-full" data-act="tk-stop">Stop</button></section>';
+    view.innerHTML = h; return;
+  }
+
+  h += tkTakes() + '</section>';
+
+  if(tk.stage === 'review2'){
+    h += '<section class="rd-block"><p class="eyebrow">Which phrases made it in?</p><div class="tk-chips">'+
+      t.words.map(function(w, i){
+        return '<button class="tk-chip'+(tk.used[i] ? ' on' : '')+'" data-act="tk-used" data-i="'+i+'">'+esc(w.w)+'</button>';
+      }).join('')+'</div>'+
+      (done[t.id] ? '' : '<button class="btn btn-primary btn-full" data-act="tk-done">✓ Done — it leaves the wheel</button>')+
+      '<div class="tk-row"><button class="btn btn-ghost" data-act="tk-go" data-n="2">Once more</button>'+
+      '<button class="btn btn-ghost" data-act="tk-again">'+(done[t.id] ? 'Back to the wheel' : 'Back to the wheel, keep it')+'</button></div></section>';
+  }
+
+  h += '<p class="tk-legend"><span class="lv lv-B1">B1</span><span class="lv lv-B2">B2</span><span class="lv lv-C1">C1</span> Tap a highlighted phrase</p>'+
+    '<section class="tk-model"><p class="eyebrow">How it could sound</p><p class="tk-text">'+tkModel(t)+'</p><div class="tk-pop"></div></section>';
+
+  h += '<section class="rd-block"><p class="eyebrow">The phrases · + saves one</p><div class="tk-words">'+
+    t.words.map(function(w, i){ return tkWord(t, i); }).join('')+'</div></section>';
+
+  if(tk.stage === 'review1'){
+    h += '<section class="rd-block"><p class="eyebrow">Second go</p><ol class="tk-plan">'+
+      t.plan.map(function(p){ return '<li>'+esc(p)+'</li>'; }).join('')+'</ol>'+
+      '<button class="btn btn-primary btn-full" data-act="tk-go" data-n="2">● Speak again with these phrases · 1:00</button>'+
+      (done[t.id]
+        ? '<button class="btn btn-ghost btn-full" data-act="tk-again" style="margin-top:8px">Back to the wheel</button>'
+        : '<div class="tk-row"><button class="btn btn-ghost" data-act="tk-done">✓ Done with this topic</button>'+
+          '<button class="btn btn-ghost" data-act="tk-again">Back to the wheel</button></div>')+
+      '</section>';
+  }
+  view.innerHTML = h;
+}
+function tkStatus(){
+  if(!tk.started) return 'Asking for the microphone…';
+  return tk.noMic ? 'Timer only — the microphone isn’t available' : '<i class="tk-dot"></i>Recording';
+}
+function tkTakes(){
+  const rows = [1, 2].filter(function(n){ return tk.takes[n]; }).map(function(n){
+    return '<div class="tk-take"><span>Take '+n+'</span><audio controls preload="metadata" src="'+tk.takes[n]+'"></audio></div>';
+  });
+  return rows.length ? '<div class="tk-takes">'+rows.join('')+'</div>' : '';
+}
+function tkModel(t){
+  return esc(t.model).replace(/\[\[([^\]|]+)\|(\d)\]\]/g, function(m, text, n){
+    const w = t.words[+n - 1];
+    return w ? '<button class="tk-hl lv-'+w.lvl+'" data-act="tk-hl" data-i="'+(+n - 1)+'">'+text+'</button>' : text;
+  });
+}
+function tkWord(t, i){
+  const w = t.words[i], on = swHas(w.w);
+  return '<article class="tk-word">'+
+    '<div class="tk-wtop"><b>'+esc(w.w)+'</b><span class="lv lv-'+w.lvl+'">'+w.lvl+'</span>'+
+    '<button class="tk-save'+(on ? ' on' : '')+'" data-act="tk-save" data-i="'+i+'" aria-label="'+(on ? 'Saved' : 'Save')+'">'+(on ? '✓' : '+')+'</button></div>'+
+    '<p class="tk-mean">'+esc(w.mean)+'</p>'+
+    '<p class="tk-ex">'+swMark(w.ex, w.w)+'</p>'+
+    '<p class="tk-ru" lang="ru">'+esc(w.ru)+'</p></article>';
+}
+
+function talkLeft(){ return Math.max(0, TALK_SECS - (Date.now() - tk.started) / 1000); }
+function talkStart(n){
+  const t = TALK && TALK.byId[tk.id];
+  if(!t) return;
+  clearInterval(tk.timer);
+  tk.take = n; tk.stage = 'rec'; tk.started = 0; tk.noMic = false; tk.rec = null;
+  if(n === 2) tk.used = {};
+  window.scrollTo(0,0); renderEnglish();
+  function go(){
+    if(tk.stage !== 'rec' || tk.take !== n) return;
+    tk.started = Date.now();
+    const st = document.getElementById('tkStatus');
+    if(st) st.innerHTML = tkStatus();
+    tk.timer = setInterval(talkTick, 250);
+  }
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder){ tk.noMic = true; go(); return; }
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+    if(tk.stage !== 'rec' || tk.take !== n){ stream.getTracks().forEach(function(x){ x.stop(); }); return; }
+    const type = ['audio/mp4', 'audio/webm;codecs=opus', 'audio/webm'].find(function(x){
+      return MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(x);
+    });
+    let rec;
+    try{ rec = new MediaRecorder(stream, type ? {mimeType:type} : undefined); }
+    catch(e){ stream.getTracks().forEach(function(x){ x.stop(); }); tk.noMic = true; go(); return; }
+    const chunks = [];
+    rec.ondataavailable = function(e){ if(e.data && e.data.size) chunks.push(e.data); };
+    rec.onstop = function(){
+      stream.getTracks().forEach(function(x){ x.stop(); });
+      if(!chunks.length) return;
+      if(tk.takes[n]) URL.revokeObjectURL(tk.takes[n]);
+      tk.takes[n] = URL.createObjectURL(new Blob(chunks, {type: rec.mimeType || type || 'audio/mp4'}));
+      if(tab === 'english' && (state.enView || 'speak') === 'speak' && tk.stage !== 'rec') renderEnglish();
+    };
+    rec.start();
+    tk.rec = rec;
+    go();
+  }).catch(function(){ tk.noMic = true; go(); });
+}
+function talkTick(){
+  const left = talkLeft();
+  const c = document.getElementById('tkClock'), r = document.getElementById('tkRing');
+  if(c) c.textContent = talkClock(left);
+  if(r) r.style.strokeDashoffset = (TALK_RING * (1 - left / TALK_SECS)).toFixed(1);
+  if(left <= 0) talkStop();
+}
+function talkStop(){
+  clearInterval(tk.timer); tk.timer = null;
+  if(tk.stage !== 'rec') return;
+  tk.stage = tk.take === 1 ? 'review1' : 'review2';
+  if(tk.rec && tk.rec.state !== 'inactive'){ try{ tk.rec.stop(); }catch(e){} }
+  tk.rec = null;
+  if(navigator.vibrate) try{ navigator.vibrate(30); }catch(e){}
+  if(tab === 'english' && (state.enView || 'speak') === 'speak'){ window.scrollTo(0,0); renderEnglish(); }
+}
+function talkReset(){
+  clearInterval(tk.timer); tk.timer = null;
+  if(tk.rec && tk.rec.state !== 'inactive'){ tk.rec.onstop = null; try{ tk.rec.stop(); tk.rec.stream.getTracks().forEach(function(x){ x.stop(); }); }catch(e){} }
+  Object.keys(tk.takes).forEach(function(n){ URL.revokeObjectURL(tk.takes[n]); });
+  tk.id = null; tk.stage = 'idle'; tk.takes = {}; tk.rec = null; tk.started = 0; tk.used = {};
+}
+function sheetTalkHistory(){
+  const done = talkDone();
+  const ids = Object.keys(done).filter(function(id){ return TALK && TALK.byId[id]; })
+    .sort(function(a, b){ return String(done[b]).localeCompare(String(done[a])); });
+  openSheet('<h2>Topics you’ve spoken</h2><p class="sub">They stay off the wheel. Open one to see its phrases again.</p>'+
+    '<div class="rd-archive">'+ids.map(function(id){
+      const t = TALK.byId[id], c = TALK_CATS[t.cat] || {e:''}, d = toDate(done[id]);
+      return '<button class="rd-row" data-act="tk-open" data-id="'+id+'"><span class="rd-flag">'+c.e+'</span>'+
+        '<span><b>'+esc(t.q)+'</b><em>'+MONTHS[d.getMonth()]+' '+d.getDate()+'</em></span><span class="tick">›</span></button>';
+    }).join('')+'</div>');
+}
+
+/* ---- Saved words: a plain list to learn from ---- */
+let swHide = false;
+const swOpen = {};
+function swHas(term){
+  const k = String(term).toLowerCase();
+  return (state.words || []).some(function(x){ return String(x.term).toLowerCase() === k; });
+}
+/* finds «try them on» for «to try something on», so the phrase stands out in its sentence */
+function swMark(s, phrase){
+  const skip = /^(to|a|an|the|someone|somebody|something|sb|sth|one's|oneself|be|a\/b|A|B|doing|do)$/;
+  const toks = String(phrase).replace(/[()…]/g, ' ').split(/\s+/).filter(function(x){ return x && !skip.test(x) && /[a-z]/i.test(x); });
+  if(!toks.length) return esc(s);
+  const parts = toks.map(function(x){
+    const base = x.replace(/[^a-z'-]/gi, '');
+    const stem = base.length > 6 ? base.slice(0, -2) : base.length > 4 ? base.slice(0, -1) : base;
+    return stem.replace(/[-']/g, '\\$&') + "[a-z'-]*";
+  });
+  let m = null;
+  try{ m = new RegExp('\\b' + parts.join("(?:[^a-z]+[a-z'-]+){0,3}?[^a-z]+"), 'i').exec(s); }catch(e){}
+  if(!m) return esc(s);
+  return esc(s.slice(0, m.index)) + '<mark>' + esc(m[0]) + '</mark>' + esc(s.slice(m.index + m[0].length));
+}
+function renderSavedWords(){
+  const words = (state.words || []).slice().reverse();
+  let h = enSeg();
+  if(!words.length){
+    h += '<div class="empty" style="padding:40px 14px"><p>Nothing saved yet.<br>Phrases you save with + in the speaking roulette collect here.</p>'+
+      '<button class="btn" data-act="en-view" data-v="speak">Go to the roulette</button></div>';
+    view.innerHTML = h; return;
+  }
+  h += '<div class="section-head" style="margin-top:4px"><p class="eyebrow">'+words.length+' saved</p>'+
+    '<button class="btn btn-ghost btn-sm" data-act="sw-hide">'+(swHide ? 'Show meanings' : 'Hide meanings')+'</button></div>'+
+    (swHide ? '<p class="tk-sub">Say what each one means, then tap the card to check.</p>' : '')+
+    '<div class="sw-list'+(swHide ? ' hide' : '')+'">'+words.map(function(w){
+      return '<article class="sw'+(swOpen[w.id] ? ' open' : '')+'" data-act="sw-peek" data-id="'+esc(w.id)+'">'+
+        '<div class="sw-top"><b>'+esc(w.term)+'</b>'+(w.lvl ? '<span class="lv lv-'+esc(w.lvl)+'">'+esc(w.lvl)+'</span>' : '')+
+        '<button class="sw-del" data-act="sw-del" data-id="'+esc(w.id)+'" aria-label="Remove">×</button></div>'+
+        (w.ctx ? '<p class="sw-ex">'+swMark(w.ctx, w.term)+'</p>' : '')+
+        '<div class="sw-back">'+(w.mean ? '<p class="sw-mean">'+esc(w.mean)+'</p>' : '')+
+        (w.ru ? '<p class="sw-ru" lang="ru">'+esc(w.ru)+'</p>' : '')+'</div></article>';
+    }).join('')+'</div>';
+  view.innerHTML = h;
+}
+
+
+/* ---- Ten phrases a day ---- */
+function renderPhrases(){
   const isToday = openPack === null;
   const pk = isToday ? packOfDay() : PACKS[openPack];
   const done = packLearned(pk), total = pk.phrases.length;
-  let html = '';
+  let html = enSeg();
 
   if(isToday){
     html += '<section class="affirm"><p class="eyebrow">Affirmation of the day</p>'+
@@ -3513,8 +3950,8 @@ document.addEventListener('click', function(e){
   else if(act==='sk-view'){ skView = btn.getAttribute('data-v'); window.scrollTo(0,0); renderSkills(); }
   else if(act==='pd-retry'){ pddFailed = false; renderSkills(); }
   else if(act==='pd-start'){
-    if(!PDD) return;
-    pddStart(btn.getAttribute('data-m'), +btn.getAttribute('data-g') || 0);
+    if(!PDD || !LEARN) return;
+    pddStart(btn.getAttribute('data-m'), btn.getAttribute('data-x'));
     window.scrollTo(0,0); renderSkills();
   }
   else if(act==='pd-pick'){
@@ -3544,7 +3981,56 @@ document.addEventListener('click', function(e){
   }
   else if(act==='pd-quit'){
     if(quiz && quiz.mode === 'exam' && !quiz.done && !confirm('Leave the exam? This attempt will not count.')) return;
-    clearInterval(pdTimer); pdTimer = null; quiz = null; window.scrollTo(0,0); renderSkills();
+    clearInterval(pdTimer); pdTimer = null;
+    if(quiz && quiz.from != null) lnCh = quiz.from;
+    quiz = null; window.scrollTo(0,0); renderSkills();
+  }
+  else if(act==='ln-open'){
+    const lid = btn.getAttribute('data-l');
+    if(!LEARN || !LEARN.byLesson[lid]) return;
+    lnFromQuiz = btn.getAttribute('data-from') === 'quiz' && !!quiz;
+    if(!lnFromQuiz && quiz){ clearInterval(pdTimer); pdTimer = null; quiz = null; }
+    lnLesson = lid;
+    if(!lnFromQuiz) lnCh = LEARN.byLesson[lid].c;
+    window.scrollTo(0,0); renderSkills();
+  }
+  else if(act==='ln-back'){
+    lnLesson = null; lnFromQuiz = false;
+    window.scrollTo(0,0); renderSkills();
+  }
+  else if(act==='ln-ch'){ lnCh = +btn.getAttribute('data-c'); window.scrollTo(0,0); renderSkills(); }
+  else if(act==='ln-home'){ lnCh = null; window.scrollTo(0,0); renderSkills(); }
+  else if(act==='ln-done'){
+    lnLearned()[btn.getAttribute('data-l')] = today(); save(); celebrate(btn); renderSkills();
+    toast('Learned — its questions join your daily practice');
+  }
+  else if(act==='ln-undo'){ delete lnLearned()[btn.getAttribute('data-l')]; save(); renderSkills(); }
+  else if(act==='ln-flip'){
+    const k = btn.getAttribute('data-k');
+    lnOpen[k] = !lnOpen[k];
+    btn.classList.toggle('open', lnOpen[k]);
+  }
+  else if(act==='ln-hot'){
+    const fig = btn.closest('.ln-svg');
+    if(!fig || !LEARN) return;
+    const key = fig.getAttribute('data-k'), parts = key.split('|'), h = +btn.getAttribute('data-h');
+    const inf = LEARN.byLesson[parts[0]], b = inf && inf.l.blocks[+parts[1]];
+    if(!b || !b.hot || !b.hot[h]) return;
+    lnHot[key] = h;
+    fig.querySelectorAll('[data-h]').forEach(function(g){ g.classList.toggle('on', g === btn); });
+    const out = fig.querySelector('.ln-hot-out');
+    if(out){ out.className = 'ln-hot-out'; out.removeAttribute('lang'); out.innerHTML = '<b>'+lnMd(b.hot[h][0])+'</b>'+lnMd(b.hot[h][1]); }
+  }
+  else if(act==='ln-pick'){
+    const box = btn.closest('.ln-check');
+    if(!box || !PDD) return;
+    const qid = box.getAttribute('data-q'), q = PDD.byId[qid];
+    if(!q || lnPicks[qid]) return;
+    const o = +btn.getAttribute('data-o');
+    lnPicks[qid] = o;
+    pddRecord(qid, o === q[4]); save();
+    box.outerHTML = lnCheckHtml(qid);
+    paintTabDots();
   }
   else if(act==='dc-done'){ state.diction[today()] = true; save(); celebrate(btn); renderSkills(); toast('Diction done for today'); }
   else if(act==='dc-undo'){ delete state.diction[today()]; save(); renderSkills(); }
@@ -3673,7 +4159,90 @@ document.addEventListener('click', function(e){
     save(); closeSheet(); render(); toast(state.why ? 'Saved — you will see it every day' : 'Cleared');
   }
   else if(act==='all-packs') sheetPacks();
-  else if(act==='open-pack'){ openPack = +btn.getAttribute('data-i'); closeSheet(); go('english'); }
+  else if(act==='open-pack'){ openPack = +btn.getAttribute('data-i'); state.enView = 'phrases'; closeSheet(); go('english'); }
+  else if(act==='en-view'){ state.enView = btn.getAttribute('data-v'); if(state.enView !== 'phrases') openPack = null; save(); window.scrollTo(0,0); renderEnglish(); }
+  else if(act==='tk-retry'){ talkFailed = false; renderEnglish(); }
+  else if(act==='tk-spin'){
+    if(!TALK || tk.spinning) return;
+    const done = talkDone();
+    const left = TALK.topics.filter(function(x){ return !done[x.id]; });
+    if(!left.length) return;
+    const pick = left[Math.floor(Math.random() * left.length)];
+    const n = TALK_ORDER.length, a = 360 / n, i = Math.max(0, TALK_ORDER.indexOf(pick.cat));
+    const target = (360 - (i + .5) * a + (Math.random() - .5) * a * .6 + 720) % 360;
+    tk.angle = tk.angle + 360 * 5 + ((target - tk.angle % 360) + 360) % 360;
+    tk.spinning = true;
+    const svg = document.querySelector('.tk-wheel svg');
+    if(svg) svg.style.transform = 'rotate('+tk.angle+'deg)';
+    btn.disabled = true; btn.textContent = 'Spinning…';
+    setTimeout(function(){
+      tk.spinning = false; tk.id = pick.id; tk.stage = 'topic'; tk.takes = {}; tk.used = {};
+      if(tab === 'english' && (state.enView || 'speak') === 'speak') renderEnglish();
+    }, svg ? 4000 : 0);
+  }
+  else if(act==='tk-again'){ talkReset(); window.scrollTo(0,0); renderEnglish(); }
+  else if(act==='tk-skip'){ tk.stage = 'review1'; tk.take = 0; renderEnglish(); }
+  else if(act==='tk-go'){ talkStart(+btn.getAttribute('data-n') || 1); }
+  else if(act==='tk-stop'){ talkStop(); }
+  else if(act==='tk-used'){
+    const i = +btn.getAttribute('data-i');
+    tk.used[i] = !tk.used[i];
+    btn.classList.toggle('on', tk.used[i]);
+  }
+  else if(act==='tk-done'){
+    if(!tk.id) return;
+    talkDone()[tk.id] = today(); save();
+    talkReset(); window.scrollTo(0,0); renderEnglish();
+    toast('Nice. That topic won’t come up again');
+  }
+  else if(act==='tk-hl'){
+    const t = TALK && TALK.byId[tk.id], i = +btn.getAttribute('data-i');
+    const pop = document.querySelector('.tk-pop');
+    if(!t || !t.words[i] || !pop) return;
+    const was = btn.classList.contains('on');
+    document.querySelectorAll('.tk-hl.on').forEach(function(x){ x.classList.remove('on'); });
+    if(was){ pop.innerHTML = ''; return; }
+    document.querySelectorAll('.tk-hl[data-i="'+i+'"]').forEach(function(x){ x.classList.add('on'); });
+    pop.innerHTML = tkWord(t, i);
+  }
+  else if(act==='tk-save'){
+    const t = TALK && TALK.byId[tk.id], i = +btn.getAttribute('data-i'), w = t && t.words[i];
+    if(!w) return;
+    if(!state.words) state.words = [];
+    if(swHas(w.w)){
+      state.words = state.words.filter(function(x){ return String(x.term).toLowerCase() !== w.w.toLowerCase(); });
+      toast('Removed from saved');
+    } else {
+      state.words.push({id:'w'+Date.now().toString(36)+i, term:w.w, ctx:w.ex, mean:w.mean, ru:w.ru, lvl:w.lvl, src:t.id, box:0, seen:0, right:0, last:''});
+      toast('Saved — '+w.w);
+    }
+    save();
+    const on = swHas(w.w);
+    document.querySelectorAll('.tk-save[data-i="'+i+'"]').forEach(function(b){
+      b.classList.toggle('on', on); b.textContent = on ? '✓' : '+'; b.setAttribute('aria-label', on ? 'Saved' : 'Save');
+    });
+    const tabBtn = document.querySelector('[data-act="en-view"][data-v="words"]'), cnt = state.words.length;
+    if(tabBtn) tabBtn.innerHTML = 'Saved' + (cnt ? ' <small>'+cnt+'</small>' : '');
+  }
+  else if(act==='tk-history'){ sheetTalkHistory(); }
+  else if(act==='tk-open'){
+    const id = btn.getAttribute('data-id');
+    if(!TALK || !TALK.byId[id]) return;
+    talkReset(); tk.id = id; tk.stage = 'review1'; tk.take = 0;
+    closeSheet(); state.enView = 'speak'; window.scrollTo(0,0); renderEnglish();
+  }
+  else if(act==='sw-hide'){ swHide = !swHide; Object.keys(swOpen).forEach(function(k){ delete swOpen[k]; }); renderEnglish(); }
+  else if(act==='sw-peek'){
+    const id = btn.getAttribute('data-id');
+    swOpen[id] = !swOpen[id];
+    btn.classList.toggle('open', swOpen[id]);
+  }
+  else if(act==='sw-del'){
+    const id = btn.getAttribute('data-id'), w = (state.words || []).find(function(x){ return x.id === id; });
+    if(!w || !confirm('Remove “'+w.term+'” from your saved words?')) return;
+    state.words = state.words.filter(function(x){ return x.id !== id; });
+    save(); renderEnglish();
+  }
   else if(act==='back-today-pack'){ openPack = null; window.scrollTo(0,0); renderEnglish(); }
   else if(act==='learn'){
     const k = btn.getAttribute('data-k');
@@ -3841,24 +4410,61 @@ let skView = 'pdd';
 const PDD_DAILY = 15;
 const PDD_EXAM = {n:20, sec:30*60, maxWrong:2};
 let PDD = null, pddLoading = false, pddFailed = false, quiz = null, pdTimer = null;
+/* the textbook: chapters of lessons, plus a short explanation for every question */
+let LEARN = null, lnCh = null, lnLesson = null, lnFromQuiz = false;
+const lnPicks = {}, lnOpen = {}, lnHot = {};
 
 function pddState(){
   if(!state.pdd) state.pdd = {};
   const p = state.pdd;
-  if(!p.s) p.s = {}; if(!p.miss) p.miss = {}; if(!p.day) p.day = {}; if(!p.exams) p.exams = [];
+  if(!p.s) p.s = {}; if(!p.miss) p.miss = {}; if(!p.day) p.day = {}; if(!p.exams) p.exams = []; if(!p.learned) p.learned = {};
   return p;
 }
 function pddLoad(){
-  if(PDD || pddLoading) return;
+  if((PDD && LEARN) || pddLoading) return;
   pddLoading = true; pddFailed = false;
-  fetch('pdd/q.json').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function(data){
-      data.byId = {};
-      data.q.forEach(function(x){ data.byId[x[0]] = x; });
-      PDD = data; pddLoading = false;
+  function get(url){ return fetch(url).then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); }); }
+  Promise.all([PDD || get('pdd/q.json'), LEARN || get('pdd/learn.json')])
+    .then(function(res){
+      if(!PDD){
+        const data = res[0];
+        data.byId = {};
+        data.q.forEach(function(x){ data.byId[x[0]] = x; });
+        PDD = data;
+      }
+      if(!LEARN) LEARN = lnIndex(res[1]);
+      pddLoading = false;
       if(tab === 'practice') renderSkills();
     })
     .catch(function(){ pddLoading = false; pddFailed = true; if(tab === 'practice') renderSkills(); });
+}
+/* lookups the screens need: a lesson by id, the lesson behind every question, the reading order */
+function lnIndex(d){
+  d.byLesson = {}; d.lessonOf = {}; d.order = [];
+  d.chapters.forEach(function(c, ci){
+    c.lessons.forEach(function(l, li){
+      d.byLesson[l.id] = {c:ci, i:li, l:l};
+      d.order.push(l.id);
+      l.covers.forEach(function(q){ d.lessonOf[q] = l.id; });
+    });
+  });
+  return d;
+}
+function lnLearned(){ return pddState().learned; }
+function lnLearnedToday(){
+  const L = (state.pdd && state.pdd.learned) || {};
+  return Object.keys(L).some(function(k){ return L[k] === today(); });
+}
+/* the questions of every finished lesson — of the whole textbook, or of one chapter */
+function lnPool(ci){
+  const L = lnLearned(), out = [];
+  LEARN.chapters.forEach(function(c, k){
+    if(ci != null && k !== ci) return;
+    c.lessons.forEach(function(l){
+      if(L[l.id]) l.covers.forEach(function(id){ if(PDD.byId[id]) out.push(PDD.byId[id]); });
+    });
+  });
+  return out;
 }
 function pddToday(){ return pddState().day[today()] || 0; }
 function pddMissCount(){ return Object.keys(pddState().miss).length; }
@@ -3889,18 +4495,29 @@ function pddRecord(id, ok){
   const keys = Object.keys(st.day).sort();
   while(keys.length > 60) delete st.day[keys.shift()];
 }
-function pddStart(mode, g){
-  const all = PDD.q;
-  let items, title;
-  if(mode === 'exam'){ items = pddShuffle(all).slice(0, PDD_EXAM.n).map(function(q){ return q[0]; }); title = 'Exam ticket'; }
-  else if(mode === 'miss'){ items = pddShuffle(Object.keys(pddState().miss)).slice(0, PDD_DAILY); title = 'Mistakes'; }
-  else if(mode === 'topic'){
-    const t = PDD.topics.find(function(x){ return x.g === g; });
-    items = pddPick(all.filter(function(q){ return q[1] === g; }), PDD_DAILY); title = t ? t.t : 'Topic';
+function pddStart(mode, x){
+  let items, title, from = null;
+  if(mode === 'exam'){ items = pddShuffle(PDD.q).slice(0, PDD_EXAM.n).map(function(q){ return q[0]; }); title = 'Exam ticket'; }
+  else if(mode === 'miss'){ items = pddShuffle(Object.keys(pddState().miss).filter(function(id){ return PDD.byId[id]; })).slice(0, PDD_DAILY); title = 'Mistakes'; }
+  else if(mode === 'lesson'){
+    const inf = LEARN.byLesson[x];
+    if(!inf) return;
+    items = pddPick(inf.l.covers.map(function(id){ return PDD.byId[id]; }).filter(Boolean), 20);
+    title = inf.l.t; from = inf.c;
   }
-  else { items = pddPick(all, PDD_DAILY); title = 'Today’s ' + PDD_DAILY; }
+  else if(mode === 'chapter'){
+    const ci = +x;
+    if(!LEARN.chapters[ci]) return;
+    items = pddPick(lnPool(ci), PDD_DAILY); title = LEARN.chapters[ci].t; from = ci;
+    if(!items.length){ toast('Finish a lesson of this chapter first'); return; }
+  }
+  else {
+    items = pddPick(lnPool(), PDD_DAILY); title = 'Today’s questions';
+    if(!items.length){ toast('Finish a lesson first — its questions come here'); return; }
+  }
   if(!items.length){ toast(mode === 'miss' ? 'No mistakes to fix' : 'Nothing to practise here'); return; }
-  quiz = {mode:mode, title:title, items:items, i:0, picks:{}, done:false, started:Date.now(), g:g};
+  quiz = {mode:mode, title:title, items:items, i:0, picks:{}, done:false, started:Date.now(), from:from, x:x};
+  lnLesson = null; lnFromQuiz = false;
   if(mode === 'exam'){ clearInterval(pdTimer); pdTimer = setInterval(pdTick, 1000); }
 }
 function pdLeft(){ return Math.max(0, PDD_EXAM.sec - Math.floor((Date.now() - quiz.started) / 1000)); }
@@ -3933,56 +4550,216 @@ function pdFinish(){
 function renderSkills(){
   paintTabDots();
   if(skView === 'diction') return renderDiction();
-  if(quiz) return renderQuiz();
   pddLoad();
-  let h = skSeg();
-  if(!PDD){
-    h += pddFailed
-      ? '<div class="empty" style="padding:40px 14px"><p>Could not load the questions. They load once and then work offline.<br>Check the connection and try again.</p>'+
+  if(!PDD || !LEARN){
+    view.innerHTML = skSeg() + (pddFailed
+      ? '<div class="empty" style="padding:40px 14px"><p>Could not load the textbook and the questions. They load once and then work offline.<br>Check the connection and try again.</p>'+
         '<button class="btn" data-act="pd-retry">Try again</button></div>'
-      : '<div class="empty" style="padding:40px 14px"><p>Loading 1030 questions…</p></div>';
-    view.innerHTML = h; return;
+      : '<div class="empty" style="padding:40px 14px"><p>Loading the textbook…</p></div>');
+    return;
   }
-  const n = pddToday(), st = pddState(), last = st.exams[st.exams.length - 1];
-  const pct = Math.min(100, Math.round(100 * n / PDD_DAILY));
-  h += '<section class="pd-today">'+
-    '<p class="eyebrow">Today</p>'+
-    '<div class="pd-goal"><b class="num">'+Math.min(n, 999)+'</b><span>of '+PDD_DAILY+' questions</span></div>'+
-    '<div class="pbar"><i style="width:'+pct+'%"></i></div>'+
-    '<button class="btn btn-primary btn-full" data-act="pd-start" data-m="daily">'+
-      (n === 0 ? 'Start today’s '+PDD_DAILY : n < PDD_DAILY ? 'Continue — '+(PDD_DAILY - n)+' to go' : 'Another '+PDD_DAILY)+'</button>'+
-    '</section>';
+  if(lnLesson) return renderLesson();
+  if(quiz) return renderQuiz();
+  if(lnCh !== null) return renderChapter();
+  renderPddHome();
+}
+const LN_BACK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>';
 
-  h += '<div class="pd-stats">'+
-    '<div><b class="num">'+pddRightIn(PDD.q)+'</b><span>of '+PDD.q.length+' answered right</span></div>'+
-    '<div><b class="num">'+pddMissCount()+'</b><span>mistakes to fix</span></div>'+
-    '<div><b class="num">'+(last ? last.ok+'/'+last.n : '—')+'</b><span>last exam'+(last ? (last.pass ? ' ✓' : ' ✗') : '')+'</span></div>'+
-    '</div>';
+/* Theory first: the next lesson on top, questions only from lessons already done */
+function renderPddHome(){
+  const L = lnLearned(), order = LEARN.order;
+  const done = order.filter(function(id){ return L[id]; }).length;
+  const nextId = order.find(function(id){ return !L[id]; });
+  let h = skSeg();
 
-  const mc = pddMissCount();
-  h += '<section class="rd-block"><p class="eyebrow">Practise</p><div class="pd-modes">'+
-    '<button class="pd-mode" data-act="pd-start" data-m="exam"><b>Exam ticket</b><span>'+PDD_EXAM.n+' random questions, 30 minutes, up to '+PDD_EXAM.maxWrong+' mistakes. No answers shown until the end.</span></button>'+
-    '<button class="pd-mode" data-act="pd-start" data-m="miss"'+(mc ? '' : ' disabled')+'><b>Mistakes'+(mc ? ' · '+mc : '')+'</b><span>'+
-      (mc ? 'Answer one correctly and it leaves the list.' : 'Nothing here yet — wrong answers collect here.')+'</span></button>'+
-    '</div></section>';
+  if(nextId){
+    const inf = LEARN.byLesson[nextId], c = LEARN.chapters[inf.c];
+    h += '<section class="ln-next">'+
+      '<p class="eyebrow"><span>'+(done ? 'Next lesson' : 'Start here')+'</span><span class="num">'+done+' / '+order.length+' lessons</span></p>'+
+      '<h3 lang="ru">'+esc(inf.l.t)+'</h3>'+
+      '<p>Chapter '+(inf.c + 1)+' · '+esc(c.t)+' · '+inf.l.min+' min</p>'+
+      (done ? '<div class="pbar"><i style="width:'+Math.round(100 * done / order.length)+'%"></i></div>' : '')+
+      '<button class="btn btn-primary btn-full" data-act="ln-open" data-l="'+nextId+'">'+(done ? 'Continue →' : 'Start the first lesson →')+'</button>'+
+      '</section>';
+  } else {
+    h += '<section class="ln-next"><p class="eyebrow"><span>The textbook</span><span class="num">'+order.length+' / '+order.length+' lessons</span></p>'+
+      '<h3>Every lesson done ✓</h3><p>From here on it is questions and exam tickets.</p></section>';
+  }
 
-  h += '<section class="rd-block"><p class="eyebrow">By topic</p><div class="pd-topics">'+
-    PDD.topics.map(function(t){
-      const qs = PDD.q.filter(function(q){ return q[1] === t.g; });
-      const r = pddRightIn(qs);
-      return '<button class="pd-topic" data-act="pd-start" data-m="topic" data-g="'+t.g+'">'+
-        '<span class="pd-tname">'+esc(t.t)+'</span><span class="pd-tnum num">'+r+'/'+qs.length+'</span>'+
-        '<span class="pd-tbar"><i style="width:'+Math.round(100 * r / qs.length)+'%"></i></span></button>';
+  const pool = lnPool(), n = pddToday();
+  if(pool.length){
+    h += '<section class="pd-today ln-today">'+
+      '<p class="eyebrow">Questions today</p>'+
+      '<div class="pd-goal"><b class="num">'+Math.min(n, 999)+'</b><span>of '+PDD_DAILY+'</span></div>'+
+      '<div class="pbar"><i style="width:'+Math.min(100, Math.round(100 * n / PDD_DAILY))+'%"></i></div>'+
+      '<button class="btn btn-primary btn-full" data-act="pd-start" data-m="daily">'+
+        (n === 0 ? 'Start today’s questions' : n < PDD_DAILY ? 'Continue — '+(PDD_DAILY - n)+' to go' : 'A few more')+'</button>'+
+      '<p class="ln-note">Drawn from the '+pool.length+' exam questions of the lessons you’ve done — your mistakes first.</p>'+
+      '</section>';
+  } else {
+    h += '<p class="ln-note ln-lead">Exam questions open up lesson by lesson: finish one, and its questions come into your daily practice.</p>';
+  }
+
+  const st = pddState(), last = st.exams[st.exams.length - 1], mc = pddMissCount();
+  if(Object.keys(st.s).length){
+    h += '<div class="pd-stats">'+
+      '<div><b class="num">'+pddRightIn(PDD.q)+'</b><span>of '+PDD.q.length+' answered right</span></div>'+
+      '<div><b class="num">'+mc+'</b><span>'+(mc === 1 ? 'mistake' : 'mistakes')+' to fix</span></div>'+
+      '<div><b class="num">'+(last ? last.ok+'/'+last.n : '—')+'</b><span>last exam'+(last ? (last.pass ? ' ✓' : ' ✗') : '')+'</span></div>'+
+      '</div>';
+  }
+
+  h += '<section class="rd-block"><p class="eyebrow">Chapters</p><div class="ln-chs">'+
+    LEARN.chapters.map(function(c, ci){
+      const k = c.lessons.filter(function(l){ return L[l.id]; }).length, all = k === c.lessons.length;
+      return '<button class="ln-ch'+(all ? ' done' : '')+'" data-act="ln-ch" data-c="'+ci+'">'+
+        '<span class="n num">'+(all ? '✓' : ci + 1)+'</span>'+
+        '<span class="t"><b>'+esc(c.t)+'</b><small lang="ru">'+esc(c.ru)+'</small></span>'+
+        '<span class="c num">'+k+'/'+c.lessons.length+'</span>'+
+        (k && !all ? '<span class="pd-tbar"><i style="width:'+Math.round(100 * k / c.lessons.length)+'%"></i></span>' : '')+
+        '</button>';
     }).join('')+'</div></section>';
 
-  h += '<p class="rd-hint" style="margin-top:22px">Questions come from the official Road Police of Armenia bank, in Russian. '+
-       'Two questions printed with a missing answer in the source were left out.</p>';
+  h += '<section class="rd-block"><p class="eyebrow">Practise</p><div class="pd-modes">'+
+    '<button class="pd-mode" data-act="pd-start" data-m="miss"'+(mc ? '' : ' disabled')+'><b>Mistakes'+(mc ? ' · '+mc : '')+'</b><span>'+
+      (mc ? 'Answer one correctly and it leaves the list.' : 'Nothing here yet — wrong answers collect here.')+'</span></button>'+
+    '<button class="pd-mode" data-act="pd-start" data-m="exam"><b>Exam ticket</b><span>'+PDD_EXAM.n+' random questions from all '+PDD.q.length+', 30 minutes, up to '+PDD_EXAM.maxWrong+' mistakes. '+
+      (nextId ? 'Best once the textbook is done.' : 'No answers shown until the end.')+'</span></button>'+
+    '</div></section>';
+
+  h += '<p class="rd-hint" style="margin-top:22px">Questions come from the official Road Police of Armenia bank, in Russian. The lessons are written from its answers.</p>';
   view.innerHTML = h;
 }
 function skSeg(){
   return '<div class="seg" role="tablist">'+
     '<button role="tab" data-act="sk-view" data-v="pdd" aria-selected="'+(skView === 'pdd' ? 'true' : 'false')+'">Driving theory</button>'+
     '<button role="tab" data-act="sk-view" data-v="diction" aria-selected="'+(skView === 'diction' ? 'true' : 'false')+'">Diction</button></div>';
+}
+
+function renderChapter(){
+  const ci = lnCh, c = LEARN.chapters[ci];
+  if(!c){ lnCh = null; return renderPddHome(); }
+  const L = lnLearned();
+  const k = c.lessons.filter(function(l){ return L[l.id]; }).length;
+  const nextId = (c.lessons.find(function(l){ return !L[l.id]; }) || {}).id;
+  const pool = lnPool(ci);
+  let h = '<button class="backbtn" data-act="ln-home">'+LN_BACK+'Driving theory</button>'+
+    '<p class="eyebrow">Chapter '+(ci + 1)+' of '+LEARN.chapters.length+'</p>'+
+    '<h2 class="ln-title">'+esc(c.t)+'</h2>'+
+    '<p class="ln-sub" lang="ru">'+esc(c.ru)+'</p>'+
+    '<p class="ln-intro" lang="ru">'+lnMd(c.intro)+'</p>'+
+    '<div class="ln-ls">'+c.lessons.map(function(l, li){
+      const ok = !!L[l.id];
+      return '<button class="ln-row'+(ok ? ' done' : '')+(l.id === nextId ? ' next' : '')+'" data-act="ln-open" data-l="'+l.id+'">'+
+        '<span class="n num">'+(ok ? '✓' : li + 1)+'</span>'+
+        '<span class="t"><b lang="ru">'+esc(l.t)+'</b><small>'+l.min+' min · '+l.covers.length+' exam questions</small></span>'+
+        '<span class="go" aria-hidden="true">›</span></button>';
+    }).join('')+'</div>';
+  h += '<button class="btn btn-full'+(k === c.lessons.length ? ' btn-primary' : '')+'" data-act="pd-start" data-m="chapter" data-x="'+ci+'"'+
+    (pool.length ? '' : ' disabled')+' style="margin-top:14px">'+
+    (pool.length ? 'Practise this chapter · '+pool.length+' questions' : 'Practice opens after the first lesson')+'</button>';
+  if(c.cheat && c.cheat.length){
+    h += '<section class="rd-block"><p class="eyebrow">Cheat sheet</p><div class="ln-key" lang="ru">'+
+      c.cheat.map(function(p){ return '<div><b>'+lnMd(p[0])+'</b><span>'+lnMd(p[1])+'</span></div>'; }).join('')+'</div></section>';
+  }
+  if(k === c.lessons.length && LEARN.chapters[ci + 1]){
+    h += '<button class="btn btn-ghost btn-full" data-act="ln-ch" data-c="'+(ci + 1)+'" style="margin-top:22px">Next chapter: '+esc(LEARN.chapters[ci + 1].t)+' →</button>';
+  }
+  view.innerHTML = h;
+}
+
+function renderLesson(){
+  const inf = LEARN.byLesson[lnLesson];
+  if(!inf){ lnLesson = null; return renderSkills(); }
+  const c = LEARN.chapters[inf.c], l = inf.l, L = lnLearned();
+  const nextId = LEARN.order[LEARN.order.indexOf(l.id) + 1];
+  let h = '<button class="backbtn" data-act="ln-back">'+LN_BACK+(lnFromQuiz ? 'Back to the questions' : 'Chapter '+(inf.c + 1)+' · '+esc(c.t))+'</button>'+
+    '<p class="eyebrow">Lesson '+(inf.i + 1)+' of '+c.lessons.length+'</p>'+
+    '<h2 class="ln-title" lang="ru">'+esc(l.t)+'</h2>'+
+    '<p class="ln-meta">'+l.min+' min · '+l.covers.length+' exam questions</p>'+
+    '<div class="ln-body" lang="ru">'+l.blocks.map(function(b, bi){ return lnBlock(l, b, bi); }).join('')+'</div>'+
+    '<div class="ln-end">';
+  if(lnFromQuiz){
+    h += '<button class="btn btn-primary btn-full" data-act="ln-back">← Back to the questions</button>';
+  } else {
+    h += L[l.id]
+      ? '<p class="neck-done">✓ Learned — its questions are in your daily practice <button class="linkbtn" data-act="ln-undo" data-l="'+l.id+'">Undo</button></p>'
+      : '<button class="btn btn-primary btn-full" data-act="ln-done" data-l="'+l.id+'">✓ Got it</button>'+
+        '<p class="rd-hint">Its '+l.covers.length+' exam questions then join your daily practice.</p>';
+    h += '<div class="sheet-actions">'+
+      '<button class="btn" data-act="pd-start" data-m="lesson" data-x="'+l.id+'">Practise '+Math.min(20, l.covers.length)+' questions</button>'+
+      (nextId ? '<button class="btn'+(L[l.id] ? ' btn-primary' : '')+'" data-act="ln-open" data-l="'+nextId+'">Next lesson →</button>' : '')+
+      '</div>';
+  }
+  view.innerHTML = h + '</div>';
+}
+
+/* lesson text: **bold** and ==highlight==, everything else escaped */
+function lnMd(s){
+  return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/==(.+?)==/g, '<mark>$1</mark>');
+}
+/* several diagrams share a page, so their ids get a per-block prefix; numbered markers become buttons */
+function lnSvg(svg, key, on){
+  const p = 'ln' + key.replace(/[^a-z0-9]/gi, '') + '-';
+  return svg
+    .replace(/(\s)id='([^']+)'/g, "$1id='" + p + "$2'")
+    .replace(/url\(#([^)]+)\)/g, 'url(#' + p + '$1)')
+    .replace(/href='#([^']+)'/g, "href='#" + p + "$1'")
+    .replace(/data-h='(\d+)'/g, function(m, n){ return "data-act='ln-hot' data-h='" + n + "'" + (+n === on ? " class='on'" : ''); });
+}
+function lnBlock(l, b, bi){
+  const key = l.id + '|' + bi;
+  if(b.k === 'p') return '<p class="ln-p">'+lnMd(b.x)+'</p>';
+  if(b.k === 'list') return '<ul class="ln-list">'+b.x.map(function(t){ return '<li>'+lnMd(t)+'</li>'; }).join('')+'</ul>';
+  if(b.k === 'steps') return '<ol class="ln-steps">'+b.x.map(function(t){ return '<li>'+lnMd(t)+'</li>'; }).join('')+'</ol>';
+  if(b.k === 'key') return '<div class="ln-key">'+b.x.map(function(p){ return '<div><b>'+lnMd(p[0])+'</b><span>'+lnMd(p[1])+'</span></div>'; }).join('')+'</div>';
+  if(b.k === 'compare') return '<div class="ln-cmp">'+b.x.map(function(p){ return '<div><b>'+lnMd(p[0])+'</b><p>'+lnMd(p[1])+'</p></div>'; }).join('')+'</div>';
+  if(b.k === 'flip'){
+    return '<div class="ln-flips">'+b.x.map(function(p, i){
+      const k = key + '|' + i;
+      return '<button class="ln-flip'+(lnOpen[k] ? ' open' : '')+'" data-act="ln-flip" data-k="'+k+'">'+
+        '<span class="f">'+lnMd(p[0])+'</span><span class="b">'+lnMd(p[1])+'</span><i lang="en">Tap to see</i></button>';
+    }).join('')+'</div>';
+  }
+  if(b.k === 'tip') return '<div class="ln-tip"><p class="eyebrow" lang="en">Remember</p><p>'+lnMd(b.x)+'</p></div>';
+  if(b.k === 'trap') return '<div class="ln-trap"><p class="eyebrow" lang="en">Exam trap</p><p>'+lnMd(b.x)+'</p></div>';
+  if(b.k === 'img'){
+    return '<figure class="ln-fig"><img src="pdd/img/'+esc(b.src)+'" alt="" decoding="async">'+
+      (b.cap ? '<figcaption>'+lnMd(b.cap)+'</figcaption>' : '')+'</figure>';
+  }
+  if(b.k === 'svg'){
+    const on = lnHot[key];
+    let s = '<figure class="ln-fig ln-svg" data-k="'+key+'">'+lnSvg(b.svg, key, on);
+    if(b.hot){
+      s += on == null || !b.hot[on]
+        ? '<div class="ln-hot-out hint" lang="en">Tap the numbers on the picture</div>'
+        : '<div class="ln-hot-out"><b>'+lnMd(b.hot[on][0])+'</b>'+lnMd(b.hot[on][1])+'</div>';
+    }
+    return s + (b.cap ? '<figcaption>'+lnMd(b.cap)+'</figcaption>' : '') + '</figure>';
+  }
+  if(b.k === 'check') return lnCheckHtml(b.id);
+  return '';
+}
+/* an official question inside the lesson, answered in place */
+function lnCheckHtml(qid){
+  const q = PDD.byId[qid];
+  if(!q) return '';
+  const pick = lnPicks[qid];
+  let s = '<div class="ln-check" data-q="'+qid+'"><p class="eyebrow" lang="en">Check yourself · exam question</p>'+
+    (q[5] ? '<img class="pd-img" src="pdd/img/'+q[5]+'" alt="">' : '')+
+    '<p class="pd-q">'+esc(q[2])+'</p><div class="pd-opts">';
+  q[3].forEach(function(o, k){
+    const n = k + 1;
+    let cls = 'pd-opt';
+    if(pick){ if(n === q[4]) cls += ' right'; else if(n === pick) cls += ' wrong'; else cls += ' dim'; }
+    s += '<button class="'+cls+'" data-act="ln-pick" data-o="'+n+'"'+(pick ? ' disabled' : '')+'><span class="k">'+n+'</span><span>'+esc(o)+'</span></button>';
+  });
+  s += '</div>';
+  if(pick){
+    s += '<p class="pd-feedback '+(pick === q[4] ? 'ok' : 'no')+'" lang="en">'+(pick === q[4] ? 'Right.' : 'Not this one — the answer is '+q[4]+'.')+'</p>';
+    if(LEARN.why[qid]) s += '<p class="ln-why">'+lnMd(LEARN.why[qid])+'</p>';
+  }
+  return s + '</div>';
 }
 
 function renderQuiz(){
@@ -4014,8 +4791,13 @@ function renderQuiz(){
   h += '</div>';
 
   if(revealed){
-    h += '<p class="pd-feedback '+(pick === q[4] ? 'ok' : 'no')+'">'+(pick === q[4] ? 'Right.' : 'Not this one — the answer is '+q[4]+'.')+'</p>'+
-         '<button class="btn btn-primary btn-full" data-act="pd-next" style="margin-top:12px">'+
+    const right = pick === q[4], why = LEARN.why[id], lid = LEARN.lessonOf[id];
+    h += '<p class="pd-feedback '+(right ? 'ok' : 'no')+'">'+(right ? 'Right.' : 'Not this one — the answer is '+q[4]+'.')+'</p>'+
+         (why ? '<p class="pd-why" lang="ru">'+lnMd(why)+'</p>' : '')+
+         (!right && lid && quiz.mode !== 'lesson'
+           ? '<button class="linkbtn pd-lesson" data-act="ln-open" data-from="quiz" data-l="'+lid+'">Open the lesson: <span lang="ru">'+esc(LEARN.byLesson[lid].l.t)+'</span></button>'
+           : '')+
+         '<button class="btn btn-primary btn-full" data-act="pd-next" style="margin-top:14px">'+
          (quiz.i + 1 < quiz.items.length ? 'Next →' : 'See how it went →')+'</button>';
   } else if(exam){
     h += '<div class="pd-nav">'+
@@ -4045,10 +4827,14 @@ function renderQuizResult(){
   if(wrong.length){
     h += '<section class="rd-block"><p class="eyebrow">What to look at again</p>'+
       wrong.map(function(w){
-        return '<div class="pd-miss" lang="ru">'+(w.q[5] ? '<img src="pdd/img/'+w.q[5]+'" alt="">' : '')+
-          '<p>'+esc(w.q[2])+'</p>'+
-          (w.p ? '<p class="pd-yours">Your answer: '+esc(w.q[3][w.p - 1])+'</p>' : '<p class="pd-yours">No answer</p>')+
-          '<p class="pd-right">Right answer: '+esc(w.q[3][w.q[4] - 1])+'</p></div>';
+        const id = w.q[0], why = LEARN.why[id], lid = LEARN.lessonOf[id];
+        return '<div class="pd-miss">'+(w.q[5] ? '<img src="pdd/img/'+w.q[5]+'" alt="">' : '')+
+          '<p lang="ru">'+esc(w.q[2])+'</p>'+
+          (w.p ? '<p class="pd-yours">Your answer: <span lang="ru">'+esc(w.q[3][w.p - 1])+'</span></p>' : '<p class="pd-yours">No answer</p>')+
+          '<p class="pd-right">Right answer: <span lang="ru">'+esc(w.q[3][w.q[4] - 1])+'</span></p>'+
+          (why ? '<p class="pd-why" lang="ru">'+lnMd(why)+'</p>' : '')+
+          (lid && quiz.mode !== 'lesson' ? '<button class="linkbtn pd-lesson" data-act="ln-open" data-from="quiz" data-l="'+lid+'">Open the lesson →</button>' : '')+
+          '</div>';
       }).join('')+'</section>';
   }
   h += '<div class="sheet-actions" style="margin-top:22px">'+
@@ -4164,8 +4950,8 @@ function renderDiction(){
 function paintTabDots(){
   const t = document.querySelector('.tab[data-tab="practice"]');
   if(!t) return;
-  const due = pddToday() < PDD_DAILY || !dictionDone();
-  t.classList.toggle('due', due);
+  const theory = pddToday() >= PDD_DAILY || lnLearnedToday();
+  t.classList.toggle('due', !theory || !dictionDone());
 }
 
 /* ---------- Navigation and start-up ---------- */
