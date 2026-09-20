@@ -1756,7 +1756,6 @@ function seed(){
   return {
     v:1, skin:null, font:'auto', sound:true, why:'', name:'', started: today(),
     habits:[
-      {id:'h1', title:'Speak English for a minute', emoji:'🎙', perDay:1, weekGoal:7, when:'day'},
       {id:'h2', title:'Learn 7 new words',               emoji:'🔤', perDay:7, weekGoal:7, when:'day'},
       {id:'h3', title:'20 pages of a book',              emoji:'📖', perDay:1, weekGoal:7, when:'evening'},
       {id:'h4', title:'Meditate for 5 minutes',          emoji:'🧘', perDay:1, weekGoal:7, when:'morning'},
@@ -1815,9 +1814,19 @@ if(!state.cleanup2){
   });
   state.cleanup2 = true;
 }
+/* she keeps yoga and drops the rest: the article habit and the old Workout one */
+if(!state.cleanup3){
+  const DROP3 = [/english article/i, /^\s*workout\s*$/i];
+  state.habits = state.habits.filter(function(h){
+    const gone = DROP3.some(function(rx){ return rx.test(h.title || ''); });
+    if(gone && state.log) delete state.log[h.id];
+    return !gone;
+  });
+  state.cleanup3 = true;
+}
 if(!state.neck) state.neck = {};
 if(!state.diction) state.diction = {};
-if(!wkHabit()) state.habits.push({id:'hw', title:'Workout', emoji:'🏋️', perDay:1, weekGoal:3, when:'day', why:''});
+if(!wkHabit()) state.habits.push({id:'hw', title:'Yoga', emoji:'🧘', perDay:1, weekGoal:7, when:'morning', why:''});
 if(state.why === undefined) state.why = '';
 if(!state.started) state.started = today();
 let openPack = null;
