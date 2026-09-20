@@ -1,6 +1,6 @@
 # Rhythm
 
-A personal app: habits, an article a day, workouts, English speaking practice and the
+A personal app: habits, yoga every day, English speaking practice and the
 Armenian driving-theory course. One HTML file plus its content files; everything you do
 stays on the phone itself.
 
@@ -25,12 +25,11 @@ file in, **Commit changes**. The site updates in about a minute.
 
 | Tab | What it does |
 |---|---|
-| Today | The day's to-do card, the article of the day, the workout of the day, and the habits — grouped into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
+| Today | The day's to-do card, today's yoga (or the pool), and the habits — grouped into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
 | To-do | Tasks that are not habits — a call, an appointment, a bill. Quick-add at the top, optional day and time, grouped into Overdue · Today · Tomorrow · Later · No date |
-| English | **Speak** — the speaking roulette: a topic, a minute, a recording, then the language you could have used. **Phrases** — the affirmation and ten phrases a day. **Saved** — the phrases you kept |
+| English | **Speak** — the speaking roulette: a topic, a minute, a recording, then the language you could have used. **Saved words** — the phrases you kept from it |
 | Practice | **Driving theory** — the interactive textbook and the official Armenian question bank. **Diction** — ten minutes of Russian speech practice a day |
-| 📰 Article | A card on Today opens the article of the day: Russian, English or French, never announced in advance, with comprehension questions, words worth keeping and a speaking prompt |
-| 🏋️ Workout | A card on Today opens the **Workouts** page: today's focus in the hiking plan, videos that match it, ten minutes for the neck, and one tap to log it |
+| 🧘 Yoga | A card on Today opens the **yoga** page: the focus of the day, a practice already chosen, forty more to pick from, ten minutes for the neck — and on Wednesdays the pool instead |
 
 ## Files
 
@@ -110,7 +109,7 @@ Afterwards: Settings → Theme, and Settings → Typeface.
 
 ## The habits it starts with
 
-Workout · One English article · Learn 7 new words · Eight glasses of water ·
+Speak English for a minute · Learn 7 new words · Eight glasses of water ·
 Meditate for 5 minutes · Yoga · 20 pages of a book · Face massage · Foot cream · Thigh roller
 
 Each habit belongs to a time of day — Morning, Day or Evening — and the Today list is grouped
@@ -126,41 +125,29 @@ The list groups itself: **Overdue · Today · Tomorrow · Later · No date yet**
 flagged in red, timed tasks sort by the clock, and finished ones drop to the bottom with the
 text struck through. Whatever is still open today also shows on the Today screen.
 
-## The article of the day
+## Yoga
 
-One short article a day, 38 in rotation, across twelve subject areas — brain, animals,
-physics, earth, history, language, art, food, body, how-things-work, money and habits, care.
-The language rotates unpredictably: English, Russian and French, never more than two of the
-same in a row. A new one appears every day, whether or not the last one was read.
+Yoga every day, and no plan to fall behind. The week only suggests a focus:
+**Mon** stamina · **Tue** flexibility · **Wed** the pool · **Thu** legs and balance ·
+**Fri** stamina · **Sat** flexibility · **Sun** calm. Any day can be changed with a tap,
+and the whole library is always open.
 
-Every English and French word in an article is tappable: tap it and the Russian appears in a
-bubble right there. The glossary is built from the articles themselves, so a tap never comes
-back empty, and it works offline.
+Four kinds of practice, forty videos in Russian and English, from 7 to 59 minutes:
 
-The article page leads with the link to the original — you read it on the publication's own
-site and come back for the tasks: three comprehension questions, words worth keeping, and a
-speaking prompt. Russian articles ask for the answer in English on purpose.
+- 🔥 **Stamina** — dynamic flow: legs working, breath going, head clear afterwards.
+- 🦶 **Legs and balance** — standing asanas, so a long walk or a hill stops feeling heavy.
+- 🤸 **Flexibility** — hips, hamstrings, back and shoulders.
+- 🌙 **Calm** — slow, breathing, yin; for a loud head or a heavy evening.
 
-The text inside the app is always a short summary written for the app — full magazine articles
-are not reproduced here.
+One practice is already chosen for the day — the same one all day, a different one tomorrow.
+Filter by focus and by how long you have (≤ 15 min · 20–30 · 40+), tap **Start** to open it on
+YouTube and **Done** to log it; that also ticks the workout habit. Every id was opened on
+YouTube: the channel and the running time in the app are the real ones.
 
-## Workouts
+**Wednesday is the pool** — no videos, no instructions, just one button: *I went to the pool*.
 
-A four-week plan for a hard hike, with the date set in the app and a countdown on the card.
-The week rotates: **Mon** hiking legs · **Tue** stairs and incline · **Wed** pool day ·
-**Thu** knees, balance and core · **Fri** stretching · **Sat** the long walk · **Sun** yoga for hikers. Wednesday is the pool on purpose — lungs work, knees rest — and it comes
-with swimming lessons on video.
-
-**Nothing moves on until you finish it.** Miss a day and the same focus is still waiting
-tomorrow. Only *Done* or *Skip today* advances the plan.
-
-Every day carries videos that train the same thing and differ only in length and intensity,
-plus the ten minutes for the neck. **Done** logs the session and closes the "Workout" habit for
-the day.
-
-**On the wording:** the app never promises fat loss in a particular spot. Training builds the
-muscle that shapes a leg or a waist; fat comes down across the whole body, and the descriptions
-say so.
+Ten minutes for the neck sit inside every day, and nothing promises fat loss in a particular
+spot: practice builds strength, stamina and calm, and weight comes off across the whole body.
 
 ## Fireworks
 
@@ -174,6 +161,6 @@ Settings → Fireworks sound to silence it. It also respects the system
 
 ## Data
 
-Habits, check-ins, to-dos, read articles, workouts, saved words, lessons finished and
+Habits, check-ins, to-dos, yoga days, saved words, lessons finished and
 questions answered live in `localStorage` on the device. Voice recordings are never stored:
 they exist only until you leave the topic. Backup: Settings → Backup.
