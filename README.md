@@ -127,27 +127,24 @@ text struck through. Whatever is still open today also shows on the Today screen
 
 ## Yoga
 
-Yoga every day, and no plan to fall behind. The week only suggests a focus:
-**Mon** stamina · **Tue** flexibility · **Wed** the pool · **Thu** legs and balance ·
-**Fri** stamina · **Sat** flexibility · **Sun** calm. Any day can be changed with a tap,
-and the whole library is always open.
+A coach’s plan instead of a library: one session a day, chosen in advance, never
+shorter than 15 minutes. Four stages of seven sessions — **Foundation** (15–22 min),
+**Build** (16–32), **Strong** (28–44), **Deep** (38–57) — for four goals: stamina,
+flexibility, a lighter and stronger body, a calmer head. Each session comes with a short
+note on what it is for.
 
-Four kinds of practice, forty videos in Russian and English, from 7 to 59 minutes:
+The plan moves only when a session is marked done, never by the calendar, so a missed day
+costs nothing. After session 28 round two begins. **Wednesday is the pool**: one button,
+and the session waits for Thursday (or can be done the same day).
 
-- 🔥 **Stamina** — dynamic flow: legs working, breath going, head clear afterwards.
-- 🦶 **Legs and balance** — standing asanas, so a long walk or a hill stops feeling heavy.
-- 🤸 **Flexibility** — hips, hamstrings, back and shoulders.
-- 🌙 **Calm** — slow, breathing, yin; for a loud head or a heavy evening.
+Every video was opened on YouTube: the channel and the running time are the real ones.
+Ten minutes for the neck sit inside every day.
 
-One practice is already chosen for the day — the same one all day, a different one tomorrow.
-Filter by focus and by how long you have (≤ 15 min · 20–30 · 40+), tap **Start** to open it on
-YouTube and **Done** to log it; that also ticks the workout habit. Every id was opened on
-YouTube: the channel and the running time in the app are the real ones.
+## Face massage
 
-**Wednesday is the pool** — no videos, no instructions, just one button: *I went to the pool*.
-
-Ten minutes for the neck sit inside every day, and nothing promises fat loss in a particular
-spot: practice builds strength, stamina and calm, and weight comes off across the whole body.
+Tap the *Face massage* habit and five follow-along routines open under it — three gua sha,
+two hands-only lymphatic drainage, 5–11 minutes, all from one Russian-speaking facialist so
+the routine stays the same every day.
 
 ## Fireworks
 

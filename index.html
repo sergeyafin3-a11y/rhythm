@@ -869,6 +869,28 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .sw-del{ margin-left:auto; flex:none; width:30px; height:30px; border-radius:50%; font-size:19px; line-height:1; color:var(--ink-mute); }
 .sw-back{ transition:filter .2s ease, opacity .2s ease; }
 .sw-list.hide .sw:not(.open) .sw-back{ filter:blur(6px); opacity:.55; }
+/* ---------- Yoga plan, and habits with their own videos ---------- */
+.yg-goals{ display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0; }
+.yg-goals span{ padding:5px 10px; border-radius:999px; font-size:12px; font-weight:700; background:var(--surface-2); color:var(--ink-soft); }
+.yg-prog{ display:flex; align-items:center; gap:10px; margin:14px 0 0; }
+.yg-prog .pbar{ flex:1; margin-top:0; }
+.yg-prog small{ font-size:11.5px; font-weight:700; color:var(--ink-mute); }
+.yg-no{ margin:0 0 4px; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); }
+.yg-note{ margin:8px 0 12px; padding-left:10px; border-left:3px solid var(--accent-soft); font-size:14px; line-height:1.5; color:var(--ink-soft); }
+.yg-pool{ margin:18px 0 0; padding:16px; border-radius:var(--radius-lg); background:var(--surface); border:var(--border-w) solid var(--accent); box-shadow:var(--shadow); }
+.yg-pool .eyebrow{ margin:0 0 6px; color:var(--accent); }
+.yg-pool h3{ margin:0 0 6px; font-family:var(--font-display); font-weight:var(--display-weight); font-size:21px; }
+.yg-pool p{ margin:0 0 12px; font-size:14px; line-height:1.5; color:var(--ink-soft); }
+.yg-pool .neck-done{ margin:0; }
+.yg-next{ display:flex; flex-direction:column; gap:8px; }
+.yg-next > div{ display:grid; grid-template-columns:30px 1fr; gap:10px; align-items:center; padding:10px 12px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); }
+.yg-next .n{ width:30px; height:30px; border-radius:50%; display:grid; place-items:center; font-size:12.5px; font-weight:700; background:var(--surface-2); color:var(--ink-soft); }
+.yg-next b{ display:block; font-size:14px; line-height:1.3; }
+.yg-next small{ display:block; margin-top:2px; font-size:12px; color:var(--ink-mute); }
+.habit-main[data-act]{ cursor:pointer; }
+.hb-hint{ display:block; margin-top:2px; font-size:12px; font-weight:700; color:var(--accent); }
+.hb-vids{ grid-column:1 / -1; padding-top:10px; border-top:var(--border-w) solid var(--line); }
+.hb-tip{ margin:0 0 4px; font-size:12.5px; line-height:1.5; color:var(--ink-mute); }
 .wk-strip{ display:flex; gap:6px; margin:14px 0 0; }
 .wk-strip div{ flex:1; text-align:center; }
 .wk-strip i{
@@ -1550,194 +1572,252 @@ const YOGA = [
   {id:'r11', v:'Qk66FmVy8TI', t:'Yin yoga for deep rest', min:50, by:'YAYOGA', lang:'ru', focus:'calm', level:'easy', desc:'Slow yin work on fascia and deep muscles, poses held for minutes. Ideal for a quiet evening.'},
   {id:'e11', v:'uKM644G3hi4', t:'Restorative yoga for deep rest', min:59, by:'Yoga with Melanie Kristina', lang:'en', focus:'calm', level:'easy', desc:'An hour of supported rest and slow breathing that lets the nervous system unwind. Pick it when you are truly depleted.'}
 ];
-/* ---------- Yoga every day, the pool on Wednesdays ----------
-   No programme and no countdown: a focus for the day, a practice already
-   chosen, and the whole library one tap away if today calls for something else. */
+/* Face massage: a fixed set, the same every day. Every id opened on YouTube. */
+const FACE_VIDEOS = [
+  {id:'f1', v:'5XStVxJUAe4', t:'Warm gua sha for the evening, follow along', min:11, by:'Van Den Broek Life', lang:'ru', desc:'A slow evening gua sha over neck, jaw and face that moves lymph and melts tension; stone (warmed if you like) and oil.'},
+  {id:'f2', v:'5H8VNWrUXa8', t:'Gua sha for cheeks and brow, follow along', min:9, by:'Van Den Broek Life', lang:'ru', desc:'Gentle gua sha strokes along the jaw, cheeks and between the brows to ease tension and puffiness; stone and a little oil.'},
+  {id:'f3', v:'-PqbfoQI5uU', t:'Quick morning gua sha with oil', min:5, by:'Van Den Broek Life', lang:'ru', desc:'A short morning gua sha on oiled skin that helps drain morning puffiness and wakes the face up; stone and oil.'},
+  {id:'f4', v:'Jdno1XuSXO0', t:'Hands-only lymphatic drainage for puffiness', min:7, by:'Van Den Broek Life', lang:'ru', desc:'A brisk hands-only drainage routine that moves lymph and eases morning puffiness; just your hands and a few drops of oil.'},
+  {id:'f5', v:'OinBkldmR5M', t:'Relaxing lymphatic face massage, follow along', min:9, by:'Van Den Broek Life', lang:'ru', desc:'A slow, soothing hands massage that guides lymph toward the neck and releases facial tension; hands and face oil.'}
+];
+/* ---------- Yoga: a coach's plan, the pool on Wednesdays ----------
+   One session a day, chosen in advance, 15 minutes and longer, getting harder
+   stage by stage. The plan only moves when a session is done — never by the
+   calendar, so a missed day costs nothing. */
 const YOGA_FOCUS = {
-  power: {emoji:'🔥', name:'Stamina',          line:'A flow that gets the breath going: legs working, heart steady, head clear afterwards.'},
-  legs:  {emoji:'🦶', name:'Legs and balance', line:'Standing asanas and balance, so a long walk or a hill stops feeling heavy.'},
-  flex:  {emoji:'🤸', name:'Flexibility',      line:'Hips, hamstrings, back and shoulders — the parts that hold on hardest.'},
-  calm:  {emoji:'🌙', name:'Calm',             line:'Slow, with the breath leading and nothing to chase. For a loud head or a heavy evening.'},
-  pool:  {emoji:'🏊', name:'Pool day',         line:'No mat today. Swim at your own pace — lungs work, knees and ankles rest.'}
+  power: {emoji:'🔥', name:'Stamina'},
+  legs:  {emoji:'🦶', name:'Legs and balance'},
+  flex:  {emoji:'🤸', name:'Flexibility'},
+  calm:  {emoji:'🌙', name:'Calm'},
+  pool:  {emoji:'🏊', name:'Pool day'}
 };
-/* Sunday first, the way a date counts its days. Wednesday is the pool. */
-const YOGA_WEEK = ['calm', 'power', 'flex', 'pool', 'legs', 'power', 'flex'];
-const YOGA_BANDS = [['all', 'Any length'], ['short', '≤ 15 min'], ['mid', '20–30 min'], ['long', '40 min +']];
 const YOGA_LEVEL = {easy:'Gentle', medium:'Steady', hard:'Strong'};
+const YOGA_GOALS = [['🔥', 'Stamina'], ['🤸', 'Flexibility'], ['🌿', 'A lighter, stronger body'], ['🌙', 'A calmer head']];
+const YOGA_STAGES = [
+  {name:'Foundation', line:'Short sessions to learn the shapes and the breath. Showing up matters more than effort right now.'},
+  {name:'Build',      line:'Longer sessions and stronger flows. Stairs and hills start to feel different.'},
+  {name:'Strong',     line:'Half an hour and more: strong legs, a steadier core, deeper stretches.'},
+  {name:'Deep',       line:'The long practices. This is where stamina and flexibility really change.'}
+];
+/* 28 sessions, seven per stage: stamina, flexibility, legs, stamina, flexibility, legs or stamina, calm */
+const YOGA_PLAN = [
+  {id:'e2',  note:'The first session: find the rhythm of breath and movement. Lose it, pause, pick it up again.'},
+  {id:'e13', note:'Hips and hamstrings, the base of almost every pose. Breathe into the stretch; never force it.'},
+  {id:'e18', note:'Standing work for the legs: feet rooted, knees soft. This is what makes long walks easy.'},
+  {id:'e3',  note:'A stronger flow. Let it make you sweat a little — that is stamina being built.'},
+  {id:'r13', note:'Back to the hips, a little deeper. Notice what already moves more easily than on day two.'},
+  {id:'r18', note:'Morning legs. Hold each standing pose one breath longer than feels comfortable.'},
+  {id:'r8',  note:'A calm evening session to close the first stage. Slow everything down and let the week settle.'},
 
-let wkBand = 'all', wkFocus = 'today', todayView = 'main';
+  {id:'r3',  note:'Stage two opens with an intense morning practice. Rest in child’s pose whenever you need to.'},
+  {id:'r14', note:'Twenty-five minutes for the hips. Longer holds now — stay soft in the face and jaw.'},
+  {id:'e19', note:'Half an hour of standing flow. Strong legs are the whole secret of an easy climb.'},
+  {id:'r4',  note:'A strong hatha flow. Keep the breath through the nose for as long as you can.'},
+  {id:'e14', note:'Legs and inner thighs. Shorter today on purpose: recovery is part of the plan.'},
+  {id:'r19', note:'Standing asanas for leg strength. Wobbling is fine; it is the balance learning.'},
+  {id:'e9',  note:'Stress relief to finish the stage. Nothing to achieve — just breathe and let go.'},
+
+  {id:'e4',  note:'Stage three: power vinyasa. The hardest yet — take the easier option when you need it and keep moving.'},
+  {id:'e15', note:'A deep stretch for the whole body. Go to about seventy per cent and stay there.'},
+  {id:'e20', note:'Warriors and balance. Long holds build the legs that carry you uphill for hours.'},
+  {id:'e5',  note:'Forty minutes of full-body flow. Pace yourself: the second half is where stamina grows.'},
+  {id:'r15', note:'Chest, shoulders and spine — undoing the laptop and the phone.'},
+  {id:'r5',  note:'A dynamic vinyasa of forty minutes. Steady breath, steady pace, no rushing.'},
+  {id:'r10', note:'An anti-stress evening practice to close the stage. You have earned a slow one.'},
+
+  {id:'e6',  note:'The last stage: power yoga for strength and stamina. Compare it with session one.'},
+  {id:'e16', note:'Yin for hips and hamstrings: long, quiet holds. Let gravity do the work.'},
+  {id:'r20', note:'Fifty minutes of legs, strength and balance. The longest leg session of the plan.'},
+  {id:'r6',  note:'The full hour of power practice. Take breaks if you need them — finishing is the goal.'},
+  {id:'r16', note:'A slow yin for whole-body flexibility. Notice how far you have come since the first stretch.'},
+  {id:'e20', note:'The warrior flow again, now at the end of the plan. Feel what has changed in your legs.'},
+  {id:'e10', note:'The final session: a long, whole-body yin. Rest in it. The plan is done — round two starts next.'}
+];
+/* Sunday first, the way a date counts: Wednesday is the pool */
+const YOGA_POOL_DAY = 3;
+
+let todayView = 'main', ygPoolYoga = false;
 
 function wkAnchor(){ return today(); }
-function wkTypeFor(key){
-  const saved = state.workouts[key];
-  if(saved && saved.type && YOGA_FOCUS[saved.type]) return saved.type;
-  return YOGA_WEEK[toDate(key).getDay()];
-}
 function wkById(id){ return YOGA.find(function(w){ return w.id === id; }); }
 function wkHabit(){
   return state.habits.find(function(h){ return h.id === 'hw'; })
       || state.habits.find(function(h){ return /workout|yoga/i.test(h.title); });
 }
-function yogaBand(w){ return w.min <= 15 ? 'short' : w.min <= 30 ? 'mid' : 'long'; }
-function yogaIn(focus){ return YOGA.filter(function(w){ return w.focus === focus; }); }
-/* the practice on offer: the same one all day, a different one tomorrow */
-function yogaOfDay(key, focus){
-  const pool = yogaIn(focus).slice().sort(function(a, b){ return a.min - b.min || a.id.localeCompare(b.id); });
-  if(!pool.length) return null;
-  const n = Math.floor(Date.parse(key + 'T00:00:00Z') / 86400000);
-  return pool[((n % pool.length) + pool.length) % pool.length];
+function ygState(){
+  if(!state.yoga) state.yoga = {n:0, round:1};
+  return state.yoga;
 }
-function wkVisible(focus){
-  return YOGA.filter(function(w){
-    if(wkBand !== 'all' && yogaBand(w) !== wkBand) return false;
-    if(wkFocus === 'today') return w.focus === focus;
-    if(wkFocus !== 'all') return w.focus === wkFocus;
-    return true;
-  }).sort(function(a, b){ return a.min - b.min || a.id.localeCompare(b.id); });
+function ygIsPoolDay(key){ return toDate(key).getDay() === YOGA_POOL_DAY; }
+function ygStage(n){ return YOGA_STAGES[Math.min(YOGA_STAGES.length - 1, Math.floor(n / 7))]; }
+/* the session that belongs to today: the one just finished, or the next one waiting */
+function ygToday(){
+  const rec = state.workouts[today()] || {};
+  if(rec.plan != null && YOGA_PLAN[rec.plan]) return {n:rec.plan, done:true};
+  return {n:ygState().n, done:false};
+}
+function ygSession(n){
+  const p = YOGA_PLAN[n];
+  return p ? {n:n, p:p, w:wkById(p.id)} : null;
+}
+function wkTypeFor(key){
+  const r = state.workouts[key];
+  if(r && r.doneId === 'pool') return 'pool';
+  if(r && r.plan != null && YOGA_PLAN[r.plan]){ const w = wkById(YOGA_PLAN[r.plan].id); return w ? w.focus : 'calm'; }
+  if(ygIsPoolDay(key)) return 'pool';
+  const w = key === today() ? wkById(YOGA_PLAN[ygState().n].id) : null;
+  return w ? w.focus : '';
 }
 function wkWeek(){
   const ws = weekStart(today());
-  let n = 0, mins = 0, pool = 0;
+  let n = 0, mins = 0;
   for(let i = 0; i < 7; i++){
     const r = state.workouts[shift(ws, i)];
-    if(r && r.doneId){ n++; mins += r.min || 0; if(r.doneId === 'pool') pool++; }
+    if(r && r.doneId){ n++; mins += r.min || 0; }
   }
-  return {n:n, mins:mins, pool:pool};
+  return {n:n, mins:mins};
+}
+/* undo a finished session: the plan steps back to it (and out of a new round, if it had just started one) */
+function ygUnmark(rec){
+  const st = ygState();
+  if(rec.plan != null){
+    if(st.n === 0 && rec.plan === YOGA_PLAN.length - 1 && st.round > 1) st.round--;
+    st.n = rec.plan;
+  }
+  delete rec.plan; delete rec.doneId; delete rec.min; delete rec.type;
 }
 function wkDoneInfo(rec){
   if(!rec || !rec.doneId) return null;
-  if(rec.doneId === 'pool') return {title:'the pool', min: rec.min || 0, pool:true};
+  if(rec.doneId === 'pool') return {title:'the pool', min:rec.min || 0, pool:true};
   const w = wkById(rec.doneId);
   return {title: w ? w.t : 'a practice', min: rec.min || (w ? w.min : 0)};
 }
 
-/* one video in the list */
-function wkArticle(w, rec){
-  const url = 'https://www.youtube.com/watch?v=' + w.v;
-  const picked = rec.doneId === w.id;
-  return '<article class="wk'+(picked ? ' picked' : '')+'">'+
+/* the session card: the one video of the day, with the coach's note */
+function ygCard(s, done){
+  const w = s.w, url = 'https://www.youtube.com/watch?v=' + w.v, F = YOGA_FOCUS[w.focus];
+  return '<article class="wk yg'+(done ? ' picked' : '')+'">'+
     '<a class="wk-thumb" href="'+url+'" target="_blank" rel="noopener">'+
-      '<img src="https://i.ytimg.com/vi/'+w.v+'/hqdefault.jpg" alt="" decoding="async" '+
-        'onerror="this.parentNode.classList.add(&quot;broken&quot;)">'+
-      '<span class="fallback">'+YOGA_FOCUS[w.focus].emoji+'</span>'+
+      '<img src="https://i.ytimg.com/vi/'+w.v+'/hqdefault.jpg" alt="" decoding="async" onerror="this.parentNode.classList.add(&quot;broken&quot;)">'+
+      '<span class="fallback">'+F.emoji+'</span>'+
       '<span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>'+
-      '<span class="len">'+w.min+' min</span>'+
-    '</a>'+
-    '<div class="wk-body"><b>'+esc(w.t)+'</b>'+
-      '<div class="wk-meta"><span>⏱ '+w.min+' min</span>'+
-      '<span class="'+(w.level === 'hard' ? 'hard' : '')+'">'+YOGA_FOCUS[w.focus].emoji+' '+YOGA_LEVEL[w.level]+'</span>'+
+      '<span class="len">'+w.min+' min</span></a>'+
+    '<div class="wk-body">'+
+      '<p class="yg-no">Session '+(s.n + 1)+' of '+YOGA_PLAN.length+' · '+F.emoji+' '+F.name+'</p>'+
+      '<b>'+esc(w.t)+'</b>'+
+      '<div class="wk-meta"><span>⏱ '+w.min+' min</span><span class="'+(w.level === 'hard' ? 'hard' : '')+'">'+YOGA_LEVEL[w.level]+'</span>'+
       '<span>'+esc(w.by)+(w.lang === 'ru' ? ' · RU' : ' · EN')+'</span></div>'+
-      '<p>'+esc(w.desc)+'</p>'+
+      '<p class="yg-note">'+esc(s.p.note)+'</p>'+
       '<div class="wk-acts">'+
         '<a class="btn btn-primary" href="'+url+'" target="_blank" rel="noopener">Start →</a>'+
-        '<button class="btn'+(picked ? ' btn-ghost' : '')+'" data-act="wk-done" data-id="'+w.id+'">'+(picked ? 'Done ✓' : '✓ Done')+'</button>'+
-      '</div>'+
-    '</div></article>';
+        '<button class="btn'+(done ? ' btn-ghost' : '')+'" data-act="yg-done">'+(done ? 'Done ✓' : '✓ Done')+'</button>'+
+      '</div></div></article>';
 }
 
 /* ---------- The card on Today ---------- */
 function wkTodayCard(){
-  const key = wkAnchor(), type = wkTypeFor(key), F = YOGA_FOCUS[type];
-  const rec = state.workouts[today()] || {};
-  const done = wkDoneInfo(rec);
-  let body;
-  if(done){
-    body = '<div class="wk-done-line">✓ Done — '+esc(done.title)+'</div>';
-  } else if(rec.skipped){
-    body = '<p>Skipped today. That is a decision, not a failure.</p>';
-  } else if(type === 'pool'){
-    body = '<p>'+esc(F.line)+'</p>';
+  const key = today(), rec = state.workouts[key] || {}, done = wkDoneInfo(rec);
+  const pool = ygIsPoolDay(key) && !(rec.plan != null);
+  const t = ygToday(), s = ygSession(t.n), st = ygState();
+  let head, h3, body;
+  if(pool){
+    head = '🏊 Pool day'; h3 = '🏊 Pool day';
+    body = done ? '<div class="wk-done-line">✓ Done — the pool</div>'
+                : '<p>No mat today. Swim at your own pace — session '+(st.n + 1)+' waits for tomorrow.</p>';
   } else {
-    const v = yogaOfDay(key, type);
-    body = '<p>'+esc(F.line)+'</p>'+
-      (v ? '<div class="wk-mins"><span>'+v.min+' min ready</span><span>'+yogaIn(type).length+' to choose from</span></div>' : '');
+    const F = YOGA_FOCUS[s.w.focus];
+    head = '🧘 Yoga · session '+(s.n + 1)+' of '+YOGA_PLAN.length;
+    h3 = F.emoji+' '+esc(s.w.t);
+    body = t.done ? '<div class="wk-done-line">✓ Done — '+esc(s.w.t)+'</div>'
+         : rec.skipped ? '<p>Skipped today. The session will be here tomorrow.</p>'
+         : '<p>'+esc(ygStage(s.n).name)+' · '+s.w.min+' min · '+F.name.toLowerCase()+'</p>';
   }
   return '<button class="wk-card'+(done ? ' done' : '')+'" data-act="open-workouts">'+
-    '<span class="top"><p class="eyebrow">'+(type === 'pool' ? '🏊 Pool day' : '🧘 Yoga today')+'</p><span class="go">See all →</span></span>'+
-    '<h3>'+F.emoji+' '+F.name+'</h3>'+ body +
+    '<span class="top"><p class="eyebrow">'+head+'</p><span class="go">Open →</span></span>'+
+    '<h3>'+h3+'</h3>'+ body +
     '<p class="wk-neck">'+(neckDone() ? '✓ Neck &amp; posture done' : '+ 10 min neck &amp; posture')+'</p></button>';
 }
 
 /* ---------- The page ---------- */
 function renderWorkouts(){
-  const key = wkAnchor(), type = wkTypeFor(key), F = YOGA_FOCUS[type];
-  const rec = state.workouts[today()] || {};
-  const done = wkDoneInfo(rec), wk = wkWeek();
+  const key = today(), rec = state.workouts[key] || {}, done = wkDoneInfo(rec);
+  const st = ygState(), t = ygToday(), s = ygSession(t.n), stage = ygStage(t.n);
+  const pool = ygIsPoolDay(key) && rec.plan == null;
+  const doneCount = (st.round - 1) * YOGA_PLAN.length + (t.done ? t.n + 1 : t.n);
 
   let html = '<button class="backbtn" data-act="close-workouts">'+
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to today</button>'+
-    '<p class="eyebrow">Today · '+WDAYS[toDate(key).getDay()]+'</p>'+
-    '<h2 class="rec-title">'+F.emoji+' '+F.name+'</h2>'+
-    '<div class="wk-note">'+esc(F.line)+'</div>';
+    '<p class="eyebrow">Your yoga plan'+(st.round > 1 ? ' · round '+st.round : '')+'</p>'+
+    '<h2 class="rec-title">Stage '+(Math.floor(t.n / 7) + 1)+' · '+esc(stage.name)+'</h2>'+
+    '<div class="wk-note">'+esc(stage.line)+'</div>'+
+    '<div class="yg-goals">'+YOGA_GOALS.map(function(g){ return '<span>'+g[0]+' '+esc(g[1])+'</span>'; }).join('')+'</div>'+
+    '<div class="yg-prog"><div class="pbar"><i style="width:'+Math.round(100 * (t.done ? t.n + 1 : t.n) / YOGA_PLAN.length)+'%"></i></div>'+
+    '<small class="num">'+(t.done ? t.n + 1 : t.n)+' / '+YOGA_PLAN.length+'</small></div>';
 
-  if(type === 'pool'){
-    html += done
-      ? '<div class="wk-note" style="border-left-color:var(--gold);margin-top:14px">✓ You went to the pool today. <button class="linkbtn" data-act="wk-undo">Undo</button></div>'
-      : '<button class="btn btn-primary btn-full" data-act="wk-pool" style="margin-top:14px">✓ I went to the pool</button>';
-  } else if(done){
-    html += '<div class="wk-note" style="border-left-color:var(--gold);margin-top:14px">✓ Today you did <b>'+esc(done.title)+'</b>'+
-      (done.min ? ' — about '+done.min+' minutes' : '')+'. <button class="linkbtn" data-act="wk-undo">Undo</button></div>';
+  if(pool){
+    html += '<section class="yg-pool"><p class="eyebrow">Today · Wednesday</p><h3>🏊 Pool day</h3>'+
+      '<p>No mat today. Swim at your own pace — lungs work, knees and ankles rest.</p>'+
+      (done ? '<p class="neck-done">✓ You went to the pool <button class="linkbtn" data-act="wk-undo">Undo</button></p>'
+            : '<button class="btn btn-primary btn-full" data-act="wk-pool">✓ I went to the pool</button>')+
+      '</section>';
+    if(!ygPoolYoga){
+      html += '<p class="sub" style="margin:12px 2px 0;text-align:center">Session '+(t.n + 1)+' waits for tomorrow. '+
+        '<button class="linkbtn" data-act="yg-poolyoga">Do it today as well</button></p>';
+    }
+  }
+  if(!pool || ygPoolYoga){
+    html += '<div class="section-head" style="margin-top:22px"><p class="eyebrow">'+(t.done ? 'Done today' : 'Today’s session')+'</p></div>'+
+      '<div class="wk-list">'+ygCard(s, t.done)+'</div>';
+    if(t.done) html += '<p class="sub" style="margin:10px 2px 0;text-align:center">Well done. The next session opens tomorrow. <button class="linkbtn" data-act="wk-undo">Undo</button></p>';
+    else if(rec.skipped) html += '<p class="sub" style="margin:10px 2px 0;text-align:center">Skipped for today — it will be here tomorrow.</p>';
+  }
+
+  const next = [1, 2, 3].map(function(k){ return ygSession((t.done ? t.n : t.n) + k); }).filter(Boolean);
+  if(next.length){
+    html += '<div class="section-head" style="margin-top:24px"><p class="eyebrow">Coming next</p></div><div class="yg-next">'+
+      next.map(function(x){
+        const F = YOGA_FOCUS[x.w.focus];
+        return '<div><span class="n num">'+(x.n + 1)+'</span><span class="t"><b>'+esc(x.w.t)+'</b><small>'+F.emoji+' '+F.name+' · '+x.w.min+' min</small></span></div>';
+      }).join('')+'</div>';
   }
 
   html += neckBox();
 
+  const wk = wkWeek();
   html += '<div class="stats" style="margin:18px 0 16px">'+
-    '<div class="stat"><b class="num">'+wk.n+'</b><span>practices this week</span></div>'+
+    '<div class="stat"><b class="num">'+wk.n+'</b><span>sessions this week</span></div>'+
     '<div class="stat"><b class="num">'+wk.mins+'</b><span>minutes</span></div>'+
-    '<div class="stat"><b class="num">'+YOGA.length+'</b><span>ready to pick from</span></div>'+
+    '<div class="stat"><b class="num">'+doneCount+'</b><span>sessions in total</span></div>'+
     '</div>';
-
   const ws = weekStart(key);
   html += '<div class="wk-strip">';
   for(let i = 0; i < 7; i++){
     const dk2 = shift(ws, i), r = state.workouts[dk2] || {};
-    const F2 = YOGA_FOCUS[wkTypeFor(dk2)] || YOGA_FOCUS.calm;
-    html += '<div><i class="'+(r.doneId ? 'hit' : '')+(dk2 === key ? ' now' : '')+'">'+(r.doneId ? '✓' : F2.emoji)+'</i>'+
-            '<span>'+WSHORT[i]+'</span></div>';
+    const icon = r.doneId ? '✓' : (toDate(dk2).getDay() === YOGA_POOL_DAY ? '🏊' : '🧘');
+    html += '<div><i class="'+(r.doneId ? 'hit' : '')+(dk2 === key ? ' now' : '')+'">'+icon+'</i><span>'+WSHORT[i]+'</span></div>';
   }
   html += '</div>';
 
-  if(type === 'pool' && wkFocus === 'today'){
-    html += '<p class="sub" style="margin:22px 2px 0;text-align:center">Wednesday is the pool. If you would rather be on the mat, '+
-      '<button class="linkbtn" data-act="wk-focus" data-f="all">show every practice</button>.</p>';
-  } else {
-    if(wkFocus === 'today'){
-      const v = yogaOfDay(key, type);
-      if(v){
-        html += '<div class="section-head" style="margin-top:24px"><p class="eyebrow">Ready for today</p></div>'+
-          '<div class="wk-list">'+wkArticle(v, rec)+'</div>';
-      }
-    }
-    html += '<div class="section-head" style="margin-top:22px"><p class="eyebrow">What kind of practice</p></div>'+
-      '<div class="filters">'+
-        '<button class="chip" data-act="wk-focus" data-f="today" aria-pressed="'+(wkFocus === 'today' ? 'true' : 'false')+'">Today’s focus</button>'+
-        ['power', 'legs', 'flex', 'calm'].map(function(k){
-          return '<button class="chip" data-act="wk-focus" data-f="'+k+'" aria-pressed="'+(wkFocus === k ? 'true' : 'false')+'">'+YOGA_FOCUS[k].emoji+' '+YOGA_FOCUS[k].name+'</button>';
-        }).join('')+
-        '<button class="chip" data-act="wk-focus" data-f="all" aria-pressed="'+(wkFocus === 'all' ? 'true' : 'false')+'">Everything</button>'+
-      '</div>'+
-      '<div class="section-head"><p class="eyebrow">How long have you got</p></div>'+
-      '<div class="filters" style="margin-bottom:20px">'+YOGA_BANDS.map(function(b){
-        return '<button class="chip" data-act="wk-band" data-b="'+b[0]+'" aria-pressed="'+(wkBand === b[0] ? 'true' : 'false')+'">'+b[1]+'</button>';
-      }).join('')+'</div>';
-
-    const list = wkVisible(type).filter(function(w){ return !(wkFocus === 'today' && yogaOfDay(key, type) && w.id === yogaOfDay(key, type).id); });
-    html += list.length
-      ? '<div class="wk-list">'+list.map(function(w){ return wkArticle(w, rec); }).join('')+'</div>'
-      : '<div class="empty" style="padding:30px 14px"><p>Nothing in that length here.<br>Try another one.</p></div>';
+  if(!pool && !t.done && !rec.skipped){
+    html += '<button class="btn btn-ghost btn-full" data-act="wk-skip" style="margin-top:22px">Not today — keep it for tomorrow</button>';
   }
-
-  if(type !== 'pool'){
-    html += '<div class="section-head" style="margin-top:26px"><p class="eyebrow">Not today?</p></div>'+
-      '<div class="sheet-actions" style="margin:0 0 10px">'+
-        '<button class="btn" data-act="wk-skip">Skip today</button>'+
-        '<button class="btn" data-act="wk-set" data-t="calm">Make it a calm day</button>'+
-      '</div>';
-  }
-  html += '<p class="sub" style="margin-top:16px;text-align:center">Every day is yoga, Wednesday is the pool, and nothing is behind schedule — there is no schedule. '+
-    'If something hurts sharply rather than just stretches, come out of it.</p>';
-
+  html += '<p class="sub" style="margin-top:16px;text-align:center">The plan moves only when you finish a session, so there is no falling behind. '+
+    'If something hurts sharply rather than stretches, come out of the pose.</p>';
   view.innerHTML = html;
+}
+
+/* ---------- Habits with their own videos: face massage ---------- */
+const HABIT_VIDEOS = [
+  {match:/face massage|массаж лица|gua ?sha|гуаша/i, list:FACE_VIDEOS,
+   tip:'The same routine every day works best: a clean face, a few drops of oil, light pressure, the stone almost flat to the skin, always moving outwards and down towards the neck.'}
+];
+const hbOpen = {};
+function hbVideos(h){ return HABIT_VIDEOS.find(function(x){ return x.match.test(h.title || ''); }); }
+function hbPanel(h){
+  const set = hbVideos(h);
+  if(!set || !hbOpen[h.id]) return '';
+  return '<div class="hb-vids"><p class="hb-tip">'+esc(set.tip)+'</p><div class="vid-list">'+
+    set.list.map(function(x){ return vidCard(x, false); }).join('')+'</div></div>';
 }
 
 /* ---------- Storage ---------- */
@@ -2036,13 +2116,14 @@ function renderToday(){
           '<div class="habit-meta"><span class="num">'+weekDone(h)+'/'+h.weekGoal+'</span><span>this week</span></div>';
         html += '<article class="habit'+(done?' done':'')+'" data-habit="'+h.id+'">'+
           '<button class="habit-emoji" data-act="edit-habit" data-id="'+h.id+'" aria-label="Edit &quot;'+esc(h.title)+'&quot;">'+esc(h.emoji||'⭐️')+'</button>'+
-          '<div class="habit-main"><p class="habit-name">'+esc(h.title)+'</p>'+
+          '<div class="habit-main"'+(hbVideos(h) ? ' data-act="hb-more" data-id="'+h.id+'"' : '')+'><p class="habit-name">'+esc(h.title)+'</p>'+
           meta+
-          (h.why ? '<p class="habit-why">'+esc(h.why)+'</p>' : '')+'</div>'+
+          (h.why ? '<p class="habit-why">'+esc(h.why)+'</p>' : '')+
+          (hbVideos(h) ? '<span class="hb-hint">'+(hbOpen[h.id] ? '▴ Hide the videos' : '▾ '+hbVideos(h).list.length+' massage videos')+'</span>' : '')+'</div>'+
           '<div class="counter">'+(per>1?'<span class="cnt num">'+c+'/'+per+'</span>':'')+
           '<button class="check" data-act="toggle" data-id="'+h.id+'" aria-pressed="'+(done?'true':'false')+'" aria-label="Check off &quot;'+esc(h.title)+'&quot;">'+
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'+
-          '</button></div></article>';
+          '</button></div>'+hbPanel(h)+'</article>';
       }
       html += '</div>';
     });
@@ -2728,8 +2809,20 @@ document.addEventListener('click', function(e){
   }
   else if(act==='open-workouts'){ todayView = 'workout'; window.scrollTo(0,0); renderToday(); }
   else if(act==='close-workouts'){ todayView = 'main'; window.scrollTo(0,0); renderToday(); }
-  else if(act==='wk-band'){ wkBand = btn.getAttribute('data-b'); renderWorkouts(); }
-  else if(act==='wk-focus'){ wkFocus = btn.getAttribute('data-f'); window.scrollTo(0,0); renderWorkouts(); }
+  else if(act==='yg-done'){
+    const key = today(), rec = state.workouts[key] || (state.workouts[key] = {}), st = ygState();
+    if(rec.plan != null){ ygUnmark(rec); save(); renderWorkouts(); toast('Unmarked'); return; }
+    const s = ygSession(st.n);
+    rec.plan = st.n; rec.doneId = s.w.id; rec.min = s.w.min; rec.type = s.w.focus; delete rec.skipped;
+    if(st.n + 1 >= YOGA_PLAN.length){ st.n = 0; st.round = (st.round || 1) + 1; }
+    else st.n = st.n + 1;
+    save();
+    const h = wkHabit();
+    if(h && !isDone(h, key)) toggleHabit(h.id, null);
+    else renderWorkouts();
+    toast(st.n === 0 ? '🎉 The whole plan is done — round '+st.round+' starts tomorrow' : '✓ Session '+(rec.plan + 1)+' done');
+  }
+  else if(act==='yg-poolyoga'){ ygPoolYoga = true; renderWorkouts(); }
   else if(act==='wk-pool'){
     const key = today();
     const rec = state.workouts[key] || (state.workouts[key] = {});
@@ -2742,35 +2835,17 @@ document.addEventListener('click', function(e){
   }
   else if(act==='wk-undo'){
     const rec = state.workouts[today()];
-    if(rec){ delete rec.doneId; delete rec.min; if(!rec.chosen) delete rec.type; }
+    if(rec) ygUnmark(rec);
     save(); renderWorkouts(); toast('Unmarked');
   }
-  else if(act==='wk-set'){
-    const key = wkAnchor();
-    const rec = state.workouts[key] || (state.workouts[key] = {});
-    rec.type = btn.getAttribute('data-t'); rec.chosen = true;
-    save(); wkBand = 'all'; wkFocus = 'today'; window.scrollTo(0,0); renderWorkouts();
-    toast('Today is now ' + YOGA_FOCUS[rec.type].name.toLowerCase());
-  }
   else if(act==='wk-skip'){
-    const key = today();
-    const rec = state.workouts[key] || (state.workouts[key] = {});
-    rec.type = wkTypeFor(key); rec.skipped = true; delete rec.doneId; delete rec.min;
-    save(); renderWorkouts(); toast('Skipped — no harm done');
+    const rec = state.workouts[today()] || (state.workouts[today()] = {});
+    rec.skipped = true; save(); renderWorkouts(); toast('Kept for tomorrow');
   }
-  else if(act==='wk-done'){
-    const key = today(), w = wkById(id);
-    const rec = state.workouts[key] || (state.workouts[key] = {});
-    if(rec.doneId === id){
-      delete rec.doneId; delete rec.min; if(!rec.chosen) delete rec.type;
-      save(); renderWorkouts(); toast('Unmarked'); return;
-    }
-    rec.type = wkTypeFor(key); rec.doneId = id; rec.min = w ? w.min : 0; delete rec.skipped;
-    save();
-    const h = wkHabit();
-    if(h && !isDone(h, key)) toggleHabit(h.id, null);
-    else renderWorkouts();
-    toast('✓ ' + (w ? w.min + ' min logged' : 'Logged'));
+  else if(act==='hb-more'){
+    const id2 = btn.getAttribute('data-id');
+    hbOpen[id2] = !hbOpen[id2];
+    renderToday();
   }
   else if(act==='edit-why') sheetWhy();
   else if(act==='save-why'){
