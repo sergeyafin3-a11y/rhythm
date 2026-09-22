@@ -136,9 +136,10 @@ and something new waits next time. Ticking the habit — or **Done** on an optio
 unticking steps it back, so a missed day costs nothing. **Wednesday is the pool**: the habit means a
 swim that day, with yoga instead if you want it.
 
-61 videos in Russian and English, all between 17 and 45 minutes for the three bands, with a fresh batch
+59 videos in Russian and English, all between 17 and 45 minutes for the three bands, with a fresh batch
 added automatically once a month. Every id was opened on YouTube: the channel and the running time are
-the real ones. No yin, no lying-down classes — she stretches on her own.
+the real ones. No yin, no lying-down classes — she stretches on her own. **Nothing for beginners either**:
+no class whose title says «для начинающих», «с нуля» or «beginner» — all levels and intermediate only.
 
 ## Face massage
 
