@@ -891,6 +891,11 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .hb-hint{ display:block; margin-top:2px; font-size:12px; font-weight:700; color:var(--accent); }
 .hb-vids{ grid-column:1 / -1; padding-top:10px; border-top:var(--border-w) solid var(--line); }
 .hb-tip{ margin:0 0 4px; font-size:12.5px; line-height:1.5; color:var(--ink-mute); }
+.yg-vid .vid-body .yg-no{ margin:0 0 3px; }
+.yg-vid .yg-note{ margin:7px 0 0; }
+.yg-vid.done b{ color:var(--ink-mute); }
+.yg-acts{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.yg-next-line{ margin:6px 0 0; font-size:12px; color:var(--ink-mute); }
 .wk-strip{ display:flex; gap:6px; margin:14px 0 0; }
 .wk-strip div{ flex:1; text-align:center; }
 .wk-strip i{
@@ -1529,48 +1534,53 @@ const LIBRARY = [
 ];
 let libQuery = '', libCat = 'all';
 
-/* Every id opened on YouTube: the channel and the running time are the real ones. */
+/* The yoga pool: every id opened on YouTube, the channel and the running time are the real ones. */
 const YOGA = [
-  {id:'r1', v:'7z9oDCoklQI', t:'Quick wake-up flow', min:7, by:'\u0419\u043E\u0433\u0430 \u0441 \u041D\u0430\u0442\u0430\u043B\u044C\u0435\u0439 \u041F\u043E\u043B\u044F\u043D\u0441\u043A\u043E\u0439', lang:'ru', focus:'power', level:'easy', desc:'A brisk little practice for busy mornings when you still want the body switched on before the day starts.'},
-  {id:'e1', v:'-w_wNY_8aOM', t:'Quick power flow for energy', min:11, by:'Travis Eliot', lang:'en', focus:'power', level:'medium', desc:'A short, brisk flow that wakes the whole body up. Pick it on a busy morning when you still want to sweat a little.'},
-  {id:'r2', v:'bSBavg3X2PQ', t:'Active full-body flow', min:11, by:'Milky Yoga', lang:'ru', focus:'power', level:'easy', desc:'Short, lively and surprisingly warming, this one wakes the whole body up when you only have ten minutes.'},
-  {id:'e2', v:'kL1RYfTogGI', t:'Energising full body flow', min:15, by:'Charlie Follows', lang:'en', focus:'power', level:'medium', desc:'A steady moderate vinyasa that warms you through without rushing. Good when you have a quarter of an hour and want real movement.'},
-  {id:'e3', v:'EpRxH1v-nqc', t:'Strong yoga flow for stamina', min:20, by:'Move With Nicole', lang:'en', focus:'power', level:'medium', desc:'A strong, flowing full body practice that builds heat and endurance. Choose it when you want to feel worked but not wrecked.'},
-  {id:'r3', v:'hPhfZri9IjQ', t:'Intense morning practice', min:21, by:'\u0419\u043E\u0433\u0430 chilelavida \u0415\u043B\u0435\u043D\u0430 \u041C\u0430\u043B\u043E\u0432\u0430', lang:'ru', focus:'power', level:'medium', desc:'A punchy morning session that gets the heart going. Pick it when you want real energy without a long practice.'},
-  {id:'r4', v:'OfExsbU-zyg', t:'Strong hatha flow', min:28, by:'LYUKKI YOGA', lang:'ru', focus:'power', level:'medium', desc:'Steady dynamic work that builds heat and stamina, good on a day you want to feel you have trained.'},
-  {id:'e4', v:'94C4CGHqqiI', t:'Power vinyasa to challenge yourself', min:30, by:'Charlie Follows', lang:'en', focus:'power', level:'hard', desc:'A proper power flow with a real challenge in it. Save this one for a day when you have energy to spend.'},
-  {id:'e5', v:'uqJ-jANozcE', t:'Full body flow for strength', min:41, by:'Move With Nicole', lang:'en', focus:'power', level:'medium', desc:'A long, even vinyasa that builds strength and flexibility together. Lovely for an unhurried weekend practice.'},
-  {id:'r5', v:'mFoLiu5HX5o', t:'Dynamic vinyasa flow', min:42, by:'\u0419\u043E\u0433\u0430 chilelavida \u0415\u043B\u0435\u043D\u0430 \u041C\u0430\u043B\u043E\u0432\u0430', lang:'ru', focus:'power', level:'medium', desc:'A flowing, breath-led practice with plenty of movement. Choose it when you have time and want to sweat.'},
-  {id:'e6', v:'H-wGRyAysY4', t:'Power yoga for strength and stamina', min:45, by:'Yoga With Tim', lang:'en', focus:'power', level:'hard', desc:'A full-length sweaty vinyasa class with clear teaching throughout. Pick it when you want the big practice of the week.'},
-  {id:'r6', v:'_YcmK5IpBaA', t:'Full-body power practice', min:57, by:'LYUKKI YOGA', lang:'ru', focus:'power', level:'medium', desc:'A proper long class that strengthens everything and ends calm. Perfect for an unhurried weekend morning.'},
-  {id:'e17', v:'LkA8Mieqjh8', t:'Standing flow for strength and balance', min:11, by:'Yoga with Uliana', lang:'en', focus:'legs', level:'easy', desc:'All on your feet, no mat needed, working legs and balance. A quick way to wake the legs up before a walk.'},
-  {id:'r17', v:'_XAeZBC9v4Y', t:'Standing poses and breathing', min:14, by:'Radmila Shakurova', lang:'ru', focus:'legs', level:'easy', desc:'Short standing work that needs no mat, waking up legs and spine wherever you happen to be.'},
-  {id:'e18', v:'f85OK2AcDpI', t:'Standing yoga flow for legs', min:20, by:'SarahBethYoga', lang:'en', focus:'legs', level:'easy', desc:'Standing poses that build steady legs and better balance anywhere. Nice on a day when the floor feels too far away.'},
-  {id:'r18', v:'xq-UkUUcSRw', t:'Morning yoga for strong legs', min:22, by:'PRANAYOGA', lang:'ru', focus:'legs', level:'medium', desc:'Builds leg strength and flexibility together, a good start on a day with a lot of walking ahead.'},
-  {id:'e19', v:'ixP7j2WFL8k', t:'Standing flow for strong legs', min:30, by:'Yoga with Uliana', lang:'en', focus:'legs', level:'medium', desc:'Half an hour of standing work for legs, hips and balance with minimal chatter. Walking and hills get easier from this.'},
-  {id:'r19', v:'BglMk4xlnMg', t:'Standing asanas for leg strength', min:30, by:'oumvideo', lang:'ru', focus:'legs', level:'medium', desc:'A classic set of standing poses that make legs steady and hills feel far less demanding.'},
-  {id:'e20', v:'6iK1RI_BKuk', t:'Standing balance and warrior flow', min:44, by:'Anita Goa', lang:'en', focus:'legs', level:'medium', desc:'Warriors, half moon and balance work, carefully broken down. A long practice for genuinely stronger legs and hips.'},
-  {id:'r20', v:'SVdPM93l7Fs', t:'Legs, strength and balance', min:49, by:'YOGA NAMASTE | \u0419\u043E\u0433\u0430 \u0434\u043E\u043C\u0430', lang:'ru', focus:'legs', level:'medium', desc:'Thorough work for hips, knees and ankles plus balance, so long walks stop feeling like an effort.'},
-  {id:'e12', v:'GffXQl3zvUI', t:'Hip mobility practice', min:13, by:'Yoga With Adriene', lang:'en', focus:'flex', level:'easy', desc:'A short, friendly session to open tight hips. Great after a day of sitting or a long drive.'},
-  {id:'r12', v:'KNoTTr3Q3sk', t:'Seated hip mobility', min:13, by:'Radmila Shakurova', lang:'ru', focus:'flex', level:'easy', desc:'All seated, all gentle, opening stiff hips and legs. A nice small daily dose of mobility.'},
-  {id:'e13', v:'hdZnNxxcHQ0', t:'Deep stretch for hips and hamstrings', min:15, by:'Charlie Follows', lang:'en', focus:'flex', level:'medium', desc:'Focused, unhurried stretching where legs and hips usually hold on. A good follow-up to a long walk.'},
-  {id:'e14', v:'aFwrDtwPeGI', t:'Flexibility for legs and inner thighs', min:16, by:'SarahBethYoga', lang:'en', focus:'flex', level:'easy', desc:'Clear, well-cued stretches for hamstrings and inner thighs. Choose it when your legs feel short and stiff.'},
-  {id:'r13', v:'qZ9iEoDKAuE', t:'Hip opening practice', min:17, by:'\u0419\u043E\u0433\u0430 chilelavida \u0415\u043B\u0435\u043D\u0430 \u041C\u0430\u043B\u043E\u0432\u0430', lang:'ru', focus:'flex', level:'easy', desc:'A short focused sequence for tight hips, great after a day of sitting or a long walk.'},
-  {id:'r14', v:'yd0QX0xlNt4', t:'Hip opening yoga', min:25, by:'Milky Yoga', lang:'ru', focus:'flex', level:'medium', desc:'Deeper hip work at an unhurried pace, the kind of practice that slowly changes how you move.'},
-  {id:'e15', v:'0h7taISrO7c', t:'Deep stretch for flexibility', min:32, by:'Yoga with Kassandra', lang:'en', focus:'flex', level:'medium', desc:'A full half hour of deep, steady stretching for the whole body. The one to repeat when flexibility is the goal.'},
-  {id:'r15', v:'Sp2ah88LHlk', t:'Chest, shoulders and spine', min:32, by:'Yoga 369', lang:'ru', focus:'flex', level:'easy', desc:'Opens the upper back and shoulders and undoes slouching, so breathing feels easier afterwards.'},
-  {id:'e16', v:'gYc7ak-H6_g', t:'Yin for hips and hamstrings', min:38, by:'Yoga with Kassandra', lang:'en', focus:'flex', level:'medium', desc:'Long yin holds that work slowly into hips and hamstrings. Best in the evening when you can really let go.'},
-  {id:'r16', v:'c_jAzyJ4L38', t:'Slow yin for whole-body flexibility', min:44, by:'\u0419\u043E\u0433\u0430 \u0441 Nelly Keks', lang:'ru', focus:'flex', level:'easy', desc:'Unhurried long holds stretching everything from neck to feet. Best when you have time to linger.'},
-  {id:'r7', v:'WkJDbudnPc4', t:'Wind-down before bed', min:8, by:'\u0419\u043E\u0433\u0430 \u0441 \u041D\u0430\u0442\u0430\u043B\u044C\u0435\u0439 \u041F\u043E\u043B\u044F\u043D\u0441\u043A\u043E\u0439', lang:'ru', focus:'calm', level:'easy', desc:'A very short, soft sequence to shake off the day when you are already tired and heading to bed.'},
-  {id:'e7', v:'p3EJuBxEjt0', t:'Evening wind down', min:9, by:'Yoga with Kassandra', lang:'en', focus:'calm', level:'easy', desc:'A few soft minutes to let the day go before bed. Perfect when you are tired but your head is still spinning.'},
-  {id:'e8', v:'BiWDsfZ3zbo', t:'Bedtime yoga to settle down', min:12, by:'Yoga With Adriene', lang:'en', focus:'calm', level:'easy', desc:'Gentle bedtime shapes and slow breathing, warmly guided. A kind choice for the last thing you do at night.'},
-  {id:'r8', v:'Wr5Bo8mLeCg', t:'Evening yoga to unwind', min:15, by:'Ksenia Calm', lang:'ru', focus:'calm', level:'easy', desc:'Gentle evening stretching with slow breathing, lovely when your head is still buzzing after work.'},
-  {id:'e9', v:'AFCRhcXYFm4', t:'Yoga for relaxation and stress relief', min:20, by:'SarahBethYoga', lang:'en', focus:'calm', level:'easy', desc:'Slow, easy shapes that quiet a busy mind. Reach for this after a long or stressful day.'},
-  {id:'r9', v:'x0hSJ9JWxis', t:'Evening yin for beginners', min:21, by:'Lina Semina', lang:'ru', focus:'calm', level:'easy', desc:'Long held, well supported poses and quiet breathing. Take it when you need to slow right down.'},
-  {id:'r10', v:'Y2l4XhqIOsY', t:'Anti-stress evening practice', min:28, by:'Olga Zemkova', lang:'ru', focus:'calm', level:'easy', desc:'A calming half hour built to unwind a tense body after a long day and leave you ready to sleep.'},
-  {id:'e10', v:'6c7ocCZsU4M', t:'Whole body yin yoga', min:45, by:'Devi Daly Yoga', lang:'en', focus:'calm', level:'easy', desc:'Long, patient yin holds for the whole body with nothing to chase. Good on a rest day or a quiet evening.'},
-  {id:'r11', v:'Qk66FmVy8TI', t:'Yin yoga for deep rest', min:50, by:'YAYOGA', lang:'ru', focus:'calm', level:'easy', desc:'Slow yin work on fascia and deep muscles, poses held for minutes. Ideal for a quiet evening.'},
-  {id:'e11', v:'uKM644G3hi4', t:'Restorative yoga for deep rest', min:59, by:'Yoga with Melanie Kristina', lang:'en', focus:'calm', level:'easy', desc:'An hour of supported rest and slow breathing that lets the nervous system unwind. Pick it when you are truly depleted.'}
+  {id:'r3', v:'hPhfZri9IjQ', t:'Intense morning practice', min:21, by:'\u0419\u043E\u0433\u0430 chilelavida \u0415\u043B\u0435\u043D\u0430 \u041C\u0430\u043B\u043E\u0432\u0430', lang:'ru', intensity:'hard', desc:'A punchy morning session that gets the heart going. Pick it when you want real energy without a long practice.'},
+  {id:'e4', v:'94C4CGHqqiI', t:'Power vinyasa to challenge yourself', min:30, by:'Charlie Follows', lang:'en', intensity:'hard', desc:'A proper power flow with a real challenge in it. Save this one for a day when you have energy to spend.'},
+  {id:'ru1', v:'tIAho1cUlXY', t:'Dynamic yoga flow', min:30, by:'\u0419\u043E\u0433\u0430 chilelavida \u0415\u043B\u0435\u043D\u0430 \u041C\u0430\u043B\u043E\u0432\u0430', lang:'ru', intensity:'hard', desc:'A brisk, breath-led flow that keeps you moving from start to finish and gets you properly warm.'},
+  {id:'en3', v:'UxUAV0a1UvQ', t:'Strength and stretch power flow', min:32, by:'Travis Eliot', lang:'en', intensity:'hard', desc:'Steady, sweaty power yoga that builds strength and endurance from the warm-up to the last pose.'},
+  {id:'ru3', v:'EL33kij5L_g', t:'Strength yoga for the next level', min:32, by:'Milky Yoga', lang:'ru', intensity:'hard', desc:'A strong, steady workout for the whole body that leaves your legs and core pleasantly tired.'},
+  {id:'ru4', v:'M80XU0m47kc', t:'Dynamic vinyasa flow for the whole body', min:32, by:'\u0419\u043E\u0433\u0430 \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043A\u0438 \u0441 \u0412\u0430\u0441\u0438\u043B\u0438\u0435\u043C \u0423\u0442\u043A\u0438\u043D\u044B\u043C', lang:'ru', intensity:'hard', desc:'A lively vinyasa that links pose after pose with the breath and gets your heart going.'},
+  {id:'en2', v:'NIQvhAij3C8', t:'Power yoga for total-body strength', min:33, by:'Travis Eliot', lang:'en', intensity:'hard', desc:'A dynamic all-levels power flow that works every muscle and leaves you strong and glowing.'},
+  {id:'en1', v:'U1cHGJYIwhA', t:'Power yoga for strength and endurance', min:36, by:'Yoga with Kassandra', lang:'en', intensity:'hard', desc:'A fiery full-body power class that builds heat, stamina and balance. Pick it when you want a proper challenge.'},
+  {id:'en5', v:'Sh6-yCwiiHo', t:'Sweaty intermediate vinyasa', min:38, by:'Nicole Wild', lang:'en', intensity:'hard', desc:'A challenging, flowing vinyasa class that will make you sweat. Save it for a day full of energy.'},
+  {id:'en6', v:'9kOCY0KNByw', t:'Vinyasa for strength', min:39, by:'Yoga With Adriene', lang:'en', intensity:'hard', desc:'A swift, heat-building vinyasa with a strong foundation that tones legs, arms and core.'},
+  {id:'ru2', v:'W_RhoQkwJ-Q', t:'Dynamic strength yoga', min:40, by:'YOGA NAMASTE | \u0419\u043E\u0433\u0430 \u0434\u043E\u043C\u0430', lang:'ru', intensity:'hard', desc:'A powerful, energetic class that builds real strength while keeping your attention calm and focused.'},
+  {id:'ru5', v:'VM-8N5OtEoI', t:'Power yoga for the whole body', min:41, by:'\u0439\u043E\u0433\u0430 \u0441 \u041D\u0430\u0442\u0430\u043B\u0438', lang:'ru', intensity:'hard', desc:'An active power class mixing strength, balance and breath, for a day you have energy to spend.'},
+  {id:'r5', v:'mFoLiu5HX5o', t:'Dynamic vinyasa flow', min:42, by:'\u0419\u043E\u0433\u0430 chilelavida \u0415\u043B\u0435\u043D\u0430 \u041C\u0430\u043B\u043E\u0432\u0430', lang:'ru', intensity:'hard', desc:'A flowing, breath-led practice with plenty of movement. Choose it when you have time and want to sweat.'},
+  {id:'en4', v:'5sVxDv2xP1s', t:'All-levels power yoga flow', min:43, by:'Ally Maz', lang:'en', intensity:'hard', desc:'A long, energising power class that lights your inner fire while staying friendly to every level.'},
+  {id:'e6', v:'H-wGRyAysY4', t:'Power yoga for strength and stamina', min:45, by:'Yoga With Tim', lang:'en', intensity:'hard', desc:'A full-length sweaty vinyasa class with clear teaching throughout. Pick it when you want the big practice of the week.'},
+  {id:'e3', v:'EpRxH1v-nqc', t:'Strong yoga flow for stamina', min:20, by:'Move With Nicole', lang:'en', intensity:'medium', desc:'A strong, flowing full body practice that builds heat and endurance. Choose it when you want to feel worked but not wrecked.'},
+  {id:'r18', v:'xq-UkUUcSRw', t:'Morning yoga for strong legs', min:22, by:'PRANAYOGA', lang:'ru', intensity:'medium', desc:'Builds leg strength and flexibility together, a good start on a day with a lot of walking ahead.'},
+  {id:'r4', v:'OfExsbU-zyg', t:'Strong hatha flow', min:28, by:'LYUKKI YOGA', lang:'ru', intensity:'medium', desc:'Steady dynamic work that builds heat and stamina, good on a day you want to feel you have trained.'},
+  {id:'e19', v:'ixP7j2WFL8k', t:'Standing flow for strong legs', min:30, by:'Yoga with Uliana', lang:'en', intensity:'medium', desc:'Half an hour of standing work for legs, hips and balance with minimal chatter. Walking and hills get easier from this.'},
+  {id:'en7', v:'WltkvVB_lfM', t:'Power and balance flow', min:30, by:'Yoga With Adriene', lang:'en', intensity:'medium', desc:'Starts calm and builds into a fully active flow, with plenty of balance work to steady body and mind.'},
+  {id:'r19', v:'BglMk4xlnMg', t:'Standing asanas for leg strength', min:30, by:'oumvideo', lang:'ru', intensity:'medium', desc:'A classic set of standing poses that make legs steady and hills feel far less demanding.'},
+  {id:'en8', v:'hrWjYiApRMI', t:'Standing vinyasa flow', min:31, by:'Cat Meffan', lang:'en', intensity:'medium', desc:'A fluid flow done entirely on your feet, with no down dogs or chaturangas, that strengthens and uplifts.'},
+  {id:'ru8', v:'sPuaOzOuRR4', t:'Standing yoga for energy', min:31, by:'\u041E\u043B\u044C\u0433\u0430 \u041A\u043E\u0442 - \u0419\u043E\u0433\u0430 \u0432 \u0434\u0438\u043D\u0430\u043C\u0438\u043A\u0435', lang:'ru', intensity:'medium', desc:'A whole practice on your feet that wakes you up and works the legs, with no mat needed.'},
+  {id:'en9', v:'Knnr4Z2yX_0', t:'Strong core and legs flow', min:34, by:'Lauren Eckstrom', lang:'en', intensity:'medium', desc:'A focused, effortful practice for a strong core and legs that leaves the whole body energised.'},
+  {id:'ru6', v:'ROfiKK4Ex-Y', t:'Hatha for a strong and flexible body', min:37, by:'\u0419\u043E\u0433\u0430 \u0441 \u041D\u0430\u0442\u0430\u043B\u044C\u0435\u0439 \u041F\u043E\u043B\u044F\u043D\u0441\u043A\u043E\u0439', lang:'ru', intensity:'medium', desc:'A nicely balanced hatha class, active but unhurried, that leaves you with good mood and energy.'},
+  {id:'e5', v:'uqJ-jANozcE', t:'Full body flow for strength', min:41, by:'Move With Nicole', lang:'en', intensity:'medium', desc:'A long, even vinyasa that builds strength and flexibility together. Lovely for an unhurried weekend practice.'},
+  {id:'e20', v:'6iK1RI_BKuk', t:'Standing balance and warrior flow', min:44, by:'Anita Goa', lang:'en', intensity:'medium', desc:'Warriors, half moon and balance work, carefully broken down. A long practice for genuinely stronger legs and hips.'},
+  {id:'ru7', v:'D5TvAnW-l3M', t:'Toning yoga for the whole body', min:45, by:'Olga Zemkova', lang:'ru', intensity:'medium', desc:'No tricky poses, just honest strength work with repetitions you can scale to how you feel today.'},
+  {id:'r20', v:'SVdPM93l7Fs', t:'Legs, strength and balance', min:49, by:'YOGA NAMASTE | \u0419\u043E\u0433\u0430 \u0434\u043E\u043C\u0430', lang:'ru', intensity:'medium', desc:'Thorough work for hips, knees and ankles plus balance, so long walks stop feeling like an effort.'},
+  {id:'r6', v:'_YcmK5IpBaA', t:'Full-body power practice', min:57, by:'LYUKKI YOGA', lang:'ru', intensity:'medium', desc:'A proper long class that strengthens everything and ends calm. Perfect for an unhurried weekend morning.'},
+  {id:'e18', v:'f85OK2AcDpI', t:'Standing yoga flow for legs', min:20, by:'SarahBethYoga', lang:'en', intensity:'soft', desc:'Standing poses that build steady legs and better balance anywhere. Nice on a day when the floor feels too far away.'},
+  {id:'ru9', v:'TX1dA3OhtVY', t:'Gentle vinyasa to wake up', min:20, by:'\u0419\u043E\u0433\u0430 \u0441 \u041D\u0430\u0442\u0430\u043B\u044C\u0435\u0439 \u041F\u043E\u043B\u044F\u043D\u0441\u043A\u043E\u0439', lang:'ru', intensity:'soft', desc:'Smooth movements paired with slow breathing that gently wake up the whole body in the morning.'},
+  {id:'ru14', v:'kWfb9qZyws4', t:'Easy vinyasa flow', min:21, by:'Dakira Yoga', lang:'ru', intensity:'soft', desc:'A soft yet flowing practice that strengthens the whole body at a relaxed, friendly pace.'},
+  {id:'en16', v:'a4adVKk7sto', t:'Standing hatha flow', min:26, by:'YOu&ME by Lucia', lang:'en', intensity:'soft', desc:'A mindful hatha practice done entirely on your feet, building balance, steady legs and calm focus.'},
+  {id:'ru12', v:'8rw-iE_wBOE', t:'Slow flow for the whole body', min:29, by:'Natalia Yoga Balance', lang:'ru', intensity:'soft', desc:'A slow-paced flow with clear cues that tones the body and quiets a busy head.'},
+  {id:'en12', v:'GOQJSjQAXTw', t:'Gentle full-body slow flow', min:30, by:'Travis Eliot', lang:'en', intensity:'soft', desc:'Mindful, flowing movement that melts away tension while keeping you moving the whole time.'},
+  {id:'ru13', v:'_VbGJFuN1HQ', t:'Standing morning yoga', min:30, by:'\u0419\u043E\u0433\u0430 chilelavida \u0415\u043B\u0435\u043D\u0430 \u041C\u0430\u043B\u043E\u0432\u0430', lang:'ru', intensity:'soft', desc:'A calm practice done entirely on your feet, a gentle but proper way to start the day.'},
+  {id:'ru11', v:'vNN-JIK9eQE', t:'Simple flow of breath and movement', min:31, by:'Ona Volna', lang:'ru', intensity:'soft', desc:'An easy, friendly flow where you keep moving the whole time without ever pushing hard.'},
+  {id:'en10', v:'Q8CfTXM5bHU', t:'Moving meditation flow', min:32, by:'Charlie Follows', lang:'en', intensity:'soft', desc:'A calm full-body flow where every movement follows the breath, so your head clears as you move.'},
+  {id:'en15', v:'fj2mkS_8UhA', t:'Root to rise morning yoga', min:33, by:'Yoga With Adriene', lang:'en', intensity:'soft', desc:'A grounding practice of breath and movement that brings you back to centre when life feels off-balance.'},
+  {id:'ru10', v:'UlQY3DFhs1I', t:'Soft flow with the breath', min:33, by:'\u0419\u043E\u0433\u0430 \u0441 \u041D\u0430\u0442\u0430\u043B\u044C\u0435\u0439 \u041F\u043E\u043B\u044F\u043D\u0441\u043A\u043E\u0439', lang:'ru', intensity:'soft', desc:'A calm flow with almost no long holds, just easy movement that carries you along with the breath.'},
+  {id:'en14', v:'Eu79LgIy2PE', t:'Slow morning yoga for stability', min:34, by:'Breathe and Flow', lang:'en', intensity:'soft', desc:'A gentle yet effective morning flow that builds stability and leaves you focused for the day.'},
+  {id:'ru15', v:'XIFkUkAIyTs', t:'Gentle yoga to feel good', min:35, by:'LYUKKI YOGA', lang:'ru', intensity:'soft', desc:'A soft, toning class that leaves the whole body feeling light and pleasantly alive.'},
+  {id:'en13', v:'_nVEfLNRa7c', t:'Slow flow yoga class', min:36, by:'Five Parks Yoga w/ Erin Sampson', lang:'en', intensity:'soft', desc:'A beautifully paced class that flows from pose to pose with plenty of time to settle into each one.'},
+  {id:'en11', v:'IvVX4Gxkp7A', t:'Beginner slow flow vinyasa', min:45, by:'Yoga with Kassandra', lang:'en', intensity:'soft', desc:'An unhurried vinyasa class that gently strengthens and stretches the whole body at an easy pace.'}
 ];
 /* Face massage: a fixed set, the same every day. Every id opened on YouTube. */
 const FACE_VIDEOS = [
@@ -1580,244 +1590,138 @@ const FACE_VIDEOS = [
   {id:'f4', v:'Jdno1XuSXO0', t:'Hands-only lymphatic drainage for puffiness', min:7, by:'Van Den Broek Life', lang:'ru', desc:'A brisk hands-only drainage routine that moves lymph and eases morning puffiness; just your hands and a few drops of oil.'},
   {id:'f5', v:'OinBkldmR5M', t:'Relaxing lymphatic face massage, follow along', min:9, by:'Van Den Broek Life', lang:'ru', desc:'A slow, soothing hands massage that guides lymph toward the neck and releases facial tension; hands and face oil.'}
 ];
-/* ---------- Yoga: a coach's plan, the pool on Wednesdays ----------
-   One session a day, chosen in advance, 15 minutes and longer, getting harder
-   stage by stage. The plan only moves when a session is done — never by the
-   calendar, so a missed day costs nothing. */
-const YOGA_FOCUS = {
-  power: {emoji:'🔥', name:'Stamina'},
-  legs:  {emoji:'🦶', name:'Legs and balance'},
-  flex:  {emoji:'🤸', name:'Flexibility'},
-  calm:  {emoji:'🌙', name:'Calm'},
-  pool:  {emoji:'🏊', name:'Pool day'}
+/* ---------- Yoga: an endless plan inside the Yoga habit ----------
+   One session a day, never under 20 minutes, alternating intense, easy-going,
+   intense, steady, steady, easy-going. It only moves on when the habit is
+   ticked, and it never runs out: each kind cycles through its own pool, and
+   fresh videos join the rotation as they are added. */
+const YG_INT = {
+  hard:   {emoji:'🔥', name:'Intense'},
+  medium: {emoji:'🌤', name:'Steady'},
+  soft:   {emoji:'🌿', name:'Easy-going'}
 };
-const YOGA_LEVEL = {easy:'Gentle', medium:'Steady', hard:'Strong'};
-const YOGA_GOALS = [['🔥', 'Stamina'], ['🤸', 'Flexibility'], ['🌿', 'A lighter, stronger body'], ['🌙', 'A calmer head']];
-const YOGA_STAGES = [
-  {name:'Foundation', line:'Short sessions to learn the shapes and the breath. Showing up matters more than effort right now.'},
-  {name:'Build',      line:'Longer sessions and stronger flows. Stairs and hills start to feel different.'},
-  {name:'Strong',     line:'Half an hour and more: strong legs, a steadier core, deeper stretches.'},
-  {name:'Deep',       line:'The long practices. This is where stamina and flexibility really change.'}
-];
-/* 28 sessions, seven per stage: stamina, flexibility, legs, stamina, flexibility, legs or stamina, calm */
-const YOGA_PLAN = [
-  {id:'e2',  note:'The first session: find the rhythm of breath and movement. Lose it, pause, pick it up again.'},
-  {id:'e13', note:'Hips and hamstrings, the base of almost every pose. Breathe into the stretch; never force it.'},
-  {id:'e18', note:'Standing work for the legs: feet rooted, knees soft. This is what makes long walks easy.'},
-  {id:'e3',  note:'A stronger flow. Let it make you sweat a little — that is stamina being built.'},
-  {id:'r13', note:'Back to the hips, a little deeper. Notice what already moves more easily than on day two.'},
-  {id:'r18', note:'Morning legs. Hold each standing pose one breath longer than feels comfortable.'},
-  {id:'r8',  note:'A calm evening session to close the first stage. Slow everything down and let the week settle.'},
-
-  {id:'r3',  note:'Stage two opens with an intense morning practice. Rest in child’s pose whenever you need to.'},
-  {id:'r14', note:'Twenty-five minutes for the hips. Longer holds now — stay soft in the face and jaw.'},
-  {id:'e19', note:'Half an hour of standing flow. Strong legs are the whole secret of an easy climb.'},
-  {id:'r4',  note:'A strong hatha flow. Keep the breath through the nose for as long as you can.'},
-  {id:'e14', note:'Legs and inner thighs. Shorter today on purpose: recovery is part of the plan.'},
-  {id:'r19', note:'Standing asanas for leg strength. Wobbling is fine; it is the balance learning.'},
-  {id:'e9',  note:'Stress relief to finish the stage. Nothing to achieve — just breathe and let go.'},
-
-  {id:'e4',  note:'Stage three: power vinyasa. The hardest yet — take the easier option when you need it and keep moving.'},
-  {id:'e15', note:'A deep stretch for the whole body. Go to about seventy per cent and stay there.'},
-  {id:'e20', note:'Warriors and balance. Long holds build the legs that carry you uphill for hours.'},
-  {id:'e5',  note:'Forty minutes of full-body flow. Pace yourself: the second half is where stamina grows.'},
-  {id:'r15', note:'Chest, shoulders and spine — undoing the laptop and the phone.'},
-  {id:'r5',  note:'A dynamic vinyasa of forty minutes. Steady breath, steady pace, no rushing.'},
-  {id:'r10', note:'An anti-stress evening practice to close the stage. You have earned a slow one.'},
-
-  {id:'e6',  note:'The last stage: power yoga for strength and stamina. Compare it with session one.'},
-  {id:'e16', note:'Yin for hips and hamstrings: long, quiet holds. Let gravity do the work.'},
-  {id:'r20', note:'Fifty minutes of legs, strength and balance. The longest leg session of the plan.'},
-  {id:'r6',  note:'The full hour of power practice. Take breaks if you need them — finishing is the goal.'},
-  {id:'r16', note:'A slow yin for whole-body flexibility. Notice how far you have come since the first stretch.'},
-  {id:'e20', note:'The warrior flow again, now at the end of the plan. Feel what has changed in your legs.'},
-  {id:'e10', note:'The final session: a long, whole-body yin. Rest in it. The plan is done — round two starts next.'}
-];
+const YG_CYCLE = ['hard', 'soft', 'hard', 'medium', 'medium', 'soft'];
+const YG_NOTES = {
+  hard: [
+    'Intense day. Keep moving; if you need a break, rest in child’s pose and rejoin.',
+    'Big effort today. Breathe through the nose for as long as you can.',
+    'Take the easier version of a pose rather than stopping — finishing is the goal.',
+    'Let it make you sweat. This is where the stamina comes from.'
+  ],
+  medium: [
+    'A steady day: work properly, but keep something in reserve.',
+    'Even effort, smooth transitions, steady breath.',
+    'Middle gear today. Notice how much stronger your legs feel than a month ago.'
+  ],
+  soft: [
+    'An easier day — still moving the whole time, just slower. Recovery is part of getting stronger.',
+    'Gentle but not lazy: slow, careful, on your feet.',
+    'A calmer practice. Let the breath set the pace.'
+  ]
+};
 /* Sunday first, the way a date counts: Wednesday is the pool */
 const YOGA_POOL_DAY = 3;
 
-let todayView = 'main', ygPoolYoga = false;
+let todayView = 'main', ygPoolYoga = false, ygPools = null;
 
-function wkAnchor(){ return today(); }
-function wkById(id){ return YOGA.find(function(w){ return w.id === id; }); }
 function wkHabit(){
   return state.habits.find(function(h){ return h.id === 'hw'; })
-      || state.habits.find(function(h){ return /workout|yoga/i.test(h.title); });
+      || state.habits.find(function(h){ return /workout|yoga|йога/i.test(h.title); });
 }
 function ygState(){
-  if(!state.yoga) state.yoga = {n:0, round:1};
+  if(!state.yoga) state.yoga = {n:0};
   return state.yoga;
 }
 function ygIsPoolDay(key){ return toDate(key).getDay() === YOGA_POOL_DAY; }
-function ygStage(n){ return YOGA_STAGES[Math.min(YOGA_STAGES.length - 1, Math.floor(n / 7))]; }
+/* each kind in a fixed, mixed order: the same list every day, a new place in it each session */
+function ygPool(i){
+  if(!ygPools){
+    ygPools = {};
+    const hash = function(s){ let x = 7; for(let k = 0; k < s.length; k++) x = (x * 31 + s.charCodeAt(k)) % 1000003; return x; };
+    Object.keys(YG_INT).forEach(function(k){
+      ygPools[k] = YOGA.filter(function(w){ return w.intensity === k; })
+                       .sort(function(a, b){ return hash(a.v) - hash(b.v); });
+    });
+  }
+  return ygPools[i];
+}
+function ygSession(n){
+  const i = YG_CYCLE[n % YG_CYCLE.length];
+  const per = YG_CYCLE.filter(function(x){ return x === i; }).length;
+  const occ = Math.floor(n / YG_CYCLE.length) * per + YG_CYCLE.slice(0, n % YG_CYCLE.length).filter(function(x){ return x === i; }).length;
+  const pool = ygPool(i);
+  return {n:n, i:i, w:pool[occ % pool.length], note:YG_NOTES[i][occ % YG_NOTES[i].length]};
+}
 /* the session that belongs to today: the one just finished, or the next one waiting */
 function ygToday(){
   const rec = state.workouts[today()] || {};
-  if(rec.plan != null && YOGA_PLAN[rec.plan]) return {n:rec.plan, done:true};
-  return {n:ygState().n, done:false};
+  return rec.plan != null ? {n:rec.plan, done:true} : {n:ygState().n, done:false};
 }
-function ygSession(n){
-  const p = YOGA_PLAN[n];
-  return p ? {n:n, p:p, w:wkById(p.id)} : null;
-}
-function wkTypeFor(key){
-  const r = state.workouts[key];
-  if(r && r.doneId === 'pool') return 'pool';
-  if(r && r.plan != null && YOGA_PLAN[r.plan]){ const w = wkById(YOGA_PLAN[r.plan].id); return w ? w.focus : 'calm'; }
-  if(ygIsPoolDay(key)) return 'pool';
-  const w = key === today() ? wkById(YOGA_PLAN[ygState().n].id) : null;
-  return w ? w.focus : '';
-}
-function wkWeek(){
-  const ws = weekStart(today());
-  let n = 0, mins = 0;
-  for(let i = 0; i < 7; i++){
-    const r = state.workouts[shift(ws, i)];
-    if(r && r.doneId){ n++; mins += r.min || 0; }
-  }
-  return {n:n, mins:mins};
-}
-/* undo a finished session: the plan steps back to it (and out of a new round, if it had just started one) */
 function ygUnmark(rec){
-  const st = ygState();
-  if(rec.plan != null){
-    if(st.n === 0 && rec.plan === YOGA_PLAN.length - 1 && st.round > 1) st.round--;
-    st.n = rec.plan;
-  }
+  if(rec.plan != null) ygState().n = rec.plan;
   delete rec.plan; delete rec.doneId; delete rec.min; delete rec.type;
 }
-function wkDoneInfo(rec){
-  if(!rec || !rec.doneId) return null;
-  if(rec.doneId === 'pool') return {title:'the pool', min:rec.min || 0, pool:true};
-  const w = wkById(rec.doneId);
-  return {title: w ? w.t : 'a practice', min: rec.min || (w ? w.min : 0)};
-}
-
-/* the session card: the one video of the day, with the coach's note */
-function ygCard(s, done){
-  const w = s.w, url = 'https://www.youtube.com/watch?v=' + w.v, F = YOGA_FOCUS[w.focus];
-  return '<article class="wk yg'+(done ? ' picked' : '')+'">'+
-    '<a class="wk-thumb" href="'+url+'" target="_blank" rel="noopener">'+
-      '<img src="https://i.ytimg.com/vi/'+w.v+'/hqdefault.jpg" alt="" decoding="async" onerror="this.parentNode.classList.add(&quot;broken&quot;)">'+
-      '<span class="fallback">'+F.emoji+'</span>'+
-      '<span class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>'+
-      '<span class="len">'+w.min+' min</span></a>'+
-    '<div class="wk-body">'+
-      '<p class="yg-no">Session '+(s.n + 1)+' of '+YOGA_PLAN.length+' · '+F.emoji+' '+F.name+'</p>'+
-      '<b>'+esc(w.t)+'</b>'+
-      '<div class="wk-meta"><span>⏱ '+w.min+' min</span><span class="'+(w.level === 'hard' ? 'hard' : '')+'">'+YOGA_LEVEL[w.level]+'</span>'+
-      '<span>'+esc(w.by)+(w.lang === 'ru' ? ' · RU' : ' · EN')+'</span></div>'+
-      '<p class="yg-note">'+esc(s.p.note)+'</p>'+
-      '<div class="wk-acts">'+
-        '<a class="btn btn-primary" href="'+url+'" target="_blank" rel="noopener">Start →</a>'+
-        '<button class="btn'+(done ? ' btn-ghost' : '')+'" data-act="yg-done">'+(done ? 'Done ✓' : '✓ Done')+'</button>'+
-      '</div></div></article>';
-}
-
-/* ---------- The card on Today ---------- */
-function wkTodayCard(){
-  const key = today(), rec = state.workouts[key] || {}, done = wkDoneInfo(rec);
-  const pool = ygIsPoolDay(key) && !(rec.plan != null);
-  const t = ygToday(), s = ygSession(t.n), st = ygState();
-  let head, h3, body;
-  if(pool){
-    head = '🏊 Pool day'; h3 = '🏊 Pool day';
-    body = done ? '<div class="wk-done-line">✓ Done — the pool</div>'
-                : '<p>No mat today. Swim at your own pace — session '+(st.n + 1)+' waits for tomorrow.</p>';
-  } else {
-    const F = YOGA_FOCUS[s.w.focus];
-    head = '🧘 Yoga · session '+(s.n + 1)+' of '+YOGA_PLAN.length;
-    h3 = F.emoji+' '+esc(s.w.t);
-    body = t.done ? '<div class="wk-done-line">✓ Done — '+esc(s.w.t)+'</div>'
-         : rec.skipped ? '<p>Skipped today. The session will be here tomorrow.</p>'
-         : '<p>'+esc(ygStage(s.n).name)+' · '+s.w.min+' min · '+F.name.toLowerCase()+'</p>';
-  }
-  return '<button class="wk-card'+(done ? ' done' : '')+'" data-act="open-workouts">'+
-    '<span class="top"><p class="eyebrow">'+head+'</p><span class="go">Open →</span></span>'+
-    '<h3>'+h3+'</h3>'+ body +
-    '<p class="wk-neck">'+(neckDone() ? '✓ Neck &amp; posture done' : '+ 10 min neck &amp; posture')+'</p></button>';
-}
-
-/* ---------- The page ---------- */
-function renderWorkouts(){
-  const key = today(), rec = state.workouts[key] || {}, done = wkDoneInfo(rec);
-  const st = ygState(), t = ygToday(), s = ygSession(t.n), stage = ygStage(t.n);
-  const pool = ygIsPoolDay(key) && rec.plan == null;
-  const doneCount = (st.round - 1) * YOGA_PLAN.length + (t.done ? t.n + 1 : t.n);
-
-  let html = '<button class="backbtn" data-act="close-workouts">'+
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to today</button>'+
-    '<p class="eyebrow">Your yoga plan'+(st.round > 1 ? ' · round '+st.round : '')+'</p>'+
-    '<h2 class="rec-title">Stage '+(Math.floor(t.n / 7) + 1)+' · '+esc(stage.name)+'</h2>'+
-    '<div class="wk-note">'+esc(stage.line)+'</div>'+
-    '<div class="yg-goals">'+YOGA_GOALS.map(function(g){ return '<span>'+g[0]+' '+esc(g[1])+'</span>'; }).join('')+'</div>'+
-    '<div class="yg-prog"><div class="pbar"><i style="width:'+Math.round(100 * (t.done ? t.n + 1 : t.n) / YOGA_PLAN.length)+'%"></i></div>'+
-    '<small class="num">'+(t.done ? t.n + 1 : t.n)+' / '+YOGA_PLAN.length+'</small></div>';
-
-  if(pool){
-    html += '<section class="yg-pool"><p class="eyebrow">Today · Wednesday</p><h3>🏊 Pool day</h3>'+
-      '<p>No mat today. Swim at your own pace — lungs work, knees and ankles rest.</p>'+
-      (done ? '<p class="neck-done">✓ You went to the pool <button class="linkbtn" data-act="wk-undo">Undo</button></p>'
-            : '<button class="btn btn-primary btn-full" data-act="wk-pool">✓ I went to the pool</button>')+
-      '</section>';
-    if(!ygPoolYoga){
-      html += '<p class="sub" style="margin:12px 2px 0;text-align:center">Session '+(t.n + 1)+' waits for tomorrow. '+
-        '<button class="linkbtn" data-act="yg-poolyoga">Do it today as well</button></p>';
+/* ticking the Yoga habit is what moves the plan; unticking steps it back */
+function ygHabitChanged(h){
+  const y = wkHabit();
+  if(!y || y.id !== h.id) return;
+  const key = today(), rec = state.workouts[key] || (state.workouts[key] = {});
+  if(isDone(h, key)){
+    if(rec.doneId) return;
+    if(ygIsPoolDay(key) && !ygPoolYoga){ rec.type = 'pool'; rec.doneId = 'pool'; rec.min = 40; }
+    else {
+      const s = ygSession(ygState().n);
+      rec.plan = s.n; rec.doneId = s.w.v; rec.min = s.w.min; rec.type = s.i;
+      ygState().n = s.n + 1;
     }
+    delete rec.skipped;
+  } else ygUnmark(rec);
+}
+function ygHint(h){
+  const key = today(), rec = state.workouts[key] || {};
+  if(rec.doneId === 'pool') return '🏊 Pool done';
+  if(ygIsPoolDay(key) && !ygPoolYoga && rec.plan == null) return '🏊 Wednesday — the pool';
+  const t = ygToday(), s = ygSession(t.n), I = YG_INT[s.i];
+  return (t.done ? '✓ ' : 'Today: ') + I.emoji + ' ' + I.name + ' · ' + s.w.min + ' min';
+}
+function ygPanel(h){
+  const key = today(), rec = state.workouts[key] || {};
+  if(ygIsPoolDay(key) && !ygPoolYoga && rec.plan == null){
+    return '<div class="hb-vids"><p class="yg-no">Wednesday · 🏊 Pool day</p>'+
+      '<p class="hb-tip">No mat today — swim at your own pace, and tick the habit when you’re back. '+
+      '<button class="linkbtn" data-act="yg-poolyoga">Do yoga instead</button></p></div>';
   }
-  if(!pool || ygPoolYoga){
-    html += '<div class="section-head" style="margin-top:22px"><p class="eyebrow">'+(t.done ? 'Done today' : 'Today’s session')+'</p></div>'+
-      '<div class="wk-list">'+ygCard(s, t.done)+'</div>';
-    if(t.done) html += '<p class="sub" style="margin:10px 2px 0;text-align:center">Well done. The next session opens tomorrow. <button class="linkbtn" data-act="wk-undo">Undo</button></p>';
-    else if(rec.skipped) html += '<p class="sub" style="margin:10px 2px 0;text-align:center">Skipped for today — it will be here tomorrow.</p>';
-  }
-
-  const next = [1, 2, 3].map(function(k){ return ygSession((t.done ? t.n : t.n) + k); }).filter(Boolean);
-  if(next.length){
-    html += '<div class="section-head" style="margin-top:24px"><p class="eyebrow">Coming next</p></div><div class="yg-next">'+
-      next.map(function(x){
-        const F = YOGA_FOCUS[x.w.focus];
-        return '<div><span class="n num">'+(x.n + 1)+'</span><span class="t"><b>'+esc(x.w.t)+'</b><small>'+F.emoji+' '+F.name+' · '+x.w.min+' min</small></span></div>';
-      }).join('')+'</div>';
-  }
-
-  html += neckBox();
-
-  const wk = wkWeek();
-  html += '<div class="stats" style="margin:18px 0 16px">'+
-    '<div class="stat"><b class="num">'+wk.n+'</b><span>sessions this week</span></div>'+
-    '<div class="stat"><b class="num">'+wk.mins+'</b><span>minutes</span></div>'+
-    '<div class="stat"><b class="num">'+doneCount+'</b><span>sessions in total</span></div>'+
-    '</div>';
-  const ws = weekStart(key);
-  html += '<div class="wk-strip">';
-  for(let i = 0; i < 7; i++){
-    const dk2 = shift(ws, i), r = state.workouts[dk2] || {};
-    const icon = r.doneId ? '✓' : (toDate(dk2).getDay() === YOGA_POOL_DAY ? '🏊' : '🧘');
-    html += '<div><i class="'+(r.doneId ? 'hit' : '')+(dk2 === key ? ' now' : '')+'">'+icon+'</i><span>'+WSHORT[i]+'</span></div>';
-  }
-  html += '</div>';
-
-  if(!pool && !t.done && !rec.skipped){
-    html += '<button class="btn btn-ghost btn-full" data-act="wk-skip" style="margin-top:22px">Not today — keep it for tomorrow</button>';
-  }
-  html += '<p class="sub" style="margin-top:16px;text-align:center">The plan moves only when you finish a session, so there is no falling behind. '+
-    'If something hurts sharply rather than stretches, come out of the pose.</p>';
-  view.innerHTML = html;
+  const t = ygToday(), s = ygSession(t.n), I = YG_INT[s.i], w = s.w;
+  const url = 'https://www.youtube.com/watch?v=' + w.v;
+  const next = [1, 2, 3].map(function(k){ const x = ygSession(t.n + k); return YG_INT[x.i].emoji + ' ' + YG_INT[x.i].name; });
+  return '<div class="hb-vids"><article class="vid yg-vid'+(t.done ? ' done' : '')+'">'+
+    '<a class="vid-thumb" href="'+url+'" target="_blank" rel="noopener">'+
+      '<img src="https://i.ytimg.com/vi/'+w.v+'/hqdefault.jpg" alt="" decoding="async" onerror="this.style.display=&quot;none&quot;">'+
+      '<span class="len">'+w.min+' min</span></a>'+
+    '<div class="vid-body"><p class="yg-no">Session '+(s.n + 1)+' · '+I.emoji+' '+I.name+'</p>'+
+      '<b>'+esc(w.t)+'</b><span class="vid-by">'+esc(w.by)+(w.lang === 'ru' ? ' · RU' : ' · EN')+'</span>'+
+      '<p class="yg-note">'+esc(s.note)+'</p>'+
+      '<div class="yg-acts"><a class="btn btn-primary btn-sm" href="'+url+'" target="_blank" rel="noopener">Start →</a>'+
+      '<button class="btn btn-sm'+(t.done ? ' btn-ghost' : '')+'" data-act="yg-done">'+(t.done ? 'Done ✓' : '✓ Done')+'</button></div>'+
+    '</div></article>'+
+    '<p class="yg-next-line">Next: '+next.join(' · ')+'</p></div>';
+}
+function facePanel(h){
+  return '<div class="hb-vids"><p class="hb-tip">The same routine every day works best: a clean face, a few drops of oil, light pressure, '+
+    'the stone almost flat to the skin, always moving outwards and down towards the neck.</p><div class="vid-list">'+
+    FACE_VIDEOS.map(function(x){ return vidCard(x, false); }).join('')+'</div></div>';
 }
 
-/* ---------- Habits with their own videos: face massage ---------- */
-const HABIT_VIDEOS = [
-  {match:/face massage|массаж лица|gua ?sha|гуаша/i, list:FACE_VIDEOS,
-   tip:'The same routine every day works best: a clean face, a few drops of oil, light pressure, the stone almost flat to the skin, always moving outwards and down towards the neck.'}
+/* ---------- Habits that open into something ---------- */
+const HABIT_PANELS = [
+  {match:/^\s*yoga\b|йога/i, hint:ygHint, panel:ygPanel},
+  {match:/face massage|массаж лица|gua ?sha|гуаша/i, hint:function(){ return FACE_VIDEOS.length + ' massage videos'; }, panel:facePanel}
 ];
 const hbOpen = {};
-function hbVideos(h){ return HABIT_VIDEOS.find(function(x){ return x.match.test(h.title || ''); }); }
+function hbVideos(h){ return HABIT_PANELS.find(function(x){ return x.match.test(h.title || ''); }); }
 function hbPanel(h){
-  const set = hbVideos(h);
-  if(!set || !hbOpen[h.id]) return '';
-  return '<div class="hb-vids"><p class="hb-tip">'+esc(set.tip)+'</p><div class="vid-list">'+
-    set.list.map(function(x){ return vidCard(x, false); }).join('')+'</div></div>';
+  const p = hbVideos(h);
+  return p && hbOpen[h.id] ? p.panel(h) : '';
 }
 
 /* ---------- Storage ---------- */
@@ -1904,7 +1808,14 @@ if(!state.cleanup3){
   });
   state.cleanup3 = true;
 }
-if(!state.neck) state.neck = {};
+/* the yoga plan became endless: one running session number instead of 28 and rounds */
+if(!state.cleanup4){
+  if(state.yoga) state.yoga = {n: ((state.yoga.round || 1) - 1) * 28 + (state.yoga.n || 0)};
+  const tr = state.workouts && state.workouts[today()];
+  if(tr && tr.plan != null && state.yoga) tr.plan = Math.max(0, state.yoga.n - 1);
+  delete state.neck;
+  state.cleanup4 = true;
+}
 if(!state.diction) state.diction = {};
 if(!wkHabit()) state.habits.push({id:'hw', title:'Yoga', emoji:'🧘', perDay:1, weekGoal:7, when:'morning', why:''});
 if(state.why === undefined) state.why = '';
@@ -2092,11 +2003,9 @@ function sheetTodo(id){
 
 /* ---------- Today tab ---------- */
 function renderToday(){
-  if(todayView === 'workout') return renderWorkouts();
   const hs = activeHabits(), n = hs.length;
 
   let html = tdTodayCard();
-  html += wkTodayCard();
 
   if(n===0){
     html += '<div class="empty"><div style="font-size:40px">🌱</div><p>Your habits will live here.<br>Start with one. Really, just one.</p>'+
@@ -2119,7 +2028,7 @@ function renderToday(){
           '<div class="habit-main"'+(hbVideos(h) ? ' data-act="hb-more" data-id="'+h.id+'"' : '')+'><p class="habit-name">'+esc(h.title)+'</p>'+
           meta+
           (h.why ? '<p class="habit-why">'+esc(h.why)+'</p>' : '')+
-          (hbVideos(h) ? '<span class="hb-hint">'+(hbOpen[h.id] ? '▴ Hide the videos' : '▾ '+hbVideos(h).list.length+' massage videos')+'</span>' : '')+'</div>'+
+          (hbVideos(h) ? '<span class="hb-hint">'+(hbOpen[h.id] ? '▴ Hide' : '▾ '+hbVideos(h).hint(h))+'</span>' : '')+'</div>'+
           '<div class="counter">'+(per>1?'<span class="cnt num">'+c+'/'+per+'</span>':'')+
           '<button class="check" data-act="toggle" data-id="'+h.id+'" aria-pressed="'+(done?'true':'false')+'" aria-label="Check off &quot;'+esc(h.title)+'&quot;">'+
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'+
@@ -2608,6 +2517,7 @@ function toggleHabit(id, el){
       }
     }
   }
+  ygHabitChanged(h);
   save(); renderToday();
 }
 
@@ -2770,9 +2680,6 @@ document.addEventListener('click', function(e){
   }
   else if(act==='dc-done'){ state.diction[today()] = true; save(); celebrate(btn); renderSkills(); toast('Diction done for today'); }
   else if(act==='dc-undo'){ delete state.diction[today()]; save(); renderSkills(); }
-  else if(act==='nk-done'){ state.neck[today()] = true; save(); renderWorkouts(); toast('Neck done for today'); }
-  else if(act==='nk-undo'){ delete state.neck[today()]; save(); renderWorkouts(); }
-  else if(act==='nk-more'){ nkMore = !nkMore; renderWorkouts(); }
   else if(act==='td-quick'){
     const f = $('#tdQuick'); const v = (f ? f.value : '').trim();
     if(!v){ if(f) f.focus(); return; }
@@ -2807,41 +2714,11 @@ document.addEventListener('click', function(e){
     state.todos = todos().filter(function(x){ return x.id !== id; });
     save(); closeSheet(); go('todo'); toast('Deleted');
   }
-  else if(act==='open-workouts'){ todayView = 'workout'; window.scrollTo(0,0); renderToday(); }
-  else if(act==='close-workouts'){ todayView = 'main'; window.scrollTo(0,0); renderToday(); }
   else if(act==='yg-done'){
-    const key = today(), rec = state.workouts[key] || (state.workouts[key] = {}), st = ygState();
-    if(rec.plan != null){ ygUnmark(rec); save(); renderWorkouts(); toast('Unmarked'); return; }
-    const s = ygSession(st.n);
-    rec.plan = st.n; rec.doneId = s.w.id; rec.min = s.w.min; rec.type = s.w.focus; delete rec.skipped;
-    if(st.n + 1 >= YOGA_PLAN.length){ st.n = 0; st.round = (st.round || 1) + 1; }
-    else st.n = st.n + 1;
-    save();
     const h = wkHabit();
-    if(h && !isDone(h, key)) toggleHabit(h.id, null);
-    else renderWorkouts();
-    toast(st.n === 0 ? '🎉 The whole plan is done — round '+st.round+' starts tomorrow' : '✓ Session '+(rec.plan + 1)+' done');
+    if(h) toggleHabit(h.id, btn.closest('.habit'));
   }
-  else if(act==='yg-poolyoga'){ ygPoolYoga = true; renderWorkouts(); }
-  else if(act==='wk-pool'){
-    const key = today();
-    const rec = state.workouts[key] || (state.workouts[key] = {});
-    rec.type = 'pool'; rec.doneId = 'pool'; rec.min = 40; delete rec.skipped;
-    save();
-    const h = wkHabit();
-    if(h && !isDone(h, key)) toggleHabit(h.id, null);
-    else renderWorkouts();
-    toast('🏊 Pool logged');
-  }
-  else if(act==='wk-undo'){
-    const rec = state.workouts[today()];
-    if(rec) ygUnmark(rec);
-    save(); renderWorkouts(); toast('Unmarked');
-  }
-  else if(act==='wk-skip'){
-    const rec = state.workouts[today()] || (state.workouts[today()] = {});
-    rec.skipped = true; save(); renderWorkouts(); toast('Kept for tomorrow');
-  }
+  else if(act==='yg-poolyoga'){ ygPoolYoga = true; renderToday(); }
   else if(act==='hb-more'){
     const id2 = btn.getAttribute('data-id');
     hbOpen[id2] = !hbOpen[id2];
@@ -2978,35 +2855,7 @@ document.addEventListener('keydown', function(e){
 });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeSheet(); });
 
-/* ---------- Neck and posture: ten minutes inside every workout day ----------
-   Every video was opened on YouTube and its real running time taken from there. */
-const NECK_ROUTINE = [
-  ['Chin tucks', 'Sit tall and glide the chin straight back, as if making a double chin. Hold 3 seconds, 10 times.'],
-  ['Shoulder blade squeeze', 'Draw the shoulder blades back and slightly down. Hold 3 seconds, 10 times.'],
-  ['Side stretch', 'Ear slowly towards the shoulder, without pulling on the head. 20–30 seconds each side.'],
-  ['Shoulder rolls', 'Big, slow circles backwards. 10 times.'],
-  ['Chest opener', 'Forearms on a door frame, step through gently until the chest opens. 30 seconds.'],
-  ['Wall slides', 'Back and arms against a wall, slide the arms up and down slowly. 8 times.']
-];
-const NECK_VIDEOS = [
-  {id:'n1', v:'3rUqPLsgeDc', t:'Neck routine with an exercise-therapy instructor', min:8,  by:'Клиника реабилитации в Хамовниках', lang:'ru', daily:true,  desc:'Slow, gentle and explained step by step, in Russian.'},
-  {id:'n2', v:'LCEeA7tZcsE', t:'Exercise therapy for the neck',                    min:9,  by:'Григорий Игнатьев', lang:'ru', daily:true,  desc:'Neck muscles plus stretching, done calmly. In Russian.'},
-  {id:'n3', v:'gSQwa3NqFQ0', t:'Gentle neck gymnastics',                           min:10, by:'Григорий Игнатьев', lang:'ru', daily:true,  desc:'A follow-along set for a stiff, tired neck. In Russian.'},
-  {id:'n4', v:'uP9mwq5_lr4', t:'Daily posture routine: forward head',              min:10, by:'MIZI', lang:'en', daily:true,  desc:'Ten minutes aimed at the head drifting forward over the laptop.'},
-  {id:'n5', v:'aPd06RUKDsE', t:'10-minute daily posture routine',                  min:12, by:'Dr. Jon Saunders', lang:'en', daily:true,  desc:'Rounded shoulders, forward head and a stiff upper back, follow along.'},
-  {id:'n6', v:'zdelw-n4qiw', t:'One exercise for neck pain',                       min:3,  by:'AskDoctorJo', lang:'en', daily:false, desc:'A physical therapist with a single, very gentle movement.'},
-  {id:'n7', v:'3N_YCtG656I', t:'Therapeutic exercises for the neck',               min:3,  by:'Центр лечения спины «Спасибо, доктор»', lang:'ru', daily:false, desc:'Three minutes when there is no time for more. In Russian.'},
-  {id:'n8', v:'HUdnNs-NbJg', t:'4 chin tuck exercises',                            min:4,  by:'3DPT', lang:'en', daily:false, desc:'The chin tuck done right, from easy to harder.'},
-  {id:'n9', v:'vhFGQxDVzF8', t:'Chin tucks for neck pain and posture',             min:5,  by:'Physio REHAB', lang:'en', daily:false, desc:'A physiotherapist on why this one movement helps.'},
-  {id:'n10', v:'he7Jaid68dY', t:'Neck and forward head stretch routine',           min:14, by:'Hailey C.', lang:'en', daily:false, desc:'Longer and softer, mostly stretching.'},
-  {id:'n11', v:'sr3hW43i9tg', t:'20-minute neck pain relief routine',              min:20, by:'AskDoctorJo', lang:'en', daily:false, desc:'Real-time stretches and exercises from a physical therapist.'},
-  {id:'n12', v:'J7bEhqy9EAA', t:'Exercise therapy for back and neck pain',         min:22, by:'Клиника реабилитации «В Новый День»', lang:'ru', daily:false, desc:'A full session recorded with a rehabilitation doctor. In Russian.'}
-];
-let nkMore = false;
-function neckOfDay(){ const d = NECK_VIDEOS.filter(function(x){ return x.daily; }); return d[dayIndex() % d.length]; }
-function neckDone(key){ return !!(state.neck && state.neck[key || today()]); }
-
-/* A compact video row shared by neck and diction */
+/* A compact video row: diction, and the habits that open into videos */
 function vidCard(x, big){
   const url = 'https://www.youtube.com/watch?v=' + x.v;
   return '<article class="vid'+(big ? ' big' : '')+'">'+
@@ -3017,25 +2866,6 @@ function vidCard(x, big){
       '<span class="vid-by">'+esc(x.by)+(x.lang === 'ru' ? ' · RU' : x.lang === 'en' ? ' · EN' : '')+'</span>'+
       (big ? '<p>'+esc(x.desc)+'</p><a class="btn btn-primary btn-sm" href="'+url+'" target="_blank" rel="noopener">Watch →</a>' : '')+
     '</div></article>';
-}
-
-function neckBox(){
-  const v = neckOfDay(), done = neckDone();
-  let h = '<section class="neck-box">'+
-    '<div class="neck-top"><p class="eyebrow">Neck &amp; posture · every day</p><span>10 min</span></div>'+
-    '<ol class="neck-list">'+NECK_ROUTINE.map(function(r){ return '<li><b>'+esc(r[0])+'</b> '+esc(r[1])+'</li>'; }).join('')+'</ol>'+
-    '<p class="neck-note">Gentle, never through pain. Stop if it sharpens, spreads into the arm, or the hand goes numb or tingly. '+
-    'Pain that is there almost all the time is worth showing to a doctor or a physio.</p>'+
-    '<p class="neck-label">Or follow today’s video</p>'+ vidCard(v, true)+
-    (done
-      ? '<p class="neck-done">✓ Neck done today <button class="linkbtn" data-act="nk-undo">Undo</button></p>'
-      : '<button class="btn btn-full" data-act="nk-done" style="margin-top:12px">✓ Neck done today</button>')+
-    '<button class="linkbtn neck-more" data-act="nk-more">'+(nkMore ? 'Hide the other videos' : 'All neck videos ('+NECK_VIDEOS.length+')')+'</button>';
-  if(nkMore){
-    h += '<div class="vid-list">'+NECK_VIDEOS.filter(function(x){ return x.id !== v.id; })
-                                             .map(function(x){ return vidCard(x, false); }).join('')+'</div>';
-  }
-  return h + '</section>';
 }
 
 /* ---------- Practice tab: driving theory and diction ---------- */

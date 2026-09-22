@@ -25,11 +25,11 @@ file in, **Commit changes**. The site updates in about a minute.
 
 | Tab | What it does |
 |---|---|
-| Today | The day's to-do card, today's yoga (or the pool), and the habits — grouped into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
+| Today | The day’s to-do card and the habits — grouped into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
 | To-do | Tasks that are not habits — a call, an appointment, a bill. Quick-add at the top, optional day and time, grouped into Overdue · Today · Tomorrow · Later · No date |
 | English | **Speak** — the speaking roulette: a topic, a minute, a recording, then the language you could have used. **Saved words** — the phrases you kept from it |
 | Practice | **Driving theory** — the interactive textbook and the official Armenian question bank. **Diction** — ten minutes of Russian speech practice a day |
-| 🧘 Yoga | A card on Today opens the **yoga** page: the focus of the day, a practice already chosen, forty more to pick from, ten minutes for the neck — and on Wednesdays the pool instead |
+| 🧘 Yoga | Tap the *Yoga* habit: today’s session opens right under it — one practice, 20 minutes or more, in an endless plan. Wednesday is the pool |
 
 ## Files
 
@@ -94,11 +94,6 @@ Practice → **Diction**. Ten minutes a day in Russian: an articulation warm-up,
 the day from a speech teacher, and three tongue twisters, each said three ways. A week strip
 shows what you have done.
 
-## Neck and posture
-
-Ten minutes inside every workout day: six exercises, a video of the day, and a note that pain
-which is there almost all the time belongs to a doctor, not to an app.
-
 ## Themes and typefaces
 
 The very first screen asks you to choose. Six themes — Greenhouse, Midnight, Peach,
@@ -127,18 +122,18 @@ text struck through. Whatever is still open today also shows on the Today screen
 
 ## Yoga
 
-A coach’s plan instead of a library: one session a day, chosen in advance, never
-shorter than 15 minutes. Four stages of seven sessions — **Foundation** (15–22 min),
-**Build** (16–32), **Strong** (28–44), **Deep** (38–57) — for four goals: stamina,
-flexibility, a lighter and stronger body, a calmer head. Each session comes with a short
-note on what it is for.
+Yoga lives inside the *Yoga* habit: tap it and today’s session opens under it — one
+practice, never shorter than 20 minutes, chosen in advance. The plan alternates
+🔥 intense · 🌿 easy-going · 🔥 intense · 🌤 steady · 🌤 steady · 🌿 easy-going, so hard days never
+pile up, and easy-going still means moving the whole time — no yin, no lying about.
 
-The plan moves only when a session is marked done, never by the calendar, so a missed day
-costs nothing. After session 28 round two begins. **Wednesday is the pool**: one button,
-and the session waits for Thursday (or can be done the same day).
+It never runs out: 45 videos (15 of each kind, Russian and English, 20–57 minutes), each kind
+in its own rotation, and fresh videos join the rotation as they are added. The session number
+simply keeps counting. Ticking the habit — or **Done** on the session — moves the plan on;
+unticking steps it back, so a missed day costs nothing. **Wednesday is the pool**: the habit
+means a swim that day, with yoga instead if you want it.
 
 Every video was opened on YouTube: the channel and the running time are the real ones.
-Ten minutes for the neck sit inside every day.
 
 ## Face massage
 
