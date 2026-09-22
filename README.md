@@ -29,7 +29,7 @@ file in, **Commit changes**. The site updates in about a minute.
 | To-do | Tasks that are not habits — a call, an appointment, a bill. Quick-add at the top, optional day and time, grouped into Overdue · Today · Tomorrow · Later · No date |
 | English | **Speak** — the speaking roulette: a topic, a minute, a recording, then the language you could have used. **Saved words** — the phrases you kept from it |
 | Practice | **Driving theory** — the interactive textbook and the official Armenian question bank. **Diction** — ten minutes of Russian speech practice a day |
-| 🧘 Yoga | Tap the *Yoga* habit: today’s session opens right under it — one practice, 20 minutes or more, in an endless plan. Wednesday is the pool |
+| 🧘 Yoga | Tap the *Yoga* habit: three options open under it — 🌿 15–25, 🌤 26–35 and 🔥 36–45 minutes. Wednesday is the pool |
 
 ## Files
 
@@ -127,44 +127,18 @@ text struck through. Whatever is still open today also shows on the Today screen
 
 ## Yoga
 
-Yoga lives inside the *Yoga* habit: tap it and today’s session opens under it — one
-practice, never shorter than 20 minutes, chosen in advance. The plan alternates
-🔥 intense · 🌿 easy-going · 🔥 intense · 🌤 steady · 🌤 steady · 🌿 easy-going, so hard days never
-pile up, and easy-going still means moving the whole time — no yin, no lying about.
+Yoga lives inside the *Yoga* habit: tap it and **three options for today** open under it, chosen by
+how much you have in you — 🌿 **low energy** 15–25 min, 🌤 **medium** 26–35, 🔥 **ready to work** 36–45.
+The short and medium ones are never the intense classes; the long ones are never the gentlest.
 
-It never runs out: 45 videos (15 of each kind, Russian and English, 20–57 minutes), each kind
-in its own rotation, and fresh videos join the rotation as they are added. The session number
-simply keeps counting. Ticking the habit — or **Done** on the session — moves the plan on;
-unticking steps it back, so a missed day costs nothing. **Wednesday is the pool**: the habit
-means a swim that day, with yoga instead if you want it.
+Each band has its own rotation and only moves on when one of its videos is done, so nothing is skipped
+and something new waits next time. Ticking the habit — or **Done** on an option — logs the practice;
+unticking steps it back, so a missed day costs nothing. **Wednesday is the pool**: the habit means a
+swim that day, with yoga instead if you want it.
 
-Every video was opened on YouTube: the channel and the running time are the real ones.
-
-## Daily check-in
-
-Two minutes of taps on Today: mood, energy, last night’s sleep, the single-item stress measure
-(Elo et al., 2003) and the ten feelings of the international PANAS short form (Thompson, 2007) —
-positive and negative affect, 5–25 each. Every two weeks the WHO-5 Well-Being Index (0–100) is added.
-The trends page shows the last 14 days, this week against the last, and — once there is enough data —
-how yoga, sleep, food and speaking go with mood and energy. A self-check, not a diagnosis; very low
-WHO-5 scores or many heavy days bring a gentle suggestion to talk to someone.
-
-## Food
-
-A card on Today: calories left for the day and a line to write what you ate, the way you would
-in a note — «гречка 150 г, 2 яйца, огурец», «кофе с молоком», «горсть орехов». The app finds
-each food by its stem (so any Russian case works, English too), reads the amount from г, мл,
-шт, ст.л., ч.л., стакан, горсть, тарелка or a plain number, and uses a usual portion when
-there is none. «с» splits a dish into its parts: «творог со сметаной» is two lines.
-
-About 200 foods, vegetarian-friendly and local — matsoni, tan, Lori and Chanakh cheese, lavash,
-gata — with calories and protein per 100 g from standard tables. A food it doesn’t know is
-marked **?**: tap it, give the calories per 100 g once, and it is remembered.
-
-The target comes from a standard formula (Mifflin–St Jeor): resting burn from age, height and
-weight, times activity, minus 10% or 20%, and never below the resting burn. A number of your
-own overrides it. The diary page shows the day’s list, a week of bars against the target,
-protein, and a weekly weight log. Everything stays on the phone.
+61 videos in Russian and English, all between 17 and 45 minutes for the three bands, with a fresh batch
+added automatically once a month. Every id was opened on YouTube: the channel and the running time are
+the real ones. No yin, no lying-down classes — she stretches on her own.
 
 ## Face massage
 
