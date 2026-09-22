@@ -25,7 +25,7 @@ file in, **Commit changes**. The site updates in about a minute.
 
 | Tab | What it does |
 |---|---|
-| Today | The day’s to-do card and the habits — grouped into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
+| Today | The day’s to-do card, the food card and the habits — grouped into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
 | To-do | Tasks that are not habits — a call, an appointment, a bill. Quick-add at the top, optional day and time, grouped into Overdue · Today · Tomorrow · Later · No date |
 | English | **Speak** — the speaking roulette: a topic, a minute, a recording, then the language you could have used. **Saved words** — the phrases you kept from it |
 | Practice | **Driving theory** — the interactive textbook and the official Armenian question bank. **Diction** — ten minutes of Russian speech practice a day |
@@ -135,6 +135,23 @@ means a swim that day, with yoga instead if you want it.
 
 Every video was opened on YouTube: the channel and the running time are the real ones.
 
+## Food
+
+A card on Today: calories left for the day and a line to write what you ate, the way you would
+in a note — «гречка 150 г, 2 яйца, огурец», «кофе с молоком», «горсть орехов». The app finds
+each food by its stem (so any Russian case works, English too), reads the amount from г, мл,
+шт, ст.л., ч.л., стакан, горсть, тарелка or a plain number, and uses a usual portion when
+there is none. «с» splits a dish into its parts: «творог со сметаной» is two lines.
+
+About 200 foods, vegetarian-friendly and local — matsoni, tan, Lori and Chanakh cheese, lavash,
+gata — with calories and protein per 100 g from standard tables. A food it doesn’t know is
+marked **?**: tap it, give the calories per 100 g once, and it is remembered.
+
+The target comes from a standard formula (Mifflin–St Jeor): resting burn from age, height and
+weight, times activity, minus 10% or 20%, and never below the resting burn. A number of your
+own overrides it. The diary page shows the day’s list, a week of bars against the target,
+protein, and a weekly weight log. Everything stays on the phone.
+
 ## Face massage
 
 Tap the *Face massage* habit and five follow-along routines open under it — three gua sha,
@@ -153,6 +170,6 @@ Settings → Fireworks sound to silence it. It also respects the system
 
 ## Data
 
-Habits, check-ins, to-dos, yoga days, saved words, lessons finished and
+Habits, check-ins, to-dos, yoga days, saved words, food diary and weight, lessons finished and
 questions answered live in `localStorage` on the device. Voice recordings are never stored:
 they exist only until you leave the topic. Backup: Settings → Backup.

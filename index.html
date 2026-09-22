@@ -896,6 +896,49 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .yg-vid.done b{ color:var(--ink-mute); }
 .yg-acts{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
 .yg-next-line{ margin:6px 0 0; font-size:12px; color:var(--ink-mute); }
+/* ---------- Food diary ---------- */
+.fd-card{ background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius-lg); box-shadow:var(--shadow); padding:15px 16px 16px; margin-bottom:20px; }
+.fd-card .top .eyebrow{ margin:0; color:var(--accent); }
+.fd-card h3{ margin:6px 0 4px; font-family:var(--font-display); font-weight:var(--display-weight); font-size:19px; line-height:1.25; }
+.fd-top{ display:flex; width:100%; align-items:center; justify-content:space-between; }
+.fd-top .eyebrow{ color:var(--accent); }
+.fd-top .go{ font-size:12.5px; font-weight:700; color:var(--accent); }
+.fd-nums{ display:flex; align-items:baseline; gap:8px; margin:8px 0 0; }
+.fd-nums b{ font-family:var(--font-display); font-weight:var(--display-weight); font-size:32px; line-height:1; color:var(--accent); }
+.fd-nums span{ font-size:13px; color:var(--ink-mute); }
+.fd-card.over .fd-nums b{ color:#C0392B; }
+.fd-card .pbar{ margin:10px 0 12px; }
+.fd-quick{ display:flex; gap:8px; align-items:stretch; margin:0; }
+.fd-quick input, .fd-quick textarea{ flex:1; min-width:0; padding:10px 12px; border-radius:var(--radius); border:var(--border-w) solid var(--line); background:var(--ground); color:var(--ink); font:inherit; font-size:15px; }
+.fd-quick textarea{ resize:vertical; min-height:62px; line-height:1.4; }
+.fd-quick-page{ margin:16px 0 0; flex-direction:column; }
+.fd-sub{ margin:6px 0 12px; font-size:13px; line-height:1.5; color:var(--ink-mute); }
+.fd-list{ display:flex; flex-direction:column; gap:1px; border-radius:var(--radius); overflow:hidden; border:var(--border-w) solid var(--line); }
+.fd-row{ display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:11px 14px; background:var(--surface); color:var(--ink); }
+.fd-row + .fd-row{ border-top:var(--border-w) solid var(--line); }
+.fd-t{ flex:1; min-width:0; }
+.fd-t b{ display:block; font-size:14.5px; line-height:1.3; }
+.fd-t small{ display:block; margin-top:2px; font-size:12px; color:var(--ink-mute); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.fd-k{ font-weight:700; font-size:15px; color:var(--ink-soft); }
+.fd-row.unknown .fd-k{ color:#C0392B; }
+.fd-week{ display:grid; grid-template-columns:repeat(7, 1fr); gap:6px; height:130px; align-items:end; }
+.fd-week div{ display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; gap:4px; }
+.fd-week i{ display:block; width:100%; max-width:26px; min-height:3px; border-radius:6px 6px 3px 3px; background:var(--accent-soft); }
+.fd-week .now i{ background:var(--accent); }
+.fd-week .over i{ background:#E3A69B; }
+.fd-week span{ font-size:11px; font-weight:700; color:var(--ink-mute); }
+.fd-week small{ font-size:10px; color:var(--ink-mute); min-height:12px; }
+.fd-weight{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+.fd-weight b{ display:block; font-family:var(--font-display); font-weight:var(--display-weight); font-size:24px; }
+.fd-weight span{ font-size:12px; color:var(--ink-mute); }
+.fd-weight .btn{ margin-left:auto; }
+.fd-two{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.fd-q{ margin:4px 0 8px; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-mute); }
+.fd-opts{ display:flex; flex-direction:column; gap:7px; margin-bottom:16px; }
+.fd-opt{ text-align:left; padding:11px 13px; border-radius:var(--radius); border:var(--border-w) solid var(--line); background:var(--surface); color:var(--ink); }
+.fd-opt b{ display:block; font-size:14.5px; }
+.fd-opt span{ display:block; margin-top:2px; font-size:12.5px; color:var(--ink-mute); }
+.fd-opt[aria-pressed="true"]{ border-color:var(--accent); background:var(--accent-soft); }
 .wk-strip{ display:flex; gap:6px; margin:14px 0 0; }
 .wk-strip div{ flex:1; text-align:center; }
 .wk-strip i{
@@ -1724,6 +1767,488 @@ function hbPanel(h){
   return p && hbOpen[h.id] ? p.panel(h) : '';
 }
 
+/* Calories per 100 g (drinks per 100 ml) and protein per 100 g, from standard food tables (USDA values where they exist).
+   [key, name, aliases, kcal, protein, piece g, default portion g, the dry/cooked twin, extra units]
+   Aliases are word stems, so «гречки», «гречкой» and «гречка» all land on the same line. */
+const FOOD_DB = [
+  // grains and bread — cooked unless it says dry
+  ['buckwheat', 'Buckwheat, cooked', 'гречк|гречнев|buckwheat', 92, 3.4, 0, 150, 'buckwheat_dry'],
+  ['buckwheat_dry', 'Buckwheat, dry', '', 343, 13, 0, 60],
+  ['rice', 'Rice, cooked', 'рис|rice', 130, 2.7, 0, 150, 'rice_dry'],
+  ['rice_dry', 'Rice, dry', '', 360, 7, 0, 60],
+  ['brown_rice', 'Brown rice, cooked', 'бурый рис|коричнев|brown rice', 123, 2.7, 0, 150],
+  ['oats_dry', 'Oat flakes, dry', 'овсян|овес|овёс|геркулес|oat|oatmeal', 379, 13, 0, 50, 'oats_cooked'],
+  ['oats_cooked', 'Oatmeal on water', '', 71, 2.5, 0, 250],
+  ['oats_milk', 'Oatmeal on milk', 'овсянка на молок|каша на молок|овсяная каша на молок|oatmeal with milk|porridge with milk', 102, 4, 0, 250],
+  ['bulgur', 'Bulgur, cooked', 'булгур|bulgur', 83, 3.1, 0, 150, 'bulgur_dry'],
+  ['bulgur_dry', 'Bulgur, dry', '', 342, 12, 0, 60],
+  ['quinoa', 'Quinoa, cooked', 'киноа|quinoa', 120, 4.4, 0, 150, 'quinoa_dry'],
+  ['quinoa_dry', 'Quinoa, dry', '', 368, 14, 0, 60],
+  ['pasta', 'Pasta, cooked', 'макарон|паст|спагетти|лапш|pasta|spaghetti|noodle|penne', 158, 5.8, 0, 200, 'pasta_dry'],
+  ['pasta_dry', 'Pasta, dry', '', 371, 13, 0, 80],
+  ['couscous', 'Couscous, cooked', 'кускус|couscous', 112, 3.8, 0, 150],
+  ['millet', 'Millet, cooked', 'пшен|millet', 119, 3.5, 0, 150],
+  ['barley', 'Pearl barley, cooked', 'перлов|ячнев|barley', 123, 2.3, 0, 150],
+  ['semolina', 'Semolina porridge on milk', 'манк|манная|semolina', 98, 3, 0, 250],
+  ['potato', 'Potatoes, boiled', 'картоф|картошк|potato', 87, 1.9, 100, 200],
+  ['potato_mash', 'Mashed potatoes', 'пюре|mashed', 113, 2, 0, 200],
+  ['potato_fried', 'Fried potatoes', 'жарен картош|жареная картош|картошка фри|картофель фри|фри|fries|chips fries', 312, 3.4, 0, 150],
+  ['bread', 'Bread, white', 'хлеб|батон|багет|матнакаш|bread|baguette', 265, 9, 30, 30],
+  ['rye_bread', 'Bread, rye', 'ржан|бородин|черный хлеб|чёрный хлеб|rye', 259, 8.5, 30, 30],
+  ['wholegrain_bread', 'Bread, wholegrain', 'цельнозерн|wholegrain|whole grain|whole wheat', 247, 13, 30, 30],
+  ['lavash', 'Lavash', 'лаваш|lavash', 275, 9, 80, 80],
+  ['pita', 'Pita', 'пита|pita', 275, 9, 60, 60],
+  ['crispbread', 'Crispbread', 'хлебц|crispbread|rice cake', 370, 10, 10, 20],
+  ['croissant', 'Croissant', 'круассан|croissant', 406, 8, 60, 60],
+  ['granola', 'Granola', 'гранол|granola', 471, 10, 0, 50],
+  ['muesli', 'Muesli', 'мюсли|muesli', 360, 10, 0, 50],
+  ['cornflakes', 'Cornflakes', 'хлопья|кукурузные хлопья|cornflakes|cereal', 357, 7.5, 0, 40],
+  ['pancake', 'Pancakes (blini)', 'блин|блинчик|оладь|pancake|crepe', 233, 6, 50, 150],
+  ['syrniki', 'Syrniki', 'сырник|syrniki', 220, 13, 50, 150],
+
+  // milk, cheese, eggs
+  ['milk', 'Milk 2.5%', 'молок|milk', 52, 2.9, 0, 200, '', {cup:250}],
+  ['milk_oat', 'Oat milk', 'овсяное молоко|oat milk', 45, 1, 0, 200, '', {cup:250}],
+  ['milk_almond', 'Almond milk, unsweetened', 'миндальное молоко|almond milk', 15, 0.5, 0, 200, '', {cup:250}],
+  ['milk_soy', 'Soy milk', 'соевое молоко|soy milk', 40, 3.3, 0, 200, '', {cup:250}],
+  ['kefir', 'Kefir 2.5%', 'кефир|kefir', 50, 2.9, 0, 250, '', {cup:250}],
+  ['matsoni', 'Matsoni', 'мацун|мацони|matsoni|matsun', 60, 3, 0, 200],
+  ['tan', 'Tan (yoghurt drink)', 'тан|айран|tan|ayran', 27, 1.5, 0, 250, '', {cup:250}],
+  ['yogurt', 'Yoghurt, plain', 'йогурт|yogurt|yoghurt', 66, 3.5, 0, 150],
+  ['greek_yogurt', 'Greek yoghurt 2%', 'греческ|greek', 73, 10, 0, 150],
+  ['tvorog0', 'Cottage cheese (tvorog) 0%', 'творог 0|обезжирен|творог обезж|fat-free cottage', 71, 16.5, 0, 150],
+  ['tvorog', 'Cottage cheese (tvorog) 5%', 'творог|творож|tvorog|cottage cheese', 121, 17, 0, 150],
+  ['tvorog9', 'Cottage cheese (tvorog) 9%', 'творог 9|творог 9%', 159, 16.7, 0, 150],
+  ['grain_cottage', 'Cottage cheese, grained', 'зерненый|зернёный|зерненн|зернён|grained', 103, 11, 0, 150],
+  ['sour_cream', 'Sour cream 15%', 'сметан|sour cream', 158, 2.6, 0, 30, '', {tbsp:20}],
+  ['cream', 'Cream 10%', 'сливки|сливок|cream', 118, 3, 0, 30, '', {tbsp:15}],
+  ['butter', 'Butter', 'масло сливоч|сливочное|сливочн|butter', 717, 0.9, 0, 10, '', {tbsp:14, tsp:5}],
+  ['cheese', 'Cheese, hard', 'сыр|cheddar|гауда|gouda|cheese', 360, 24, 20, 30],
+  ['mozzarella', 'Mozzarella', 'моцарел|mozzarella', 280, 22, 0, 60],
+  ['feta', 'Feta', 'фет|feta', 264, 14, 0, 50],
+  ['brynza', 'Brynza', 'брынз|brynza', 260, 18, 0, 50],
+  ['suluguni', 'Suluguni', 'сулугун|suluguni', 290, 20, 0, 50],
+  ['lori', 'Lori cheese', 'лори|lori', 290, 21, 0, 50],
+  ['chanakh', 'Chanakh cheese', 'чанах|chanakh', 260, 18, 0, 50],
+  ['parmesan', 'Parmesan', 'пармезан|parmesan', 392, 36, 0, 15],
+  ['ricotta', 'Ricotta', 'рикотт|ricotta', 174, 11, 0, 60],
+  ['cream_cheese', 'Cream cheese', 'сливочный сыр|творожный сыр|филадельф|cream cheese|philadelphia', 342, 6, 0, 30],
+  ['ice_cream', 'Ice cream', 'мороженое|пломбир|ice cream', 207, 3.5, 0, 80],
+  ['egg', 'Egg', 'яйц|яиц|яйко|egg', 143, 12.6, 55, 55],
+  ['egg_white', 'Egg white', 'белок яйц|белки яиц|egg white', 52, 11, 33, 33],
+  ['omelette', 'Omelette', 'омлет|omelet|omelette', 154, 11, 0, 150],
+
+  // beans, soy
+  ['lentils', 'Lentils, cooked', 'чечевиц|lentil', 116, 9, 0, 150, 'lentils_dry'],
+  ['lentils_dry', 'Lentils, dry', '', 352, 24.6, 0, 60],
+  ['chickpeas', 'Chickpeas, cooked', 'нут|chickpea', 164, 8.9, 0, 150],
+  ['beans', 'Beans, cooked', 'фасол|bean', 127, 8.7, 0, 150],
+  ['green_peas', 'Green peas', 'горош|горох|pea', 81, 5.4, 0, 80],
+  ['hummus', 'Hummus', 'хумус|хумм|hummus', 166, 7.9, 0, 50, '', {tbsp:15}],
+  ['tofu', 'Tofu, firm', 'тофу|tofu', 144, 15.6, 0, 100],
+  ['tempeh', 'Tempeh', 'темпе|tempeh', 192, 20, 0, 100],
+  ['edamame', 'Edamame', 'эдамаме|edamame', 121, 12, 0, 100],
+  ['falafel', 'Falafel', 'фалафел|falafel', 333, 13, 17, 100],
+
+  // fish, in case
+  ['salmon', 'Salmon', 'лосос|семг|сёмг|форел|salmon|trout', 208, 20, 0, 120],
+  ['tuna', 'Tuna, canned in water', 'тунец|tuna', 116, 26, 0, 100],
+  ['white_fish', 'White fish (cod, hake)', 'треск|хек|минтай|белая рыба|cod|hake', 82, 18, 0, 150],
+  ['shrimp', 'Shrimp', 'кревет|shrimp|prawn', 99, 24, 0, 100],
+
+  // vegetables
+  ['cucumber', 'Cucumber', 'огур|cucumber', 15, 0.7, 150, 150],
+  ['tomato', 'Tomato', 'помидор|томат|черри|tomato|cherry tomato', 18, 0.9, 120, 120],
+  ['pepper', 'Bell pepper', 'перец|перц|pepper', 26, 1, 150, 150],
+  ['carrot', 'Carrot', 'морков|carrot', 41, 0.9, 80, 80],
+  ['cabbage', 'Cabbage', 'капуст|cabbage', 25, 1.3, 0, 100],
+  ['broccoli', 'Broccoli', 'брокколи|broccoli', 34, 2.8, 0, 150],
+  ['cauliflower', 'Cauliflower', 'цветн|cauliflower', 25, 1.9, 0, 150],
+  ['zucchini', 'Courgette', 'кабач|цукин|zucchini|courgette', 17, 1.2, 200, 200],
+  ['eggplant', 'Aubergine', 'баклажан|eggplant|aubergine', 25, 1, 250, 200],
+  ['onion', 'Onion', 'лук|onion', 40, 1.1, 110, 50],
+  ['beetroot', 'Beetroot, boiled', 'свекл|свёкл|beet', 44, 1.7, 150, 100],
+  ['spinach', 'Spinach', 'шпинат|spinach', 23, 2.9, 0, 50],
+  ['salad_leaves', 'Salad leaves', 'салатные листья|листья салата|айсберг|руккол|латук|lettuce|rocket|arugula', 15, 1.4, 0, 50],
+  ['greens', 'Herbs (parsley, dill, coriander)', 'зелень|петрушк|укроп|кинз|тархун|базилик|herbs|parsley|dill|coriander', 36, 3, 0, 20],
+  ['mushrooms', 'Mushrooms', 'гриб|шампиньон|mushroom', 22, 3.1, 0, 100],
+  ['pumpkin', 'Pumpkin', 'тыкв|pumpkin', 26, 1, 0, 150],
+  ['corn', 'Sweetcorn', 'кукуруз|corn', 86, 3.3, 0, 80],
+  ['avocado', 'Avocado', 'авокадо|avocado', 160, 2, 150, 75],
+  ['olives', 'Olives', 'олив|маслин|olive', 115, 0.8, 4, 30],
+  ['green_beans', 'Green beans', 'стручков|green bean', 31, 1.8, 0, 100],
+  ['radish', 'Radish', 'редис|radish', 16, 0.7, 15, 50],
+  ['celery', 'Celery', 'сельдер|celery', 16, 0.7, 0, 50],
+  ['pickles', 'Pickled cucumbers', 'солен огур|маринован|соленые огурцы|pickle', 11, 0.3, 60, 60],
+  ['sauerkraut', 'Sauerkraut', 'квашен|sauerkraut', 19, 0.9, 0, 100],
+  ['veg_salad', 'Vegetable salad with oil', 'овощной салат|салат из овощей|салат с маслом|vegetable salad|salad', 80, 1.2, 0, 200],
+  ['greek_salad', 'Greek salad', 'греческий салат|greek salad', 110, 3, 0, 200],
+  ['vinaigrette', 'Vinaigrette (beet salad)', 'винегрет|vinaigrette', 76, 1.6, 0, 200],
+  ['veg_stew', 'Vegetable stew', 'рагу|овощное рагу|аджапсандал|ajapsandal|stew|ratatouille|рататуй', 60, 1.5, 0, 250],
+
+  // fruit
+  ['apple', 'Apple', 'яблок|apple', 52, 0.3, 180, 180],
+  ['banana', 'Banana', 'банан|banana', 89, 1.1, 120, 120],
+  ['orange', 'Orange', 'апельсин|orange', 47, 0.9, 140, 140],
+  ['tangerine', 'Tangerine', 'мандарин|tangerine|clementine', 53, 0.8, 75, 75],
+  ['pear', 'Pear', 'груш|pear', 57, 0.4, 170, 170],
+  ['grapes', 'Grapes', 'виноград|grape', 69, 0.7, 0, 150],
+  ['peach', 'Peach', 'персик|нектарин|peach|nectarine', 39, 0.9, 150, 150],
+  ['apricot', 'Apricot', 'абрикос|apricot', 48, 1.4, 35, 105],
+  ['plum', 'Plum', 'слив|plum', 46, 0.7, 30, 90],
+  ['cherries', 'Cherries', 'черешн|вишн|cherr', 63, 1.1, 0, 150],
+  ['strawberries', 'Strawberries', 'клубник|земляник|strawberr', 32, 0.7, 0, 150],
+  ['raspberries', 'Raspberries', 'малин|raspberr', 52, 1.2, 0, 100],
+  ['blueberries', 'Blueberries', 'черник|голубик|blueberr', 57, 0.7, 0, 100],
+  ['watermelon', 'Watermelon', 'арбуз|watermelon', 30, 0.6, 0, 300],
+  ['melon', 'Melon', 'дын|melon', 34, 0.8, 0, 250],
+  ['pomegranate', 'Pomegranate', 'гранат|pomegranate', 83, 1.7, 150, 150],
+  ['kiwi', 'Kiwi', 'киви|kiwi', 61, 1.1, 75, 75],
+  ['persimmon', 'Persimmon', 'хурм|persimmon', 70, 0.6, 170, 170],
+  ['fig', 'Fig, fresh', 'инжир|fig', 74, 0.8, 50, 100],
+  ['pineapple', 'Pineapple', 'ананас|pineapple', 50, 0.5, 0, 150],
+  ['mango', 'Mango', 'манго|mango', 60, 0.8, 200, 150],
+  ['lemon', 'Lemon', 'лимон|lemon', 29, 1.1, 0, 20],
+  ['raisins', 'Raisins', 'изюм|raisin', 299, 3.1, 0, 30],
+  ['dried_apricots', 'Dried apricots', 'кураг|dried apricot', 241, 3.4, 8, 30],
+  ['prunes', 'Prunes', 'чернослив|prune', 240, 2.2, 8, 30],
+  ['dates', 'Dates', 'финик|dates|date fruit', 282, 2.5, 8, 30],
+  ['dried_figs', 'Dried figs', 'сушеный инжир|сушёный инжир|dried fig', 249, 3.3, 20, 40],
+
+  // nuts, seeds
+  ['walnuts', 'Walnuts', 'грецк|walnut', 654, 15, 5, 30],
+  ['almonds', 'Almonds', 'миндал|almond', 579, 21, 1.2, 30],
+  ['hazelnuts', 'Hazelnuts', 'фундук|лесн|hazelnut', 628, 15, 1.5, 30],
+  ['cashews', 'Cashews', 'кешью|cashew', 553, 18, 1.6, 30],
+  ['peanuts', 'Peanuts', 'арахис|peanut', 567, 26, 1, 30],
+  ['pistachios', 'Pistachios', 'фисташ|pistachio', 560, 20, 0.7, 30],
+  ['nuts', 'Mixed nuts', 'орех|nuts|nut mix', 607, 20, 0, 30],
+  ['sunflower_seeds', 'Sunflower seeds', 'семечк|подсолнечн семеч|sunflower seed', 584, 21, 0, 30],
+  ['pumpkin_seeds', 'Pumpkin seeds', 'тыквенн|pumpkin seed', 559, 30, 0, 30],
+  ['chia', 'Chia seeds', 'чиа|chia', 486, 17, 0, 15, '', {tbsp:12}],
+  ['flax', 'Flax seeds', 'льн|лён|flax|linseed', 534, 18, 0, 15, '', {tbsp:10}],
+  ['sesame', 'Sesame', 'кунжут|sesame', 573, 18, 0, 10, '', {tbsp:9}],
+  ['peanut_butter', 'Peanut butter', 'арахисовая паста|арахисовое масло|peanut butter', 588, 25, 0, 16, '', {tbsp:16, tsp:5}],
+  ['tahini', 'Tahini', 'тахин|кунжутная паста|tahini', 595, 17, 0, 15, '', {tbsp:15}],
+
+  // fats, sauces, sweeteners
+  ['oil', 'Oil (olive, sunflower)', 'масл|оливков|подсолнечн|oil', 884, 0, 0, 10, '', {tbsp:13, tsp:4.5}],
+  ['mayonnaise', 'Mayonnaise', 'майонез|mayo', 680, 1, 0, 15, '', {tbsp:15}],
+  ['ketchup', 'Ketchup', 'кетчуп|ketchup', 112, 1.2, 0, 17, '', {tbsp:17}],
+  ['soy_sauce', 'Soy sauce', 'соев соус|соевый|soy sauce', 53, 8, 0, 15, '', {tbsp:16}],
+  ['pesto', 'Pesto', 'песто|pesto', 458, 5, 0, 20, '', {tbsp:15}],
+  ['honey', 'Honey', 'мед|мёд|honey', 304, 0.3, 0, 20, '', {tbsp:21, tsp:7}],
+  ['sugar', 'Sugar', 'сахар|sugar', 387, 0, 5, 5, '', {tbsp:12, tsp:5}],
+  ['jam', 'Jam', 'варень|джем|конфитюр|jam', 250, 0.4, 0, 20, '', {tbsp:20, tsp:7}],
+  ['maple_syrup', 'Syrup', 'сироп|syrup', 260, 0, 0, 20, '', {tbsp:20}],
+
+  // sweets and snacks
+  ['dark_chocolate', 'Dark chocolate', 'горький шоколад|темный шоколад|тёмный шоколад|dark chocolate', 546, 5, 5, 20],
+  ['chocolate', 'Milk chocolate', 'шоколад|chocolate', 535, 7.6, 5, 20],
+  ['choc_bar', 'Chocolate bar (Snickers-type)', 'сникерс|марс|твикс|батончик шоколад|snickers|mars|twix', 488, 8, 50, 50],
+  ['protein_bar', 'Protein bar', 'протеиновый батончик|протеин батончик|protein bar', 350, 30, 60, 60],
+  ['cereal_bar', 'Cereal bar', 'батончик|злаковый|cereal bar|granola bar', 400, 6, 25, 25],
+  ['cookie', 'Biscuit, cookie', 'печень|cookie|biscuit', 480, 6, 12, 36],
+  ['gata', 'Gata', 'гата|gata', 390, 6, 80, 80],
+  ['baklava', 'Baklava', 'пахлав|баклав|baklava', 428, 6, 40, 40],
+  ['cake', 'Cake', 'торт|пирожн|cake', 350, 5, 0, 100],
+  ['cheesecake', 'Cheesecake', 'чизкейк|cheesecake', 321, 5.5, 0, 100],
+  ['muffin', 'Muffin', 'маффин|кекс|muffin|cupcake', 377, 5, 90, 90],
+  ['donut', 'Doughnut', 'пончик|donut|doughnut', 452, 5, 60, 60],
+  ['zefir', 'Zefir, marshmallow', 'зефир|пастил|marshmallow', 326, 0.8, 30, 30],
+  ['halva', 'Halva', 'халв|halva', 516, 12, 0, 30],
+  ['sweets', 'Sweets, candy', 'конфет|candy|sweets', 400, 3, 10, 20],
+  ['chips', 'Crisps', 'чипс|crisps|potato chips', 536, 7, 0, 30],
+  ['popcorn', 'Popcorn', 'попкорн|popcorn', 387, 13, 0, 30],
+  ['crackers', 'Crackers', 'крекер|cracker|сушк|сухар', 440, 9, 5, 30],
+
+  // drinks
+  ['coffee', 'Coffee, black', 'кофе|эспрессо|американо|coffee|espresso|americano', 2, 0.1, 0, 200, '', {cup:200}],
+  ['tea', 'Tea', 'чай|tea', 1, 0, 0, 250, '', {cup:250}],
+  ['latte', 'Latte', 'латте|latte', 54, 3, 0, 300, '', {cup:300}],
+  ['cappuccino', 'Cappuccino', 'капучино|cappuccino|флэт уайт|flat white', 40, 2.2, 0, 200, '', {cup:200}],
+  ['cocoa', 'Hot chocolate, cocoa', 'какао|горячий шоколад|cocoa|hot chocolate', 77, 3.5, 0, 250, '', {cup:250}],
+  ['juice', 'Juice', 'сок|juice', 46, 0.5, 0, 250, '', {cup:250}],
+  ['cola', 'Cola, soda', 'кола|лимонад|газировк|фант|спрайт|cola|coke|soda|lemonade', 42, 0, 0, 330, '', {cup:250}],
+  ['smoothie', 'Smoothie', 'смузи|smoothie', 60, 1, 0, 300, '', {cup:300}],
+  ['kompot', 'Kompot', 'компот|морс|kompot', 40, 0.2, 0, 250, '', {cup:250}],
+  ['wine', 'Wine', 'вин|wine|просекко|шампанск|prosecco|champagne', 84, 0.1, 0, 150, '', {cup:150}],
+  ['beer', 'Beer', 'пив|beer', 43, 0.5, 0, 500, '', {cup:500}],
+  ['protein_shake', 'Protein shake', 'протеин|protein shake|protein', 110, 20, 0, 300, '', {cup:300}],
+
+  // dishes, typical recipes
+  ['pizza', 'Pizza margherita', 'пицц|pizza', 266, 11, 110, 220],
+  ['khachapuri', 'Khachapuri', 'хачапури|khachapuri', 290, 11, 0, 200],
+  ['lentil_soup', 'Lentil soup', 'чечевичный суп|суп из чечевицы|lentil soup', 70, 4, 0, 300],
+  ['veg_soup', 'Vegetable soup', 'суп|щи|soup', 35, 1.5, 0, 300],
+  ['borscht', 'Borscht, vegetarian', 'борщ|borscht|borsch', 40, 1.3, 0, 300],
+  ['cream_soup', 'Cream soup', 'крем-суп|суп-пюре|крем суп|cream soup', 60, 1.5, 0, 300],
+  ['spas', 'Spas (yoghurt soup)', 'спас|spas', 50, 2.5, 0, 300],
+  ['pasta_tomato', 'Pasta with tomato sauce', 'паста с томат|макароны с томат|паста помидор|pasta with tomato|pasta pomodoro', 130, 4.5, 0, 300],
+  ['pasta_cheese', 'Pasta with cheese', 'макароны с сыром|паста с сыром|mac and cheese|pasta with cheese', 164, 7, 0, 300],
+  ['vareniki_potato', 'Vareniki with potato', 'вареники с картош|vareniki with potato', 148, 4, 0, 200],
+  ['vareniki_tvorog', 'Vareniki with tvorog', 'вареники с творог|вареники|vareniki', 200, 10, 0, 200],
+  ['sushi', 'Sushi, vegetarian rolls', 'ролл|суши|sushi|roll', 150, 3, 30, 240],
+  ['caprese', 'Caprese', 'капрезе|caprese', 190, 10, 0, 150],
+  ['guacamole', 'Guacamole', 'гуакамоле|guacamole', 160, 2, 0, 50]
+];
+/* ---------- Food: write what you ate, the app counts ----------
+   «гречка 150 г, 2 яйца, огурец» becomes three lines with calories. Stems find
+   the food, the number and the unit find the grams, and anything unknown can be
+   taught once and is remembered. Nothing leaves the phone. */
+FOOD_DB.push(
+  ['water', 'Water', 'вод|water', 0, 0, 0, 250, '', {cup:250}],
+  ['coffee_milk', 'Coffee with milk', 'кофе с молоком|coffee with milk', 25, 1.2, 0, 250, '', {cup:250}]
+);
+const FD_BY = {};
+FOOD_DB.forEach(function(r){ FD_BY[r[0]] = r; });
+const FD_ACT = [
+  ['light',    1.375, 'Light',    'Yoga a few times a week, mostly sitting otherwise'],
+  ['moderate', 1.55,  'Moderate', 'Yoga most days and the pool — your plan'],
+  ['active',   1.725, 'Active',   'Hard training almost every day, lots of walking']
+];
+const FD_PACE = [[0.1, 'Gentle', '−10%, about 0.25 kg a week'], [0.2, 'Steady', '−20%, about 0.4 kg a week']];
+let fdEdit = null;
+
+function fdState(){
+  if(!state.food) state.food = {};
+  const f = state.food;
+  if(!f.days) f.days = {}; if(!f.my) f.my = {}; if(!f.weight) f.weight = {};
+  if(!f.prof) f.prof = {sex:'f', age:0, h:169, w:70, act:'moderate', pace:0.2};
+  return f;
+}
+function fdLatestWeight(){
+  const f = fdState(), ks = Object.keys(f.weight).sort();
+  return ks.length ? f.weight[ks[ks.length - 1]] : f.prof.w;
+}
+/* Mifflin–St Jeor for the resting burn, times activity for the day, minus the deficit — never below the resting burn */
+function fdPlan(){
+  const p = fdState().prof, w = fdLatestWeight();
+  if(!p.age) return null;
+  const bmr = 10 * w + 6.25 * p.h - 5 * p.age + (p.sex === 'm' ? 5 : -161);
+  const act = (FD_ACT.find(function(a){ return a[0] === p.act; }) || FD_ACT[1])[1];
+  const tdee = bmr * act;
+  const auto = Math.max(Math.round(tdee * (1 - p.pace) / 10) * 10, Math.round(bmr / 10) * 10);
+  return {bmr:Math.round(bmr), tdee:Math.round(tdee / 10) * 10, auto:auto, target:p.target || auto, protein:Math.round(w * 1.4)};
+}
+function fdDay(key){ const f = fdState(); return f.days[key] || (f.days[key] = []); }
+function fdTotals(key){
+  const d = (fdState().days[key] || []);
+  return d.reduce(function(a, e){ a.kcal += e.kcal || 0; a.p += e.p || 0; return a; }, {kcal:0, p:0});
+}
+
+/* ---- reading what she typed ---- */
+function fdNorm(s){ return ' ' + String(s).toLowerCase().replace(/ё/g, 'е').replace(/\s+/g, ' ').trim() + ' '; }
+function fdMatch(text){
+  const t = fdNorm(text), my = fdState().my;
+  let best = null, bestLen = 0;
+  Object.keys(my).forEach(function(name){
+    if(t.indexOf(' ' + name) !== -1 && name.length > bestLen){ best = {my:name}; bestLen = name.length; }
+  });
+  FOOD_DB.forEach(function(r){
+    if(!r[2]) return;
+    r[2].split('|').forEach(function(a){
+      const al = fdNorm(a).trim();
+      if(al && t.indexOf(' ' + al) !== -1 && al.length > bestLen){ best = {row:r, alias:al}; bestLen = al.length; }
+    });
+  });
+  if(best && best.row){
+    const r = best.row;
+    if(r[7] && /(^|\s)(сух|dry|raw|крупа|крупы|хлопья|flakes)/.test(t) && r[0] !== 'oats_dry') best.row = FD_BY[r[7]];
+    if(r[0] === 'oats_dry' && /(^|\s)(варен|cooked|каша на вод|на воде|porridge)/.test(t)) best.row = FD_BY.oats_cooked;
+  }
+  return best;
+}
+const FD_NUM = '(\\d+(?:[.,]\\d+)?|½|¼)';
+const FD_UNITS = [
+  ['kg',   '(?:кг|kg)'],
+  ['l',    '(?:л|l|литр[а-я]*|litres?|liters?)'],
+  ['g',    '(?:г|гр|грамм[а-я]*|g|gr|grams?)'],
+  ['ml',   '(?:мл|ml)'],
+  ['tbsp', '(?:ст\\.?\\s?л\\.?|столов[а-я]*\\s+ложк[а-я]*|ложк[а-я]*|tbsp|tablespoons?|spoons?)'],
+  ['tsp',  '(?:ч\\.?\\s?л\\.?|чайн[а-я]*\\s+ложк[а-я]*|tsp|teaspoons?)'],
+  ['cup',  '(?:стакан[а-я]*|бокал[а-я]*|кружк[а-я]*|чашк[а-я]*|cups?|glass(?:es)?|mugs?)'],
+  ['slice','(?:кус[а-я]*|ломт[а-я]*|дольк[а-я]*|slices?|pieces?)'],
+  ['hand', '(?:горст[а-я]*|handfuls?)'],
+  ['bowl', '(?:тарелк[а-я]*|миск[а-я]*|bowls?|plates?)'],
+  ['por',  '(?:порци[а-я]*|portions?|servings?)'],
+  ['pc',   '(?:шт[а-я]*|pcs?|x)']
+];
+function fdNum(s){ return s === '½' ? 0.5 : s === '¼' ? 0.25 : parseFloat(String(s).replace(',', '.')); }
+function fdUnitGrams(u, r){
+  const x = (r && r[8]) || {};
+  if(u === 'kg') return 1000; if(u === 'l') return 1000; if(u === 'g' || u === 'ml') return 1;
+  if(u === 'tbsp') return x.tbsp || 15; if(u === 'tsp') return x.tsp || 5;
+  if(u === 'cup') return x.cup || 250; if(u === 'hand') return 30; if(u === 'bowl') return 300;
+  if(u === 'por') return (r && r[6]) || 250;
+  if(u === 'slice' || u === 'pc') return (r && (r[5] || r[6])) || 100;
+  return 1;
+}
+function fdQty(text, r){
+  const t = fdNorm(text).replace(/\d+(?:[.,]\d+)?\s*%/g, ' ');
+  for(const u of FD_UNITS){
+    const m = new RegExp(FD_NUM + '\\s*' + u[1] + '(?![а-яa-z])', 'i').exec(t);
+    if(m) return fdNum(m[1]) * fdUnitGrams(u[0], r);
+  }
+  const half = /(^|\s)пол(овин[а-я]*)?(\s|стакан|тарелк|порци|кус|банан|яблок|авокадо)/.test(t) ? 0.5 : 0;
+  for(const u of FD_UNITS){
+    if(new RegExp('(^|\\s)(?:пол)?' + u[1] + '(?![а-яa-z])', 'i').test(t)) return (half || 1) * fdUnitGrams(u[0], r);
+  }
+  const n = /(^|\s)(\d+(?:[.,]\d+)?|½|¼)(?=\s|$)/.exec(t);
+  if(n){
+    const v = fdNum(n[2]);
+    if(r && r[5] && v <= 12) return v * r[5];
+    return v;
+  }
+  if(half) return 0.5 * ((r && (r[5] || r[6])) || 100);
+  return r ? (r[6] || r[5] || 100) : 100;
+}
+/* one line of what she wrote → one or more entries */
+function fdParseItem(raw){
+  const text = raw.trim();
+  if(!text) return [];
+  const direct = /(\d+)\s*(ккал|kcal|кал|cal)(?![а-яa-z])/i.exec(text);
+  if(direct){
+    return [{t:text, name:text.replace(direct[0], '').trim() || 'Something', k:'', g:0, kcal:+direct[1], p:0}];
+  }
+  const m = fdMatch(text);
+  if(!(m && m.alias && m.alias.indexOf(' с ') !== -1) && /\s(с|со|with)\s/i.test(' ' + text + ' ')){
+    const parts = (' ' + text + ' ').split(/\s(?:с|со|with)\s/i).map(function(x){ return x.trim(); }).filter(Boolean);
+    if(parts.length > 1) return parts.reduce(function(a, p){ return a.concat(fdParseItem(p)); }, []);
+  }
+  if(m && m.my){
+    const v = fdState().my[m.my], g = fdQty(text, null);
+    return [{t:text, name:m.my.replace(/^./, function(c){ return c.toUpperCase(); }), k:'my:' + m.my, g:Math.round(g),
+             kcal:Math.round(v[0] * g / 100), p:Math.round((v[1] || 0) * g / 10) / 10}];
+  }
+  if(m && m.row){
+    const r = m.row, g = fdQty(text, r);
+    return [{t:text, name:r[1], k:r[0], g:Math.round(g), kcal:Math.round(r[3] * g / 100), p:Math.round(r[4] * g / 10) / 10}];
+  }
+  return [{t:text, name:text, k:'', g:Math.round(fdQty(text, null)), kcal:0, p:0, u:1}];
+}
+function fdParse(input){
+  return String(input).split(/\n|,|;|\+|\s+и\s+|\s+and\s+/i).reduce(function(a, p){ return a.concat(fdParseItem(p)); }, []);
+}
+function fdAdd(input){
+  const list = fdParse(input);
+  if(!list.length) return [];
+  const day = fdDay(today()), now = Date.now();
+  list.forEach(function(e, i){ e.id = 'f' + now.toString(36) + i; e.at = now; day.push(e); });
+  save();
+  return list;
+}
+
+/* ---- the card on Today ---- */
+function fdTodayCard(){
+  const plan = fdPlan(), tot = fdTotals(today());
+  if(!plan){
+    return '<section class="fd-card"><div class="top"><p class="eyebrow">🍽 Food</p></div>'+
+      '<h3>Count calories the easy way</h3><p class="fd-sub">Write what you ate — «гречка 150 г, 2 яйца» — and the app counts. First, a few numbers so it knows your target.</p>'+
+      '<button class="btn btn-primary btn-full" data-act="fd-setup">Set my target</button></section>';
+  }
+  const left = plan.target - tot.kcal, pct = Math.min(100, Math.round(100 * tot.kcal / plan.target));
+  return '<section class="fd-card'+(left < 0 ? ' over' : '')+'">'+
+    '<button class="fd-top" data-act="fd-open"><span class="eyebrow">🍽 Food</span><span class="go">Diary →</span></button>'+
+    '<div class="fd-nums"><b class="num">'+(left >= 0 ? left : -left)+'</b><span>'+(left >= 0 ? 'kcal left' : 'kcal over')+' · '+tot.kcal+' of '+plan.target+'</span></div>'+
+    '<div class="pbar"><i style="width:'+pct+'%"></i></div>'+
+    '<form class="fd-quick" onsubmit="return false"><input id="fdQuick" type="text" autocomplete="off" enterkeyhint="done" placeholder="What did you eat? e.g. овсянка 50 г, банан">'+
+    '<button type="button" class="btn btn-primary btn-sm" data-act="fd-add">Add</button></form>'+
+    '</section>';
+}
+
+/* ---- the diary page ---- */
+function fdTime(ts){ const d = new Date(ts); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }
+function renderFood(){
+  const plan = fdPlan(), key = today(), day = fdDay(key), tot = fdTotals(key), f = fdState();
+  let h = '<button class="backbtn" data-act="fd-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to today</button>'+
+    '<p class="eyebrow">Food · '+WDAYS[new Date().getDay()]+'</p>';
+  if(plan){
+    const left = plan.target - tot.kcal;
+    h += '<h2 class="rec-title">'+(left >= 0 ? left+' kcal left' : (-left)+' kcal over')+'</h2>'+
+      '<div class="pbar"><i style="width:'+Math.min(100, Math.round(100 * tot.kcal / plan.target))+'%"></i></div>'+
+      '<div class="stats" style="margin:14px 0 4px">'+
+        '<div class="stat"><b class="num">'+tot.kcal+'</b><span>eaten, kcal</span></div>'+
+        '<div class="stat"><b class="num">'+plan.target+'</b><span>today’s target</span></div>'+
+        '<div class="stat"><b class="num">'+Math.round(tot.p)+'</b><span>protein, g · aim ~'+plan.protein+'</span></div>'+
+      '</div>';
+  }
+  h += '<form class="fd-quick fd-quick-page" onsubmit="return false"><textarea id="fdQuick" rows="2" placeholder="гречка 150 г, 2 яйца, огурец\nкофе с молоком"></textarea>'+
+    '<button type="button" class="btn btn-primary" data-act="fd-add">Add</button></form>';
+
+  h += '<section class="rd-block"><p class="eyebrow">Today</p>';
+  if(!day.length) h += '<p class="fd-sub">Nothing yet. Separate foods with commas; a number with г, мл, шт, ст.л. or стакан sets the amount, and without one a usual portion is used.</p>';
+  else h += '<div class="fd-list">'+day.map(function(e){
+    return '<button class="fd-row'+(e.u ? ' unknown' : '')+'" data-act="fd-edit" data-id="'+e.id+'">'+
+      '<span class="fd-t"><b>'+esc(e.name)+'</b><small>'+fdTime(e.at)+(e.g ? ' · '+e.g+' g' : '')+(e.k && e.name !== e.t ? ' · '+esc(e.t) : '')+'</small></span>'+
+      '<span class="fd-k num">'+(e.u ? '?' : e.kcal)+'</span></button>';
+  }).join('')+'</div>';
+  h += '</section>';
+
+  const ws = weekStart(key);
+  if(plan){
+    h += '<section class="rd-block"><p class="eyebrow">This week</p><div class="fd-week">';
+    for(let i = 0; i < 7; i++){
+      const d = shift(ws, i), t = fdTotals(d).kcal, hgt = Math.min(100, Math.round(100 * t / (plan.target * 1.3)));
+      h += '<div class="'+(d === key ? 'now' : '')+(t > plan.target ? ' over' : '')+'"><i style="height:'+hgt+'%"></i><span>'+WSHORT[i]+'</span><small class="num">'+(t || '')+'</small></div>';
+    }
+    h += '</div><p class="fd-sub" style="text-align:center">The line is your target of '+plan.target+' kcal.</p></section>';
+  }
+
+  const wk = Object.keys(f.weight).sort();
+  const lastW = fdLatestWeight(), firstW = wk.length ? f.weight[wk[0]] : null;
+  h += '<section class="rd-block"><p class="eyebrow">Weight</p><div class="fd-weight">'+
+    '<div><b class="num">'+lastW+'</b><span>kg'+(wk.length ? ' · '+fdShortDate(wk[wk.length - 1]) : ' · from the setup')+'</span></div>'+
+    (firstW != null && wk.length > 1 ? '<div><b class="num">'+(lastW - firstW > 0 ? '+' : '')+(Math.round((lastW - firstW) * 10) / 10)+'</b><span>kg since '+fdShortDate(wk[0])+'</span></div>' : '')+
+    '<button class="btn btn-sm" data-act="fd-weigh">Log weight</button></div>'+
+    '<p class="fd-sub">Once a week is enough — the same morning, before breakfast. Day-to-day numbers jump with water, not fat.</p></section>';
+
+  if(plan){
+    h += '<section class="rd-block"><p class="eyebrow">How the target is set</p><p class="fd-sub">'+
+      'Resting burn about <b>'+plan.bmr+'</b> kcal, a normal day with your activity about <b>'+plan.tdee+'</b>. '+
+      (f.prof.target ? 'You set the target by hand.' : 'The target is that minus '+Math.round(f.prof.pace * 100)+'%, and never below the resting burn.')+
+      ' It is an estimate from a standard formula, not a medical prescription.</p>'+
+      '<button class="btn btn-ghost btn-full" data-act="fd-setup">Change my numbers</button></section>';
+  }
+  view.innerHTML = h;
+}
+function fdShortDate(k){ const d = toDate(k); return MONTHS[d.getMonth()].slice(0, 3) + ' ' + d.getDate(); }
+
+/* ---- sheets ---- */
+function sheetFoodSetup(){
+  const p = fdState().prof;
+  openSheet('<h2>Your numbers</h2><p class="sub">Used only on this phone, to estimate how much you burn in a day.</p>'+
+    '<div class="field"><label for="fdAge">Age</label><input type="number" id="fdAge" inputmode="numeric" min="14" max="90" value="'+(p.age || '')+'" placeholder="for example 34"></div>'+
+    '<div class="fd-two"><div class="field"><label for="fdH">Height, cm</label><input type="number" id="fdH" inputmode="decimal" value="'+p.h+'"></div>'+
+    '<div class="field"><label for="fdW">Weight, kg</label><input type="number" id="fdW" inputmode="decimal" step="0.1" value="'+fdLatestWeight()+'"></div></div>'+
+    '<p class="fd-q">How active are you?</p><div class="fd-opts">'+FD_ACT.map(function(a){
+      return '<button type="button" class="fd-opt" data-act="fd-pick" data-g="act" data-v="'+a[0]+'" aria-pressed="'+(p.act === a[0])+'"><b>'+a[2]+'</b><span>'+a[3]+'</span></button>';
+    }).join('')+'</div>'+
+    '<p class="fd-q">How fast?</p><div class="fd-opts">'+FD_PACE.map(function(a){
+      return '<button type="button" class="fd-opt" data-act="fd-pick" data-g="pace" data-v="'+a[0]+'" aria-pressed="'+(p.pace === a[0])+'"><b>'+a[1]+'</b><span>'+a[2]+'</span></button>';
+    }).join('')+'</div>'+
+    '<div class="field"><label for="fdT">Your own target, kcal (leave empty to let the app count)</label><input type="number" id="fdT" inputmode="numeric" value="'+(p.target || '')+'"></div>'+
+    '<div class="sheet-actions"><button class="btn btn-primary btn-full" data-act="fd-save">Save</button></div>');
+}
+function sheetFoodEdit(e){
+  const known = !e.u;
+  openSheet('<h2>'+esc(e.name)+'</h2><p class="sub">You wrote: «'+esc(e.t)+'»</p>'+
+    (known
+      ? '<div class="field"><label for="fdG">Grams</label><input type="number" id="fdG" inputmode="decimal" value="'+e.g+'"></div>'+
+        '<p class="sub" style="margin-top:-6px">'+e.kcal+' kcal now'+(e.p ? ' · '+e.p+' g protein' : '')+'</p>'
+      : '<p class="sub">I don’t know this one yet. Tell me once and I will remember it.</p>'+
+        '<div class="fd-two"><div class="field"><label for="fdK100">kcal per 100 g</label><input type="number" id="fdK100" inputmode="decimal" placeholder="from the pack"></div>'+
+        '<div class="field"><label for="fdG">Grams eaten</label><input type="number" id="fdG" inputmode="decimal" value="'+(e.g || 100)+'"></div></div>'+
+        '<div class="field"><label for="fdP100">Protein per 100 g (optional)</label><input type="number" id="fdP100" inputmode="decimal"></div>')+
+    '<div class="sheet-actions"><button class="btn btn-danger" data-act="fd-del" data-id="'+e.id+'">Delete</button>'+
+    '<button class="btn btn-primary" data-act="fd-upd" data-id="'+e.id+'">Save</button></div>');
+}
+function sheetWeigh(){
+  openSheet('<h2>Today’s weight</h2><p class="sub">Morning, before breakfast, same scales.</p>'+
+    '<div class="field"><label for="fdKg">Kilograms</label><input type="number" id="fdKg" inputmode="decimal" step="0.1" value="'+fdLatestWeight()+'"></div>'+
+    '<div class="sheet-actions"><button class="btn btn-primary btn-full" data-act="fd-weigh-save">Save</button></div>');
+}
+
 /* ---------- Storage ---------- */
 const KEY = 'ritm.v1';
 let memory = null;
@@ -2005,7 +2530,9 @@ function sheetTodo(id){
 function renderToday(){
   const hs = activeHabits(), n = hs.length;
 
+  if(todayView === 'food') return renderFood();
   let html = tdTodayCard();
+  html += fdTodayCard();
 
   if(n===0){
     html += '<div class="empty"><div style="font-size:40px">🌱</div><p>Your habits will live here.<br>Start with one. Really, just one.</p>'+
@@ -2714,6 +3241,66 @@ document.addEventListener('click', function(e){
     state.todos = todos().filter(function(x){ return x.id !== id; });
     save(); closeSheet(); go('todo'); toast('Deleted');
   }
+  else if(act==='fd-setup'){ sheetFoodSetup(); }
+  else if(act==='fd-pick'){
+    btn.parentElement.querySelectorAll('.fd-opt').forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+  }
+  else if(act==='fd-save'){
+    const p = fdState().prof;
+    const age = +$('#fdAge').value, hh = +$('#fdH').value, ww = +$('#fdW').value, tt = +$('#fdT').value;
+    if(!(age >= 14 && age <= 90)){ toast('Add your age first'); $('#fdAge').focus(); return; }
+    p.age = age; if(hh > 120 && hh < 230) p.h = hh;
+    if(ww > 30 && ww < 250){ p.w = ww; fdState().weight[today()] = ww; }
+    const a = sheet.querySelector('.fd-opt[data-g="act"][aria-pressed="true"]'), pc = sheet.querySelector('.fd-opt[data-g="pace"][aria-pressed="true"]');
+    if(a) p.act = a.getAttribute('data-v');
+    if(pc) p.pace = +pc.getAttribute('data-v');
+    if(tt >= 800 && tt <= 5000) p.target = tt; else delete p.target;
+    save(); closeSheet(); renderToday();
+    const pl = fdPlan();
+    toast('Your target: ' + pl.target + ' kcal a day' + (p.target && p.target < 1200 ? ' — that is very low' : ''));
+  }
+  else if(act==='fd-add'){
+    const inp = $('#fdQuick'), v = inp ? inp.value.trim() : '';
+    if(!v){ if(inp) inp.focus(); return; }
+    const added = fdAdd(v);
+    const unknown = added.filter(function(e){ return e.u; }).length;
+    renderToday();
+    toast(added.map(function(e){ return e.u ? '? ' + e.t : e.name + ' ' + e.kcal; }).join(' · ') + (unknown ? ' — tap the ? to teach me' : ''));
+  }
+  else if(act==='fd-open'){ todayView = 'food'; window.scrollTo(0,0); renderToday(); }
+  else if(act==='fd-close'){ todayView = 'main'; window.scrollTo(0,0); renderToday(); }
+  else if(act==='fd-edit'){
+    const e = fdDay(today()).find(function(x){ return x.id === btn.getAttribute('data-id'); });
+    if(e) sheetFoodEdit(e);
+  }
+  else if(act==='fd-upd'){
+    const day = fdDay(today()), e = day.find(function(x){ return x.id === btn.getAttribute('data-id'); });
+    if(!e) return;
+    const g = +($('#fdG') || {}).value;
+    if(e.u){
+      const k100 = +($('#fdK100') || {}).value, p100 = +($('#fdP100') || {}).value || 0;
+      if(!(k100 >= 0 && ($('#fdK100').value !== ''))){ toast('Add the calories per 100 g'); return; }
+      const name = fdNorm(e.t).replace(/\d+(?:[.,]\d+)?\s*[а-яa-z.]*/gi, ' ').replace(/\s+/g, ' ').trim();
+      if(name) fdState().my[name] = [k100, p100];
+      e.k = 'my:' + name; e.name = name.replace(/^./, function(c){ return c.toUpperCase(); }); delete e.u;
+      e.g = g > 0 ? g : 100; e.kcal = Math.round(k100 * e.g / 100); e.p = Math.round(p100 * e.g / 10) / 10;
+    } else if(g > 0){
+      const per = e.k && e.k.indexOf('my:') === 0 ? fdState().my[e.k.slice(3)] : (FD_BY[e.k] ? [FD_BY[e.k][3], FD_BY[e.k][4]] : null);
+      if(per){ e.g = g; e.kcal = Math.round(per[0] * g / 100); e.p = Math.round(per[1] * g / 10) / 10; }
+    }
+    save(); closeSheet(); renderToday();
+  }
+  else if(act==='fd-del'){
+    const f = fdState(), k = today();
+    f.days[k] = fdDay(k).filter(function(x){ return x.id !== btn.getAttribute('data-id'); });
+    save(); closeSheet(); renderToday();
+  }
+  else if(act==='fd-weigh'){ sheetWeigh(); }
+  else if(act==='fd-weigh-save'){
+    const kg = +$('#fdKg').value;
+    if(!(kg > 30 && kg < 250)){ toast('That doesn’t look like a weight'); return; }
+    fdState().weight[today()] = Math.round(kg * 10) / 10; save(); closeSheet(); renderToday(); toast('Saved — ' + kg + ' kg');
+  }
   else if(act==='yg-done'){
     const h = wkHabit();
     if(h) toggleHabit(h.id, btn.closest('.habit'));
@@ -2844,6 +3431,11 @@ document.addEventListener('input', function(e){
   if(e.target && e.target.id === 'tdQuick'){ todoDraft = e.target.value; }
 });
 document.addEventListener('keydown', function(e){
+  if(e.key === 'Enter' && !e.shiftKey && e.target && e.target.id === 'fdQuick'){
+    e.preventDefault();
+    const b = document.querySelector('[data-act="fd-add"]'); if(b) b.click();
+    return;
+  }
   if(e.key === 'Enter' && e.target && e.target.id === 'tdQuick'){
     e.preventDefault();
     const b = document.querySelector('[data-act="td-quick"]'); if(b) b.click();
