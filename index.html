@@ -939,6 +939,63 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .fd-opt b{ display:block; font-size:14.5px; }
 .fd-opt span{ display:block; margin-top:2px; font-size:12.5px; color:var(--ink-mute); }
 .fd-opt[aria-pressed="true"]{ border-color:var(--accent); background:var(--accent-soft); }
+/* ---------- Speaking: words, recordings; daily check-in ---------- */
+.tk-take{ grid-template-columns:52px 1fr; }
+.tk-take-acts{ grid-column:1 / -1; display:flex; flex-wrap:wrap; gap:8px; margin:2px 0 6px; }
+.tk-said{ margin-top:10px; }
+.tk-said label{ display:block; margin-bottom:6px; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-mute); }
+.tk-said textarea{ width:100%; padding:10px 12px; border-radius:var(--radius); border:var(--border-w) solid var(--line); background:var(--ground); color:var(--ink); font:inherit; font-size:14.5px; line-height:1.45; margin-bottom:8px; }
+.tk-text .tk-w{ cursor:pointer; border-radius:4px; }
+.tk-text .tk-w.on{ background:var(--accent-soft); box-shadow:0 0 0 2px var(--accent-soft); }
+.tk-single .tk-ru-big{ font-size:14.5px; color:var(--ink-soft); }
+.tk-trbtn{ display:block; margin:0 auto 12px; padding:7px 12px; border-radius:999px; font-size:12.5px; font-weight:700; color:var(--ink-mute); border:var(--border-w) dashed var(--line); }
+.tk-trbtn[aria-pressed="true"]{ color:var(--accent); border-style:solid; border-color:var(--accent); background:var(--accent-soft); }
+.tk-trbtn small{ font-weight:600; opacity:.7; }
+.md-card{ background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius-lg); box-shadow:var(--shadow); padding:15px 16px 16px; margin-bottom:20px; }
+.md-card > .eyebrow{ margin:0; color:var(--accent); }
+.md-card h3{ margin:6px 0 4px; font-family:var(--font-display); font-weight:var(--display-weight); font-size:19px; line-height:1.25; }
+.md-chips{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+.md-chips span{ padding:5px 10px; border-radius:999px; font-size:12.5px; font-weight:700; background:var(--surface-2); color:var(--ink-soft); }
+.md-q{ margin:20px 0 0; }
+.md-qt{ margin:0 0 9px; font-size:15px; line-height:1.45; font-weight:600; }
+.md-scale{ display:grid; grid-template-columns:repeat(5, 1fr); gap:6px; }
+.md-scale button{ padding:9px 4px; border-radius:var(--radius); border:var(--border-w) solid var(--line); background:var(--surface); color:var(--ink); font-size:12px; line-height:1.25; }
+.md-scale.big button{ font-size:22px; padding:8px 0; }
+.md-scale.small{ grid-template-columns:repeat(2, 1fr); margin-bottom:12px; }
+.md-scale button[aria-pressed="true"], .md-dots button[aria-pressed="true"]{ border-color:var(--accent); background:var(--accent); color:var(--accent-ink); }
+.md-legend{ margin:-4px 0 8px; font-size:12px; color:var(--ink-mute); }
+.md-row{ display:grid; grid-template-columns:110px 1fr; align-items:center; gap:10px; padding:5px 0; border-bottom:var(--border-w) solid var(--line); }
+.md-row span{ font-size:14.5px; font-weight:600; }
+.md-dots{ display:grid; grid-template-columns:repeat(5, 1fr); gap:5px; }
+.md-dots button{ height:34px; border-radius:10px; border:var(--border-w) solid var(--line); background:var(--surface); color:var(--ink-mute); font-weight:700; font-size:13px; }
+.md-wi{ margin:10px 0 6px; font-size:14px; line-height:1.4; }
+.md-src{ margin:14px 0 0; font-size:11.5px; line-height:1.5; color:var(--ink-mute); text-align:center; }
+.md-chart{ margin-bottom:12px; }
+.md-chart p{ margin:0 0 4px; font-size:12.5px; color:var(--ink-mute); }
+.md-chart b{ color:var(--ink); }
+.md-chart b.neg{ color:#C0392B; }
+.md-chart b.pos{ color:#2F7A55; }
+.md-spark{ display:block; width:100%; height:60px; background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius); }
+.md-spark polyline{ fill:none; stroke:var(--accent); stroke-width:2.2; stroke-linejoin:round; stroke-linecap:round; vector-effect:non-scaling-stroke; }
+.md-spark circle{ fill:var(--accent); }
+.md-spark.pa polyline{ stroke:#2F7A55; } .md-spark.pa circle{ fill:#2F7A55; }
+.md-spark.na polyline{ stroke:#C0392B; } .md-spark.na circle{ fill:#C0392B; }
+.md-two{ position:relative; height:60px; }
+.md-two svg{ position:absolute; inset:0; }
+.md-two svg + svg{ background:transparent; border-color:transparent; }
+.md-days{ display:grid; grid-template-columns:repeat(7, 1fr); font-size:10.5px; color:var(--ink-mute); }
+.md-stats{ display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
+.md-stats .stat{ padding:10px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); }
+.md-stats b{ display:block; font-size:19px; }
+.md-stats span{ font-size:11.5px; color:var(--ink-mute); }
+.md-stats i{ font-style:normal; font-size:11px; }
+.md-stats i.up{ color:#2F7A55; } .md-stats i.down{ color:#C0392B; }
+.md-ins{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:8px; font-size:14.5px; line-height:1.5; }
+.md-who5{ display:flex; gap:10px; flex-wrap:wrap; }
+.md-who5 div{ padding:8px 12px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); text-align:center; }
+.md-who5 b{ display:block; font-size:19px; }
+.md-who5 span{ font-size:11px; color:var(--ink-mute); }
+.md-care{ margin-top:14px; padding:12px 14px; border-radius:var(--radius); background:var(--accent-soft); font-size:14px; line-height:1.5; }
 .wk-strip{ display:flex; gap:6px; margin:14px 0 0; }
 .wk-strip div{ flex:1; text-align:center; }
 .wk-strip i{
@@ -1755,8 +1812,20 @@ function facePanel(h){
     FACE_VIDEOS.map(function(x){ return vidCard(x, false); }).join('')+'</div></div>';
 }
 
+/* the speaking habit: ticked by finishing a topic, and it opens straight into the roulette */
+function spHabit(){ return state.habits.find(function(h){ return /speak|говор|спикинг/i.test(h.title); }); }
+function spTick(){
+  const h = spHabit();
+  if(h && !isDone(h, today())){ setCount(h, today(), h.perDay || 1); save(); }
+}
+function spPanel(h){
+  return '<div class="hb-vids"><p class="hb-tip">Spin a topic and talk for a minute. Finishing a topic ticks this habit by itself.</p>'+
+    '<button class="btn btn-primary btn-sm" data-act="go-speak">Open the roulette →</button></div>';
+}
+
 /* ---------- Habits that open into something ---------- */
 const HABIT_PANELS = [
+  {match:/speak|говор|спикинг/i, hint:function(h){ return isDone(h, today()) ? '✓ Spoken today' : 'Spin a topic'; }, panel:spPanel},
   {match:/^\s*yoga\b|йога/i, hint:ygHint, panel:ygPanel},
   {match:/face massage|массаж лица|gua ?sha|гуаша/i, hint:function(){ return FACE_VIDEOS.length + ' massage videos'; }, panel:facePanel}
 ];
@@ -2249,6 +2318,187 @@ function sheetWeigh(){
     '<div class="sheet-actions"><button class="btn btn-primary btn-full" data-act="fd-weigh-save">Save</button></div>');
 }
 
+/* ---------- Daily check-in: two minutes, research scales ----------
+   Mood and energy on a 1–5 scale, last night's sleep, the single-item stress
+   measure (Elo et al., 2003), and the ten feelings of the international short
+   PANAS (Thompson, 2007) — positive and negative affect, 5–25 each. Every two
+   weeks the WHO-5 Well-Being Index is added (0–100). A self-check, not a diagnosis. */
+const MD_PA = ['Alert', 'Inspired', 'Determined', 'Attentive', 'Active'];
+const MD_NA = ['Upset', 'Hostile', 'Ashamed', 'Nervous', 'Afraid'];
+const MD_PANAS_ORDER = ['Upset', 'Hostile', 'Alert', 'Ashamed', 'Inspired', 'Nervous', 'Determined', 'Attentive', 'Afraid', 'Active'];
+const MD_PANAS_SCALE = ['Not at all', 'A little', 'Moderately', 'Quite a bit', 'Extremely'];
+const MD_WHO5 = [
+  'I have felt cheerful and in good spirits',
+  'I have felt calm and relaxed',
+  'I have felt active and vigorous',
+  'I woke up feeling fresh and rested',
+  'My daily life has been filled with things that interest me'
+];
+const MD_WHO5_SCALE = ['At no time', 'Some of the time', 'Less than half of the time', 'More than half of the time', 'Most of the time', 'All of the time'];
+const MD_SINGLE = [
+  ['m',  'Mood',  'How is your mood today?', ['😞', '🙁', '😐', '🙂', '😄']],
+  ['e',  'Energy', 'How much energy do you have?', ['🪫', '▁', '▃', '▅', '⚡']],
+  ['s',  'Sleep', 'How well did you sleep last night?', ['Very badly', 'Badly', 'So-so', 'Well', 'Very well']],
+  ['st', 'Stress', 'Stress means feeling tense, restless, nervous or anxious, or unable to sleep because your mind is troubled. Do you feel this kind of stress today?', ['Not at all', 'Only a little', 'To some extent', 'Rather much', 'Very much']]
+];
+let mdDraft = null;
+
+function mdState(){
+  if(!state.mood) state.mood = {};
+  if(!state.mood.days) state.mood.days = {};
+  if(!state.mood.who5) state.mood.who5 = {};
+  return state.mood;
+}
+function mdDay(key){ return mdState().days[key] || null; }
+function mdSum(arr){ return (arr || []).reduce(function(a, b){ return a + (b || 0); }, 0); }
+function mdPA(r){ return r && r.p ? MD_PA.reduce(function(a, k){ return a + (r.p[k] || 0); }, 0) : null; }
+function mdNA(r){ return r && r.p ? MD_NA.reduce(function(a, k){ return a + (r.p[k] || 0); }, 0) : null; }
+function mdWho5Due(){
+  const ks = Object.keys(mdState().who5).sort();
+  if(!ks.length) return true;
+  return (toDate(today()) - toDate(ks[ks.length - 1])) / 86400000 >= 14;
+}
+function mdAvg(list){ const v = list.filter(function(x){ return x != null; }); return v.length ? v.reduce(function(a, b){ return a + b; }, 0) / v.length : null; }
+function mdFmt(x, d){ return x == null ? '—' : (Math.round(x * (d ? 10 : 1)) / (d ? 10 : 1)).toString(); }
+
+/* ---- the card on Today ---- */
+function mdTodayCard(){
+  const r = mdDay(today());
+  if(!r){
+    return '<section class="md-card"><p class="eyebrow">🌤 Check-in</p><h3>How are you today?</h3>'+
+      '<p class="fd-sub">Two minutes of taps on real research scales. Over the weeks it shows what lifts you and what drains you.</p>'+
+      '<button class="btn btn-primary btn-full" data-act="md-open">Check in</button></section>';
+  }
+  return '<section class="md-card done"><button class="fd-top" data-act="md-trends"><span class="eyebrow">🌤 Check-in</span><span class="go">Trends →</span></button>'+
+    '<div class="md-chips"><span>'+MD_SINGLE[0][3][r.m - 1]+' mood '+r.m+'/5</span><span>⚡ energy '+r.e+'/5</span>'+
+    '<span>☀️ positive '+mdPA(r)+'/25</span><span>☁️ negative '+mdNA(r)+'/25</span></div></section>';
+}
+
+/* ---- the check-in itself ---- */
+function renderMoodCheck(){
+  const d = mdDraft || (mdDraft = Object.assign({p:{}, w:[]}, JSON.parse(JSON.stringify(mdDay(today()) || {}))));
+  if(!d.p) d.p = {};
+  const who = mdWho5Due();
+  let h = '<button class="backbtn" data-act="md-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to today</button>'+
+    '<p class="eyebrow">Check-in · '+WDAYS[new Date().getDay()]+'</p><h2 class="rec-title">How are you today?</h2>'+
+    '<p class="fd-sub">Answer quickly — the first answer is usually the right one.</p>';
+  MD_SINGLE.forEach(function(q){
+    h += '<section class="md-q"><p class="md-qt">'+esc(q[2])+'</p><div class="md-scale'+(q[0] === 'm' || q[0] === 'e' ? ' big' : '')+'">'+
+      q[3].map(function(lab, i){
+        return '<button type="button" data-act="md-set" data-k="'+q[0]+'" data-v="'+(i + 1)+'" aria-pressed="'+(d[q[0]] === i + 1)+'">'+esc(lab)+'</button>';
+      }).join('')+'</div></section>';
+  });
+  h += '<section class="md-q"><p class="md-qt">Today, how much have you felt…</p><p class="md-legend">1 not at all · 2 a little · 3 moderately · 4 quite a bit · 5 extremely</p>'+
+    MD_PANAS_ORDER.map(function(f){
+      return '<div class="md-row"><span>'+f+'</span><div class="md-dots">'+[1, 2, 3, 4, 5].map(function(v){
+        return '<button type="button" data-act="md-panas" data-k="'+f+'" data-v="'+v+'" aria-pressed="'+(d.p[f] === v)+'" aria-label="'+f+' '+MD_PANAS_SCALE[v - 1]+'">'+v+'</button>';
+      }).join('')+'</div></div>';
+    }).join('')+'</section>';
+  if(who){
+    h += '<section class="md-q md-who"><p class="md-qt">Every two weeks: over the <b>last two weeks</b>…</p>'+
+      MD_WHO5.map(function(item, i){
+        return '<p class="md-wi">'+esc(item)+'</p><div class="md-scale small">'+MD_WHO5_SCALE.map(function(lab, v){
+          return '<button type="button" data-act="md-who" data-i="'+i+'" data-v="'+v+'" aria-pressed="'+(d.w[i] === v)+'">'+esc(lab)+'</button>';
+        }).join('')+'</div>';
+      }).join('')+'</section>';
+  }
+  h += '<div class="field" style="margin-top:18px"><label for="mdNote">Anything worth remembering about today? (optional)</label>'+
+    '<textarea id="mdNote" rows="2">'+esc(d.note || '')+'</textarea></div>'+
+    '<button class="btn btn-primary btn-full" data-act="md-save">Save today’s check-in</button>'+
+    '<p class="md-src">Scales: single mood, energy and sleep ratings; single-item stress measure (Elo et al., 2003); international PANAS short form (Thompson, 2007); WHO-5 Well-Being Index. A self-check, not a diagnosis.</p>';
+  view.innerHTML = h;
+}
+
+/* ---- trends ---- */
+function mdSpark(vals, max, cls){
+  const w = 300, hgt = 60, n = vals.length, step = n > 1 ? w / (n - 1) : w;
+  let pts = [], dots = '';
+  vals.forEach(function(v, i){
+    if(v == null) return;
+    const x = (i * step).toFixed(1), y = (hgt - 6 - (v - 1) / (max - 1) * (hgt - 12)).toFixed(1);
+    pts.push(x + ',' + y); dots += '<circle cx="'+x+'" cy="'+y+'" r="3"/>';
+  });
+  return '<svg class="md-spark '+cls+'" viewBox="0 0 300 60" preserveAspectRatio="none" aria-hidden="true"><polyline points="'+pts.join(' ')+'"/>'+dots+'</svg>';
+}
+function mdInsight(label, split, key){
+  const days = mdState().days, yes = [], no = [];
+  Object.keys(days).forEach(function(k){
+    const r = days[k], v = key === 'pa' ? mdPA(r) : r[key];
+    if(v == null) return;
+    const g = split(k, r);
+    if(g === true) yes.push(v); else if(g === false) no.push(v);
+  });
+  if(yes.length < 3 || no.length < 3) return '';
+  const a = mdAvg(yes), b = mdAvg(no);
+  if(Math.abs(a - b) < 0.3) return '';
+  return '<li>'+label(mdFmt(a, 1), mdFmt(b, 1), a > b)+'</li>';
+}
+function renderMoodTrends(){
+  const st = mdState(), key = today(), last14 = [];
+  for(let i = 13; i >= 0; i--) last14.push(shift(key, -i));
+  const rows = last14.map(function(k){ return st.days[k] || null; });
+  const week = function(off){
+    const ks = []; for(let i = 0; i < 7; i++) ks.push(shift(key, -(i + off)));
+    const rs = ks.map(function(k){ return st.days[k]; }).filter(Boolean);
+    return {n:rs.length, m:mdAvg(rs.map(function(r){ return r.m; })), e:mdAvg(rs.map(function(r){ return r.e; })),
+            s:mdAvg(rs.map(function(r){ return r.s; })), st:mdAvg(rs.map(function(r){ return r.st; })),
+            pa:mdAvg(rs.map(mdPA)), na:mdAvg(rs.map(mdNA))};
+  };
+  const now = week(0), before = week(7);
+  let h = '<button class="backbtn" data-act="md-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to today</button>'+
+    '<p class="eyebrow">Check-in · trends</p><h2 class="rec-title">How you’ve been</h2>'+
+    '<button class="btn btn-ghost btn-sm" data-act="md-open" style="margin-bottom:6px">Edit today’s check-in</button>';
+
+  h += '<section class="rd-block"><p class="eyebrow">Last 14 days</p>'+
+    '<div class="md-chart"><p><b>Mood</b></p>'+mdSpark(rows.map(function(r){ return r && r.m; }), 5, 'mood')+'</div>'+
+    '<div class="md-chart"><p><b>Energy</b></p>'+mdSpark(rows.map(function(r){ return r && r.e; }), 5, 'energy')+'</div>'+
+    '<div class="md-chart"><p><b class="pos">Positive</b> and <b class="neg">negative</b> feelings (5–25)</p>'+
+      '<div class="md-two">'+mdSpark(rows.map(function(r){ return mdPA(r); }), 25, 'pa')+mdSpark(rows.map(function(r){ return mdNA(r); }), 25, 'na')+'</div></div>'+
+    '<div class="md-days">'+last14.map(function(k, i){ return i % 2 ? '' : '<span>'+toDate(k).getDate()+'</span>'; }).join('')+'</div></section>';
+
+  const cmp = function(label, a, b, good){
+    const diff = a != null && b != null ? a - b : null;
+    const arrow = diff == null || Math.abs(diff) < 0.2 ? '' : ((diff > 0) === good ? ' <i class="up">▲</i>' : ' <i class="down">▼</i>');
+    return '<div class="stat"><b class="num">'+mdFmt(a, 1)+arrow+'</b><span>'+label+(b != null ? ' · was '+mdFmt(b, 1) : '')+'</span></div>';
+  };
+  h += '<section class="rd-block"><p class="eyebrow">This week against the one before</p><div class="md-stats">'+
+    cmp('mood', now.m, before.m, true)+cmp('energy', now.e, before.e, true)+cmp('sleep', now.s, before.s, true)+
+    cmp('stress', now.st, before.st, false)+cmp('positive', now.pa, before.pa, true)+cmp('negative', now.na, before.na, false)+
+    '</div></section>';
+
+  const yoga = function(k){ const r = state.workouts && state.workouts[k]; return !!(r && r.doneId); };
+  const food = function(k){ const p = fdPlan(), d = state.food && state.food.days && state.food.days[k]; if(!p || !d || !d.length) return null; return fdTotals(k).kcal <= p.target; };
+  const sleptWell = function(k, r){ return r.s >= 4 ? true : r.s <= 2 ? false : null; };
+  const spoke = function(k){ const h2 = spHabit(); return h2 ? isDone(h2, k) : null; };
+  const ins = [
+    mdInsight(function(a, b, up){ return 'On days with yoga or the pool your mood averaged <b>'+a+'</b>, on other days <b>'+b+'</b>.'; }, yoga, 'm'),
+    mdInsight(function(a, b){ return 'After a good night’s sleep your energy was <b>'+a+'</b>, after a bad one <b>'+b+'</b>.'; }, sleptWell, 'e'),
+    mdInsight(function(a, b){ return 'On yoga days your positive feelings scored <b>'+a+'</b>, otherwise <b>'+b+'</b>.'; }, yoga, 'pa'),
+    mdInsight(function(a, b){ return 'Days within your calorie target: mood <b>'+a+'</b>; days over it: <b>'+b+'</b>.'; }, food, 'm'),
+    mdInsight(function(a, b){ return 'Days you practised speaking: mood <b>'+a+'</b>; days you didn’t: <b>'+b+'</b>.'; }, spoke, 'm')
+  ].join('');
+  h += '<section class="rd-block"><p class="eyebrow">What seems to matter</p>'+
+    (ins ? '<ul class="md-ins">'+ins+'</ul>' : '<p class="fd-sub">After about a week of check-ins, patterns show up here: how yoga, sleep, food and speaking go with your mood and energy.</p>')+
+    '</section>';
+
+  const wk = Object.keys(st.who5).sort();
+  if(wk.length){
+    const lastW = st.who5[wk[wk.length - 1]];
+    h += '<section class="rd-block"><p class="eyebrow">Well-being · WHO-5, every two weeks</p><div class="md-who5">'+
+      wk.slice(-6).map(function(k){ return '<div><b class="num">'+st.who5[k]+'</b><span>'+fdShortDate(k)+'</span></div>'; }).join('')+'</div>'+
+      '<p class="fd-sub">0–100. Above 50 is the usual range'+(lastW <= 50 ? '. Your last score is lower than that — worth being gentle with yourself and watching the next one.' : '.')+'</p></section>';
+    if(lastW <= 28){
+      h += '<div class="md-care">A WHO-5 score this low is the point where the index suggests talking to a doctor or a psychologist. It isn’t a diagnosis — just a sign that it may be worth not carrying this alone.</div>';
+    }
+  }
+  const heavy = rows.slice(-7).filter(function(r){ return r && mdNA(r) >= 18; }).length;
+  if(heavy >= 4 && !(wk.length && st.who5[wk[wk.length - 1]] <= 28)){
+    h += '<div class="md-care">Strong negative feelings on '+heavy+' of the last 7 days. If it stays like this, talking to someone you trust or to a psychologist really helps.</div>';
+  }
+  h += '<p class="md-src">A self-check built from research scales, not a diagnosis.</p>';
+  view.innerHTML = h;
+}
+
 /* ---------- Storage ---------- */
 const KEY = 'ritm.v1';
 let memory = null;
@@ -2340,6 +2590,12 @@ if(!state.cleanup4){
   if(tr && tr.plan != null && state.yoga) tr.plan = Math.max(0, state.yoga.n - 1);
   delete state.neck;
   state.cleanup4 = true;
+}
+/* the speaking roulette gets its own habit */
+if(!state.cleanup5){
+  if(!state.habits.some(function(h){ return /speak|говор|спикинг/i.test(h.title); }))
+    state.habits.push({id:'hs', title:'Speaking spin', emoji:'🎙', perDay:1, weekGoal:7, when:'day', why:''});
+  state.cleanup5 = true;
 }
 if(!state.diction) state.diction = {};
 if(!wkHabit()) state.habits.push({id:'hw', title:'Yoga', emoji:'🧘', perDay:1, weekGoal:7, when:'morning', why:''});
@@ -2531,8 +2787,11 @@ function renderToday(){
   const hs = activeHabits(), n = hs.length;
 
   if(todayView === 'food') return renderFood();
+  if(todayView === 'mood-check') return renderMoodCheck();
+  if(todayView === 'mood') return renderMoodTrends();
   let html = tdTodayCard();
   html += fdTodayCard();
+  html += mdTodayCard();
 
   if(n===0){
     html += '<div class="empty"><div style="font-size:40px">🌱</div><p>Your habits will live here.<br>Start with one. Really, just one.</p>'+
@@ -2661,6 +2920,7 @@ function renderTalk(){
 
   if(tk.stage === 'topic'){
     h += '<p class="tk-sub">One minute, no hints — just start talking. The recording is only for you to listen back.</p>'+
+      ((window.SpeechRecognition || window.webkitSpeechRecognition) ? '<button class="tk-trbtn" data-act="tk-tr" aria-pressed="'+!!(state.talk && state.talk.tr)+'">📝 Also write down what I say <small>beta</small></button>' : '')+
       '<button class="btn btn-primary btn-full" data-act="tk-go" data-n="1">● Start · 1:00</button>'+
       '<div class="tk-row"><button class="btn btn-ghost" data-act="tk-again">Spin again</button>'+
       '<button class="btn btn-ghost" data-act="tk-skip">Show the phrases</button></div></section>';
@@ -2676,7 +2936,7 @@ function renderTalk(){
     if(tk.take === 2){
       h += '<div class="tk-chips">'+t.words.map(function(w){ return '<span class="tk-chip lv-'+w.lvl+'">'+esc(w.w)+'</span>'; }).join('')+'</div>';
     }
-    h += '<button class="btn btn-full" data-act="tk-stop">Stop</button></section>';
+    h += '<button class="btn btn-full" data-act="tk-stop">Finish</button></section>';
     view.innerHTML = h; return;
   }
 
@@ -2692,7 +2952,7 @@ function renderTalk(){
       '<button class="btn btn-ghost" data-act="tk-again">'+(done[t.id] ? 'Back to the wheel' : 'Back to the wheel, keep it')+'</button></div></section>';
   }
 
-  h += '<p class="tk-legend"><span class="lv lv-B1">B1</span><span class="lv lv-B2">B2</span><span class="lv lv-C1">C1</span> Tap a highlighted phrase</p>'+
+  h += '<p class="tk-legend"><span class="lv lv-B1">B1</span><span class="lv lv-B2">B2</span><span class="lv lv-C1">C1</span> Tap a highlighted phrase — or any word</p>'+
     '<section class="tk-model"><p class="eyebrow">How it could sound</p><p class="tk-text">'+tkModel(t)+'</p><div class="tk-pop"></div></section>';
 
   h += '<section class="rd-block"><p class="eyebrow">The phrases · + saves one</p><div class="tk-words">'+
@@ -2714,18 +2974,78 @@ function tkStatus(){
   if(!tk.started) return 'Asking for the microphone…';
   return tk.noMic ? 'Timer only — the microphone isn’t available' : '<i class="tk-dot"></i>Recording';
 }
+function tkExt(n){ const b = tk.blobs && tk.blobs[n]; return b && /webm/.test(b.type) ? 'webm' : 'm4a'; }
 function tkTakes(){
   const rows = [1, 2].filter(function(n){ return tk.takes[n]; }).map(function(n){
-    return '<div class="tk-take"><span>Take '+n+'</span><audio controls preload="metadata" src="'+tk.takes[n]+'"></audio></div>';
+    return '<div class="tk-take"><span>Take '+n+'</span><audio controls preload="metadata" src="'+tk.takes[n]+'"></audio>'+
+      '<div class="tk-take-acts"><a class="btn btn-sm" href="'+tk.takes[n]+'" download="speaking-'+tk.id+'-take'+n+'.'+tkExt(n)+'">⬇ Save</a>'+
+      (navigator.share ? '<button class="btn btn-sm" data-act="tk-share" data-n="'+n+'">Send for feedback…</button>' : '')+'</div></div>';
   });
-  return rows.length ? '<div class="tk-takes">'+rows.join('')+'</div>' : '';
+  const said = tk.said || {};
+  const words = '<div class="tk-said"><label for="tkSaid">What you said, in words — for feedback</label>'+
+    '<textarea id="tkSaid" rows="3" placeholder="Filled in automatically if “write down what I say” was on — or dictate it with the 🎤 on your keyboard">'+esc(said[tk.take] || said[1] || '')+'</textarea>'+
+    '<button class="btn btn-sm" data-act="tk-ask">Copy a request for feedback</button></div>';
+  return '<div class="tk-takes">'+rows.join('')+words+'</div>';
+}
+/* the note that goes to ChatGPT or Claude together with the recording or the words */
+function tkAskText(t, n){
+  const said = ($('#tkSaid') || {}).value || (tk.said || {})[n || 1] || '';
+  return 'I am practising spoken English (I teach English and my level is about C1). '+
+    'Topic: “' + t.q + '”. I spoke for one minute without preparing. '+
+    (said ? 'Here is what I said:\n\n' + said.trim() + '\n\n' : 'The recording of my answer is attached.\n\n') +
+    'Please: 1) list grammar and word-choice mistakes, quoting me and giving the correction; '+
+    '2) suggest more natural or more advanced ways to say the same things (B2–C1); '+
+    '3) comment on structure and fluency'+(said ? '' : ' and pronunciation')+'; '+
+    '4) give me an improved version of my answer that I can practise saying aloud. Keep it concise.';
+}
+/* every word can be tapped: its meaning in this sentence, and a + to keep it */
+function tkWords(s){
+  return s.split(/([A-Za-z]+(?:['’][A-Za-z]+)*)/).map(function(part, i){
+    return i % 2 ? '<span class="tk-w" data-act="tk-w">'+esc(part)+'</span>' : esc(part);
+  }).join('');
 }
 function tkModel(t){
-  return esc(t.model).replace(/\[\[([^\]|]+)\|(\d)\]\]/g, function(m, text, n){
-    const w = t.words[+n - 1];
-    return w ? '<button class="tk-hl lv-'+w.lvl+'" data-act="tk-hl" data-i="'+(+n - 1)+'">'+text+'</button>' : text;
-  });
+  const re = /\[\[([^\]|]+)\|(\d)\]\]/g;
+  let out = '', last = 0, m;
+  while((m = re.exec(t.model))){
+    out += tkWords(t.model.slice(last, m.index));
+    const w = t.words[+m[2] - 1];
+    out += w ? '<button class="tk-hl lv-'+w.lvl+'" data-act="tk-hl" data-i="'+(+m[2] - 1)+'">'+esc(m[1])+'</button>' : esc(m[1]);
+    last = re.lastIndex;
+  }
+  return out + tkWords(t.model.slice(last));
 }
+function tkPlain(t){ return t.model.replace(/\[\[([^\]|]+)\|\d\]\]/g, '$1'); }
+function tkSentence(t, word){
+  const rx = new RegExp('(^|[^A-Za-z])' + word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z])', 'i');
+  return tkPlain(t).split(/(?<=[.!?])\s+/).find(function(s){ return rx.test(s); }) || '';
+}
+function tkWordCard(t, word){
+  const key = word.toLowerCase().replace(/’/g, "'");
+  const ru = (t.gl && t.gl[key]) || TK_STOP[key] || '—';
+  const sent = tkSentence(t, word), on = swHas(word);
+  return '<article class="tk-word tk-single"><div class="tk-wtop"><b>'+esc(word)+'</b><span class="tk-ru-big" lang="ru">'+esc(ru)+'</span>'+
+    '<button class="tk-save'+(on ? ' on' : '')+'" data-act="tk-wsave" data-w="'+esc(word)+'" aria-label="'+(on ? 'Saved' : 'Save')+'">'+(on ? '✓' : '+')+'</button></div>'+
+    (sent ? '<p class="tk-ex">'+swMark(sent, word)+'</p>' : '')+'</article>';
+}
+/* the everyday words the glossary leaves out, translated once for all texts */
+const TK_STOP = {
+  'a':'неопр. артикль','an':'неопр. артикль','the':'опр. артикль','and':'и','or':'или','but':'но','so':'так, поэтому','if':'если','then':'тогда, потом','than':'чем','as':'как, так как',
+  'at':'в, у, на','by':'к, у, с помощью','for':'для, за, на','from':'из, от','in':'в','into':'в (куда)','of':'(родительный падеж)','off':'прочь, с','on':'на','onto':'на (куда)',
+  'out':'наружу, вне','over':'над, через, больше','to':'к, в, чтобы','up':'вверх','with':'с','without':'без','about':'о, около','after':'после','before':'до, перед','again':'снова',
+  'all':'все, весь','also':'также','am':'(есть) — я','are':'(есть) — мы, вы, они',"aren't":'не (есть)','be':'быть','been':'был, была','being':'будучи','both':'оба',
+  'can':'могу, можно',"can't":'не могу, нельзя','could':'мог бы','couldn\'t':'не мог','did':'сделал (прош.)',"didn't":'не (прош.)','do':'делать','does':'делает',"doesn't":'не (3 л.)','doing':'делая',
+  "don't":'не','down':'вниз','each':'каждый','even':'даже','ever':'когда-либо','every':'каждый','few':'немного, мало','had':'имел, был','hadn\'t':'не имел','has':'имеет',"hasn't":'не имеет',
+  'have':'иметь, есть',"haven't":'не имею','having':'имея','he':'он','her':'её, ей','here':'здесь','hers':'её','herself':'сама, себя','him':'его, ему','himself':'сам, себя','his':'его',
+  'how':'как','i':'я',"i'd":'я бы',"i'll":'я буду',"i'm":'я (есть)',"i've":'у меня, я (уже)','is':'есть, является',"isn't":'не является','it':'это, оно',"it's":'это (есть)','its':'его, её (о предмете)',
+  'itself':'само, себя','just':'просто, только что',"let's":'давай','me':'мне, меня','more':'больше','most':'больше всего','much':'много','my':'мой','myself':'сама, себя','no':'нет','nor':'ни',
+  'not':'не','now':'сейчас','once':'однажды, раз','only':'только','other':'другой','our':'наш','ours':'наш','ourselves':'сами, себя','own':'собственный','same':'тот же','she':'она',
+  'should':'следует',"shouldn't":'не следует','some':'некоторые, немного','such':'такой','that':'что, тот',"that's":'это (есть)','their':'их','theirs':'их','them':'им, их','themselves':'сами, себя',
+  'there':'там',"there's":'есть, там есть','these':'эти','they':'они',"they're":'они (есть)','this':'это, этот','those':'те','through':'через','too':'тоже, слишком','under':'под','until':'до, пока',
+  'very':'очень','was':'был, была',"wasn't":'не был','we':'мы',"we're":'мы (есть)',"we've":'у нас, мы (уже)','were':'были',"weren't":'не были','what':'что',"what's":'что (есть)','when':'когда',
+  'where':'где','which':'который','while':'пока','who':'кто','whom':'кого','why':'почему','will':'будет',"won't":'не будет','would':'бы',"wouldn't":'не стал бы','you':'ты, вы',"you'd":'ты бы',
+  "you'll":'ты будешь',"you're":'ты (есть)',"you've":'у тебя, ты (уже)','your':'твой, ваш','yours':'твой, ваш','yourself':'сам, себя','yourselves':'сами, себя'
+};
 function tkWord(t, i){
   const w = t.words[i], on = swHas(w.w);
   return '<article class="tk-word">'+
@@ -2750,6 +3070,7 @@ function talkStart(n){
     const st = document.getElementById('tkStatus');
     if(st) st.innerHTML = tkStatus();
     tk.timer = setInterval(talkTick, 250);
+    if(state.talk && state.talk.tr) tkListen(n);
   }
   if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder){ tk.noMic = true; go(); return; }
   navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
@@ -2766,13 +3087,33 @@ function talkStart(n){
       stream.getTracks().forEach(function(x){ x.stop(); });
       if(!chunks.length) return;
       if(tk.takes[n]) URL.revokeObjectURL(tk.takes[n]);
-      tk.takes[n] = URL.createObjectURL(new Blob(chunks, {type: rec.mimeType || type || 'audio/mp4'}));
+      const blob = new Blob(chunks, {type: rec.mimeType || type || 'audio/mp4'});
+      if(!tk.blobs) tk.blobs = {};
+      tk.blobs[n] = blob;
+      tk.takes[n] = URL.createObjectURL(blob);
       if(tab === 'english' && (state.enView || 'speak') === 'speak' && tk.stage !== 'rec') renderEnglish();
     };
     rec.start();
     tk.rec = rec;
     go();
   }).catch(function(){ tk.noMic = true; go(); });
+}
+/* optional: the browser writes down what she says while the recording runs */
+function tkListen(n){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR) return;
+  try{
+    const r = new SR(); r.lang = 'en-US'; r.continuous = true; r.interimResults = false;
+    if(!tk.said) tk.said = {};
+    tk.said[n] = '';
+    r.onresult = function(e){
+      for(let i = e.resultIndex; i < e.results.length; i++) if(e.results[i].isFinal) tk.said[n] += (tk.said[n] ? ' ' : '') + e.results[i][0].transcript.trim();
+      const ta = document.getElementById('tkSaid'); if(ta && tk.stage !== 'rec') ta.value = tk.said[n];
+    };
+    r.onerror = function(){};
+    r.onend = function(){ if(tk.stage === 'rec' && tk.take === n){ try{ r.start(); }catch(e){} } };
+    r.start(); tk.sr = r;
+  }catch(e){}
 }
 function talkTick(){
   const left = talkLeft();
@@ -2785,6 +3126,7 @@ function talkStop(){
   clearInterval(tk.timer); tk.timer = null;
   if(tk.stage !== 'rec') return;
   tk.stage = tk.take === 1 ? 'review1' : 'review2';
+  if(tk.sr){ const r = tk.sr; tk.sr = null; r.onend = null; try{ r.stop(); }catch(e){} }
   if(tk.rec && tk.rec.state !== 'inactive'){ try{ tk.rec.stop(); }catch(e){} }
   tk.rec = null;
   if(navigator.vibrate) try{ navigator.vibrate(30); }catch(e){}
@@ -2794,7 +3136,7 @@ function talkReset(){
   clearInterval(tk.timer); tk.timer = null;
   if(tk.rec && tk.rec.state !== 'inactive'){ tk.rec.onstop = null; try{ tk.rec.stop(); tk.rec.stream.getTracks().forEach(function(x){ x.stop(); }); }catch(e){} }
   Object.keys(tk.takes).forEach(function(n){ URL.revokeObjectURL(tk.takes[n]); });
-  tk.id = null; tk.stage = 'idle'; tk.takes = {}; tk.rec = null; tk.started = 0; tk.used = {};
+  tk.id = null; tk.stage = 'idle'; tk.takes = {}; tk.blobs = {}; tk.said = {}; tk.rec = null; tk.started = 0; tk.used = {};
 }
 function sheetTalkHistory(){
   const done = talkDone();
@@ -3301,6 +3643,81 @@ document.addEventListener('click', function(e){
     if(!(kg > 30 && kg < 250)){ toast('That doesn’t look like a weight'); return; }
     fdState().weight[today()] = Math.round(kg * 10) / 10; save(); closeSheet(); renderToday(); toast('Saved — ' + kg + ' kg');
   }
+  else if(act==='go-speak'){ state.enView = 'speak'; save(); go('english'); }
+  else if(act==='tk-w'){
+    const t = TALK && TALK.byId[tk.id], pop = document.querySelector('.tk-pop');
+    if(!t || !pop) return;
+    const was = btn.classList.contains('on');
+    document.querySelectorAll('.tk-w.on, .tk-hl.on').forEach(function(x){ x.classList.remove('on'); });
+    if(was){ pop.innerHTML = ''; return; }
+    btn.classList.add('on');
+    pop.innerHTML = tkWordCard(t, btn.textContent);
+  }
+  else if(act==='tk-wsave'){
+    const t = TALK && TALK.byId[tk.id], word = btn.getAttribute('data-w');
+    if(!t || !word) return;
+    if(!state.words) state.words = [];
+    if(swHas(word)){
+      state.words = state.words.filter(function(x){ return String(x.term).toLowerCase() !== word.toLowerCase(); });
+      toast('Removed from saved');
+    } else {
+      const key = word.toLowerCase().replace(/’/g, "'");
+      state.words.push({id:'w'+Date.now().toString(36), term:word, ctx:tkSentence(t, word), mean:'', ru:(t.gl && t.gl[key]) || TK_STOP[key] || '',
+                        src:t.id, box:0, seen:0, right:0, last:''});
+      toast('Saved — ' + word);
+    }
+    save();
+    const on = swHas(word);
+    btn.classList.toggle('on', on); btn.textContent = on ? '✓' : '+';
+    const tabBtn = document.querySelector('[data-act="en-view"][data-v="words"]'), cnt = state.words.length;
+    if(tabBtn) tabBtn.innerHTML = 'Saved words' + (cnt ? ' <small>'+cnt+'</small>' : '');
+  }
+  else if(act==='tk-share'){
+    const n = +btn.getAttribute('data-n'), b = tk.blobs && tk.blobs[n], t = TALK && TALK.byId[tk.id];
+    if(!b || !t) return;
+    const file = new File([b], 'speaking-'+t.id+'-take'+n+'.'+tkExt(n), {type:b.type || 'audio/mp4'});
+    if(navigator.canShare && navigator.canShare({files:[file]})){
+      navigator.share({files:[file], title:'My speaking practice', text:tkAskText(t, n)}).catch(function(){});
+    } else toast('This phone can’t send audio files from here — use Save');
+  }
+  else if(act==='tk-ask'){
+    const t = TALK && TALK.byId[tk.id];
+    if(!t) return;
+    const txt = tkAskText(t, tk.take);
+    const done = function(){ toast('Copied — paste it into ChatGPT or Claude'); };
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done).catch(function(){ window.prompt('Copy this:', txt); });
+    else window.prompt('Copy this:', txt);
+  }
+  else if(act==='tk-tr'){
+    if(!state.talk) state.talk = {done:{}};
+    state.talk.tr = !state.talk.tr; save();
+    btn.setAttribute('aria-pressed', state.talk.tr ? 'true' : 'false');
+  }
+  else if(act==='md-open'){ mdDraft = null; todayView = 'mood-check'; window.scrollTo(0,0); renderToday(); }
+  else if(act==='md-trends'){ todayView = 'mood'; window.scrollTo(0,0); renderToday(); }
+  else if(act==='md-close'){ mdDraft = null; todayView = 'main'; window.scrollTo(0,0); renderToday(); }
+  else if(act==='md-set' || act==='md-panas' || act==='md-who'){
+    if(!mdDraft) return;
+    const v = +btn.getAttribute('data-v');
+    if(act==='md-set') mdDraft[btn.getAttribute('data-k')] = v;
+    else if(act==='md-panas') mdDraft.p[btn.getAttribute('data-k')] = v;
+    else mdDraft.w[+btn.getAttribute('data-i')] = v;
+    btn.parentElement.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+  }
+  else if(act==='md-save'){
+    const d = mdDraft;
+    if(!d) return;
+    const missing = MD_SINGLE.filter(function(q){ return !d[q[0]]; }).length + MD_PANAS_ORDER.filter(function(f){ return !d.p[f]; }).length;
+    if(missing){ toast(missing + (missing === 1 ? ' answer is' : ' answers are') + ' still empty'); return; }
+    const who = mdWho5Due() && d.w.filter(function(x){ return x != null; }).length === 5;
+    d.note = (($('#mdNote') || {}).value || '').trim();
+    const rec = {m:d.m, e:d.e, s:d.s, st:d.st, p:d.p};
+    if(d.note) rec.note = d.note;
+    mdState().days[today()] = rec;
+    if(who) mdState().who5[today()] = mdSum(d.w) * 4;
+    save(); mdDraft = null; todayView = 'mood'; window.scrollTo(0,0); renderToday();
+    toast('Saved · positive ' + mdPA(rec) + ', negative ' + mdNA(rec) + (who ? ' · WHO-5 ' + mdState().who5[today()] : ''));
+  }
   else if(act==='yg-done'){
     const h = wkHabit();
     if(h) toggleHabit(h.id, btn.closest('.habit'));
@@ -3347,7 +3764,7 @@ document.addEventListener('click', function(e){
   }
   else if(act==='tk-done'){
     if(!tk.id) return;
-    talkDone()[tk.id] = today(); save();
+    talkDone()[tk.id] = today(); spTick(); save();
     talkReset(); window.scrollTo(0,0); renderEnglish();
     toast('Nice. That topic won’t come up again');
   }
@@ -3356,7 +3773,7 @@ document.addEventListener('click', function(e){
     const pop = document.querySelector('.tk-pop');
     if(!t || !t.words[i] || !pop) return;
     const was = btn.classList.contains('on');
-    document.querySelectorAll('.tk-hl.on').forEach(function(x){ x.classList.remove('on'); });
+    document.querySelectorAll('.tk-hl.on, .tk-w.on').forEach(function(x){ x.classList.remove('on'); });
     if(was){ pop.innerHTML = ''; return; }
     document.querySelectorAll('.tk-hl[data-i="'+i+'"]').forEach(function(x){ x.classList.add('on'); });
     pop.innerHTML = tkWord(t, i);

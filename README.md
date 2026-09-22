@@ -25,7 +25,7 @@ file in, **Commit changes**. The site updates in about a minute.
 
 | Tab | What it does |
 |---|---|
-| Today | The day’s to-do card, the food card and the habits — grouped into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
+| Today | The day’s to-do card, the food card, the daily check-in and the habits — grouped into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
 | To-do | Tasks that are not habits — a call, an appointment, a bill. Quick-add at the top, optional day and time, grouped into Overdue · Today · Tomorrow · Later · No date |
 | English | **Speak** — the speaking roulette: a topic, a minute, a recording, then the language you could have used. **Saved words** — the phrases you kept from it |
 | Practice | **Driving theory** — the interactive textbook and the official Armenian question bank. **Diction** — ten minutes of Russian speech practice a day |
@@ -78,7 +78,12 @@ phrase and its card opens: what it means, a Russian equivalent, and another exam
 three-step plan and a second take with the phrases in front of you. Both takes play back side
 by side; nothing is uploaded or saved anywhere.
 
-Mark the topic **Done** and it leaves the wheel for good. The topics you have spoken stay in a
+Every word of the model answer can be tapped: its Russian meaning in that very sentence, and a **+** to
+keep it. Each recording can be saved or sent — to ChatGPT, Claude or a friend — with a ready request
+for feedback; an optional live transcript (beta) or keyboard dictation turns the answer into text.
+
+Mark the topic **Done** and it leaves the wheel for good. It also ticks the *Speaking spin* habit, which opens
+straight into the roulette. The topics you have spoken stay in a
 list you can reopen.
 
 ## Saved words
@@ -135,6 +140,15 @@ means a swim that day, with yoga instead if you want it.
 
 Every video was opened on YouTube: the channel and the running time are the real ones.
 
+## Daily check-in
+
+Two minutes of taps on Today: mood, energy, last night’s sleep, the single-item stress measure
+(Elo et al., 2003) and the ten feelings of the international PANAS short form (Thompson, 2007) —
+positive and negative affect, 5–25 each. Every two weeks the WHO-5 Well-Being Index (0–100) is added.
+The trends page shows the last 14 days, this week against the last, and — once there is enough data —
+how yoga, sleep, food and speaking go with mood and energy. A self-check, not a diagnosis; very low
+WHO-5 scores or many heavy days bring a gentle suggestion to talk to someone.
+
 ## Food
 
 A card on Today: calories left for the day and a line to write what you ate, the way you would
@@ -170,6 +184,6 @@ Settings → Fireworks sound to silence it. It also respects the system
 
 ## Data
 
-Habits, check-ins, to-dos, yoga days, saved words, food diary and weight, lessons finished and
+Habits, check-ins, mood check-ins, to-dos, yoga days, saved words, food diary and weight, lessons finished and
 questions answered live in `localStorage` on the device. Voice recordings are never stored:
 they exist only until you leave the topic. Backup: Settings → Backup.
