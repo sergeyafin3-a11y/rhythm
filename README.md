@@ -29,7 +29,7 @@ file in, **Commit changes**. The site updates in about a minute.
 | To-do | Tasks that are not habits — a call, an appointment, a bill. Quick-add at the top, optional day and time, grouped into Overdue · Today · Tomorrow · Later · No date |
 | English | **Speak** — the speaking roulette: a topic, a minute, a recording, then the language you could have used. **Saved words** — the phrases you kept from it |
 | Practice | **Driving theory** — the interactive textbook and the official Armenian question bank. **Diction** — ten minutes of Russian speech practice a day |
-| 🧘 Yoga | Tap the *Yoga* habit: three options open under it — 🌿 15–25, 🌤 26–35 and 🔥 36–45 minutes. Wednesday is the pool |
+| 🧘 Yoga | Tap the *Yoga* habit: four choices open under it — 🌿 15–25, 🌤 26–35, 🔥 36–45 minutes, or 🏊 the pool on any day. They change the moment you mark one done |
 
 ## Files
 
@@ -127,14 +127,15 @@ text struck through. Whatever is still open today also shows on the Today screen
 
 ## Yoga
 
-Yoga lives inside the *Yoga* habit: tap it and **three options for today** open under it, chosen by
-how much you have in you — 🌿 **low energy** 15–25 min, 🌤 **medium** 26–35, 🔥 **ready to work** 36–45.
-The short and medium ones are never the intense classes; the long ones are never the gentlest.
+Yoga lives inside the *Yoga* habit: tap it and **four choices** open under it, by how much you have in
+you — 🌿 **low energy** 15–25 min, 🌤 **medium** 26–35, 🔥 **ready to work** 36–45 — and 🏊 **the pool**,
+available any day of the week. The short and medium ones are never the intense classes; the long ones are
+never the gentlest. Wednesday just says so on the pool card; it is a note, not a rule.
 
-Each band has its own rotation and only moves on when one of its videos is done, so nothing is skipped
-and something new waits next time. Ticking the habit — or **Done** on an option — logs the practice;
-unticking steps it back, so a missed day costs nothing. **Wednesday is the pool**: the habit means a
-swim that day, with yoga instead if you want it.
+**The videos change the moment you finish one, not at midnight.** Tick the habit — or press **Done** on a
+card — and that band moves on straight away, so a practice at one in the morning still leaves something
+new underneath it. Go twice in a day and the second session gets its own video; *undo* on the last line
+takes it back, and unticking the habit clears the day.
 
 59 videos in Russian and English, all between 17 and 45 minutes for the three bands, with a fresh batch
 added automatically once a month. Every id was opened on YouTube: the channel and the running time are
@@ -143,9 +144,10 @@ no class whose title says «для начинающих», «с нуля» or «
 
 ## Face massage
 
-Tap the *Face massage* habit and five follow-along routines open under it — three gua sha,
-two hands-only lymphatic drainage, 5–11 minutes, all from one Russian-speaking facialist so
-the routine stays the same every day.
+Tap the *Face massage* habit and **five follow-along routines** open under it, drawn from a pool of 29 —
+gua sha and hands-only lymphatic drainage, 4–15 minutes, Russian and English, from twenty different
+teachers. **The five change the moment you tick the habit**, however late at night that is, so the set in
+front of you is never the one you have just done.
 
 ## Fireworks
 

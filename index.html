@@ -895,6 +895,12 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .yg-vid .yg-note{ margin:7px 0 0; }
 .yg-vid.done b{ color:var(--ink-mute); }
 .yg-acts{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.yg-log{ margin:0 0 14px; padding:12px 14px; border-radius:var(--radius); background:var(--accent-soft); }
+.yg-log .yg-no{ margin:0 0 6px; }
+.yg-log-row{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin:0; padding:3px 0; font-size:14px; line-height:1.4; }
+.yg-log-row + .yg-log-row{ border-top:1px solid var(--line); }
+.yg-swim .vid-body{ padding:14px 16px; }
+.yg-swim{ border-style:dashed; }
 .yg-next-line{ margin:6px 0 0; font-size:12px; color:var(--ink-mute); }
 /* ---------- Food diary ---------- */
 .fd-card{ background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius-lg); box-shadow:var(--shadow); padding:15px 16px 16px; margin-bottom:20px; }
@@ -1696,27 +1702,55 @@ const YOGA = [
   {id:'en13', v:'_nVEfLNRa7c', t:'Slow flow yoga class', min:36, by:'Five Parks Yoga w/ Erin Sampson', lang:'en', intensity:'soft', desc:'A beautifully paced class that flows from pose to pose with plenty of time to settle into each one.'},
   {id:'y8', v:'PCvDdruOm_8', t:'Everyday full body flow', min:41, by:'Charlie Follows', lang:'en', intensity:'soft', desc:'A steady daily vinyasa with hip openers, backbends and standing balances, for all levels.'}
 ];
-/* Face massage: a fixed set, the same every day. Every id opened on YouTube. */
+/* Face massage: the whole pool — the app shows five at a time. Every id opened on YouTube. */
 const FACE_VIDEOS = [
   {id:'f1', v:'5XStVxJUAe4', t:'Warm gua sha for the evening, follow along', min:11, by:'Van Den Broek Life', lang:'ru', desc:'A slow evening gua sha over neck, jaw and face that moves lymph and melts tension; stone (warmed if you like) and oil.'},
   {id:'f2', v:'5H8VNWrUXa8', t:'Gua sha for cheeks and brow, follow along', min:9, by:'Van Den Broek Life', lang:'ru', desc:'Gentle gua sha strokes along the jaw, cheeks and between the brows to ease tension and puffiness; stone and a little oil.'},
   {id:'f3', v:'-PqbfoQI5uU', t:'Quick morning gua sha with oil', min:5, by:'Van Den Broek Life', lang:'ru', desc:'A short morning gua sha on oiled skin that helps drain morning puffiness and wakes the face up; stone and oil.'},
   {id:'f4', v:'Jdno1XuSXO0', t:'Hands-only lymphatic drainage for puffiness', min:7, by:'Van Den Broek Life', lang:'ru', desc:'A brisk hands-only drainage routine that moves lymph and eases morning puffiness; just your hands and a few drops of oil.'},
-  {id:'f5', v:'OinBkldmR5M', t:'Relaxing lymphatic face massage, follow along', min:9, by:'Van Den Broek Life', lang:'ru', desc:'A slow, soothing hands massage that guides lymph toward the neck and releases facial tension; hands and face oil.'}
+  {id:'f5', v:'OinBkldmR5M', t:'Relaxing lymphatic face massage, follow along', min:9, by:'Van Den Broek Life', lang:'ru', desc:'A slow, soothing hands massage that guides lymph toward the neck and releases facial tension; hands and face oil.'},
+  {id:'f6', v:'EesgJAEMqPM', t:'Gua sha with no talking, just music', min:12, by:'beauty_mar \u2606 \u043A\u0440\u0430\u0441\u0438\u0432\u043E \u0441 \u041C\u0430\u0440\u0438\u043D\u043E\u0439', lang:'ru', desc:'A silent gua sha routine set to music that you simply mirror stroke by stroke; stone and face oil.'},
+  {id:'f7', v:'AhPj0-oOI-M', t:'Short lifting gua sha with a serum', min:4, by:'Van Den Broek Life', lang:'ru', desc:'A quick lifting pass over jaw, cheeks and brow with the scraper; stone and a serum or oil for slip.'},
+  {id:'f8', v:'gbtJ6QnJIFY', t:'Full gua sha for neck, oval and eyes', min:15, by:'ProBeautykz', lang:'ru', desc:'A thorough zone by zone gua sha over neck, jawline, cheeks, brow and eye area; stone and oil.'},
+  {id:'f9', v:'H8Tp49E2Dog', t:'Fast gua sha in five minutes', min:4, by:'Beauty by Iren', lang:'ru', desc:'A short gua sha routine that sharpens the contours and drains puffiness; stone and a few drops of oil.'},
+  {id:'f10', v:'289ub4nuojg', t:'Lymphatic gua sha self-massage', min:9, by:'\u0410\u041B\u0415\u041A\u0421\u0410\u041D\u0414\u0420\u0410 \u0424\u0418\u041B\u0418\u041F\u041F\u041E\u0412\u0410', lang:'ru', desc:'A calm gua sha sequence that moves fluid out of the face and brightens the skin; stone and oil.'},
+  {id:'f11', v:'E6sgks4Ha58', t:'Gua sha as an evening ritual', min:7, by:'Elena Rubakha', lang:'ru', desc:'An unhurried gua sha ritual for tone and relaxation, done with you move by move; stone and face oil.'},
+  {id:'f12', v:'JfEKtReCM1Y', t:'Gua sha against puffiness', min:12, by:'\u0410\u0441\u0442\u0430\u043D\u0438\u043D\u0430', lang:'ru', desc:'She explains the grip, then works through the whole face with you from minute two; stone and oil.'},
+  {id:'f13', v:'g6GR9KE8C6c', t:'Myofascial gua sha for forehead and neck', min:13, by:'\u043F\u0430\u0437\u043B\u0438 \u043A\u0440\u0430\u0441\u0438 \u043E\u0431\u043B\u0438\u0447\u0447\u044F', lang:'ru', desc:'A fuller gua sha set with extra work on the forehead, chin and neck; mirror, stone and a massage oil.'},
+  {id:'f14', v:'7aqS4IOFYiI', t:'Simple gua sha lesson, move by move', min:9, by:'\u0412\u0435\u0440\u0430 \u041A\u0440\u0430\u0441\u0438\u0432\u0430\u044F', lang:'ru', desc:'Every stroke is shown slowly so you only have to copy it; stone and a little oil on clean skin.'},
+  {id:'f15', v:'T01ghNUZAlc', t:'Ten minute massage against puffiness', min:10, by:'\u0410\u0440\u0438\u043D\u0430 \u0420\u044B\u043A\u043E\u0432\u0430', lang:'ru', desc:'Her everyday anti-puffiness routine, meant to be propped up and copied; just hands and face oil.'},
+  {id:'f16', v:'3-yz7Xk53k4', t:'Morning express self-massage', min:10, by:'ProBeautykz', lang:'ru', desc:'A brisk morning routine that wakes the face and drains overnight swelling; hands and a little oil.'},
+  {id:'f17', v:'7aLKA4U5wPs', t:'Japanese Asahi massage, no commentary', min:10, by:'fitness-dlya-vseh', lang:'ru', desc:'The classic Asahi lymphatic sequence to music with no talking; hands and a rich cream or oil.'},
+  {id:'f18', v:'x3FKpWagTak', t:'Relaxing face massage before sleep', min:10, by:'\u0410\u043D\u0434\u0440\u0438\u0430\u043D\u043E\u0432\u0430 \u041E\u043B\u044C\u0433\u0430 | \u0419\u043E\u0433\u0430 | \u0415\u0441\u0442\u0435\u0441\u0442\u0432\u0435\u043D\u043D\u043E\u0435 \u043E\u043C\u043E\u043B\u043E\u0436\u0435\u043D\u0438\u0435', lang:'ru', desc:'A soft evening massage that releases the day and settles lymph before bed; hands and face oil.'},
+  {id:'f19', v:'G2U85yAapZA', t:'Six minute morning massage, no tools', min:6, by:'\u0430\u043B\u0443', lang:'ru', desc:'A short fingers-only routine from her morning habit that lifts and de-puffs the face; hands and oil.'},
+  {id:'f20', v:'O6i9qkKOIXU', t:'Lymphatic massage for face and neck', min:7, by:'Dr. Gaya Can', lang:'ru', desc:'A clinical but gentle drainage routine for face and neck you follow in real time; hands only.'},
+  {id:'f21', v:'pIMdga6GCPs', t:'Drain morning puffiness in minutes', min:7, by:'\u041E\u043C\u043E\u043B\u043E\u0434\u0436\u0435\u043D\u043D\u044F \u043E\u0431\u043B\u0438\u0447\u0447\u044F \u0456 \u0442\u0456\u043B\u0430', lang:'ru', desc:'A quick hands-only drainage routine aimed at morning swelling; hands and a little cream or oil.'},
+  {id:'f22', v:'89owwQ-MkUw', t:'Relaxing lifting massage in seven minutes', min:8, by:'Van Den Broek Life', lang:'ru', desc:'A soothing full-face lifting massage with the hands from her weekly plan; hands and face oil.'},
+  {id:'f23', v:'3A0w216sFsk', t:'Morning self-massage for the eye area', min:14, by:'\u043F\u0430\u0437\u043B\u0438 \u043A\u0440\u0430\u0441\u0438 \u043E\u0431\u043B\u0438\u0447\u0447\u044F', lang:'ru', desc:'General drainage plus careful work under the eyes, done along with her; hands, a mirror and oil.'},
+  {id:'f24', v:'SQGdYOjuYMI', t:'Gua sha for lymphatic drainage', min:8, by:'Tina Engeo', lang:'en', desc:'A drainage-focused gua sha routine that guides each stroke toward the neck; stone and face oil.'},
+  {id:'f25', v:'LhZiM7TX4zA', t:'Daily gua sha, no talking', min:11, by:'Tina Engeo', lang:'en', desc:'A silent step-by-step gua sha demonstration set to calm music; a smooth stone and face oil.'},
+  {id:'f26', v:'HHT8RQt5Zoo', t:'Quick daily gua sha for puffiness', min:6, by:'L\u00E9more Beauty', lang:'en', desc:'A short daily gua sha routine for visible puffiness and congestion; stone and a slippery face oil.'},
+  {id:'f27', v:'ultAoWhlRNk', t:'Gua sha to depuff and energize', min:7, by:'All You Can Face', lang:'en', desc:'One side is shown, then you rewind and repeat it on the other; clean stone and a well-oiled face.'},
+  {id:'f28', v:'PtQ9Rt3KZXo', t:'Lymphatic drainage massage, no talking', min:6, by:'TheMoments', lang:'en', desc:'A quiet hands-only drainage routine you simply mirror; hands and a few drops of face oil.'},
+  {id:'f29', v:'Ocjy3HfVAGw', t:'Face lifting massage, no talking', min:9, by:'Abigail James', lang:'en', desc:'On-screen cues and music guide a facialist\u2019s lifting massage with the hands; hands and face oil.'}
 ];
-/* ---------- Yoga: three options a day, by how much you have in you ----------
-   Low energy 15–25 min, medium 26–35, ready to work 36–45. Each band has its
-   own rotation and moves on only when one of its videos is done, so nothing is
-   skipped and a new one waits next time. Wednesday is the pool. */
+/* a stable scramble, so any list of videos is always in the same mixed order */
+function vidHash(s){ let x = 7; for(let i = 0; i < s.length; i++) x = (x * 31 + s.charCodeAt(i)) % 1000003; return x; }
+/* ---------- Yoga: four choices, and they change the moment you finish ----------
+   🌿 15–25 min, 🌤 26–35, 🔥 36–45, and 🏊 the pool on any day you like. Each band
+   keeps its own place in the rotation and moves on the moment a practice is logged —
+   not at midnight — so yoga at one in the morning still brings up something new
+   underneath it, and a second practice the same day gets its own video. */
 const YG_BANDS = [
   {k:'low',  emoji:'🌿', name:'Low energy',    lo:15, hi:25, note:'Not much in the tank — this still counts. Gentle and steady.'},
   {k:'mid',  emoji:'🌤', name:'Medium',        lo:26, hi:35, note:'A normal day: work properly, keep a little in reserve.'},
   {k:'full', emoji:'🔥', name:'Ready to work', lo:36, hi:45, note:'Plenty of energy — spend it. Take the easier version of a pose rather than stopping.'}
 ];
-/* Sunday first, the way a date counts: Wednesday is the pool */
+const YG_POOL = {k:'pool', emoji:'🏊', name:'Pool', lo:0, hi:0, note:'The pool instead of the mat — swim at your own pace and tick this when you are back.'};
+/* Sunday first, the way a date counts: Wednesday is the usual swim, never a rule */
 const YOGA_POOL_DAY = 3;
 
-let todayView = 'main', ygPoolYoga = false, ygPools = null, ygChosen = null;
+let todayView = 'main', ygPools = null, ygChosen = null;
 
 function wkHabit(){
   return state.habits.find(function(h){ return h.id === 'hw'; })
@@ -1727,87 +1761,148 @@ function ygState(){
   if(!state.yoga.b) state.yoga.b = {low:0, mid:0, full:0};
   return state.yoga;
 }
-function ygIsPoolDay(key){ return toDate(key).getDay() === YOGA_POOL_DAY; }
-function ygBand(k){ return YG_BANDS.find(function(b){ return b.k === k; }); }
+function ygBand(k){ return k === 'pool' ? YG_POOL : YG_BANDS.find(function(b){ return b.k === k; }); }
 /* each band in a fixed, mixed order; new videos simply join it */
 function ygPool(k){
   if(!ygPools){
     ygPools = {};
-    const hash = function(s){ let x = 7; for(let i = 0; i < s.length; i++) x = (x * 31 + s.charCodeAt(i)) % 1000003; return x; };
     YG_BANDS.forEach(function(b){
       const fits = YOGA.filter(function(w){ return w.min >= b.lo && w.min <= b.hi; });
       /* low and medium energy skip the intense classes, a full day skips the gentlest ones — unless that would leave too few */
       const kind = fits.filter(function(w){ return b.k === 'full' ? w.intensity !== 'soft' : w.intensity !== 'hard'; });
-      ygPools[b.k] = (kind.length >= 4 ? kind : fits).sort(function(a, c){ return hash(a.v) - hash(c.v); });
+      ygPools[b.k] = (kind.length >= 4 ? kind : fits).sort(function(a, c){ return vidHash(a.v) - vidHash(c.v); });
     });
   }
   return ygPools[k];
 }
 function ygPick(k, i){ const p = ygPool(k); return p.length ? p[((i % p.length) + p.length) % p.length] : null; }
-/* today's three choices; the one already done stays as it was */
+/* a day logged by the older single-session code still reads as one practice */
+function ygMigrate(rec){
+  if(!rec || rec.log || !rec.doneId) return rec;
+  const pool = rec.doneId === 'pool', w = pool ? null : YOGA.find(function(x){ return x.v === rec.doneId; });
+  rec.log = [{k:rec.type || rec.band || 'mid', i:rec.bi, v:pool ? undefined : rec.doneId, min:rec.min || (w && w.min) || 30, t:pool ? 'Pool' : (w ? w.t : 'Yoga')}];
+  return rec;
+}
+function ygRec(){ const key = today(); return ygMigrate(state.workouts[key]) || (state.workouts[key] = {}); }
+function ygLog(){ const rec = ygMigrate(state.workouts[today()]); return (rec && rec.log) || []; }
+/* what is on offer right now: the next video of each band, and the pool */
 function ygOptions(){
-  const st = ygState(), rec = state.workouts[today()] || {};
-  return YG_BANDS.map(function(b){
-    const done = rec.band === b.k;
-    return {b:b, w:ygPick(b.k, done ? rec.bi : st.b[b.k]), done:done};
-  }).filter(function(o){ return o.w; });
+  const st = ygState();
+  return YG_BANDS.map(function(b){ return {b:b, w:ygPick(b.k, st.b[b.k])}; })
+    .filter(function(o){ return o.w; })
+    .concat([{b:YG_POOL, w:null}]);
 }
-function ygUnmark(rec){
-  if(rec.band && rec.bi != null) ygState().b[rec.band] = rec.bi;
+/* the single-session fields the week strip and the stats still read */
+function ygMirror(rec){
+  const last = (rec.log || [])[(rec.log || []).length - 1];
   delete rec.band; delete rec.bi; delete rec.plan; delete rec.doneId; delete rec.min; delete rec.type;
+  if(!last) return;
+  rec.type = last.k; rec.min = last.min; rec.doneId = last.k === 'pool' ? 'pool' : last.v;
+  if(last.k !== 'pool'){ rec.band = last.k; rec.bi = last.i; }
 }
-/* ticking the Yoga habit logs the chosen option (medium if it was ticked straight away); unticking steps back */
+/* one finished practice: its band moves on, so the next look offers something else */
+function ygAdd(k){
+  const rec = ygRec(), st = ygState();
+  if(!rec.log) rec.log = [];
+  if(k === 'pool') rec.log.push({k:'pool', min:40, t:'Pool'});
+  else {
+    const i = st.b[k], w = ygPick(k, i);
+    if(!w) return false;
+    rec.log.push({k:k, i:i, v:w.v, min:w.min, t:w.t});
+    st.b[k] = i + 1;
+  }
+  delete rec.skipped;
+  ygMirror(rec);
+  return true;
+}
+/* undo the last one: its band steps back to where it was */
+function ygDrop(){
+  const rec = ygRec(), last = (rec.log || []).pop();
+  if(last && last.k !== 'pool' && last.i != null) ygState().b[last.k] = last.i;
+  ygMirror(rec);
+}
+/* ticking the habit logs one practice (medium unless a card was tapped); unticking clears the day */
 function ygHabitChanged(h){
   const y = wkHabit();
   if(!y || y.id !== h.id) return;
-  const key = today(), rec = state.workouts[key] || (state.workouts[key] = {});
-  if(isDone(h, key)){
-    if(!rec.doneId){
-      if(ygIsPoolDay(key) && !ygPoolYoga && !ygChosen){ rec.type = 'pool'; rec.doneId = 'pool'; rec.min = 40; }
-      else {
-        const k = ygChosen || 'mid', st = ygState(), i = st.b[k], w = ygPick(k, i);
-        if(w){ rec.band = k; rec.bi = i; rec.doneId = w.v; rec.min = w.min; rec.type = k; st.b[k] = i + 1; }
-      }
-      delete rec.skipped;
-    }
-  } else ygUnmark(rec);
+  const rec = ygRec();
+  if(isDone(h, today())){ if(!(rec.log && rec.log.length)) ygAdd(ygChosen || 'mid'); }
+  else while(rec.log && rec.log.length) ygDrop();
   ygChosen = null;
 }
 function ygHint(h){
-  const key = today(), rec = state.workouts[key] || {};
-  if(rec.doneId === 'pool') return '🏊 Pool done';
-  if(rec.band){ const b = ygBand(rec.band); return '✓ ' + b.emoji + ' ' + b.name + ' · ' + rec.min + ' min'; }
-  if(ygIsPoolDay(key) && !ygPoolYoga) return '🏊 Wednesday — the pool';
-  return ygOptions().map(function(o){ return o.b.emoji + ' ' + o.w.min; }).join(' · ') + ' min';
+  const log = ygLog();
+  if(log.length > 1) return '✓ ' + log.length + ' practices today';
+  if(log.length === 1){ const s = log[0], b = ygBand(s.k); return '✓ ' + b.emoji + ' ' + (s.k === 'pool' ? 'Pool' : b.name + ' · ' + s.min + ' min'); }
+  return ygOptions().map(function(o){ return o.b.emoji + (o.w ? ' ' + o.w.min : ''); }).join(' · ') + ' min';
+}
+function ygDoneStrip(){
+  const log = ygLog();
+  if(!log.length) return '';
+  return '<div class="yg-log"><p class="yg-no">Done today</p>'+
+    log.map(function(s, i){
+      const b = ygBand(s.k) || {emoji:'🧘'};
+      return '<p class="yg-log-row"><span>'+b.emoji+' '+esc(s.t || '')+(s.k === 'pool' ? '' : ' · ' + s.min + ' min')+'</span>'+
+        (i === log.length - 1 ? '<button class="linkbtn" data-act="yg-undo">undo</button>' : '')+'</p>';
+    }).join('')+'</div>';
 }
 function ygPanel(h){
-  const key = today(), rec = state.workouts[key] || {};
-  if(ygIsPoolDay(key) && !ygPoolYoga && !rec.band){
-    return '<div class="hb-vids"><p class="yg-no">Wednesday · 🏊 Pool day</p>'+
-      '<p class="hb-tip">No mat today — swim at your own pace, and tick the habit when you’re back. '+
-      '<button class="linkbtn" data-act="yg-poolyoga">Do yoga instead</button></p></div>';
-  }
-  const opts = ygOptions(), any = !!rec.band;
-  return '<div class="hb-vids"><p class="hb-tip">'+(any ? 'Done for today — tap Done again to undo.' : 'Pick by how you feel today:')+'</p>'+
-    opts.map(function(o){
-      const w = o.w, url = 'https://www.youtube.com/watch?v=' + w.v;
-      if(any && !o.done) return '';
-      return '<article class="vid yg-vid'+(o.done ? ' done' : '')+'">'+
+  const log = ygLog(), swimDay = toDate(today()).getDay() === YOGA_POOL_DAY;
+  return '<div class="hb-vids">'+ygDoneStrip()+
+    '<p class="hb-tip">'+(log.length
+      ? 'Fresh picks — they change every time you finish one, so a late-night practice never leaves you the same video tomorrow. Tap Done again if you go twice.'
+      : 'Pick by how you feel today — or swim instead, whichever day it is:')+'</p>'+
+    ygOptions().map(function(o){
+      const w = o.w, url = w ? 'https://www.youtube.com/watch?v=' + w.v : '';
+      if(!w) return '<article class="vid yg-vid yg-swim"><div class="vid-body">'+
+        '<p class="yg-no">🏊 Pool · any day</p><b>Swim instead of the mat</b>'+
+        '<span class="vid-by">'+(swimDay ? 'Wednesday — your usual swim' : 'Whenever it suits you')+'</span>'+
+        '<p class="yg-note">'+esc(YG_POOL.note)+'</p>'+
+        '<div class="yg-acts"><button class="btn btn-sm" data-act="yg-done" data-b="pool">✓ Done</button></div></div></article>';
+      return '<article class="vid yg-vid">'+
         '<a class="vid-thumb" href="'+url+'" target="_blank" rel="noopener">'+
           '<img src="https://i.ytimg.com/vi/'+w.v+'/hqdefault.jpg" alt="" decoding="async" onerror="this.style.display=&quot;none&quot;">'+
           '<span class="len">'+w.min+' min</span></a>'+
         '<div class="vid-body"><p class="yg-no">'+o.b.emoji+' '+o.b.name+' · '+o.b.lo+'–'+o.b.hi+' min</p>'+
           '<b>'+esc(w.t)+'</b><span class="vid-by">'+esc(w.by)+(w.lang === 'ru' ? ' · RU' : ' · EN')+'</span>'+
-          (o.done ? '' : '<p class="yg-note">'+esc(o.b.note)+'</p>')+
+          '<p class="yg-note">'+esc(o.b.note)+'</p>'+
           '<div class="yg-acts"><a class="btn btn-primary btn-sm" href="'+url+'" target="_blank" rel="noopener">Start →</a>'+
-          '<button class="btn btn-sm'+(o.done ? ' btn-ghost' : '')+'" data-act="yg-done" data-b="'+o.b.k+'">'+(o.done ? 'Done ✓' : '✓ Done')+'</button></div>'+
+          '<button class="btn btn-sm" data-act="yg-done" data-b="'+o.b.k+'">✓ Done</button></div>'+
         '</div></article>';
     }).join('')+'</div>';
 }
+/* Face massage: five at a time out of the whole pool, and they change the moment the
+   habit is ticked — not at midnight — so a massage at one in the morning still leaves
+   five new ones waiting. */
+const FACE_SHOW = 5;
+let facePool = null;
+function faceOrder(){
+  if(!facePool) facePool = FACE_VIDEOS.slice().sort(function(a, b){ return vidHash(a.v) - vidHash(b.v); });
+  return facePool;
+}
+function fcState(){ if(!state.face) state.face = {i:0}; return state.face; }
+function fcHabit(){ return state.habits.find(function(h){ return /face massage|массаж лица|gua ?sha|гуаша/i.test(h.title || ''); }); }
+function fcBatch(){
+  const p = faceOrder(), st = fcState(), out = [];
+  for(let n = 0; n < Math.min(FACE_SHOW, p.length); n++) out.push(p[((st.i + n) % p.length + p.length) % p.length]);
+  return out;
+}
+/* ticking it moves the batch on; unticking the same day puts it back */
+function fcHabitChanged(h){
+  const f = fcHabit();
+  if(!f || f.id !== h.id) return;
+  const st = fcState(), key = today(), done = isDone(h, key);
+  if(done && st.k !== key){ st.i += FACE_SHOW; st.k = key; }
+  else if(!done && st.k === key){ st.i -= FACE_SHOW; delete st.k; }
+}
+function fcHint(h){
+  return isDone(h, today()) ? '✓ Done · five new ones' : FACE_SHOW + ' of ' + FACE_VIDEOS.length + ' videos';
+}
 function facePanel(h){
-  return '<div class="hb-vids"><p class="hb-tip">The same routine every day works best: a clean face, a few drops of oil, light pressure, '+
-    'the stone almost flat to the skin, always moving outwards and down towards the neck.</p><div class="vid-list">'+
-    FACE_VIDEOS.map(function(x){ return vidCard(x, false); }).join('')+'</div></div>';
+  return '<div class="hb-vids"><p class="hb-tip">'+(isDone(h, today())
+    ? 'Five new ones — the set changes every time you tick the habit, however late that is.'
+    : 'A clean face, a few drops of oil, light pressure, the stone almost flat to the skin, always moving outwards and down towards the neck.')+
+    '</p><div class="vid-list">'+fcBatch().map(function(x){ return vidCard(x, false); }).join('')+'</div></div>';
 }
 
 /* the speaking habit: ticked by finishing a topic, and it opens straight into the roulette */
@@ -1825,7 +1920,7 @@ function spPanel(h){
 const HABIT_PANELS = [
   {match:/speak|говор|спикинг/i, hint:function(h){ return isDone(h, today()) ? '✓ Spoken today' : 'Spin a topic'; }, panel:spPanel},
   {match:/^\s*yoga\b|йога/i, hint:ygHint, panel:ygPanel},
-  {match:/face massage|массаж лица|gua ?sha|гуаша/i, hint:function(){ return FACE_VIDEOS.length + ' massage videos'; }, panel:facePanel}
+  {match:/face massage|массаж лица|gua ?sha|гуаша/i, hint:fcHint, panel:facePanel}
 ];
 const hbOpen = {};
 function hbVideos(h){ return HABIT_PANELS.find(function(x){ return x.match.test(h.title || ''); }); }
@@ -3384,7 +3479,7 @@ function toggleHabit(id, el){
       }
     }
   }
-  ygHabitChanged(h);
+  ygHabitChanged(h); fcHabitChanged(h);
   save(); renderToday();
 }
 
@@ -3719,10 +3814,20 @@ document.addEventListener('click', function(e){
   else if(act==='yg-done'){
     const h = wkHabit();
     if(!h) return;
-    ygChosen = btn.getAttribute('data-b') || null;
-    toggleHabit(h.id, btn.closest('.habit'));
+    const k = btn.getAttribute('data-b') || 'mid';
+    if(isDone(h, today())){
+      if(ygAdd(k)){ save(); renderToday(); toast('Logged — new picks below'); }
+    } else {
+      ygChosen = k;
+      toggleHabit(h.id, btn.closest('.habit'));
+    }
   }
-  else if(act==='yg-poolyoga'){ ygPoolYoga = true; renderToday(); }
+  else if(act==='yg-undo'){
+    const h = wkHabit();
+    if(!h) return;
+    if(ygLog().length > 1){ ygDrop(); save(); renderToday(); }
+    else toggleHabit(h.id, btn.closest('.habit'));
+  }
   else if(act==='hb-more'){
     const id2 = btn.getAttribute('data-id');
     hbOpen[id2] = !hbOpen[id2];
