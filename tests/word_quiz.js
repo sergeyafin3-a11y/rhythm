@@ -13,7 +13,7 @@ check(html.indexOf('How are you today?') < 0, 'the "How are you today?" check-in
 const m = /\/\* wq:pure \*\/([\s\S]*?)\/\* wq:end \*\//.exec(html);
 check(!!m, 'no pure word-test logic found between /* wq:pure */ and /* wq:end */');
 if(m){
-  const api = new Function(m[1] + '; return {wqMeaning:wqMeaning, wqUsable:wqUsable, wqBlank:wqBlank, wqBuild:wqBuild, wqGrade:wqGrade, WQ_MIN:WQ_MIN};')();
+  const api = new Function(m[1] + '; return {wqMeaning:wqMeaning, wqUsable:wqUsable, wqBlank:wqBlank, wqBuild:wqBuild, wqGrade:wqGrade, wqBest:wqBest, WQ_MIN:WQ_MIN};')();
   let seed = 7; const rnd = function(){ seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
   const W = function(term, ru, ctx, box, last, mean){ return {id:'w'+term, term:term, ru:ru, mean:mean || '', ctx:ctx || '', box:box || 0, seen:0, right:0, last:last || ''}; };
   const words = [
@@ -58,6 +58,16 @@ if(m){
   check(api.wqBlank('He ghosted me after two dates.', 'ghost') === 'He ____ me after two dates.', 'wqBlank should hide an inflected single word');
   check(api.wqBlank('Come on, spill the tea about the party!', 'spill the tea') === 'Come on, ____ about the party!', 'wqBlank should hide a whole phrase');
   check(api.wqBlank('Nothing about it here.', 'lowkey') === null, 'wqBlank returns null when the word is not in the sentence');
+  // found in review: short words match whole words only, every occurrence is hidden, articles stay in the phrase
+  check(api.wqBlank('An interesting day in town', 'in') === 'An interesting day ____ town', 'a short word must not match inside another word (in / interesting)');
+  check(api.wqBlank('She said item one, then it broke.', 'it') === 'She said item one, then ____ broke.', '"it" must not blank "item"');
+  check(api.wqBlank('He flexes. I do not flex.', 'flex') === 'He ____. I do not ____.', 'every occurrence of the word is hidden, not only the first');
+  check(api.wqBlank('Well, that is a lot of work.', 'a lot') === 'Well, that is ____ of work.', 'a phrase that starts with an article is hidden as a whole');
+  check(api.wqBlank("I don't know.", 'don’t') === 'I ____ know.', 'a curly apostrophe in the saved word still finds the straight one');
+  // a second round never lowers the score already earned today
+  check(api.wqBest({n:5, right:5}, 2, 5).right === 5, 'another round must not overwrite a better score');
+  check(api.wqBest({n:5, right:2}, 4, 5).right === 4, 'a better second round replaces the score');
+  check(api.wqBest(null, 3, 5).right === 3 && api.wqBest(null, 3, 5).n === 5, 'the first round sets the score');
 
   const g1 = api.wqGrade(W('r', 'р', '', 2), true, '2026-10-02');
   check(g1.box === 3 && g1.last === '2026-10-02' && g1.seen === 1 && g1.right === 1, 'a right answer moves the word up one box');

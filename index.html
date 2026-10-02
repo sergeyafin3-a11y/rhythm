@@ -2392,16 +2392,23 @@ function wqShuffle(a, rnd){
   for(let i = b.length - 1; i > 0; i--){ const j = Math.floor(rnd() * (i + 1)), t = b[i]; b[i] = b[j]; b[j] = t; }
   return b;
 }
-/* the sentence with the word hidden — «ghost» also finds «ghosted» — or null when it is not in the sentence */
+/* the sentence with the word hidden — «ghost» also finds «ghosted», every occurrence goes — or null when it is not there.
+   A word of three letters or fewer matches only as a whole word, so «in» never blanks «interesting». */
 function wqBlank(ctx, term){
-  const core = String(term || '').trim().replace(/^(to|a|an|the)\s+/i, '').replace(/\s+(someone|somebody|something|sb|sth)$/i, '');
-  const parts = core.split(/\s+/).filter(Boolean);
-  if(!parts.length) return null;
-  const rx = function(x){ return x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); };
-  let re;
-  try{ re = new RegExp('\\b' + rx(parts[0]) + "[a-z']*" + parts.slice(1).map(function(x){ return '\\s+' + rx(x); }).join(''), 'i'); }catch(e){ return null; }
-  const s = String(ctx || '');
-  return re.test(s) ? s.replace(re, '____') : null;
+  const norm = function(x){ return String(x == null ? '' : x).replace(/[‘’]/g, "'"); };
+  const s = norm(ctx), full = norm(term).trim();
+  const core = full.replace(/^(to|a|an|the)\s+/i, '').replace(/\s+(someone|somebody|something|sb|sth)$/i, '');
+  const esc2 = function(x){ return x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); };
+  /* the phrase as typed first, then without a leading «to»/«a» and a trailing «someone» */
+  const tries = [full, core].filter(function(x, i, a){ return x && a.indexOf(x) === i; });
+  for(let t = 0; t < tries.length; t++){
+    const parts = tries[t].split(/\s+/);
+    const first = esc2(parts[0]) + (parts[0].length > 3 ? "[a-z']*" : '\\b');
+    let re;
+    try{ re = new RegExp('\\b' + first + parts.slice(1).map(function(x){ return '\\s+' + esc2(x) + '\\b'; }).join(''), 'ig'); }catch(e){ continue; }
+    if(re.test(s)) return s.replace(re, '____');
+  }
+  return null;
 }
 function wqBuild(words, n, today, rnd){
   const pool = wqUsable(words);
@@ -2435,6 +2442,11 @@ function wqGrade(w, ok, today){
   else r.box = 0;
   r.last = today;
   return r;
+}
+/* today's score: another round never lowers the one already earned */
+function wqBest(prev, right, n){
+  if(prev && prev.n && prev.right / prev.n >= right / n) return prev;
+  return {n:n, right:right};
 }
 /* wq:end */
 
@@ -3720,7 +3732,7 @@ document.addEventListener('click', function(e){
     wq.i++; wq.picked = null;
     if(wq.i >= wq.qs.length){
       wq.finished = true;
-      wqState().days[today()] = {n:wq.qs.length, right:wq.right};
+      wqState().days[today()] = wqBest(wqState().days[today()], wq.right, wq.qs.length);
       save();
     }
     window.scrollTo(0,0); renderToday();
