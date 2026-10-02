@@ -144,9 +144,8 @@ no class whose title says «для начинающих», «с нуля» or «
 
 ## Face massage
 
-Tap the *Face massage* habit and **five follow-along routines** open under it, drawn from a pool of 29 —
-gua sha and hands-only lymphatic drainage, 4–15 minutes, Russian and English, from twenty different
-teachers. **The five change the moment you tick the habit**, however late at night that is, so the set in
+Tap the *Face massage* habit and **five follow-along routines** open under it, drawn from a pool of 15 —
+**gua sha only**, each **7 to 12 minutes**, Russian and English, from several different teachers. **The five change the moment you tick the habit**, however late at night that is, so the set in
 front of you is never the one you have just done.
 
 ## Fireworks
