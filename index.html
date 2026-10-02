@@ -945,7 +945,7 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .fd-opt b{ display:block; font-size:14.5px; }
 .fd-opt span{ display:block; margin-top:2px; font-size:12.5px; color:var(--ink-mute); }
 .fd-opt[aria-pressed="true"]{ border-color:var(--accent); background:var(--accent-soft); }
-/* ---------- Speaking: words, recordings; daily check-in ---------- */
+/* ---------- Speaking: words and recordings ---------- */
 .tk-take{ grid-template-columns:52px 1fr; }
 .tk-take-acts{ grid-column:1 / -1; display:flex; flex-wrap:wrap; gap:8px; margin:2px 0 6px; }
 .tk-said{ margin-top:10px; }
@@ -957,51 +957,18 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .tk-trbtn{ display:block; margin:0 auto 12px; padding:7px 12px; border-radius:999px; font-size:12.5px; font-weight:700; color:var(--ink-mute); border:var(--border-w) dashed var(--line); }
 .tk-trbtn[aria-pressed="true"]{ color:var(--accent); border-style:solid; border-color:var(--accent); background:var(--accent-soft); }
 .tk-trbtn small{ font-weight:600; opacity:.7; }
-.md-card{ background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius-lg); box-shadow:var(--shadow); padding:15px 16px 16px; margin-bottom:20px; }
-.md-card > .eyebrow{ margin:0; color:var(--accent); }
-.md-card h3{ margin:6px 0 4px; font-family:var(--font-display); font-weight:var(--display-weight); font-size:19px; line-height:1.25; }
-.md-chips{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
-.md-chips span{ padding:5px 10px; border-radius:999px; font-size:12.5px; font-weight:700; background:var(--surface-2); color:var(--ink-soft); }
-.md-q{ margin:20px 0 0; }
-.md-qt{ margin:0 0 9px; font-size:15px; line-height:1.45; font-weight:600; }
-.md-scale{ display:grid; grid-template-columns:repeat(5, 1fr); gap:6px; }
-.md-scale button{ padding:9px 4px; border-radius:var(--radius); border:var(--border-w) solid var(--line); background:var(--surface); color:var(--ink); font-size:12px; line-height:1.25; }
-.md-scale.big button{ font-size:22px; padding:8px 0; }
-.md-scale.small{ grid-template-columns:repeat(2, 1fr); margin-bottom:12px; }
-.md-scale button[aria-pressed="true"], .md-dots button[aria-pressed="true"]{ border-color:var(--accent); background:var(--accent); color:var(--accent-ink); }
-.md-legend{ margin:-4px 0 8px; font-size:12px; color:var(--ink-mute); }
-.md-row{ display:grid; grid-template-columns:110px 1fr; align-items:center; gap:10px; padding:5px 0; border-bottom:var(--border-w) solid var(--line); }
-.md-row span{ font-size:14.5px; font-weight:600; }
-.md-dots{ display:grid; grid-template-columns:repeat(5, 1fr); gap:5px; }
-.md-dots button{ height:34px; border-radius:10px; border:var(--border-w) solid var(--line); background:var(--surface); color:var(--ink-mute); font-weight:700; font-size:13px; }
-.md-wi{ margin:10px 0 6px; font-size:14px; line-height:1.4; }
-.md-src{ margin:14px 0 0; font-size:11.5px; line-height:1.5; color:var(--ink-mute); text-align:center; }
-.md-chart{ margin-bottom:12px; }
-.md-chart p{ margin:0 0 4px; font-size:12.5px; color:var(--ink-mute); }
-.md-chart b{ color:var(--ink); }
-.md-chart b.neg{ color:#C0392B; }
-.md-chart b.pos{ color:#2F7A55; }
-.md-spark{ display:block; width:100%; height:60px; background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius); }
-.md-spark polyline{ fill:none; stroke:var(--accent); stroke-width:2.2; stroke-linejoin:round; stroke-linecap:round; vector-effect:non-scaling-stroke; }
-.md-spark circle{ fill:var(--accent); }
-.md-spark.pa polyline{ stroke:#2F7A55; } .md-spark.pa circle{ fill:#2F7A55; }
-.md-spark.na polyline{ stroke:#C0392B; } .md-spark.na circle{ fill:#C0392B; }
-.md-two{ position:relative; height:60px; }
-.md-two svg{ position:absolute; inset:0; }
-.md-two svg + svg{ background:transparent; border-color:transparent; }
-.md-days{ display:grid; grid-template-columns:repeat(7, 1fr); font-size:10.5px; color:var(--ink-mute); }
-.md-stats{ display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
-.md-stats .stat{ padding:10px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); }
-.md-stats b{ display:block; font-size:19px; }
-.md-stats span{ font-size:11.5px; color:var(--ink-mute); }
-.md-stats i{ font-style:normal; font-size:11px; }
-.md-stats i.up{ color:#2F7A55; } .md-stats i.down{ color:#C0392B; }
-.md-ins{ margin:0; padding-left:18px; display:flex; flex-direction:column; gap:8px; font-size:14.5px; line-height:1.5; }
-.md-who5{ display:flex; gap:10px; flex-wrap:wrap; }
-.md-who5 div{ padding:8px 12px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); text-align:center; }
-.md-who5 b{ display:block; font-size:19px; }
-.md-who5 span{ font-size:11px; color:var(--ink-mute); }
-.md-care{ margin-top:14px; padding:12px 14px; border-radius:var(--radius); background:var(--accent-soft); font-size:14px; line-height:1.5; }
+.wq-card{ background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius-lg); box-shadow:var(--shadow); padding:15px 16px 16px; margin-bottom:20px; }
+.wq-card > .eyebrow, .wq-row .eyebrow{ margin:0; color:var(--accent); }
+.wq-card h3{ margin:6px 0 4px; font-family:var(--font-display); font-weight:var(--display-weight); font-size:19px; line-height:1.25; }
+.wq-card.done{ padding:12px 16px; }
+.wq-row{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.wq-score{ margin:2px 0 0; font-size:15px; font-weight:700; }
+.wq-word{ margin:6px 2px 4px; font-family:var(--font-display); font-weight:var(--display-weight); font-size:30px; line-height:1.2; }
+.wq-fb{ margin-top:14px; }
+.wq-ok, .wq-no{ margin:0 0 8px; font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; }
+.wq-ok{ color:#2F7A55; }
+.wq-no{ color:#C0392B; }
+.wq-missed{ display:flex; flex-direction:column; gap:8px; }
 .wk-strip{ display:flex; gap:6px; margin:14px 0 0; }
 .wk-strip div{ flex:1; text-align:center; }
 .wk-strip i{
@@ -2411,185 +2378,131 @@ function sheetWeigh(){
     '<div class="sheet-actions"><button class="btn btn-primary btn-full" data-act="fd-weigh-save">Save</button></div>');
 }
 
-/* ---------- Daily check-in: two minutes, research scales ----------
-   Mood and energy on a 1–5 scale, last night's sleep, the single-item stress
-   measure (Elo et al., 2003), and the ten feelings of the international short
-   PANAS (Thompson, 2007) — positive and negative affect, 5–25 each. Every two
-   weeks the WHO-5 Well-Being Index is added (0–100). A self-check, not a diagnosis. */
-const MD_PA = ['Alert', 'Inspired', 'Determined', 'Attentive', 'Active'];
-const MD_NA = ['Upset', 'Hostile', 'Ashamed', 'Nervous', 'Afraid'];
-const MD_PANAS_ORDER = ['Upset', 'Hostile', 'Alert', 'Ashamed', 'Inspired', 'Nervous', 'Determined', 'Attentive', 'Afraid', 'Active'];
-const MD_PANAS_SCALE = ['Not at all', 'A little', 'Moderately', 'Quite a bit', 'Extremely'];
-const MD_WHO5 = [
-  'I have felt cheerful and in good spirits',
-  'I have felt calm and relaxed',
-  'I have felt active and vigorous',
-  'I woke up feeling fresh and rested',
-  'My daily life has been filled with things that interest me'
-];
-const MD_WHO5_SCALE = ['At no time', 'Some of the time', 'Less than half of the time', 'More than half of the time', 'Most of the time', 'All of the time'];
-const MD_SINGLE = [
-  ['m',  'Mood',  'How is your mood today?', ['😞', '🙁', '😐', '🙂', '😄']],
-  ['e',  'Energy', 'How much energy do you have?', ['🪫', '▁', '▃', '▅', '⚡']],
-  ['s',  'Sleep', 'How well did you sleep last night?', ['Very badly', 'Badly', 'So-so', 'Well', 'Very well']],
-  ['st', 'Stress', 'Stress means feeling tense, restless, nervous or anxious, or unable to sleep because your mind is troubled. Do you feel this kind of stress today?', ['Not at all', 'Only a little', 'To some extent', 'Rather much', 'Very much']]
-];
-let mdDraft = null;
-
-function mdState(){
-  if(!state.mood) state.mood = {};
-  if(!state.mood.days) state.mood.days = {};
-  if(!state.mood.who5) state.mood.who5 = {};
-  return state.mood;
+/* ---------- Word test: five of her own saved words, once a day ----------
+   The words are the ones she saves in the speaking roulette or types in herself —
+   nothing else. Questions alternate between «what does it mean» and «fill the gap»;
+   a word she gets right moves up a box and comes back less often. */
+/* wq:pure */
+const WQ_LEN = 5, WQ_MIN = 4;
+function wqClean(s){ s = String(s == null ? '' : s).trim(); return s === '—' ? '' : s; }
+function wqMeaning(w){ return wqClean(w.ru) || wqClean(w.mean); }
+function wqUsable(words){ return (words || []).filter(function(w){ return wqClean(w.term) && wqMeaning(w); }); }
+function wqShuffle(a, rnd){
+  const b = a.slice();
+  for(let i = b.length - 1; i > 0; i--){ const j = Math.floor(rnd() * (i + 1)), t = b[i]; b[i] = b[j]; b[j] = t; }
+  return b;
 }
-function mdDay(key){ return mdState().days[key] || null; }
-function mdSum(arr){ return (arr || []).reduce(function(a, b){ return a + (b || 0); }, 0); }
-function mdPA(r){ return r && r.p ? MD_PA.reduce(function(a, k){ return a + (r.p[k] || 0); }, 0) : null; }
-function mdNA(r){ return r && r.p ? MD_NA.reduce(function(a, k){ return a + (r.p[k] || 0); }, 0) : null; }
-function mdWho5Due(){
-  const ks = Object.keys(mdState().who5).sort();
-  if(!ks.length) return true;
-  return (toDate(today()) - toDate(ks[ks.length - 1])) / 86400000 >= 14;
+/* the sentence with the word hidden — «ghost» also finds «ghosted» — or null when it is not in the sentence */
+function wqBlank(ctx, term){
+  const core = String(term || '').trim().replace(/^(to|a|an|the)\s+/i, '').replace(/\s+(someone|somebody|something|sb|sth)$/i, '');
+  const parts = core.split(/\s+/).filter(Boolean);
+  if(!parts.length) return null;
+  const rx = function(x){ return x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); };
+  let re;
+  try{ re = new RegExp('\\b' + rx(parts[0]) + "[a-z']*" + parts.slice(1).map(function(x){ return '\\s+' + rx(x); }).join(''), 'i'); }catch(e){ return null; }
+  const s = String(ctx || '');
+  return re.test(s) ? s.replace(re, '____') : null;
 }
-function mdAvg(list){ const v = list.filter(function(x){ return x != null; }); return v.length ? v.reduce(function(a, b){ return a + b; }, 0) / v.length : null; }
-function mdFmt(x, d){ return x == null ? '—' : (Math.round(x * (d ? 10 : 1)) / (d ? 10 : 1)).toString(); }
-
-/* ---- the card on Today ---- */
-function mdTodayCard(){
-  const r = mdDay(today());
-  if(!r){
-    return '<section class="md-card"><p class="eyebrow">🌤 Check-in</p><h3>How are you today?</h3>'+
-      '<p class="fd-sub">Two minutes of taps on real research scales. Over the weeks it shows what lifts you and what drains you.</p>'+
-      '<button class="btn btn-primary btn-full" data-act="md-open">Check in</button></section>';
-  }
-  return '<section class="md-card done"><button class="fd-top" data-act="md-trends"><span class="eyebrow">🌤 Check-in</span><span class="go">Trends →</span></button>'+
-    '<div class="md-chips"><span>'+MD_SINGLE[0][3][r.m - 1]+' mood '+r.m+'/5</span><span>⚡ energy '+r.e+'/5</span>'+
-    '<span>☀️ positive '+mdPA(r)+'/25</span><span>☁️ negative '+mdNA(r)+'/25</span></div></section>';
-}
-
-/* ---- the check-in itself ---- */
-function renderMoodCheck(){
-  const d = mdDraft || (mdDraft = Object.assign({p:{}, w:[]}, JSON.parse(JSON.stringify(mdDay(today()) || {}))));
-  if(!d.p) d.p = {};
-  const who = mdWho5Due();
-  let h = '<button class="backbtn" data-act="md-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to today</button>'+
-    '<p class="eyebrow">Check-in · '+WDAYS[new Date().getDay()]+'</p><h2 class="rec-title">How are you today?</h2>'+
-    '<p class="fd-sub">Answer quickly — the first answer is usually the right one.</p>';
-  MD_SINGLE.forEach(function(q){
-    h += '<section class="md-q"><p class="md-qt">'+esc(q[2])+'</p><div class="md-scale'+(q[0] === 'm' || q[0] === 'e' ? ' big' : '')+'">'+
-      q[3].map(function(lab, i){
-        return '<button type="button" data-act="md-set" data-k="'+q[0]+'" data-v="'+(i + 1)+'" aria-pressed="'+(d[q[0]] === i + 1)+'">'+esc(lab)+'</button>';
-      }).join('')+'</div></section>';
+function wqBuild(words, n, today, rnd){
+  const pool = wqUsable(words);
+  if(pool.length < WQ_MIN) return [];
+  /* the weakest first, then the longest unseen; one already asked today waits its turn */
+  const order = wqShuffle(pool, rnd).sort(function(a, b){
+    const ta = a.last === today ? 1 : 0, tb = b.last === today ? 1 : 0;
+    if(ta !== tb) return ta - tb;
+    if((a.box || 0) !== (b.box || 0)) return (a.box || 0) - (b.box || 0);
+    return String(a.last || '').localeCompare(String(b.last || ''));
   });
-  h += '<section class="md-q"><p class="md-qt">Today, how much have you felt…</p><p class="md-legend">1 not at all · 2 a little · 3 moderately · 4 quite a bit · 5 extremely</p>'+
-    MD_PANAS_ORDER.map(function(f){
-      return '<div class="md-row"><span>'+f+'</span><div class="md-dots">'+[1, 2, 3, 4, 5].map(function(v){
-        return '<button type="button" data-act="md-panas" data-k="'+f+'" data-v="'+v+'" aria-pressed="'+(d.p[f] === v)+'" aria-label="'+f+' '+MD_PANAS_SCALE[v - 1]+'">'+v+'</button>';
-      }).join('')+'</div></div>';
-    }).join('')+'</section>';
-  if(who){
-    h += '<section class="md-q md-who"><p class="md-qt">Every two weeks: over the <b>last two weeks</b>…</p>'+
-      MD_WHO5.map(function(item, i){
-        return '<p class="md-wi">'+esc(item)+'</p><div class="md-scale small">'+MD_WHO5_SCALE.map(function(lab, v){
-          return '<button type="button" data-act="md-who" data-i="'+i+'" data-v="'+v+'" aria-pressed="'+(d.w[i] === v)+'">'+esc(lab)+'</button>';
-        }).join('')+'</div>';
-      }).join('')+'</section>';
+  return order.slice(0, Math.min(n, pool.length)).map(function(w){
+    const gap = wqBlank(w.ctx, w.term), useGap = !!gap && rnd() < 0.5;
+    const right = useGap ? String(w.term).trim() : wqMeaning(w);
+    const wrong = [], seen = {};
+    seen[right.toLowerCase()] = true;
+    wqShuffle(pool.filter(function(x){ return x.id !== w.id; }), rnd).forEach(function(x){
+      const t = useGap ? String(x.term).trim() : wqMeaning(x);
+      if(wrong.length < 3 && !seen[t.toLowerCase()]){ seen[t.toLowerCase()] = true; wrong.push(t); }
+    });
+    if(wrong.length < 2) return null;
+    const options = wqShuffle([{t:right, ok:true}].concat(wrong.map(function(t){ return {t:t, ok:false}; })), rnd);
+    return {wid:w.id, kind:useGap ? 'blank' : 'mean', prompt:useGap ? gap : String(w.term).trim(), hint:useGap ? wqMeaning(w) : '', answer:right, options:options};
+  }).filter(Boolean);
+}
+/* the word after an answer: right moves it up a box, wrong sends it back to the start */
+function wqGrade(w, ok, today){
+  const r = Object.assign({}, w);
+  r.seen = (r.seen || 0) + 1;
+  if(ok){ r.right = (r.right || 0) + 1; r.box = Math.min(4, (r.box || 0) + 1); }
+  else r.box = 0;
+  r.last = today;
+  return r;
+}
+/* wq:end */
+
+function wqState(){
+  if(!state.wq) state.wq = {days:{}};
+  if(!state.wq.days) state.wq.days = {};
+  return state.wq;
+}
+let wq = null;
+function wqTodayCard(){
+  const have = wqUsable(state.words).length, day = wqState().days[today()];
+  if(have < WQ_MIN){
+    return '<section class="wq-card"><p class="eyebrow">📚 Word test</p><h3>A quick test on your own words</h3>'+
+      '<p class="fd-sub">Save a few words in the speaking roulette, or type in your own — with '+WQ_MIN+' of them a test appears here every day.'+
+      (have ? ' You have '+have+' so far.' : '')+'</p>'+
+      '<button class="btn btn-full" data-act="sw-add">+ Add a word</button></section>';
   }
-  h += '<div class="field" style="margin-top:18px"><label for="mdNote">Anything worth remembering about today? (optional)</label>'+
-    '<textarea id="mdNote" rows="2">'+esc(d.note || '')+'</textarea></div>'+
-    '<button class="btn btn-primary btn-full" data-act="md-save">Save today’s check-in</button>'+
-    '<p class="md-src">Scales: single mood, energy and sleep ratings; single-item stress measure (Elo et al., 2003); international PANAS short form (Thompson, 2007); WHO-5 Well-Being Index. A self-check, not a diagnosis.</p>';
+  if(day){
+    return '<section class="wq-card done"><div class="wq-row"><span><p class="eyebrow">📚 Word test</p>'+
+      '<p class="wq-score">✓ Today: '+day.right+' of '+day.n+'</p></span>'+
+      '<button class="btn btn-ghost btn-sm" data-act="wq-start">Another round</button></div></section>';
+  }
+  return '<section class="wq-card"><p class="eyebrow">📚 Word test</p><h3>'+Math.min(WQ_LEN, have)+' questions, about a minute</h3>'+
+    '<p class="fd-sub">From the '+have+' words you saved. The ones you know least come first.</p>'+
+    '<button class="btn btn-primary btn-full" data-act="wq-start">Start</button></section>';
+}
+function wqBack(){
+  return '<button class="backbtn" data-act="wq-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to today</button>';
+}
+function wqWordCard(w){
+  if(!w) return '';
+  return '<article class="tk-word tk-single"><div class="tk-wtop"><b>'+esc(w.term)+'</b><span class="tk-ru-big" lang="ru">'+esc(wqMeaning(w))+'</span></div>'+
+    (w.ctx ? '<p class="tk-ex">'+swMark(w.ctx, w.term)+'</p>' : '')+'</article>';
+}
+function renderWordTest(){
+  if(!wq) { todayView = 'main'; return renderToday(); }
+  if(wq.finished){
+    const missed = wq.missed.map(function(id){ return (state.words || []).find(function(w){ return w.id === id; }); }).filter(Boolean);
+    return void (view.innerHTML = wqBack()+
+      '<p class="eyebrow" style="margin:14px 2px 0">Word test · done</p>'+
+      '<h2 class="rec-title">'+wq.right+' of '+wq.qs.length+'</h2>'+
+      (missed.length
+        ? '<p class="fd-sub">These will come back sooner:</p><div class="wq-missed">'+missed.map(wqWordCard).join('')+'</div>'
+        : '<p class="fd-sub">All of them right — those words will wait longer before they come back.</p>')+
+      '<button class="btn btn-primary btn-full" data-act="wq-close" style="margin-top:16px">Done</button>');
+  }
+  const q = wq.qs[wq.i], w = (state.words || []).find(function(x){ return x.id === q.wid; });
+  const picked = wq.picked, answered = picked != null;
+  let h = wqBack()+'<p class="eyebrow" style="margin:14px 2px 8px">Word test · '+(wq.i + 1)+' of '+wq.qs.length+'</p>';
+  if(q.kind === 'mean') h += '<p class="wq-word">'+esc(q.prompt)+'</p><p class="fd-sub" style="margin-top:0">What does it mean?</p>';
+  else h += '<p class="pd-q">'+esc(q.prompt)+'</p>'+(q.hint ? '<p class="fd-sub" style="margin-top:-6px" lang="ru">'+esc(q.hint)+'</p>' : '');
+  h += '<div class="pd-opts">'+q.options.map(function(o, i){
+    const cls = !answered ? '' : o.ok ? ' right' : i === picked ? ' wrong' : ' dim';
+    return '<button class="pd-opt'+cls+'" data-act="wq-pick" data-i="'+i+'"'+(answered ? ' disabled' : '')+'><span class="k">'+'ABCD'[i]+'</span><span>'+esc(o.t)+'</span></button>';
+  }).join('')+'</div>';
+  if(answered){
+    h += '<div class="wq-fb">'+(q.options[picked].ok ? '<p class="wq-ok">✓ Right</p>' : '<p class="wq-no">Not quite</p>')+wqWordCard(w)+'</div>'+
+      '<button class="btn btn-primary btn-full" data-act="wq-next" style="margin-top:14px">'+(wq.i + 1 < wq.qs.length ? 'Next' : 'See the result')+'</button>';
+  }
   view.innerHTML = h;
 }
-
-/* ---- trends ---- */
-function mdSpark(vals, max, cls){
-  const w = 300, hgt = 60, n = vals.length, step = n > 1 ? w / (n - 1) : w;
-  let pts = [], dots = '';
-  vals.forEach(function(v, i){
-    if(v == null) return;
-    const x = (i * step).toFixed(1), y = (hgt - 6 - (v - 1) / (max - 1) * (hgt - 12)).toFixed(1);
-    pts.push(x + ',' + y); dots += '<circle cx="'+x+'" cy="'+y+'" r="3"/>';
-  });
-  return '<svg class="md-spark '+cls+'" viewBox="0 0 300 60" preserveAspectRatio="none" aria-hidden="true"><polyline points="'+pts.join(' ')+'"/>'+dots+'</svg>';
-}
-function mdInsight(label, split, key){
-  const days = mdState().days, yes = [], no = [];
-  Object.keys(days).forEach(function(k){
-    const r = days[k], v = key === 'pa' ? mdPA(r) : r[key];
-    if(v == null) return;
-    const g = split(k, r);
-    if(g === true) yes.push(v); else if(g === false) no.push(v);
-  });
-  if(yes.length < 3 || no.length < 3) return '';
-  const a = mdAvg(yes), b = mdAvg(no);
-  if(Math.abs(a - b) < 0.3) return '';
-  return '<li>'+label(mdFmt(a, 1), mdFmt(b, 1), a > b)+'</li>';
-}
-function renderMoodTrends(){
-  const st = mdState(), key = today(), last14 = [];
-  for(let i = 13; i >= 0; i--) last14.push(shift(key, -i));
-  const rows = last14.map(function(k){ return st.days[k] || null; });
-  const week = function(off){
-    const ks = []; for(let i = 0; i < 7; i++) ks.push(shift(key, -(i + off)));
-    const rs = ks.map(function(k){ return st.days[k]; }).filter(Boolean);
-    return {n:rs.length, m:mdAvg(rs.map(function(r){ return r.m; })), e:mdAvg(rs.map(function(r){ return r.e; })),
-            s:mdAvg(rs.map(function(r){ return r.s; })), st:mdAvg(rs.map(function(r){ return r.st; })),
-            pa:mdAvg(rs.map(mdPA)), na:mdAvg(rs.map(mdNA))};
-  };
-  const now = week(0), before = week(7);
-  let h = '<button class="backbtn" data-act="md-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to today</button>'+
-    '<p class="eyebrow">Check-in · trends</p><h2 class="rec-title">How you’ve been</h2>'+
-    '<button class="btn btn-ghost btn-sm" data-act="md-open" style="margin-bottom:6px">Edit today’s check-in</button>';
-
-  h += '<section class="rd-block"><p class="eyebrow">Last 14 days</p>'+
-    '<div class="md-chart"><p><b>Mood</b></p>'+mdSpark(rows.map(function(r){ return r && r.m; }), 5, 'mood')+'</div>'+
-    '<div class="md-chart"><p><b>Energy</b></p>'+mdSpark(rows.map(function(r){ return r && r.e; }), 5, 'energy')+'</div>'+
-    '<div class="md-chart"><p><b class="pos">Positive</b> and <b class="neg">negative</b> feelings (5–25)</p>'+
-      '<div class="md-two">'+mdSpark(rows.map(function(r){ return mdPA(r); }), 25, 'pa')+mdSpark(rows.map(function(r){ return mdNA(r); }), 25, 'na')+'</div></div>'+
-    '<div class="md-days">'+last14.map(function(k, i){ return i % 2 ? '' : '<span>'+toDate(k).getDate()+'</span>'; }).join('')+'</div></section>';
-
-  const cmp = function(label, a, b, good){
-    const diff = a != null && b != null ? a - b : null;
-    const arrow = diff == null || Math.abs(diff) < 0.2 ? '' : ((diff > 0) === good ? ' <i class="up">▲</i>' : ' <i class="down">▼</i>');
-    return '<div class="stat"><b class="num">'+mdFmt(a, 1)+arrow+'</b><span>'+label+(b != null ? ' · was '+mdFmt(b, 1) : '')+'</span></div>';
-  };
-  h += '<section class="rd-block"><p class="eyebrow">This week against the one before</p><div class="md-stats">'+
-    cmp('mood', now.m, before.m, true)+cmp('energy', now.e, before.e, true)+cmp('sleep', now.s, before.s, true)+
-    cmp('stress', now.st, before.st, false)+cmp('positive', now.pa, before.pa, true)+cmp('negative', now.na, before.na, false)+
-    '</div></section>';
-
-  const yoga = function(k){ const r = state.workouts && state.workouts[k]; return !!(r && r.doneId); };
-  const food = function(k){ const p = fdPlan(), d = state.food && state.food.days && state.food.days[k]; if(!p || !d || !d.length) return null; return fdTotals(k).kcal <= p.target; };
-  const sleptWell = function(k, r){ return r.s >= 4 ? true : r.s <= 2 ? false : null; };
-  const spoke = function(k){ const h2 = spHabit(); return h2 ? isDone(h2, k) : null; };
-  const ins = [
-    mdInsight(function(a, b, up){ return 'On days with yoga or the pool your mood averaged <b>'+a+'</b>, on other days <b>'+b+'</b>.'; }, yoga, 'm'),
-    mdInsight(function(a, b){ return 'After a good night’s sleep your energy was <b>'+a+'</b>, after a bad one <b>'+b+'</b>.'; }, sleptWell, 'e'),
-    mdInsight(function(a, b){ return 'On yoga days your positive feelings scored <b>'+a+'</b>, otherwise <b>'+b+'</b>.'; }, yoga, 'pa'),
-    mdInsight(function(a, b){ return 'Days within your calorie target: mood <b>'+a+'</b>; days over it: <b>'+b+'</b>.'; }, food, 'm'),
-    mdInsight(function(a, b){ return 'Days you practised speaking: mood <b>'+a+'</b>; days you didn’t: <b>'+b+'</b>.'; }, spoke, 'm')
-  ].join('');
-  h += '<section class="rd-block"><p class="eyebrow">What seems to matter</p>'+
-    (ins ? '<ul class="md-ins">'+ins+'</ul>' : '<p class="fd-sub">After about a week of check-ins, patterns show up here: how yoga, sleep, food and speaking go with your mood and energy.</p>')+
-    '</section>';
-
-  const wk = Object.keys(st.who5).sort();
-  if(wk.length){
-    const lastW = st.who5[wk[wk.length - 1]];
-    h += '<section class="rd-block"><p class="eyebrow">Well-being · WHO-5, every two weeks</p><div class="md-who5">'+
-      wk.slice(-6).map(function(k){ return '<div><b class="num">'+st.who5[k]+'</b><span>'+fdShortDate(k)+'</span></div>'; }).join('')+'</div>'+
-      '<p class="fd-sub">0–100. Above 50 is the usual range'+(lastW <= 50 ? '. Your last score is lower than that — worth being gentle with yourself and watching the next one.' : '.')+'</p></section>';
-    if(lastW <= 28){
-      h += '<div class="md-care">A WHO-5 score this low is the point where the index suggests talking to a doctor or a psychologist. It isn’t a diagnosis — just a sign that it may be worth not carrying this alone.</div>';
-    }
-  }
-  const heavy = rows.slice(-7).filter(function(r){ return r && mdNA(r) >= 18; }).length;
-  if(heavy >= 4 && !(wk.length && st.who5[wk[wk.length - 1]] <= 28)){
-    h += '<div class="md-care">Strong negative feelings on '+heavy+' of the last 7 days. If it stays like this, talking to someone you trust or to a psychologist really helps.</div>';
-  }
-  h += '<p class="md-src">A self-check built from research scales, not a diagnosis.</p>';
-  view.innerHTML = h;
+/* ---- adding a word of her own ---- */
+function sheetAddWord(){
+  openSheet('<h2>Add a word</h2><p class="sub">A word or phrase you want to remember, with what it means. It joins your saved words and the daily test.</p>'+
+    '<div class="field"><label for="awTerm">Word or phrase</label><input type="text" id="awTerm" autocomplete="off" autocapitalize="none" placeholder="spill the tea"></div>'+
+    '<div class="field"><label for="awRu">What it means (in Russian)</label><input type="text" id="awRu" autocomplete="off" placeholder="выдать сплетню"></div>'+
+    '<div class="field"><label for="awCtx">An example sentence (optional)</label><input type="text" id="awCtx" autocomplete="off" placeholder="Come on, spill the tea!"></div>'+
+    '<div class="sheet-actions"><button class="btn btn-primary btn-full" data-act="sw-save">Save</button></div>');
 }
 
 /* ---------- Storage ---------- */
@@ -2880,11 +2793,10 @@ function renderToday(){
   const hs = activeHabits(), n = hs.length;
 
   if(todayView === 'food') return renderFood();
-  if(todayView === 'mood-check') return renderMoodCheck();
-  if(todayView === 'mood') return renderMoodTrends();
-  let html = tdTodayCard();
+  if(todayView === 'wq') return renderWordTest();
+  let html = wqTodayCard();
+  html += tdTodayCard();
   html += fdTodayCard();
-  html += mdTodayCard();
 
   if(n===0){
     html += '<div class="empty"><div style="font-size:40px">🌱</div><p>Your habits will live here.<br>Start with one. Really, just one.</p>'+
@@ -3269,12 +3181,13 @@ function renderSavedWords(){
   const words = (state.words || []).slice().reverse();
   let h = enSeg();
   if(!words.length){
-    h += '<div class="empty" style="padding:40px 14px"><p>Nothing saved yet.<br>Phrases you save with + in the speaking roulette collect here.</p>'+
-      '<button class="btn" data-act="en-view" data-v="speak">Go to the roulette</button></div>';
+    h += '<div class="empty" style="padding:40px 14px"><p>Nothing saved yet.<br>Phrases you save with + in the speaking roulette collect here — or type in your own.</p>'+
+      '<button class="btn btn-primary" data-act="sw-add">+ Add a word</button> <button class="btn" data-act="en-view" data-v="speak">Go to the roulette</button></div>';
     view.innerHTML = h; return;
   }
   h += '<div class="section-head" style="margin-top:4px"><p class="eyebrow">'+words.length+' saved</p>'+
-    '<button class="btn btn-ghost btn-sm" data-act="sw-hide">'+(swHide ? 'Show meanings' : 'Hide meanings')+'</button></div>'+
+    '<span style="display:flex;gap:6px"><button class="btn btn-ghost btn-sm" data-act="sw-add">+ Add</button>'+
+    '<button class="btn btn-ghost btn-sm" data-act="sw-hide">'+(swHide ? 'Show meanings' : 'Hide meanings')+'</button></span></div>'+
     (swHide ? '<p class="tk-sub">Say what each one means, then tap the card to check.</p>' : '')+
     '<div class="sw-list'+(swHide ? ' hide' : '')+'">'+words.map(function(w){
       return '<article class="sw'+(swOpen[w.id] ? ' open' : '')+'" data-act="sw-peek" data-id="'+esc(w.id)+'">'+
@@ -3786,30 +3699,40 @@ document.addEventListener('click', function(e){
     state.talk.tr = !state.talk.tr; save();
     btn.setAttribute('aria-pressed', state.talk.tr ? 'true' : 'false');
   }
-  else if(act==='md-open'){ mdDraft = null; todayView = 'mood-check'; window.scrollTo(0,0); renderToday(); }
-  else if(act==='md-trends'){ todayView = 'mood'; window.scrollTo(0,0); renderToday(); }
-  else if(act==='md-close'){ mdDraft = null; todayView = 'main'; window.scrollTo(0,0); renderToday(); }
-  else if(act==='md-set' || act==='md-panas' || act==='md-who'){
-    if(!mdDraft) return;
-    const v = +btn.getAttribute('data-v');
-    if(act==='md-set') mdDraft[btn.getAttribute('data-k')] = v;
-    else if(act==='md-panas') mdDraft.p[btn.getAttribute('data-k')] = v;
-    else mdDraft.w[+btn.getAttribute('data-i')] = v;
-    btn.parentElement.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+  else if(act==='wq-start'){
+    const qs = wqBuild(state.words, WQ_LEN, today(), Math.random);
+    if(!qs.length){ toast('Add a few more words first'); return; }
+    wq = {qs:qs, i:0, right:0, picked:null, missed:[], finished:false};
+    todayView = 'wq'; window.scrollTo(0,0); renderToday();
   }
-  else if(act==='md-save'){
-    const d = mdDraft;
-    if(!d) return;
-    const missing = MD_SINGLE.filter(function(q){ return !d[q[0]]; }).length + MD_PANAS_ORDER.filter(function(f){ return !d.p[f]; }).length;
-    if(missing){ toast(missing + (missing === 1 ? ' answer is' : ' answers are') + ' still empty'); return; }
-    const who = mdWho5Due() && d.w.filter(function(x){ return x != null; }).length === 5;
-    d.note = (($('#mdNote') || {}).value || '').trim();
-    const rec = {m:d.m, e:d.e, s:d.s, st:d.st, p:d.p};
-    if(d.note) rec.note = d.note;
-    mdState().days[today()] = rec;
-    if(who) mdState().who5[today()] = mdSum(d.w) * 4;
-    save(); mdDraft = null; todayView = 'mood'; window.scrollTo(0,0); renderToday();
-    toast('Saved · positive ' + mdPA(rec) + ', negative ' + mdNA(rec) + (who ? ' · WHO-5 ' + mdState().who5[today()] : ''));
+  else if(act==='wq-close'){ wq = null; todayView = 'main'; window.scrollTo(0,0); renderToday(); }
+  else if(act==='wq-pick'){
+    if(!wq || wq.picked != null) return;
+    const q = wq.qs[wq.i], i = +btn.getAttribute('data-i'), ok = !!(q.options[i] && q.options[i].ok);
+    wq.picked = i;
+    if(ok) wq.right++; else wq.missed.push(q.wid);
+    const w = (state.words || []).find(function(x){ return x.id === q.wid; });
+    if(w) Object.assign(w, wqGrade(w, ok, today()));
+    save(); renderToday();
+  }
+  else if(act==='wq-next'){
+    if(!wq || wq.picked == null) return;
+    wq.i++; wq.picked = null;
+    if(wq.i >= wq.qs.length){
+      wq.finished = true;
+      wqState().days[today()] = {n:wq.qs.length, right:wq.right};
+      save();
+    }
+    window.scrollTo(0,0); renderToday();
+  }
+  else if(act==='sw-add'){ sheetAddWord(); }
+  else if(act==='sw-save'){
+    const term = (($('#awTerm') || {}).value || '').trim(), ru = (($('#awRu') || {}).value || '').trim(), ctx = (($('#awCtx') || {}).value || '').trim();
+    if(!term || !ru){ toast('Add the word and what it means'); return; }
+    if(swHas(term)){ toast('You already have “' + term + '”'); return; }
+    if(!state.words) state.words = [];
+    state.words.push({id:'w'+Date.now().toString(36), term:term, ctx:ctx, mean:'', ru:ru, src:'own', box:0, seen:0, right:0, last:''});
+    save(); closeSheet(); render(); toast('Saved — ' + term);
   }
   else if(act==='yg-done'){
     const h = wkHabit();

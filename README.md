@@ -25,7 +25,7 @@ file in, **Commit changes**. The site updates in about a minute.
 
 | Tab | What it does |
 |---|---|
-| Today | The day’s to-do card, the food card, the daily check-in and the habits — grouped into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
+| Today | The **word test** on top, the day’s to-do card, the food card and the habits — grouped into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
 | To-do | Tasks that are not habits — a call, an appointment, a bill. Quick-add at the top, optional day and time, grouped into Overdue · Today · Tomorrow · Later · No date |
 | English | **Speak** — the speaking roulette: a topic, a minute, a recording, then the language you could have used. **Saved words** — the phrases you kept from it |
 | Practice | **Driving theory** — the interactive textbook and the official Armenian question bank. **Diction** — ten minutes of Russian speech practice a day |
@@ -88,10 +88,17 @@ list you can reopen.
 
 ## Saved words
 
+You can also type in a word of your own with **+ Add** — the word, what it means, an optional example.
 The **+** on any phrase card keeps it, with its meaning, its Russian equivalent and the
 example sentence — the app highlights the phrase inside that sentence, placeholders and all, so
 *to keep someone posted* lights up inside *"I will keep you posted…"*. **Hide meanings** blurs
 the backs of the cards so you can test yourself; tap a card to check.
+
+## Word test
+
+On top of *Today*: five questions a day, built **only from the words you saved yourself** — in the roulette or typed in by hand.
+Some ask what a word means, some give a sentence with the word missing. A word you get right comes back less often; a wrong one comes back sooner.
+It appears once you have four words. The old mood check-in card is gone; what you answered before stays stored on the device.
 
 ## Diction
 
@@ -161,6 +168,6 @@ Settings → Fireworks sound to silence it. It also respects the system
 
 ## Data
 
-Habits, check-ins, mood check-ins, to-dos, yoga days, saved words, food diary and weight, lessons finished and
+Habits, to-dos, word-test progress, yoga days, saved words, food diary and weight, lessons finished and
 questions answered live in `localStorage` on the device. Voice recordings are never stored:
 they exist only until you leave the topic. Backup: Settings → Backup.
