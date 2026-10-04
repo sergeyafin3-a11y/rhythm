@@ -124,8 +124,8 @@ shows what you have done.
 
 ## Themes and typefaces
 
-The very first screen asks you to choose. Six themes — Greenhouse, Midnight, Peach,
-Risograph, Dusk, Charcoal — and seven typeface pairs, set separately from the theme,
+The very first screen asks you to choose. Eight themes — Greenhouse, Midnight, Peach,
+Risograph, Dusk, Charcoal and the two winter ones, **Frost** (icy and bright) and **Aurora** (a winter night with northern lights) — and seven typeface pairs, set separately from the theme,
 so any pair sits on any palette. Everything changes live as you tap.
 
 Afterwards: Settings → Theme, and Settings → Typeface.
