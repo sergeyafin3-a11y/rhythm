@@ -132,7 +132,7 @@ Afterwards: Settings → Theme, and Settings → Typeface.
 
 ## The habits it starts with
 
-Speak English for a minute · Learn 7 new words · Eight glasses of water ·
+Speak English for a minute · Learn 7 new words · Eight glasses of water (one tick when you have drunk them) ·
 Meditate for 5 minutes · Yoga · 20 pages of a book · Face massage · Foot cream · Thigh roller — and, from the Winter Arc,
 Core & strength · Walk · One thing I put off · One honest “no” · Write the worries down · In bed on time
 
@@ -181,6 +181,11 @@ synthesised with the Web Audio API, so there are no audio files and it works off
 
 Settings → Fireworks sound to silence it. It also respects the system
 "reduce motion" setting: no animation when that is on.
+
+## When the day turns over
+
+The day changes at **4 a.m.**, not at midnight. A habit ticked at 1 a.m. counts for the day you have not slept off yet,
+and the date at the top shows that day.
 
 ## Data
 
