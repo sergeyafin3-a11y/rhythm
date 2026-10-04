@@ -67,6 +67,22 @@ Source: the Road Police of Armenia bank ([roadpolice.am](https://roadpolice.am/e
 in Russian. Everything the lessons teach comes from those official answers. Two questions are
 missing an answer in the source PDFs and were left out.
 
+## Winter Arc
+
+The plan from **4 October to 31 December**. A card at the top of *Today* shows *Day N of 89* and opens the Arc:
+the three goals (body · head · the life around you), a **habit tracker** — this week as a grid, and the whole Arc as one square
+per day, darker when more got done — this week’s bedtime, and the **Wednesday check-in**.
+
+Six habits are added when the Arc starts, one or two per sphere: *Core & strength*, *Walk 15–20 minutes*, *10 minutes on one thing I
+put off*, *One honest “no” this week*, *Write the worries down*, *Phone away, in bed on time*. Delete any of them and it stays deleted.
+Yoga stays the daily base.
+
+**Check-in** (opens from Wednesday until done, two minutes): energy, body, calm and home on a 1–5 scale, whether you got to bed
+on time, whether you said yes to something you did not want, and one line in your own words. It answers with one small focus
+for next week. **Bedtime** starts at 01:50 and moves 10 minutes earlier after each week you got there, down to 01:00.
+
+No points, no streak numbers, no scale and no tape measure — only what was done and how it felt.
+
 ## Speaking roulette
 
 English → **Speak**. Spin the wheel: one of 200 topics comes up. Tap **Start** and the minute
@@ -117,7 +133,8 @@ Afterwards: Settings → Theme, and Settings → Typeface.
 ## The habits it starts with
 
 Speak English for a minute · Learn 7 new words · Eight glasses of water (one tick when you have drunk them) ·
-Meditate for 5 minutes · Yoga · 20 pages of a book · Face massage · Foot cream · Thigh roller
+Meditate for 5 minutes · Yoga · 20 pages of a book · Face massage · Foot cream · Thigh roller — and, from the Winter Arc,
+Core & strength · Walk · One thing I put off · One honest “no” · Write the worries down · In bed on time
 
 Each habit belongs to a time of day — Morning, Day or Evening — and the Today list is grouped
 under those three headings. Change it in the habit editor, delete any of them, or add more from

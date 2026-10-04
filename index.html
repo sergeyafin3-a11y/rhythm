@@ -969,6 +969,46 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .wq-ok{ color:#2F7A55; }
 .wq-no{ color:#C0392B; }
 .wq-missed{ display:flex; flex-direction:column; gap:8px; }
+.arc-card{ display:block; width:100%; text-align:left; margin-bottom:20px; padding:15px 16px 16px; border-radius:var(--radius-lg); color:var(--ink);
+  background:linear-gradient(135deg, var(--accent-soft), var(--surface) 70%); border:var(--border-w) solid var(--accent); box-shadow:var(--shadow); }
+.arc-top{ display:flex; align-items:baseline; justify-content:space-between; }
+.arc-top .eyebrow{ margin:0; color:var(--accent); }
+.arc-top .go{ font-size:12.5px; font-weight:700; color:var(--accent); }
+.arc-day{ display:block; margin:6px 0 8px; font-family:var(--font-display); font-weight:var(--display-weight); font-size:22px; line-height:1.2; }
+.arc-card .pbar{ display:block; margin:0 0 8px; }
+.arc-sub{ display:block; font-size:13px; color:var(--ink-soft); }
+.arc-goals{ display:flex; flex-direction:column; gap:8px; }
+.arc-goal{ padding:12px 14px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); }
+.arc-goal b{ display:block; font-size:14.5px; }
+.arc-goal p{ margin:4px 0 0; font-size:13.5px; line-height:1.5; color:var(--ink-soft); }
+.arc-focus{ border-color:var(--accent); background:var(--accent-soft); }
+.arc-note{ margin:10px 2px 0; font-size:14px; font-style:italic; color:var(--ink-soft); }
+.arc-week{ padding:10px 12px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); }
+.arc-wrow{ display:grid; grid-template-columns:1fr repeat(7, 18px); gap:5px; align-items:center; padding:4px 0; }
+.arc-wrow + .arc-wrow{ border-top:1px solid var(--line); }
+.arc-whead span{ text-align:center; font-size:10px; font-weight:700; color:var(--ink-mute); }
+.arc-wname{ font-size:12.5px; line-height:1.3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.arc-wname small{ font-size:10px; color:var(--ink-mute); }
+.arc-wrow i{ display:block; width:18px; height:18px; border-radius:6px; background:var(--surface-2); }
+.arc-wrow i.on{ background:var(--accent); }
+.arc-wrow i.today{ box-shadow:0 0 0 2px var(--accent-soft), 0 0 0 3.5px var(--accent); }
+.arc-wrow i.future{ opacity:.45; }
+.arc-heat{ display:grid; grid-template-columns:repeat(auto-fill, minmax(15px, 1fr)); gap:4px; }
+.arc-heat i{ display:block; aspect-ratio:1; border-radius:4px; background:var(--surface-2); }
+.arc-heat i.lf{ background:transparent; box-shadow:inset 0 0 0 1px var(--line); }
+.arc-heat i.l1{ background:var(--accent-soft); }
+.arc-heat i.l2{ background:color-mix(in srgb, var(--accent) 45%, var(--surface)); }
+.arc-heat i.l3{ background:color-mix(in srgb, var(--accent) 75%, var(--surface)); }
+.arc-heat i.l4{ background:var(--accent); }
+.arc-heat i.today{ outline:2px solid var(--ink); outline-offset:1px; }
+.arc-sec{ margin:0 0 18px; }
+.arc-q{ margin:0 0 8px; font-size:14.5px; font-weight:700; line-height:1.4; }
+.arc-scale{ display:grid; grid-template-columns:repeat(5, 1fr); gap:6px; }
+.arc-scale.wide{ grid-template-columns:repeat(3, 1fr); }
+.arc-scale button{ padding:11px 4px; border-radius:var(--radius); font-size:16px; font-weight:700; background:var(--surface); border:var(--border-w) solid var(--line); color:var(--ink); }
+.arc-scale.wide button{ font-size:13.5px; }
+.arc-scale button[aria-pressed="true"]{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
+.arc-text{ width:100%; padding:10px 12px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); color:var(--ink); font:inherit; }
 .wk-strip{ display:flex; gap:6px; margin:14px 0 0; }
 .wk-strip div{ flex:1; text-align:center; }
 .wk-strip i{
@@ -2503,6 +2543,210 @@ function sheetAddWord(){
     '<div class="sheet-actions"><button class="btn btn-primary btn-full" data-act="sw-save">Save</button></div>');
 }
 
+/* ---------- Winter Arc: 4 October to 31 December ----------
+   Three spheres — body, head, the life around her — each with one small habit, yoga
+   kept as the daily base, and a short check-in every Wednesday. No points, no streak
+   numbers: a tracker of what was done, and a quiet «day N of 89». */
+/* arc:pure */
+const ARC_START = '2026-10-04', ARC_END = '2026-12-31';
+const ARC_HABITS = [
+  {id:'a-core',  title:'Core & strength',                  emoji:'💪', perDay:1, weekGoal:6, when:'day',     arc:'body',   why:''},
+  {id:'a-walk',  title:'Walk 15–20 minutes',               emoji:'🚶', perDay:1, weekGoal:6, when:'day',     arc:'body',   why:''},
+  {id:'a-avoid', title:'10 minutes on one thing I put off', emoji:'⏱', perDay:1, weekGoal:6, when:'day',     arc:'around', why:''},
+  {id:'a-no',    title:'One honest “no” this week',        emoji:'🙅', perDay:1, weekGoal:1, when:'day',     arc:'around', why:''},
+  {id:'a-worry', title:'Write the worries down',           emoji:'📝', perDay:1, weekGoal:7, when:'evening', arc:'head',   why:''},
+  {id:'a-bed',   title:'Phone away, in bed on time',   emoji:'🌙', perDay:1, weekGoal:7, when:'evening', arc:'sleep',  why:''}
+];
+function arcUtc(key){ const p = String(key).split('-').map(Number); return Date.UTC(p[0], p[1] - 1, p[2]); }
+function arcDiff(a, b){ return Math.round((arcUtc(b) - arcUtc(a)) / 86400000); }
+function arcKeyAdd(key, n){
+  const d = new Date(arcUtc(key) + n * 86400000);
+  return d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0') + '-' + String(d.getUTCDate()).padStart(2, '0');
+}
+function arcTotal(arc){ return arcDiff(arc.start, arc.end) + 1; }
+function arcDayNo(arc, key){ return arcDiff(arc.start, key) + 1; }
+function arcPhase(arc, key){ const n = arcDayNo(arc, key); return n < 1 ? 'before' : n > arcTotal(arc) ? 'after' : 'in'; }
+function arcMonday(key){ return arcKeyAdd(key, -((new Date(arcUtc(key)).getUTCDay() + 6) % 7)); }
+/* starting: the habits are added once, nothing she has is touched, and one she deletes stays deleted */
+function arcEnsure(st, key){
+  let changed = false;
+  if(!st.arc){
+    if(key > ARC_END) return false;
+    st.arc = {start:ARC_START, end:ARC_END, reviews:{}, bed:{base:120, goal:60, step:10}, seeded:false}; changed = true;
+  }
+  if(!st.arc.reviews) st.arc.reviews = {};
+  if(!st.arc.bed) st.arc.bed = {base:120, goal:60, step:10};
+  if(!st.arc.seeded){
+    ARC_HABITS.forEach(function(h){ if(!st.habits.some(function(x){ return x.id === h.id; })) st.habits.push(Object.assign({}, h)); });
+    st.arc.seeded = true; changed = true;
+  }
+  return changed;
+}
+/* a check-in can be made from Wednesday to Sunday, and not before the fourth day of the Arc */
+function arcCanReview(arc, key){
+  if(arcPhase(arc, key) !== 'in' || arcDayNo(arc, key) < 4) return false;
+  return (new Date(arcUtc(key)).getUTCDay() + 6) % 7 >= 2;
+}
+/* ... and it is due until it has been done */
+function arcReviewDue(arc, key){ return arcCanReview(arc, key) && !arc.reviews[arcMonday(key)]; }
+/* bedtime in minutes after midnight: 10 minutes earlier after each week she got there, never past the goal */
+function arcBedMinutes(arc){
+  const good = Object.keys(arc.reviews || {}).filter(function(k){ const b = arc.reviews[k].bed; return b === 'yes' || b === 'mostly'; }).length;
+  return Math.max(arc.bed.goal, arc.bed.base - arc.bed.step * (1 + good));
+}
+function arcClock(m){ return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); }
+const ARC_ADVICE = {
+  body:   {title:'Build the core',        text:'Add two minutes to your Core & strength block and hold every move one breath longer than feels comfortable.'},
+  calm:   {title:'Quieter evenings',      text:'Write the worries down every evening and put each one in a box: “can I do one step? → do it” or “no → let it go”.'},
+  energy: {title:'Protect your energy',   text:'Pick one thing that drains you and do less of it this week, and take a short walk after your first meal.'},
+  home:   {title:'One small order',       text:'Choose one corner or one overdue task and give it ten minutes a day; stop when the timer ends, even mid-thought.'},
+  people: {title:'Practise one “no”',     text:'Turn down one invitation this week with a single calm sentence: “Thank you, I can’t this time.” No explaining.'},
+  keep:   {title:'Hold the line',         text:'It is going well. Keep the same week and notice what has become easy — that is the progress.'}
+};
+/* what to change next week: saying yes against her wish wins, otherwise the weakest area */
+function arcFocus(r){
+  let key;
+  if((r.yes || 0) >= 2) key = 'people';
+  else {
+    const order = ['body', 'calm', 'energy', 'home'];
+    key = order[0];
+    order.forEach(function(k){ if((r[k] || 0) < (r[key] || 0)) key = k; });
+    if((r[key] || 0) >= 4) key = 'keep';
+  }
+  return {key:key, title:ARC_ADVICE[key].title, text:ARC_ADVICE[key].text};
+}
+function arcDone(h, log, key){ return (((log[h.id] || {})[key]) || 0) >= (h.perDay || 1); }
+/* the week that contains `key`, Monday to Sunday, one row per habit */
+function arcWeek(habits, log, key){
+  const mon = arcMonday(key);
+  return habits.filter(function(h){ return !h.archived; }).map(function(h){
+    const cells = [];
+    for(let i = 0; i < 7; i++){ const k = arcKeyAdd(mon, i); cells.push({key:k, done:arcDone(h, log, k), future:k > key, today:k === key}); }
+    return {id:h.id, title:h.title, emoji:h.emoji, weekly:(h.weekGoal || 7) < 5, cells:cells};
+  });
+}
+/* how much of the day was done, 0–4; the weekly habit does not count against a day */
+function arcDayLevel(habits, log, key){
+  const hs = habits.filter(function(h){ return !h.archived && (h.weekGoal || 7) >= 5; });
+  if(!hs.length) return 0;
+  const f = hs.filter(function(h){ return arcDone(h, log, key); }).length / hs.length;
+  return f === 0 ? 0 : f < 0.34 ? 1 : f < 0.67 ? 2 : f < 1 ? 3 : 4;
+}
+function arcHeat(arc, habits, log, key){
+  const out = [], n = arcTotal(arc);
+  for(let i = 0; i < n; i++){ const k = arcKeyAdd(arc.start, i); out.push({key:k, level:k > key ? -1 : arcDayLevel(habits, log, k)}); }
+  return out;
+}
+/* arc:end */
+
+const ARC_SPHERES = [
+  {k:'body',   emoji:'💪', name:'Body',         goal:'A body that feels strong: my core holds me up without pulling in, my legs have room to move, and I have energy through the day.'},
+  {k:'head',   emoji:'🌿', name:'Head',         goal:'A quieter mind: I park the worries instead of living them, and I do the thing I have been putting off.'},
+  {k:'around', emoji:'🏡', name:'Around me',    goal:'A tidy home and the right people: I say no to what drains me and spend my time with people who lift me.'}
+];
+const ARC_REVIEW_Q = [
+  ['energy', 'Energy', 'How was your energy this week?', ['😴', '🥱', '😐', '🙂', '⚡']],
+  ['body',   'Body',   'Do you feel stronger in your body?', ['1', '2', '3', '4', '5']],
+  ['calm',   'Calm',   'How quiet was your mind?', ['1', '2', '3', '4', '5']],
+  ['home',   'Home',   'How much in order are home and tasks?', ['1', '2', '3', '4', '5']]
+];
+let arcDraft = null;
+document.addEventListener('input', function(e){ if(e.target && e.target.id === 'arcNote' && arcDraft) arcDraft.note = e.target.value; });
+function arcState(){ arcEnsure(state, today()); return state.arc || null; }
+function arcTodayCard(){
+  const a = arcState();
+  if(!a) return '';
+  const key = today(), ph = arcPhase(a, key), total = arcTotal(a);
+  if(ph === 'before') return '';
+  const n = Math.min(arcDayNo(a, key), total), pct = Math.round(n / total * 100);
+  const due = arcReviewDue(a, key);
+  return '<button class="arc-card" data-act="arc-open"><span class="arc-top"><span class="eyebrow">❄️ Winter Arc</span><span class="go">Open →</span></span>'+
+    '<span class="arc-day">'+(ph === 'after' ? 'The Arc is finished' : 'Day <b class="num">'+n+'</b> of '+total)+'</span>'+
+    '<span class="pbar"><i style="width:'+pct+'%"></i></span>'+
+    '<span class="arc-sub">'+(due ? '✨ Your Wednesday check-in is ready' : 'Stronger, calmer, lighter by 1 January')+'</span></button>';
+}
+function arcWhy(h){
+  const a = arcState();
+  if(a && (h.arc === 'sleep' || h.id === 'a-bed')) return '<p class="habit-why">In bed by '+arcClock(arcBedMinutes(a))+' tonight</p>';
+  return h.why ? '<p class="habit-why">'+esc(h.why)+'</p>' : '';
+}
+function arcBack(act, label){
+  return '<button class="backbtn" data-act="'+act+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>'+label+'</button>';
+}
+function renderArc(){
+  const a = arcState();
+  if(!a){ todayView = 'main'; return renderToday(); }
+  const key = today(), total = arcTotal(a), n = Math.min(Math.max(arcDayNo(a, key), 1), total);
+  const habits = activeHabits(), due = arcReviewDue(a, key);
+  let h = arcBack('arc-close', 'Back to today')+
+    '<p class="eyebrow" style="margin:14px 2px 0">❄️ Winter Arc</p>'+
+    '<h2 class="rec-title">Day '+n+' of '+total+'</h2>'+
+    '<div class="pbar" style="margin:10px 0 4px"><i style="width:'+Math.round(n / total * 100)+'%"></i></div>'+
+    '<p class="fd-sub" style="margin-top:6px">'+arcFmt(a.start)+' → '+arcFmt(a.end)+'. Yoga stays the base of every day.</p>';
+  h += '<div class="section-head"><p class="eyebrow">Where I am going</p></div><div class="arc-goals">'+ARC_SPHERES.map(function(s){
+    return '<article class="arc-goal"><b>'+s.emoji+' '+s.name+'</b><p>'+esc(s.goal)+'</p></article>';
+  }).join('')+'</div><p class="fd-sub">No scale and no tape measure: the check-in asks how it feels.</p>';
+  /* the week */
+  h += '<div class="section-head"><p class="eyebrow">This week</p></div><div class="arc-week"><div class="arc-wrow arc-whead"><span></span>'+
+    WSHORT.map(function(d){ return '<span>'+d+'</span>'; }).join('')+'</div>'+
+    arcWeek(habits, state.log, key).map(function(r){
+      return '<div class="arc-wrow"><span class="arc-wname">'+esc(r.emoji || '⭐️')+' '+esc(r.title)+(r.weekly ? ' <small>weekly</small>' : '')+'</span>'+
+        r.cells.map(function(c){ return '<i class="'+(c.done ? 'on' : '')+(c.today ? ' today' : '')+(c.future ? ' future' : '')+'"></i>'; }).join('')+'</div>';
+    }).join('')+'</div>';
+  /* the whole Arc */
+  h += '<div class="section-head"><p class="eyebrow">The whole Arc</p></div><div class="arc-heat">'+
+    arcHeat(a, habits, state.log, key).map(function(c){
+      return '<i class="l'+(c.level < 0 ? 'f' : c.level)+(c.key === key ? ' today' : '')+'" title="'+esc(arcFmt(c.key))+'"></i>';
+    }).join('')+'</div><p class="fd-sub">Every square is a day; the darker, the more of it you did.</p>';
+  /* sleep */
+  h += '<div class="section-head"><p class="eyebrow">Sleep</p></div><article class="arc-goal"><b>🌙 This week: in bed by '+arcClock(arcBedMinutes(a))+'</b>'+
+    '<p>Goal '+arcClock(a.bed.goal)+'. After every week you get there on time, the target moves '+a.bed.step+' minutes earlier.</p></article>';
+  /* the check-in */
+  const last = Object.keys(a.reviews).sort().pop(), lr = last && a.reviews[last];
+  h += '<div class="section-head"><p class="eyebrow">Wednesday check-in</p></div>';
+  if(due) h += '<button class="btn btn-primary btn-full" data-act="arc-review">Start the check-in · 2 minutes</button>';
+  else {
+    if(lr){ const f = arcFocus(lr); h += '<article class="arc-goal"><b>Last time: '+esc(f.title)+'</b><p>'+esc(f.text)+'</p>'+(lr.note ? '<p class="arc-note">“'+esc(lr.note)+'”</p>' : '')+'</article>'; }
+    if(arcCanReview(a, key)) h += '<button class="btn btn-ghost btn-full" data-act="arc-review" style="margin-top:10px">'+(lr ? 'Check in again' : 'Check in now')+'</button>'+
+      '<p class="fd-sub">It opens by itself on Wednesday.</p>';
+    else h += '<p class="fd-sub">The check-in opens on Wednesday, so there is a week to look back on.</p>';
+  }
+  view.innerHTML = h;
+}
+function arcFmt(k){ const d = toDate(k); return MONTHS[d.getMonth()].slice(0, 3) + ' ' + d.getDate(); }
+function renderArcReview(){
+  const a = arcState();
+  if(!a){ todayView = 'main'; return renderToday(); }
+  const d = arcDraft || (arcDraft = {week: arcMonday(today())});
+  if(d.saved){
+    const f = arcFocus(d.saved);
+    return void (view.innerHTML = arcBack('arc-close', 'Back to today')+
+      '<p class="eyebrow" style="margin:14px 2px 0">Wednesday check-in · done</p><h2 class="rec-title">Next week</h2>'+
+      '<article class="arc-goal arc-focus"><b>'+esc(f.title)+'</b><p>'+esc(f.text)+'</p></article>'+
+      (d.saved.note ? '<p class="arc-note">“'+esc(d.saved.note)+'”</p>' : '')+
+      '<article class="arc-goal"><b>🌙 Bedtime: '+arcClock(arcBedMinutes(a))+'</b><p>'+(d.saved.bed === 'no'
+        ? 'Same target as before — it moves earlier once you get there on time for a week.'
+        : 'Ten minutes earlier than last week.')+'</p></article>'+
+      '<button class="btn btn-primary btn-full" data-act="arc-close" style="margin-top:14px">Done</button>');
+  }
+  const pick = function(k, v){ return d[k] === v ? 'true' : 'false'; };
+  let h = arcBack('arc-open', 'Winter Arc')+'<p class="eyebrow" style="margin:14px 2px 0">Wednesday check-in</p><h2 class="rec-title">How was the week?</h2>'+
+    '<p class="fd-sub">Two minutes. Tap what is closest — there are no right answers.</p>';
+  ARC_REVIEW_Q.forEach(function(q){
+    h += '<section class="arc-sec"><p class="arc-q">'+q[2]+'</p><div class="arc-scale">'+q[3].map(function(e, i){
+      return '<button type="button" data-act="arc-set" data-k="'+q[0]+'" data-v="'+(i + 1)+'" aria-pressed="'+pick(q[0], i + 1)+'">'+e+'</button>';
+    }).join('')+'</div></section>';
+  });
+  h += '<section class="arc-sec"><p class="arc-q">Did you get to bed by the target most nights?</p><div class="arc-scale wide">'+
+    [['yes', 'Yes'], ['mostly', 'Mostly'], ['no', 'No']].map(function(o){ return '<button type="button" data-act="arc-set" data-k="bed" data-v="'+o[0]+'" aria-pressed="'+pick('bed', o[0])+'">'+o[1]+'</button>'; }).join('')+'</div></section>'+
+    '<section class="arc-sec"><p class="arc-q">Did you say yes to something you did not want?</p><div class="arc-scale wide">'+
+    [[0, 'Never'], [1, 'Once'], [2, 'More than once']].map(function(o){ return '<button type="button" data-act="arc-set" data-k="yes" data-v="'+o[0]+'" aria-pressed="'+pick('yes', o[0])+'">'+o[1]+'</button>'; }).join('')+'</div></section>'+
+    '<section class="arc-sec"><p class="arc-q">One line, in your own words: what do you want to change next week?</p>'+
+    '<textarea id="arcNote" rows="3" class="arc-text" placeholder="e.g. Go to bed before the series, not after">'+esc(d.note || '')+'</textarea></section>'+
+    '<button class="btn btn-primary btn-full" data-act="arc-save">Save the check-in</button>';
+  view.innerHTML = h;
+}
+
 /* ---------- Storage ---------- */
 const KEY = 'ritm.v1';
 let memory = null;
@@ -2625,6 +2869,7 @@ if(!state.cleanWater){ waterOneTap(state.habits, state.log); state.cleanWater = 
 if(!state.diction) state.diction = {};
 if(!wkHabit()) state.habits.push({id:'hw', title:'Yoga', emoji:'🧘', perDay:1, weekGoal:7, when:'morning', why:''});
 if(state.why === undefined) state.why = '';
+arcEnsure(state, today());
 if(!state.started) state.started = today();
 let openPack = null;
 let tab = 'today';
@@ -2813,7 +3058,10 @@ function renderToday(){
 
   if(todayView === 'food') return renderFood();
   if(todayView === 'wq') return renderWordTest();
-  let html = wqTodayCard();
+  if(todayView === 'arc') return renderArc();
+  if(todayView === 'arc-review') return renderArcReview();
+  let html = arcTodayCard();
+  html += wqTodayCard();
   html += tdTodayCard();
   html += fdTodayCard();
 
@@ -2837,7 +3085,7 @@ function renderToday(){
           '<button class="habit-emoji" data-act="edit-habit" data-id="'+h.id+'" aria-label="Edit &quot;'+esc(h.title)+'&quot;">'+esc(h.emoji||'⭐️')+'</button>'+
           '<div class="habit-main"'+(hbVideos(h) ? ' data-act="hb-more" data-id="'+h.id+'"' : '')+'><p class="habit-name">'+esc(h.title)+'</p>'+
           meta+
-          (h.why ? '<p class="habit-why">'+esc(h.why)+'</p>' : '')+
+          arcWhy(h)+
           (hbVideos(h) ? '<span class="hb-hint">'+(hbOpen[h.id] ? '▴ Hide' : '▾ '+hbVideos(h).hint(h))+'</span>' : '')+'</div>'+
           '<div class="counter">'+(per>1?'<span class="cnt num">'+c+'/'+per+'</span>':'')+
           '<button class="check" data-act="toggle" data-id="'+h.id+'" aria-pressed="'+(done?'true':'false')+'" aria-label="Check off &quot;'+esc(h.title)+'&quot;">'+
@@ -3753,6 +4001,28 @@ document.addEventListener('click', function(e){
     state.words.push({id:'w'+Date.now().toString(36), term:term, ctx:ctx, mean:'', ru:ru, src:'own', box:0, seen:0, right:0, last:''});
     save(); closeSheet(); render(); toast('Saved — ' + term);
   }
+  else if(act==='arc-open'){ arcDraft = null; todayView = 'arc'; window.scrollTo(0,0); renderToday(); }
+  else if(act==='arc-close'){ arcDraft = null; todayView = 'main'; window.scrollTo(0,0); renderToday(); }
+  else if(act==='arc-review'){ arcDraft = {week: arcMonday(today())}; todayView = 'arc-review'; window.scrollTo(0,0); renderToday(); }
+  else if(act==='arc-set'){
+    if(!arcDraft) arcDraft = {};
+    const k = btn.getAttribute('data-k'), raw = btn.getAttribute('data-v');
+    arcDraft[k] = (k === 'bed') ? raw : +raw;
+    btn.parentElement.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+  }
+  else if(act==='arc-save'){
+    const d = arcDraft;
+    if(!d){ toast('Tap your answers first'); return; }
+    const missing = ARC_REVIEW_Q.filter(function(q){ return !d[q[0]]; }).length + (d.bed ? 0 : 1) + (d.yes == null ? 1 : 0);
+    if(missing){ toast(missing + (missing === 1 ? ' answer is' : ' answers are') + ' still empty'); return; }
+    const a = arcState();
+    d.note = (($('#arcNote') || {}).value || '').trim();
+    const rec = {energy:d.energy, body:d.body, calm:d.calm, home:d.home, bed:d.bed, yes:d.yes, note:d.note};
+    a.reviews[d.week || arcMonday(today())] = rec;
+    save();
+    arcDraft = {saved:rec};
+    window.scrollTo(0,0); renderToday();
+  }
   else if(act==='yg-done'){
     const h = wkHabit();
     if(!h) return;
@@ -3875,12 +4145,14 @@ document.addEventListener('click', function(e){
       if(!obj || !Array.isArray(obj.habits)) throw new Error('bad');
       state = obj;
       if(!state.cleanWater){ if(!state.log) state.log = {}; waterOneTap(state.habits, state.log); state.cleanWater = true; }
+      arcEnsure(state, today());
       applySkin(state.skin||'peach'); applyFont(state.font||'auto'); save(); closeSheet(); paintHeader(); render(); toast('Data restored');
     }catch(err){ toast('Could not read that — check the text'); }
   }
   else if(act==='reset'){
     if(!confirm('Delete every habit and check-in? This cannot be undone.')) return;
     const skin = state.skin; state = seed(); state.skin = skin; state.habits = [];
+    if(today() <= ARC_END) state.arc = {start:ARC_START, end:ARC_END, reviews:{}, bed:{base:120, goal:60, step:10}, seeded:true};
     save(); closeSheet(); render(); toast('Starting over');
   }
 });
