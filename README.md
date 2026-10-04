@@ -151,7 +151,7 @@ no class whose title says «для начинающих», «с нуля» or «
 
 ## Core & strength
 
-The *Core & strength* habit opens five follow-along videos of 8–15 minutes from a pool of 21 — **abs first** (about half the pool),
+The *Core & strength* habit opens five follow-along videos of 8–15 minutes from a pool of 21 — **abs first** (the biggest share, spread through the pool so every five hold at least two),
 then back, arms and legs (inner thighs included), Russian and English. The five change the moment you tick the habit; unticking
 the same day puts them back. No video promises to burn fat in one place.
 

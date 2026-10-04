@@ -1896,35 +1896,39 @@ const STRENGTH_VIDEOS = [
   {id:'s21', v:'oGXK5pULe0c', t:'Ten minutes for the inner thighs', min:10, by:'Лера Логунова', lang:'ru', focus:'legs', desc:'A non-stop ten minutes for the inner thighs, no equipment.'}
 ];
 /* sc:pure */
-/* the pool in a fixed, mixed order with the abs coming round most often: abs, abs, back, abs, arms, abs, legs */
+/* the pool in a fixed, mixed order with every focus spread evenly through it, abs starting first —
+   so any five in a row, wrapping round the end, hold at least two abs videos */
 function scOrder(list, hash){
-  const by = {abs:[], back:[], arms:[], legs:[]};
+  const by = {}, start = {abs:0.05, back:0.4, arms:0.6, legs:0.8}, out = [];
   list.slice().sort(function(a, b){ return hash(a.v) - hash(b.v); }).forEach(function(x){ (by[x.focus] || (by[x.focus] = [])).push(x); });
-  const pattern = ['abs', 'abs', 'back', 'abs', 'arms', 'abs', 'legs'], pos = {}, out = [];
-  let guard = list.length * 8;
-  while(out.length < list.length && guard-- > 0){
-    pattern.forEach(function(f){ const arr = by[f] || [], p = pos[f] || 0; if(p < arr.length){ out.push(arr[p]); pos[f] = p + 1; } });
-  }
-  return out;
+  Object.keys(by).forEach(function(f){
+    by[f].forEach(function(x, i){ out.push({x:x, at:(i + (start[f] == null ? 0.5 : start[f])) / by[f].length}); });
+  });
+  return out.sort(function(a, b){ return a.at - b.at || hash(a.x.v) - hash(b.x.v); }).map(function(o){ return o.x; });
+}
+/* a title that means this habit — «пресс» only as a word of its own, never inside «экспресс» or «компрессия» */
+const SC_RX = /core\s*(&|and)\s*strength|(^|[^а-яё])пресс/i;
+/* ticking moves the batch on; unticking the same day puts it back; a second tick the same day does nothing */
+function scRotate(st, key, done, n){
+  if(done && st.k !== key){ st.i += n; st.k = key; }
+  else if(!done && st.k === key){ st.i -= n; delete st.k; }
+  return st;
 }
 /* sc:end */
 const SC_SHOW = 5;
 let scPool = null;
 function scState(){ if(!state.strength) state.strength = {i:0}; return state.strength; }
-function scHabit(){ return state.habits.find(function(h){ return /core\s*(&|and)\s*strength|пресс/i.test(h.title || ''); }); }
+function scHabit(){ return state.habits.find(function(h){ const p = SC_RX.test(h.title || '') && hbVideos(h); return p && p.panel === scPanel; }); }
 function scBatch(){
   if(!scPool) scPool = scOrder(STRENGTH_VIDEOS, vidHash);
   const st = scState(), out = [];
   for(let n = 0; n < Math.min(SC_SHOW, scPool.length); n++) out.push(scPool[((st.i + n) % scPool.length + scPool.length) % scPool.length]);
   return out;
 }
-/* ticking it moves the batch on; unticking the same day puts it back */
 function scHabitChanged(h){
   const s = scHabit();
   if(!s || s.id !== h.id) return;
-  const st = scState(), key = today(), done = isDone(h, key);
-  if(done && st.k !== key){ st.i += SC_SHOW; st.k = key; }
-  else if(!done && st.k === key){ st.i -= SC_SHOW; delete st.k; }
+  scRotate(scState(), today(), isDone(h, today()), SC_SHOW);
 }
 function scHint(h){ return isDone(h, today()) ? '✓ Done · five new ones' : SC_SHOW + ' of ' + STRENGTH_VIDEOS.length + ' videos'; }
 function scPanel(h){
@@ -1939,7 +1943,7 @@ const HABIT_PANELS = [
   {match:/speak|говор|спикинг/i, hint:function(h){ return isDone(h, today()) ? '✓ Spoken today' : 'Spin a topic'; }, panel:spPanel},
   {match:/^\s*yoga\b|йога/i, hint:ygHint, panel:ygPanel},
   {match:/face massage|массаж лица|gua ?sha|гуаша/i, hint:fcHint, panel:facePanel},
-  {match:/core\s*(&|and)\s*strength|пресс/i, hint:scHint, panel:scPanel}
+  {match:SC_RX, hint:scHint, panel:scPanel}
 ];
 const hbOpen = {};
 function hbVideos(h){ return HABIT_PANELS.find(function(x){ return x.match.test(h.title || ''); }); }
