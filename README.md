@@ -74,7 +74,7 @@ the three goals (body · head · the life around you), a **habit tracker** — t
 per day, darker when more got done — this week’s bedtime, and the **Wednesday check-in**.
 
 Six habits are added when the Arc starts, one or two per sphere: *Core & strength*, *Walk 15–20 minutes*, *10 minutes on one thing I
-put off*, *One honest “no” this week*, *Write the worries down*, *Phone away, lights out on time*. Delete any of them and it stays deleted.
+put off*, *One honest “no” this week*, *Write the worries down*, *Phone away, in bed on time*. Delete any of them and it stays deleted.
 Yoga stays the daily base.
 
 **Check-in** (opens from Wednesday until done, two minutes): energy, body, calm and home on a 1–5 scale, whether you got to bed
@@ -134,7 +134,7 @@ Afterwards: Settings → Theme, and Settings → Typeface.
 
 Speak English for a minute · Learn 7 new words · Eight glasses of water ·
 Meditate for 5 minutes · Yoga · 20 pages of a book · Face massage · Foot cream · Thigh roller — and, from the Winter Arc,
-Core & strength · Walk · One thing I put off · One honest “no” · Write the worries down · Lights out on time
+Core & strength · Walk · One thing I put off · One honest “no” · Write the worries down · In bed on time
 
 Each habit belongs to a time of day — Morning, Day or Evening — and the Today list is grouped
 under those three headings. Change it in the habit editor, delete any of them, or add more from

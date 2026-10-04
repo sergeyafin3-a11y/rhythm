@@ -2555,7 +2555,7 @@ const ARC_HABITS = [
   {id:'a-avoid', title:'10 minutes on one thing I put off', emoji:'⏱', perDay:1, weekGoal:6, when:'day',     arc:'around', why:''},
   {id:'a-no',    title:'One honest “no” this week',        emoji:'🙅', perDay:1, weekGoal:1, when:'day',     arc:'around', why:''},
   {id:'a-worry', title:'Write the worries down',           emoji:'📝', perDay:1, weekGoal:7, when:'evening', arc:'head',   why:''},
-  {id:'a-bed',   title:'Phone away, lights out on time',   emoji:'🌙', perDay:1, weekGoal:7, when:'evening', arc:'sleep',  why:''}
+  {id:'a-bed',   title:'Phone away, in bed on time',   emoji:'🌙', perDay:1, weekGoal:7, when:'evening', arc:'sleep',  why:''}
 ];
 function arcUtc(key){ const p = String(key).split('-').map(Number); return Date.UTC(p[0], p[1] - 1, p[2]); }
 function arcDiff(a, b){ return Math.round((arcUtc(b) - arcUtc(a)) / 86400000); }
@@ -2570,7 +2570,10 @@ function arcMonday(key){ return arcKeyAdd(key, -((new Date(arcUtc(key)).getUTCDa
 /* starting: the habits are added once, nothing she has is touched, and one she deletes stays deleted */
 function arcEnsure(st, key){
   let changed = false;
-  if(!st.arc){ st.arc = {start:key, end:ARC_END, reviews:{}, bed:{base:120, goal:60, step:10}, seeded:false}; changed = true; }
+  if(!st.arc){
+    if(key > ARC_END) return false;
+    st.arc = {start:key, end:ARC_END, reviews:{}, bed:{base:120, goal:60, step:10}, seeded:false}; changed = true;
+  }
   if(!st.arc.reviews) st.arc.reviews = {};
   if(!st.arc.bed) st.arc.bed = {base:120, goal:60, step:10};
   if(!st.arc.seeded){
@@ -2647,9 +2650,12 @@ const ARC_REVIEW_Q = [
   ['home',   'Home',   'How much in order are home and tasks?', ['1', '2', '3', '4', '5']]
 ];
 let arcDraft = null;
-function arcState(){ arcEnsure(state, today()); return state.arc; }
+document.addEventListener('input', function(e){ if(e.target && e.target.id === 'arcNote' && arcDraft) arcDraft.note = e.target.value; });
+function arcState(){ arcEnsure(state, today()); return state.arc || null; }
 function arcTodayCard(){
-  const a = arcState(), key = today(), ph = arcPhase(a, key), total = arcTotal(a);
+  const a = arcState();
+  if(!a) return '';
+  const key = today(), ph = arcPhase(a, key), total = arcTotal(a);
   if(ph === 'before') return '';
   const n = Math.min(arcDayNo(a, key), total), pct = Math.round(n / total * 100);
   const due = arcReviewDue(a, key);
@@ -2659,14 +2665,17 @@ function arcTodayCard(){
     '<span class="arc-sub">'+(due ? '✨ Your Wednesday check-in is ready' : 'Stronger, calmer, lighter by 1 January')+'</span></button>';
 }
 function arcWhy(h){
-  if(h.arc === 'bed' || h.id === 'a-bed') return '<p class="habit-why">In bed by '+arcClock(arcBedMinutes(arcState()))+' tonight</p>';
+  const a = arcState();
+  if(a && (h.arc === 'sleep' || h.id === 'a-bed')) return '<p class="habit-why">In bed by '+arcClock(arcBedMinutes(a))+' tonight</p>';
   return h.why ? '<p class="habit-why">'+esc(h.why)+'</p>' : '';
 }
 function arcBack(act, label){
   return '<button class="backbtn" data-act="'+act+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>'+label+'</button>';
 }
 function renderArc(){
-  const a = arcState(), key = today(), total = arcTotal(a), n = Math.min(Math.max(arcDayNo(a, key), 1), total);
+  const a = arcState();
+  if(!a){ todayView = 'main'; return renderToday(); }
+  const key = today(), total = arcTotal(a), n = Math.min(Math.max(arcDayNo(a, key), 1), total);
   const habits = activeHabits(), due = arcReviewDue(a, key);
   let h = arcBack('arc-close', 'Back to today')+
     '<p class="eyebrow" style="margin:14px 2px 0">❄️ Winter Arc</p>'+
@@ -2697,14 +2706,17 @@ function renderArc(){
   if(due) h += '<button class="btn btn-primary btn-full" data-act="arc-review">Start the check-in · 2 minutes</button>';
   else {
     if(lr){ const f = arcFocus(lr); h += '<article class="arc-goal"><b>Last time: '+esc(f.title)+'</b><p>'+esc(f.text)+'</p>'+(lr.note ? '<p class="arc-note">“'+esc(lr.note)+'”</p>' : '')+'</article>'; }
-    h += '<button class="btn btn-ghost btn-full" data-act="arc-review" style="margin-top:10px">'+(lr ? 'Check in again' : 'Check in now')+'</button>'+
+    if(arcDayNo(a, key) >= 4) h += '<button class="btn btn-ghost btn-full" data-act="arc-review" style="margin-top:10px">'+(lr ? 'Check in again' : 'Check in now')+'</button>'+
       '<p class="fd-sub">It opens by itself on Wednesday.</p>';
+    else h += '<p class="fd-sub">The first check-in opens on the fourth day, so there is a week to look back on.</p>';
   }
   view.innerHTML = h;
 }
 function arcFmt(k){ const d = toDate(k); return MONTHS[d.getMonth()].slice(0, 3) + ' ' + d.getDate(); }
 function renderArcReview(){
-  const a = arcState(), d = arcDraft || (arcDraft = {});
+  const a = arcState();
+  if(!a){ todayView = 'main'; return renderToday(); }
+  const d = arcDraft || (arcDraft = {});
   if(d.saved){
     const f = arcFocus(d.saved);
     return void (view.innerHTML = arcBack('arc-close', 'Back to today')+
@@ -3978,7 +3990,7 @@ document.addEventListener('click', function(e){
   }
   else if(act==='arc-save'){
     const d = arcDraft;
-    if(!d) return;
+    if(!d){ toast('Tap your answers first'); return; }
     const missing = ARC_REVIEW_Q.filter(function(q){ return !d[q[0]]; }).length + (d.bed ? 0 : 1) + (d.yes == null ? 1 : 0);
     if(missing){ toast(missing + (missing === 1 ? ' answer is' : ' answers are') + ' still empty'); return; }
     const a = arcState();
@@ -4110,12 +4122,14 @@ document.addEventListener('click', function(e){
       const obj = JSON.parse($('#dataBox').value);
       if(!obj || !Array.isArray(obj.habits)) throw new Error('bad');
       state = obj;
+      arcEnsure(state, today());
       applySkin(state.skin||'peach'); applyFont(state.font||'auto'); save(); closeSheet(); paintHeader(); render(); toast('Data restored');
     }catch(err){ toast('Could not read that — check the text'); }
   }
   else if(act==='reset'){
     if(!confirm('Delete every habit and check-in? This cannot be undone.')) return;
     const skin = state.skin; state = seed(); state.skin = skin; state.habits = [];
+    state.arc = {start:today(), end:ARC_END, reviews:{}, bed:{base:120, goal:60, step:10}, seeded:true};
     save(); closeSheet(); render(); toast('Starting over');
   }
 });

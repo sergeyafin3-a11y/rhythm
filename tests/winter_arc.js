@@ -31,6 +31,8 @@ if(m){
   check(ids.indexOf('h5') >= 0 && st.habits.filter(function(h){ return h.arc; }).length === 6, 'her own habit stays, six Arc habits are added');
   const weekly = st.habits.filter(function(h){ return h.weekGoal === 1; });
   check(weekly.length === 1 && /no/i.test(weekly[0].title), 'exactly one weekly habit: the honest “no”');
+  const late = {habits:[], log:{}};
+  check(api.arcEnsure(late, '2027-02-01') === false && !late.arc && late.habits.length === 0, 'opened after 31 December: no Arc and no habits are created');
   st.habits = st.habits.filter(function(h){ return h.id !== 'a-walk'; });
   check(api.arcEnsure(st, '2026-10-20') === false && !st.habits.some(function(h){ return h.id === 'a-walk'; }), 'a habit she deleted is not added back');
   check(st.arc.start === '2026-10-04', 'the start date never moves');
@@ -79,7 +81,20 @@ if(m){
   check(heat.length === 89 && heat[0].key === '2026-10-04' && heat[88].key === '2026-12-31', 'one square per day of the Arc');
   check(heat[1].level === 4 && heat[3].level === 0 && heat[4].level === -1, 'past days have a level, future days are -1');
 }
-check(/function arcWhy\(/.test(html) && /arcWhy\(h\)/.test(html), 'the habit row must show the bedtime target through arcWhy(h)');
-check(/arcTodayCard\(\)/.test(html), 'Today must show the Winter Arc card');
+const count = function(re){ return (html.match(re) || []).length; };
+check(count(/arcWhy\(h\)/g) >= 2, 'arcWhy(h) must be defined and also used by the habit row');
+check(count(/arcTodayCard\(\)/g) >= 2, 'arcTodayCard() must be defined and also used by Today');
+// found in review
+const reset = /act==='reset'\)\{[\s\S]*?\n  \}\n/.exec(html);
+check(!!reset && /state\.arc\s*=/.test(reset[0]) && /seeded\s*[:=]\s*true/.test(reset[0]), 'a reset must not bring the six Arc habits back: it creates an Arc that is already seeded');
+const imp = /act==='import-data'\)\{[\s\S]*?\n  \}\n/.exec(html);
+check(!!imp && /arcEnsure\(/.test(imp[0]), 'restoring a backup must run arcEnsure before the first render');
+check(/addEventListener\('input'[\s\S]{0,200}arcNote/.test(html), 'the check-in note must be kept in the draft as she types (the screen redraws when she comes back to the app)');
+const drop = /const DROP = (\[[^\]]*\]);/.exec(html);
+check(!!drop, 'old cleanup list not found');
+if(drop && m){
+  const api2 = new Function(m[1] + '; return ARC_HABITS;')(), list = new Function('return ' + drop[1])();
+  api2.forEach(function(h){ list.forEach(function(d){ check(h.title.toLowerCase().indexOf(d) < 0, '“' + h.title + '” would be deleted by the old cleanup rule “' + d + '”'); }); });
+}
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: Winter Arc logic');
