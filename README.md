@@ -116,7 +116,7 @@ Afterwards: Settings → Theme, and Settings → Typeface.
 
 ## The habits it starts with
 
-Speak English for a minute · Learn 7 new words · Eight glasses of water ·
+Speak English for a minute · Learn 7 new words · Eight glasses of water (one tick when you have drunk them) ·
 Meditate for 5 minutes · Yoga · 20 pages of a book · Face massage · Foot cream · Thigh roller
 
 Each habit belongs to a time of day — Morning, Day or Evening — and the Today list is grouped
