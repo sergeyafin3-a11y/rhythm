@@ -2528,7 +2528,7 @@ function seed(){
       {id:'h11',title:'Foot cream',                      emoji:'🦶', perDay:1, weekGoal:7, when:'evening'},
       {id:'h12',title:'Thigh roller',                    emoji:'🦵', perDay:1, weekGoal:7, when:'evening'}
     ],
-    log:{}, xp:0, cleanup1:true
+    log:{}, xp:0, cleanup1:true, cleanWater:true
   };
 }
 
@@ -2603,7 +2603,7 @@ if(!state.cleanup5){
 }
 /* water is one tick — «I drank my eight» — instead of eight taps; days already logged keep their meaning */
 /* water:pure */
-function isWaterHabit(h){ return /glasses of water|eight glasses|стакан/i.test((h && h.title) || ''); }
+function isWaterHabit(h){ return !!h && (h.id === 'h7' || /glass(es)? of water|eight glasses|стакан\S*\s+вод|^\s*вода/i.test(h.title || '')); }
 function waterOneTap(habits, log){
   let changed = false;
   (habits || []).forEach(function(h){
@@ -3868,6 +3868,7 @@ document.addEventListener('click', function(e){
       const obj = JSON.parse($('#dataBox').value);
       if(!obj || !Array.isArray(obj.habits)) throw new Error('bad');
       state = obj;
+      if(!state.cleanWater){ if(!state.log) state.log = {}; waterOneTap(state.habits, state.log); state.cleanWater = true; }
       applySkin(state.skin||'peach'); applyFont(state.font||'auto'); save(); closeSheet(); paintHeader(); render(); toast('Data restored');
     }catch(err){ toast('Could not read that — check the text'); }
   }
