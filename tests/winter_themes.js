@@ -39,7 +39,14 @@ const decorM = /const DECOR = \{([\s\S]*?)\n\};/.exec(html);
     check(ratio(v.ink, v.surface) >= 7, id + ': ink on surface ' + ratio(v.ink, v.surface).toFixed(1) + ' (need 7)');
     check(ratio(v['ink-soft'], v.surface) >= 4.5, id + ': ink-soft on surface ' + ratio(v['ink-soft'], v.surface).toFixed(1) + ' (need 4.5)');
     check(ratio(v['ink-soft'], v.ground) >= 4.5, id + ': ink-soft on ground ' + ratio(v['ink-soft'], v.ground).toFixed(1) + ' (need 4.5)');
-    check(ratio(v['ink-mute'], v.surface) >= 3, id + ': ink-mute on surface ' + ratio(v['ink-mute'], v.surface).toFixed(1) + ' (need 3)');
+    ['surface', 'ground', 'accent-soft', 'surface-2'].forEach(function(bg){ check(ratio(v['ink-mute'], v[bg]) >= 4.5, id + ': ink-mute on ' + bg + ' ' + ratio(v['ink-mute'], v[bg]).toFixed(1) + ' (need 4.5, it is used for small labels)'); });
+    ['surface', 'ground'].forEach(function(bg){ check(ratio(v.gold, v[bg]) >= 4.5, id + ': gold on ' + bg + ' ' + ratio(v.gold, v[bg]).toFixed(1) + ' (need 4.5, it is used for small text)'); });
+    // right/wrong colours used as text and borders everywhere (word test, driving quiz, food, to-do)
+    const okc = v.ok || '#2F7A55', badc = v.bad || '#C0392B';
+    ['surface', 'ground'].forEach(function(bg){
+      check(ratio(okc, v[bg]) >= 4.5, id + ': the right-answer green on ' + bg + ' ' + ratio(okc, v[bg]).toFixed(1) + ' (need 4.5)');
+      check(ratio(badc, v[bg]) >= 4.5, id + ': the wrong-answer red on ' + bg + ' ' + ratio(badc, v[bg]).toFixed(1) + ' (need 4.5)');
+    });
     check(ratio(v.accent, v.surface) >= 4.5, id + ': accent on surface ' + ratio(v.accent, v.surface).toFixed(1) + ' (need 4.5, it is used for text)');
     check(ratio(v.accent, v.ground) >= 3, id + ': accent on ground ' + ratio(v.accent, v.ground).toFixed(1) + ' (need 3)');
     check(ratio(v['accent-ink'], v.accent) >= 4.5, id + ': button text on accent ' + ratio(v['accent-ink'], v.accent).toFixed(1) + ' (need 4.5)');
@@ -52,6 +59,7 @@ const decorM = /const DECOR = \{([\s\S]*?)\n\};/.exec(html);
 const ids = SKINS.map(function(s){ return s.id; });
 check(new Set(ids).size === ids.length, 'duplicate theme ids');
 ids.forEach(function(id){ check(!!TC[id], id + ' lacks THEME_COLOR'); });
-check(/\[data-skin="aurora"\] \.tab\[aria-selected="true"\]/.test(html), 'the dark Aurora theme needs the same selected-tab colour rule as the other dark themes');
+check(!/#2F7A55|#C0392B/.test(html.replace(/--ok:\s*#2F7A55; --bad:\s*#C0392B;/, '').replace(/background:#2F7A55|background:#C0392B|rgba\(47,122,85|rgba\(192,57,43/g, '')), 'text and border colours for right/wrong must use var(--ok) / var(--bad), so a dark theme can lighten them');
+check(/--ok:\s*#2F7A55; --bad:\s*#C0392B;/.test(html), 'the default --ok / --bad are defined once, in the root block');
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: ' + ids.length + ' themes, Frost and Aurora complete and readable');
