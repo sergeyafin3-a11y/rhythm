@@ -1544,7 +1544,7 @@ const LIBRARY = [
     {t:'Morning skincare', e:'🧴', p:1, w:7},
     {t:'Evening skincare', e:'🌛', p:1, w:7},
     {t:'Sunscreen', e:'🧢', p:1, w:7},
-    {t:'Eight glasses of water', e:'💧', p:8, w:7},
+    {t:'Eight glasses of water', e:'💧', p:1, w:7},
     {t:'A glass of water on waking', e:'🥛', p:1, w:7},
     {t:'Floss', e:'🪥', p:1, w:7},
     {t:'Take makeup off before bed', e:'🧼', p:1, w:7},
@@ -2524,11 +2524,11 @@ function seed(){
       {id:'h4', title:'Meditate for 5 minutes',          emoji:'🧘', perDay:1, weekGoal:7, when:'morning'},
       {id:'h5', title:'Yoga',                            emoji:'🤸', perDay:1, weekGoal:7, when:'morning'},
       {id:'h6', title:'Face massage',                    emoji:'💆', perDay:1, weekGoal:7, when:'evening'},
-      {id:'h7', title:'Eight glasses of water',          emoji:'💧', perDay:8, weekGoal:7, when:'day'},
+      {id:'h7', title:'Eight glasses of water',          emoji:'💧', perDay:1, weekGoal:7, when:'day'},
       {id:'h11',title:'Foot cream',                      emoji:'🦶', perDay:1, weekGoal:7, when:'evening'},
       {id:'h12',title:'Thigh roller',                    emoji:'🦵', perDay:1, weekGoal:7, when:'evening'}
     ],
-    log:{}, xp:0, cleanup1:true
+    log:{}, xp:0, cleanup1:true, cleanWater:true
   };
 }
 
@@ -2607,6 +2607,21 @@ if(!state.cleanup5){
     state.habits.push({id:'hs', title:'Speaking spin', emoji:'🎙', perDay:1, weekGoal:7, when:'day', why:''});
   state.cleanup5 = true;
 }
+/* water is one tick — «I drank my eight» — instead of eight taps; days already logged keep their meaning */
+/* water:pure */
+function isWaterHabit(h){ return !!h && (h.id === 'h7' || /glass(es)? of water|eight glasses|стакан\S*\s+вод|^\s*вода/i.test(h.title || '')); }
+function waterOneTap(habits, log){
+  let changed = false;
+  (habits || []).forEach(function(h){
+    if(!isWaterHabit(h) || !(h.perDay > 1)) return;
+    const old = h.perDay, days = (log && log[h.id]) || {};
+    Object.keys(days).forEach(function(k){ if(days[k] >= old) days[k] = 1; else delete days[k]; });
+    h.perDay = 1; changed = true;
+  });
+  return {changed:changed};
+}
+/* water:end */
+if(!state.cleanWater){ waterOneTap(state.habits, state.log); state.cleanWater = true; }
 if(!state.diction) state.diction = {};
 if(!wkHabit()) state.habits.push({id:'hw', title:'Yoga', emoji:'🧘', perDay:1, weekGoal:7, when:'morning', why:''});
 if(state.why === undefined) state.why = '';
@@ -3859,6 +3874,7 @@ document.addEventListener('click', function(e){
       const obj = JSON.parse($('#dataBox').value);
       if(!obj || !Array.isArray(obj.habits)) throw new Error('bad');
       state = obj;
+      if(!state.cleanWater){ if(!state.log) state.log = {}; waterOneTap(state.habits, state.log); state.cleanWater = true; }
       applySkin(state.skin||'peach'); applyFont(state.font||'auto'); save(); closeSheet(); paintHeader(); render(); toast('Data restored');
     }catch(err){ toast('Could not read that — check the text'); }
   }
