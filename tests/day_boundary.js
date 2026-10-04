@@ -19,6 +19,12 @@ if(m){
   check(at(3, 59) === '2026-10-02', '03:59 still belongs to the day before, got ' + at(3, 59));
   check(at(4, 0) === '2026-10-03', '04:00 starts the new day, got ' + at(4, 0));
   check(api.dayKeyAt(new Date(2026, 0, 1, 2, 0).getTime()) === '2025-12-31', 'works across a year boundary');
+  // clock-change days: the flip stays at 04:00 local (run it also as  TZ=America/New_York osascript -l JavaScript tests/day_boundary.js)
+  const ymd = function(y, mo, d, h, mi){ return api.dayKeyAt(new Date(y, mo, d, h, mi).getTime()); };
+  check(ymd(2026, 2, 8, 4, 30) === '2026-03-08', '04:30 on a spring-forward day starts the new day, got ' + ymd(2026, 2, 8, 4, 30));
+  check(ymd(2026, 2, 8, 3, 30) === '2026-03-07', '03:30 on a spring-forward day is still the day before, got ' + ymd(2026, 2, 8, 3, 30));
+  check(ymd(2026, 10, 1, 3, 30) === '2026-10-31', '03:30 on a fall-back day is still the day before, got ' + ymd(2026, 10, 1, 3, 30));
+  check(ymd(2026, 10, 1, 4, 0) === '2026-11-01', '04:00 on a fall-back day starts the new day, got ' + ymd(2026, 10, 1, 4, 0));
 }
 check(/function today\(\)\{ return dayKeyAt\(\); \}/.test(html), 'today() must use dayKeyAt()');
 check(!/function paintHeader\(\)\{\s*const d = new Date\(\);/.test(html), 'the date in the header must show the logical day, not the calendar one');

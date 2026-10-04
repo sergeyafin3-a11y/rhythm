@@ -2537,7 +2537,7 @@ function seed(){
 function dk(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 /* the day turns over at 4 a.m., not at midnight: a habit ticked at 1 a.m. still belongs to the day that has not been slept off yet */
 const DAY_STARTS_AT = 4;
-function logicalNow(ms){ return new Date((ms == null ? Date.now() : ms) - DAY_STARTS_AT * 3600000); }
+function logicalNow(ms){ const d = new Date(ms == null ? Date.now() : ms); d.setHours(d.getHours() - DAY_STARTS_AT); return d; }
 function dayKeyAt(ms){ return dk(logicalNow(ms)); }
 /* day:end */
 function today(){ return dayKeyAt(); }
@@ -4474,7 +4474,9 @@ function render(){
   else if(tab==='practice') renderSkills();
   else renderToday();
 }
+let paintedDay = '';
 function paintHeader(){
+  paintedDay = today();
   const d = logicalNow();
   $('#dateLine').textContent = WDAYS[d.getDay()] + ', ' + MONTHS[d.getMonth()] + ' ' + d.getDate();
   const h = new Date().getHours();
@@ -4504,6 +4506,8 @@ else {
 
 /* New day — repaint */
 document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && state.skin) { paintHeader(); render(); } });
+/* left open across 4 a.m.: move on to the new day by itself */
+setInterval(()=>{ if(!document.hidden && state.skin && paintedDay && paintedDay !== today()){ paintHeader(); render(); } }, 60000);
 
 if('serviceWorker' in navigator && location.protocol === 'https:'){
   window.addEventListener('load', ()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
