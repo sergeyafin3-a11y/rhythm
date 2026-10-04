@@ -1681,11 +1681,9 @@ const YOGA = [
   {id:'k11', v:'93z3NDIiU2E', t:'Spicy core yoga, thirty minutes', min:31, by:'Yoga with Kassandra', lang:'en', intensity:'medium', strong:true, desc:'A vinyasa class built around strong core work, for a day with energy.'},
   {id:'k12', v:'dqCmSGazL6w', t:'Strong core yoga, creative vinyasa', min:33, by:'Charlie Follows', lang:'en', intensity:'medium', strong:true, desc:'A thirty-minute vinyasa flow with a slow but dynamic focus on core strength.'},
   {id:'k13', v:'PIT7G8gOyAU', t:'Power yoga for a sculpted core', min:34, by:'PS Fit', lang:'en', intensity:'medium', strong:true, desc:'A power class that tones the core while it strengthens and lengthens the body.'},
-  {id:'k14', v:'qcoeyxva4bQ', t:'Intense yoga for strong glutes', min:32, by:'Немного Yoga', lang:'ru', intensity:'medium', strong:true, desc:'A thirty-minute practice for the strength and tone of the glutes and legs.'},
   {id:'k15', v:'r-zVihhWXkQ', t:'Yoga flow for abs and core strength', min:36, by:'Yoga with Kassandra', lang:'en', intensity:'medium', strong:true, desc:'An intermediate vinyasa flow built around core strength and toning.'},
   {id:'k16', v:'zpTK-NgZ1-M', t:'Strong yoga flow for the whole body', min:36, by:'Charlie Follows', lang:'en', intensity:'medium', strong:true, desc:'A dynamic practice with creative transitions to strengthen the whole body.'},
-  {id:'k17', v:'e3i8YBDt1oo', t:'Forty minute strong yoga flow', min:39, by:'Charlie Follows', lang:'en', intensity:'medium', strong:true, desc:'A full-body strength sequence with options to suit the day.'},
-  {id:'k18', v:'-vSaYAidfI4', t:'Yoga for the abs, forty minutes', min:39, by:'LYUKKI YOGA', lang:'ru', intensity:'medium', strong:true, desc:'A forty-minute class that works the abs and the whole core in yoga poses.'}
+  {id:'k17', v:'e3i8YBDt1oo', t:'Forty minute strong yoga flow', min:39, by:'Charlie Follows', lang:'en', intensity:'medium', strong:true, desc:'A full-body strength sequence with options to suit the day.'}
 ];
 /* Face massage: gua sha only, 7–12 minutes — the app shows five at a time. Every id opened on YouTube. */
 const FACE_VIDEOS = [
@@ -1737,9 +1735,31 @@ function ygBand(k){ return k === 'pool' ? YG_POOL : YG_BANDS.find(function(b){ r
 /* a band in a fixed, mixed order, with the strength-focused classes on every other pick — core, back, arms and legs are what she wants more of */
 function ygMix(list, hash){
   const sorted = list.slice().sort(function(a, b){ return hash(a.v) - hash(b.v); });
-  const strong = sorted.filter(function(w){ return w.strong; }), rest = sorted.filter(function(w){ return !w.strong; }), out = [];
-  for(let i = 0; i < Math.max(strong.length, rest.length); i++){ if(i < strong.length) out.push(strong[i]); if(i < rest.length) out.push(rest[i]); }
-  return out;
+  const strong = sorted.filter(function(w){ return w.strong; }), rest = sorted.filter(function(w){ return !w.strong; });
+  /* each kind is spread evenly through the whole cycle, the strength classes starting first */
+  return strong.map(function(w, i){ return {w:w, at:(i + 0.2) / strong.length}; })
+    .concat(rest.map(function(w, i){ return {w:w, at:(i + 0.7) / rest.length}; }))
+    .sort(function(a, b){ return a.at - b.at; })
+    .map(function(o){ return o.w; });
+}
+/* the videos she has already done, from every logged day */
+function ygDoneSet(workouts){
+  const s = {};
+  Object.keys(workouts || {}).forEach(function(k){
+    const r = workouts[k] || {};
+    (r.log || []).forEach(function(e){ if(e && e.v) s[e.v] = true; });
+    if(r.doneId && r.doneId !== 'pool') s[r.doneId] = true;
+  });
+  return s;
+}
+/* the next video from the index that she has not done yet — so a re-mixed pool never hands her one she knows;
+   once she has done them all, simply the one at the index */
+function ygPickUnseen(pool, i, done){
+  const n = pool.length;
+  if(!n) return null;
+  const at = ((i % n) + n) % n;
+  for(let j = 0; j < n; j++){ const w = pool[(at + j) % n]; if(!done[w.v]) return w; }
+  return pool[at];
 }
 /* yg:end */
 /* each band in a fixed, mixed order; new videos simply join it */
@@ -1755,7 +1775,7 @@ function ygPool(k){
   }
   return ygPools[k];
 }
-function ygPick(k, i){ const p = ygPool(k); return p.length ? p[((i % p.length) + p.length) % p.length] : null; }
+function ygPick(k, i){ return ygPickUnseen(ygPool(k), i, ygDoneSet(state.workouts)); }
 /* a day logged by the older single-session code still reads as one practice */
 function ygMigrate(rec){
   if(!rec || rec.log || !rec.doneId) return rec;

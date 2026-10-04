@@ -10,7 +10,8 @@ const dm = /const YOGA = (\[[\s\S]*?\n\]);/.exec(html);
 check(!!dm, 'YOGA not found');
 const YOGA = dm ? new Function('return ' + dm[1])() : [];
 const strong = YOGA.filter(function(x){ return x.strong; });
-check(strong.length >= 16, 'need at least 16 strength-focused classes, got ' + strong.length);
+check(strong.length >= 15, 'need at least 15 strength-focused classes, got ' + strong.length);
+check(!YOGA.some(function(x){ return x.v === 'qcoeyxva4bQ' || x.v === '-vSaYAidfI4'; }), 'dropped after review: one is called “intensive” and partly on the floor, the other promises a flat belly in its title');
 const band = function(x){ return x.min >= 15 && x.min <= 25 ? 'low' : x.min >= 26 && x.min <= 35 ? 'mid' : x.min >= 36 && x.min <= 45 ? 'full' : 'out'; };
 const ids = {}, vs = {};
 YOGA.forEach(function(x){ check(!ids[x.id] && !vs[x.v], x.id + ': duplicate id or video'); ids[x.id] = vs[x.v] = true; });
@@ -28,7 +29,7 @@ check(strong.filter(function(x){ return x.lang === 'ru'; }).length >= 6, 'at lea
 const m = /\/\* yg:pure \*\/([\s\S]*?)\/\* yg:end \*\//.exec(html);
 check(!!m, 'no pure mixing logic between /* yg:pure */ and /* yg:end */');
 if(m){
-  const api = new Function(m[1] + '; return {ygMix:ygMix};')();
+  const api = new Function(m[1] + '; return {ygMix:ygMix, ygDoneSet:ygDoneSet, ygPickUnseen:ygPickUnseen};')();
   const hash = function(s){ let x = 7; for(let i = 0; i < s.length; i++) x = (x * 31 + s.charCodeAt(i)) % 1000003; return x; };
   // the three bands exactly as the app builds them
   const bands = {low:[15, 25], mid:[26, 35], full:[36, 45]};
@@ -38,11 +39,14 @@ if(m){
     const pool = kind.length >= 4 ? kind : fits;
     const mixed = api.ygMix(pool, hash);
     check(mixed.length === pool.length && new Set(mixed.map(function(x){ return x.id; })).size === pool.length, k + ': the mix keeps every video exactly once');
-    const head = mixed.slice(0, 6), s = head.filter(function(x){ return x.strong; }).length, total = pool.filter(function(x){ return x.strong; }).length;
-    check(s >= Math.min(3, total), k + ': the first six picks hold only ' + s + ' strength classes (need 3)');
-    for(let i = 0; i + 1 < Math.min(8, mixed.length); i += 2){
-      if(pool.filter(function(x){ return x.strong; }).length >= 4 && pool.filter(function(x){ return !x.strong; }).length >= 4)
-        check(!!mixed[i].strong !== !!mixed[i + 1].strong || (mixed[i].strong && mixed[i + 1].strong), k + ': picks ' + i + ' and ' + (i + 1) + ' should alternate strong / other');
+    // the strength classes are spread evenly through the whole cycle — not all at the start
+    const idx = []; mixed.forEach(function(x, i){ if(x.strong) idx.push(i); });
+    check(idx.length >= 3, k + ': at least three strength classes');
+    check(idx[0] <= 3, k + ': the first strength class comes within the first four picks, got position ' + idx[0]);
+    const limit = Math.ceil(mixed.length / idx.length) + 1;
+    for(let j = 0; j < idx.length; j++){
+      const gap = (idx[(j + 1) % idx.length] - idx[j] + mixed.length) % mixed.length || mixed.length;
+      check(gap <= limit, k + ': a gap of ' + gap + ' picks without a strength class (at most ' + limit + ')');
     }
   });
   check(api.ygMix([], hash).length === 0, 'an empty list stays empty');
@@ -51,6 +55,20 @@ if(m){
   const none = [{v:'a'}, {v:'b'}, {v:'c'}];
   check(api.ygMix(none, hash).length === 3, 'a list without strength classes works');
 }
-check(/ygPools\[b\.k\] = ygMix\(/.test(html), 'ygPool must build each band through ygMix');
+const body = function(name){ const mm = new RegExp('function ' + name + '\\(.*?\\)\\{[\\s\\S]*?\\n\\}\\n').exec(html); return mm ? mm[0] : ''; };
+check(/ygMix\(/.test(body('ygPool')), 'ygPool must build each band through ygMix');
+check(/ygPickUnseen\(/.test(body('ygPick')) && /ygDoneSet\(/.test(body('ygPick')), 'ygPick must skip videos she has already done');
+// found in review: a pool that is re-mixed must not hand her videos she has already done
+if(m){
+  const api3 = new Function(m[1] + '; return {ygDoneSet:ygDoneSet, ygPickUnseen:ygPickUnseen};')();
+  const done = api3.ygDoneSet({'2026-10-01':{log:[{k:'mid', v:'A'}, {k:'low', v:'B'}]}, '2026-10-02':{doneId:'C'}, '2026-10-03':{doneId:'pool', log:[{k:'pool'}]}, '2026-10-04':null});
+  check(done.A && done.B && done.C && Object.keys(done).length === 3, 'the done set holds exactly the videos from every logged day (no "pool", no empty days)');
+  const pool = [{v:'A'}, {v:'B'}, {v:'C'}, {v:'D'}, {v:'E'}];
+  check(api3.ygPickUnseen(pool, 0, done).v === 'D', 'from index 0 it skips A, B, C and offers D');
+  check(api3.ygPickUnseen(pool, 3, done).v === 'D' && api3.ygPickUnseen(pool, 4, done).v === 'E', 'an unseen video at the index is offered as it is');
+  check(api3.ygPickUnseen(pool, 5, done).v === 'D', 'the index wraps round the pool');
+  check(api3.ygPickUnseen(pool, 0, {A:1, B:1, C:1, D:1, E:1}).v === 'A', 'once she has done them all it simply offers the one at the index');
+  check(api3.ygPickUnseen([], 0, {}) === null, 'an empty pool offers nothing');
+}
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: ' + strong.length + ' strength-focused yoga classes mixed into the three bands');
