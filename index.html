@@ -87,6 +87,28 @@
   --gold:#C98F5A; --shadow: 0 1px 2px rgba(0,0,0,.5), 0 14px 34px -18px rgba(0,0,0,.9);
   --radius:10px; --radius-lg:16px; --border-w:1px;
 }
+[data-skin="frost"]{
+  color-scheme: light;
+  --font-display: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Golos Text', ui-sans-serif, system-ui, sans-serif;
+  --display-weight: 700; --display-tracking: -0.02em;
+  --ground:#E3EEF7; --surface:#F6FBFE; --surface-2:#D2E4F1; --line:#B6CEE0;
+  --ink:#0F2437; --ink-soft:#3C5B75; --ink-mute:#5F7E98;
+  --accent:#17648F; --accent-ink:#F6FBFE; --accent-soft:#CBE2F2;
+  --gold:#A56A22; --shadow: 0 1px 2px rgba(15,36,55,.06), 0 12px 28px -16px rgba(15,36,55,.34);
+  --radius:16px; --radius-lg:26px; --border-w:1px;
+}
+[data-skin="aurora"]{
+  color-scheme: dark;
+  --font-display: 'Literata', Georgia, serif;
+  --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --display-weight: 700; --display-tracking: -0.01em;
+  --ground:#08131F; --surface:#102236; --surface-2:#17304A; --line:#26435F;
+  --ink:#E7F2F9; --ink-soft:#A9C2D3; --ink-mute:#6F8DA5;
+  --accent:#52D6BA; --accent-ink:#08131F; --accent-soft:#153F40;
+  --gold:#A99CFF; --shadow: 0 1px 2px rgba(0,0,0,.45), 0 14px 34px -16px rgba(0,0,0,.85);
+  --radius:16px; --radius-lg:24px; --border-w:1px;
+}
 
 /* ============================================================
    BASE
@@ -237,6 +259,7 @@ main{ flex:1; padding-bottom:104px; }
 .tab svg{ width:18px; height:18px; }
 .tab[aria-selected="true"]{ background:var(--accent-soft); color:var(--accent); }
 [data-skin="charcoal"] .tab[aria-selected="true"],
+[data-skin="aurora"] .tab[aria-selected="true"],
 [data-skin="midnight"] .tab[aria-selected="true"]{ color:var(--accent); }
 
 /* ============================================================
@@ -1257,7 +1280,9 @@ const SKINS = [
   {id:'peach',    name:'Peach',      desc:'Soft and warm',         font:"'Comfortaa',sans-serif", fw:700, ground:'#FBE9DE', surface:'#FFF7F2', ink:'#40272A', accent:'#C4566B', gold:'#D98E3C'},
   {id:'riso',     name:'Risograph',  desc:'Bright, like print',    font:"'Unbounded',sans-serif", fw:800, ground:'#F7F3EA', surface:'#FFFFFF', ink:'#141414', accent:'#2B44FF', gold:'#FF4D8D'},
   {id:'dusk',     name:'Dusk',       desc:'Quiet lavender',        font:"'Philosopher',Georgia,serif", fw:700, ground:'#E9E6F1', surface:'#F6F4FA', ink:'#2A2340', accent:'#6B57C7', gold:'#C98A45'},
-  {id:'charcoal', name:'Charcoal',   desc:'Dark and minimal',       font:"'Oswald',sans-serif", fw:600, ground:'#121211', surface:'#1C1C1A', ink:'#EDEAE2', accent:'#D9C7A3', gold:'#C98F5A'}
+  {id:'charcoal', name:'Charcoal',   desc:'Dark and minimal',       font:"'Oswald',sans-serif", fw:600, ground:'#121211', surface:'#1C1C1A', ink:'#EDEAE2', accent:'#D9C7A3', gold:'#C98F5A'},
+  {id:'frost',    name:'Frost',      desc:'Icy and bright',        font:"'Manrope',sans-serif", fw:700, ground:'#E3EEF7', surface:'#F6FBFE', ink:'#0F2437', accent:'#17648F', gold:'#A56A22'},
+  {id:'aurora',   name:'Aurora',     desc:'Winter night, northern lights', font:"'Literata',Georgia,serif", fw:700, ground:'#08131F', surface:'#102236', ink:'#E7F2F9', accent:'#52D6BA', gold:'#A99CFF'}
 ];
 const FONTSETS = [
   {id:'auto', name:'Match the theme', display:'', body:'', w:'', t:''},
@@ -1278,7 +1303,7 @@ function applyFont(id){
   el.style.setProperty('--display-weight', f.w);
   el.style.setProperty('--display-tracking', f.t);
 }
-const THEME_COLOR = {orangery:'#E7EDE4', midnight:'#0D1220', peach:'#FBE9DE', riso:'#F7F3EA', dusk:'#E9E6F1', charcoal:'#121211'};
+const THEME_COLOR = {orangery:'#E7EDE4', midnight:'#0D1220', peach:'#FBE9DE', riso:'#F7F3EA', dusk:'#E9E6F1', charcoal:'#121211', frost:'#E3EEF7', aurora:'#08131F'};
 
 const DAYPARTS = [['morning','Morning'],['day','Day'],['evening','Evening']];
 function guessWhen(title){
@@ -1356,7 +1381,32 @@ const DECOR = {
     '<circle cx="470" cy="26" r="52" stroke-width="1"/><circle cx="470" cy="26" r="82" stroke-width="1" opacity=".8"/>'+
     '<circle cx="470" cy="26" r="112" stroke-width="1" opacity=".6"/><circle cx="470" cy="26" r="142" stroke-width="1" opacity=".42"/>'+
     '<circle cx="470" cy="26" r="172" stroke-width="1" opacity=".28"/></g>'+
-    '<g stroke="var(--gold)" stroke-width="1.2" opacity=".45"><path d="M-10 118h190"/><path d="M-10 132h120"/><path d="M-10 146h64"/></g></svg>'
+    '<g stroke="var(--gold)" stroke-width="1.2" opacity=".45"><path d="M-10 118h190"/><path d="M-10 132h120"/><path d="M-10 146h64"/></g></svg>',
+
+  frost:
+    '<svg viewBox="0 0 520 240" preserveAspectRatio="xMidYMin slice" fill="none">'+
+    '<g opacity=".4"><ellipse cx="90" cy="24" rx="130" ry="72" fill="var(--accent)" opacity=".16"/>'+
+    '<ellipse cx="430" cy="14" rx="150" ry="80" fill="var(--gold)" opacity=".1"/>'+
+    '<ellipse cx="260" cy="-20" rx="160" ry="66" fill="var(--accent)" opacity=".12"/></g>'+
+    '<g stroke="var(--accent)" stroke-width="1.3" stroke-linecap="round" opacity=".42">'+
+    '<g transform="translate(70 62)"><path d="M0-16v32M-14-8l28 16M-14 8l28-16"/><path d="M0-9l-4-4M0-9l4-4M0 9l-4 4M0 9l4 4" opacity=".7"/></g>'+
+    '<g transform="translate(176 30) scale(.7)"><path d="M0-16v32M-14-8l28 16M-14 8l28-16"/></g>'+
+    '<g transform="translate(332 70) scale(.9)"><path d="M0-16v32M-14-8l28 16M-14 8l28-16"/><path d="M0-9l-4-4M0-9l4-4M0 9l-4 4M0 9l4 4" opacity=".7"/></g>'+
+    '<g transform="translate(446 36) scale(.6)"><path d="M0-16v32M-14-8l28 16M-14 8l28-16"/></g>'+
+    '<g transform="translate(250 112) scale(.5)"><path d="M0-16v32M-14-8l28 16M-14 8l28-16"/></g></g>'+
+    '<g fill="var(--accent)" opacity=".3"><circle cx="124" cy="104" r="2"/><circle cx="214" cy="84" r="1.5"/><circle cx="388" cy="116" r="2"/><circle cx="486" cy="92" r="1.6"/><circle cx="36" cy="132" r="1.6"/></g></svg>',
+
+  aurora:
+    '<svg viewBox="0 0 520 240" preserveAspectRatio="xMidYMin slice" fill="none">'+
+    '<defs><filter id="auBlur" x="-20%" y="-50%" width="140%" height="200%"><feGaussianBlur stdDeviation="9"/></filter></defs>'+
+    '<g filter="url(#auBlur)" opacity=".6">'+
+    '<path d="M-20 70c70-60 120 20 190-14s110-66 180-20 110 28 190-10" stroke="var(--accent)" stroke-width="26" stroke-linecap="round" opacity=".5"/>'+
+    '<path d="M-20 112c80-44 130 20 200-8s100-52 170-12 120 22 190-6" stroke="var(--gold)" stroke-width="20" stroke-linecap="round" opacity=".34"/></g>'+
+    '<g fill="var(--ink)"><circle cx="48" cy="34" r="1.5" opacity=".8"/><circle cx="116" cy="20" r="1" opacity=".55"/>'+
+    '<circle cx="204" cy="40" r="1.7" opacity=".7"/><circle cx="278" cy="16" r="1.1" opacity=".5"/>'+
+    '<circle cx="352" cy="38" r="1.4" opacity=".75"/><circle cx="430" cy="18" r="1" opacity=".45"/>'+
+    '<circle cx="486" cy="52" r="1.5" opacity=".6"/><circle cx="84" cy="88" r="1.1" opacity=".4"/>'+
+    '<circle cx="318" cy="100" r="1.1" opacity=".4"/><circle cx="170" cy="120" r="1" opacity=".35"/></g></svg>'
 };
 
 /* ---------- Sound: a fanfare built from oscillators, no files needed ---------- */
