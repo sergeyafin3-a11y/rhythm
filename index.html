@@ -2277,7 +2277,7 @@ function fdTime(ts){ const d = new Date(ts); return String(d.getHours()).padStar
 function renderFood(){
   const plan = fdPlan(), key = today(), day = fdDay(key), tot = fdTotals(key), f = fdState();
   let h = '<button class="backbtn" data-act="fd-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to today</button>'+
-    '<p class="eyebrow">Food · '+WDAYS[new Date().getDay()]+'</p>';
+    '<p class="eyebrow">Food · '+WDAYS[logicalNow().getDay()]+'</p>';
   if(plan){
     const left = plan.target - tot.kcal;
     h += '<h2 class="rec-title">'+(left >= 0 ? left+' kcal left' : (-left)+' kcal over')+'</h2>'+
@@ -2533,8 +2533,14 @@ function seed(){
 }
 
 /* ---------- Dates ---------- */
+/* day:pure */
 function dk(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
-function today(){ return dk(new Date()); }
+/* the day turns over at 4 a.m., not at midnight: a habit ticked at 1 a.m. still belongs to the day that has not been slept off yet */
+const DAY_STARTS_AT = 4;
+function logicalNow(ms){ const d = new Date(ms == null ? Date.now() : ms); d.setHours(d.getHours() - DAY_STARTS_AT); return d; }
+function dayKeyAt(ms){ return dk(logicalNow(ms)); }
+/* day:end */
+function today(){ return dayKeyAt(); }
 function shift(key, n){ const p=key.split('-').map(Number); return dk(new Date(p[0], p[1]-1, p[2]+n)); }
 function toDate(key){ const p=key.split('-').map(Number); return new Date(p[0], p[1]-1, p[2]); }
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -4468,10 +4474,12 @@ function render(){
   else if(tab==='practice') renderSkills();
   else renderToday();
 }
+let paintedDay = '';
 function paintHeader(){
-  const d = new Date();
+  paintedDay = today();
+  const d = logicalNow();
   $('#dateLine').textContent = WDAYS[d.getDay()] + ', ' + MONTHS[d.getMonth()] + ' ' + d.getDate();
-  const h = d.getHours();
+  const h = new Date().getHours();
   const part = h<5 ? 'Good night' : h<12 ? 'Good morning' : h<18 ? 'Good afternoon' : 'Good evening';
   $('#greeting').textContent = state.name ? part + ', ' + state.name : part;
 }
@@ -4498,6 +4506,8 @@ else {
 
 /* New day — repaint */
 document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && state.skin) { paintHeader(); render(); } });
+/* left open across 4 a.m.: move on to the new day by itself */
+setInterval(()=>{ if(!document.hidden && state.skin && paintedDay && paintedDay !== today()){ paintHeader(); render(); } }, 60000);
 
 if('serviceWorker' in navigator && location.protocol === 'https:'){
   window.addEventListener('load', ()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });

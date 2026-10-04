@@ -165,6 +165,11 @@ synthesised with the Web Audio API, so there are no audio files and it works off
 Settings → Fireworks sound to silence it. It also respects the system
 "reduce motion" setting: no animation when that is on.
 
+## When the day turns over
+
+The day changes at **4 a.m.**, not at midnight. A habit ticked at 1 a.m. counts for the day you have not slept off yet,
+and the date at the top shows that day.
+
 ## Data
 
 Habits, to-dos, word-test progress, yoga days, saved words, food diary and weight, lessons finished and
