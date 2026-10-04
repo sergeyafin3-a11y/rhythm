@@ -1667,7 +1667,25 @@ const YOGA = [
   {id:'y6', v:'ZgWQ05ptyEA', t:'Deep hatha for the whole body', min:33, by:'\u0419\u043E\u0433\u0430 \u0441 \u041D\u0430\u0442\u0430\u043B\u044C\u0435\u0439 \u041F\u043E\u043B\u044F\u043D\u0441\u043A\u043E\u0439', lang:'ru', intensity:'soft', desc:'Thorough but caring work through the whole body, with easier and harder options offered.'},
   {id:'en14', v:'Eu79LgIy2PE', t:'Slow morning yoga for stability', min:34, by:'Breathe and Flow', lang:'en', intensity:'soft', desc:'A gentle yet effective morning flow that builds stability and leaves you focused for the day.'},
   {id:'en13', v:'_nVEfLNRa7c', t:'Slow flow yoga class', min:36, by:'Five Parks Yoga w/ Erin Sampson', lang:'en', intensity:'soft', desc:'A beautifully paced class that flows from pose to pose with plenty of time to settle into each one.'},
-  {id:'y8', v:'PCvDdruOm_8', t:'Everyday full body flow', min:41, by:'Charlie Follows', lang:'en', intensity:'soft', desc:'A steady daily vinyasa with hip openers, backbends and standing balances, for all levels.'}
+  {id:'y8', v:'PCvDdruOm_8', t:'Everyday full body flow', min:41, by:'Charlie Follows', lang:'en', intensity:'soft', desc:'A steady daily vinyasa with hip openers, backbends and standing balances, for all levels.'},
+  {id:'k1', v:'ASeyDyso-yA', t:'Yoga for a strong core, twenty minutes', min:20, by:'Yoga with Vilina', lang:'ru', intensity:'medium', strong:true, desc:'A twenty-minute class that wakes up the abs and lower back with steady, focused work.'},
+  {id:'k2', v:'6uVSkvWO7As', t:'Twenty minute yoga for abs', min:22, by:'Yoga With Adriene', lang:'en', intensity:'medium', strong:true, desc:'A feel-good flow that strengthens the core while you stay with your breath.'},
+  {id:'k3', v:'DtzAxRSNmBA', t:'Twenty minute total core yoga', min:24, by:'Yoga With Tim', lang:'en', intensity:'medium', strong:true, desc:'A total core routine for better movement, easy to do every day.'},
+  {id:'k4', v:'BPobdbmzY9o', t:'Deep core yoga, twenty minutes', min:21, by:'Yoga With Adriene', lang:'en', intensity:'medium', strong:true, desc:'A total-body practice with a deep-core focus that builds strength and flexibility.'},
+  {id:'k5', v:'KP73vJqmbq8', t:'Yoga for strong legs and glutes', min:25, by:'Milky Yoga', lang:'ru', intensity:'medium', strong:true, desc:'Twenty-five minutes of leg and glute work in yoga poses, with strong holds.'},
+  {id:'k6', v:'z8dBuQyyAsI', t:'Yoga for the core, back and abs', min:29, by:'Йога с Натальей Полянской', lang:'ru', intensity:'medium', strong:true, desc:'Core, back and abs together with glute work, because they hold the core up.'},
+  {id:'k7', v:'jk1-tYY99xs', t:'Core, abs and lower back yoga', min:26, by:'Milky Yoga', lang:'ru', intensity:'medium', strong:true, desc:'A twenty-five minute class to strengthen the abs and the lower back.'},
+  {id:'k8', v:'6wGVGRbH17s', t:'Power yoga for the core', min:28, by:'Milky Yoga', lang:'ru', intensity:'medium', strong:true, desc:'A strength-focused core class built on strong, steady poses.'},
+  {id:'k9', v:'MCMI2p_pF5Y', t:'Yoga for core strength, thirty minutes', min:28, by:'Aleksandra Zaytseva', lang:'ru', intensity:'medium', strong:true, desc:'Breath and strong poses that engage the deep muscles of the abs and back.'},
+  {id:'k10', v:'YXVyhBcepnE', t:'Core work, gentle but dense', min:34, by:'Йога с Дмитрием Яннау', lang:'ru', intensity:'medium', strong:true, desc:'A thirty-minute power-yoga class: gentle on the joints, firm on the core.'},
+  {id:'k11', v:'93z3NDIiU2E', t:'Spicy core yoga, thirty minutes', min:31, by:'Yoga with Kassandra', lang:'en', intensity:'medium', strong:true, desc:'A vinyasa class built around strong core work, for a day with energy.'},
+  {id:'k12', v:'dqCmSGazL6w', t:'Strong core yoga, creative vinyasa', min:33, by:'Charlie Follows', lang:'en', intensity:'medium', strong:true, desc:'A thirty-minute vinyasa flow with a slow but dynamic focus on core strength.'},
+  {id:'k13', v:'PIT7G8gOyAU', t:'Power yoga for a sculpted core', min:34, by:'PS Fit', lang:'en', intensity:'medium', strong:true, desc:'A power class that tones the core while it strengthens and lengthens the body.'},
+  {id:'k14', v:'qcoeyxva4bQ', t:'Intense yoga for strong glutes', min:32, by:'Немного Yoga', lang:'ru', intensity:'medium', strong:true, desc:'A thirty-minute practice for the strength and tone of the glutes and legs.'},
+  {id:'k15', v:'r-zVihhWXkQ', t:'Yoga flow for abs and core strength', min:36, by:'Yoga with Kassandra', lang:'en', intensity:'medium', strong:true, desc:'An intermediate vinyasa flow built around core strength and toning.'},
+  {id:'k16', v:'zpTK-NgZ1-M', t:'Strong yoga flow for the whole body', min:36, by:'Charlie Follows', lang:'en', intensity:'medium', strong:true, desc:'A dynamic practice with creative transitions to strengthen the whole body.'},
+  {id:'k17', v:'e3i8YBDt1oo', t:'Forty minute strong yoga flow', min:39, by:'Charlie Follows', lang:'en', intensity:'medium', strong:true, desc:'A full-body strength sequence with options to suit the day.'},
+  {id:'k18', v:'-vSaYAidfI4', t:'Yoga for the abs, forty minutes', min:39, by:'LYUKKI YOGA', lang:'ru', intensity:'medium', strong:true, desc:'A forty-minute class that works the abs and the whole core in yoga poses.'}
 ];
 /* Face massage: gua sha only, 7–12 minutes — the app shows five at a time. Every id opened on YouTube. */
 const FACE_VIDEOS = [
@@ -1715,6 +1733,15 @@ function ygState(){
   return state.yoga;
 }
 function ygBand(k){ return k === 'pool' ? YG_POOL : YG_BANDS.find(function(b){ return b.k === k; }); }
+/* yg:pure */
+/* a band in a fixed, mixed order, with the strength-focused classes on every other pick — core, back, arms and legs are what she wants more of */
+function ygMix(list, hash){
+  const sorted = list.slice().sort(function(a, b){ return hash(a.v) - hash(b.v); });
+  const strong = sorted.filter(function(w){ return w.strong; }), rest = sorted.filter(function(w){ return !w.strong; }), out = [];
+  for(let i = 0; i < Math.max(strong.length, rest.length); i++){ if(i < strong.length) out.push(strong[i]); if(i < rest.length) out.push(rest[i]); }
+  return out;
+}
+/* yg:end */
 /* each band in a fixed, mixed order; new videos simply join it */
 function ygPool(k){
   if(!ygPools){
@@ -1723,7 +1750,7 @@ function ygPool(k){
       const fits = YOGA.filter(function(w){ return w.min >= b.lo && w.min <= b.hi; });
       /* low and medium energy skip the intense classes, a full day skips the gentlest ones — unless that would leave too few */
       const kind = fits.filter(function(w){ return b.k === 'full' ? w.intensity !== 'soft' : w.intensity !== 'hard'; });
-      ygPools[b.k] = (kind.length >= 4 ? kind : fits).sort(function(a, c){ return vidHash(a.v) - vidHash(c.v); });
+      ygPools[b.k] = ygMix(kind.length >= 4 ? kind : fits, vidHash);
     });
   }
   return ygPools[k];
