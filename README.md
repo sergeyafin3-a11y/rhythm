@@ -149,6 +149,12 @@ added automatically once a month. Every id was opened on YouTube: the channel an
 the real ones. No yin, no lying-down classes — she stretches on her own. **Nothing for beginners either**:
 no class whose title says «для начинающих», «с нуля» or «beginner» — all levels and intermediate only.
 
+## Core & strength
+
+The *Core & strength* habit opens five follow-along videos of 8–15 minutes from a pool of 21 — **abs first** (about half the pool),
+then back, arms and legs (inner thighs included), Russian and English. The five change the moment you tick the habit; unticking
+the same day puts them back. No video promises to burn fat in one place.
+
 ## Face massage
 
 Tap the *Face massage* habit and **five follow-along routines** open under it, drawn from a pool of 15 —

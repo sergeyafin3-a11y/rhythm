@@ -1869,11 +1869,77 @@ function spPanel(h){
     '<button class="btn btn-primary btn-sm" data-act="go-speak">Open the roulette →</button></div>';
 }
 
+/* ---------- Core & strength: abs first, then back, arms and legs ----------
+   A pool of follow-along videos, five at a time; the five change the moment the habit
+   is ticked, like the face massage. Every id opened on YouTube. */
+const STRENGTH_VIDEOS = [
+  {id:'s1', v:'RUjxpcr5VeA', t:'Ten minute abs without leg lifts', min:10, by:'Лера Логунова', lang:'ru', focus:'abs', desc:'A steady ten-minute abs session on the mat with no leg raises, so the lower back stays calm.'},
+  {id:'s2', v:'r9xd8umAnZQ', t:'Ten minute abs, no strain on the neck', min:10, by:'Лера Логунова', lang:'ru', focus:'abs', desc:'Ten minutes of abs chosen so the neck stays relaxed, with clear form cues.'},
+  {id:'s3', v:'YFHea9AeqZ4', t:'Core and back in eight minutes', min:8, by:'Арсений Ким', lang:'ru', focus:'abs', desc:'A short core session that also strengthens the back, easy to fit in anywhere.'},
+  {id:'s4', v:'NSNjXUxs0d0', t:'Fifteen minute pilates for the abs', min:15, by:'SMSTRETCHING', lang:'ru', focus:'abs', desc:'A pilates-style abs class with no jumping and no equipment, steady and controlled.'},
+  {id:'s5', v:'NQxEUC3-aaE', t:'Complete core strengthening in ten minutes', min:11, by:'Tone and Tighten', lang:'en', focus:'abs', desc:'A physical therapist’s ten-minute routine for the whole trunk and hips, not just a six-pack.'},
+  {id:'s6', v:'soue2Fz-8Yw', t:'Ten minute abs workout, no equipment', min:11, by:'Rowan Row', lang:'en', focus:'abs', desc:'A straightforward ten-minute follow-along abs workout on the mat.'},
+  {id:'s7', v:'8T39OBNaNzU', t:'Twelve minute core conditioning', min:12, by:'Yoga With Adriene', lang:'en', focus:'abs', desc:'Floor core work to build a connection to your centre, from a yoga teacher.'},
+  {id:'s8', v:'1p6xiBIZDuk', t:'Twelve minute standing abs, no jumping', min:13, by:'BurpeeGirl', lang:'en', focus:'abs', desc:'Slow, controlled standing abs that are gentle on the knees and back.'},
+  {id:'s9', v:'bkkQ_hnHWxA', t:'Abs and core that are safe for the lower back', min:12, by:'Oliver Sjostrom', lang:'en', focus:'abs', desc:'Ten-plus minutes of abs and core built to protect and strengthen the lower back.'},
+  {id:'s10', v:'lQwpksc8Gf8', t:'Ten minute back workout', min:11, by:'Лера Логунова', lang:'ru', focus:'back', desc:'Thirty seconds on, ten off: strengthens the upper and lower back and helps posture.'},
+  {id:'s11', v:'jPLZwL1eZpI', t:'Twelve minute back and posture workout', min:13, by:'ДелайТело', lang:'ru', focus:'back', desc:'A home workout for a straighter back and lighter posture, no equipment.'},
+  {id:'s12', v:'ixVtqI1uUtc', t:'Healthy back, ten minutes', min:10, by:'IMAGINE fitness', lang:'ru', focus:'back', desc:'Ten minutes of exercises for a strong, healthy back at home.'},
+  {id:'s13', v:'Pb5ywB4Zh4o', t:'Daily exercises for the back and posture', min:11, by:'Mari Stretching', lang:'ru', focus:'back', desc:'A comfortable daily routine for the back, good after a day at a desk.'},
+  {id:'s14', v:'gEOwBSYs1pk', t:'Lower back relief, ten minutes', min:11, by:'Tone and Tighten', lang:'en', focus:'back', desc:'A physical therapist’s ten-minute routine to loosen the hips and strengthen the core and lower back.'},
+  {id:'s15', v:'Dw4xfH8GRlU', t:'Arms and back in ten minutes', min:11, by:'ДелайТело', lang:'ru', focus:'arms', desc:'Ten minutes for toned arms and a healthy back, no equipment.'},
+  {id:'s16', v:'tcK0pU8wDN8', t:'Ten minute pilates for the arms', min:11, by:'Lidia Mera', lang:'en', focus:'arms', desc:'A pilates-style arm workout with no equipment needed.'},
+  {id:'s17', v:'hxtDF4nXDBY', t:'Ten minute standing arm workout', min:10, by:'Coach Mich', lang:'en', focus:'arms', desc:'A low-impact standing arm workout with no weights and no floor work.'},
+  {id:'s18', v:'yEkKX_dU16M', t:'Ten minute arm workout, standing only', min:11, by:'guidedbyangie', lang:'en', focus:'arms', desc:'A guided standing-only arm workout, no equipment.'},
+  {id:'s19', v:'8w-AkCiq57c', t:'Twelve minutes of legs and glutes, standing', min:13, by:'Здоровая спина: Йога и Пилатес с Анной', lang:'ru', focus:'legs', desc:'A standing leg and glute workout with no jumping, from a yoga and pilates teacher.'},
+  {id:'s20', v:'oZjTGIhUOEo', t:'Inner and outer thigh sculpting', min:14, by:'ДелайТело', lang:'ru', focus:'legs', desc:'Exercises for the inner and outer thigh, suitable for every level.'},
+  {id:'s21', v:'oGXK5pULe0c', t:'Ten minutes for the inner thighs', min:10, by:'Лера Логунова', lang:'ru', focus:'legs', desc:'A non-stop ten minutes for the inner thighs, no equipment.'}
+];
+/* sc:pure */
+/* the pool in a fixed, mixed order with the abs coming round most often: abs, abs, back, abs, arms, abs, legs */
+function scOrder(list, hash){
+  const by = {abs:[], back:[], arms:[], legs:[]};
+  list.slice().sort(function(a, b){ return hash(a.v) - hash(b.v); }).forEach(function(x){ (by[x.focus] || (by[x.focus] = [])).push(x); });
+  const pattern = ['abs', 'abs', 'back', 'abs', 'arms', 'abs', 'legs'], pos = {}, out = [];
+  let guard = list.length * 8;
+  while(out.length < list.length && guard-- > 0){
+    pattern.forEach(function(f){ const arr = by[f] || [], p = pos[f] || 0; if(p < arr.length){ out.push(arr[p]); pos[f] = p + 1; } });
+  }
+  return out;
+}
+/* sc:end */
+const SC_SHOW = 5;
+let scPool = null;
+function scState(){ if(!state.strength) state.strength = {i:0}; return state.strength; }
+function scHabit(){ return state.habits.find(function(h){ return /core\s*(&|and)\s*strength|пресс/i.test(h.title || ''); }); }
+function scBatch(){
+  if(!scPool) scPool = scOrder(STRENGTH_VIDEOS, vidHash);
+  const st = scState(), out = [];
+  for(let n = 0; n < Math.min(SC_SHOW, scPool.length); n++) out.push(scPool[((st.i + n) % scPool.length + scPool.length) % scPool.length]);
+  return out;
+}
+/* ticking it moves the batch on; unticking the same day puts it back */
+function scHabitChanged(h){
+  const s = scHabit();
+  if(!s || s.id !== h.id) return;
+  const st = scState(), key = today(), done = isDone(h, key);
+  if(done && st.k !== key){ st.i += SC_SHOW; st.k = key; }
+  else if(!done && st.k === key){ st.i -= SC_SHOW; delete st.k; }
+}
+function scHint(h){ return isDone(h, today()) ? '✓ Done · five new ones' : SC_SHOW + ' of ' + STRENGTH_VIDEOS.length + ' videos'; }
+function scPanel(h){
+  return '<div class="hb-vids"><p class="hb-tip">'+(isDone(h, today())
+    ? 'Five new ones — the set changes every time you tick the habit.'
+    : 'Ten to fifteen minutes, abs most days. Slow and controlled beats fast: breathe out on the effort, keep the lower back long.')+
+    '</p><div class="vid-list">'+scBatch().map(function(x){ return vidCard(x, false); }).join('')+'</div></div>';
+}
+
 /* ---------- Habits that open into something ---------- */
 const HABIT_PANELS = [
   {match:/speak|говор|спикинг/i, hint:function(h){ return isDone(h, today()) ? '✓ Spoken today' : 'Spin a topic'; }, panel:spPanel},
   {match:/^\s*yoga\b|йога/i, hint:ygHint, panel:ygPanel},
-  {match:/face massage|массаж лица|gua ?sha|гуаша/i, hint:fcHint, panel:facePanel}
+  {match:/face massage|массаж лица|gua ?sha|гуаша/i, hint:fcHint, panel:facePanel},
+  {match:/core\s*(&|and)\s*strength|пресс/i, hint:scHint, panel:scPanel}
 ];
 const hbOpen = {};
 function hbVideos(h){ return HABIT_PANELS.find(function(x){ return x.match.test(h.title || ''); }); }
@@ -3390,7 +3456,7 @@ function toggleHabit(id, el){
       }
     }
   }
-  ygHabitChanged(h); fcHabitChanged(h);
+  ygHabitChanged(h); fcHabitChanged(h); scHabitChanged(h);
   save(); renderToday();
 }
 
