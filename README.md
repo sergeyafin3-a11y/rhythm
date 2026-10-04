@@ -161,7 +161,9 @@ card — and that band moves on straight away, so a practice at one in the morni
 new underneath it. Go twice in a day and the second session gets its own video; *undo* on the last line
 takes it back, and unticking the habit clears the day.
 
-59 videos in Russian and English, all between 17 and 45 minutes for the three bands, with a fresh batch
+75 videos in Russian and English, all between 17 and 45 minutes for the three bands, **16 of them strength-focused**
+(core, back, arms, legs — spread evenly through each band, the first one within the first few picks). A video she has already done
+is skipped until she has been through the whole band, with a fresh batch
 added automatically once a month. Every id was opened on YouTube: the channel and the running time are
 the real ones. No yin, no lying-down classes — she stretches on her own. **Nothing for beginners either**:
 no class whose title says «для начинающих», «с нуля» or «beginner» — all levels and intermediate only.
