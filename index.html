@@ -2548,7 +2548,7 @@ function sheetAddWord(){
    kept as the daily base, and a short check-in every Wednesday. No points, no streak
    numbers: a tracker of what was done, and a quiet «day N of 89». */
 /* arc:pure */
-const ARC_END = '2026-12-31';
+const ARC_START = '2026-10-04', ARC_END = '2026-12-31';
 const ARC_HABITS = [
   {id:'a-core',  title:'Core & strength',                  emoji:'💪', perDay:1, weekGoal:6, when:'day',     arc:'body',   why:''},
   {id:'a-walk',  title:'Walk 15–20 minutes',               emoji:'🚶', perDay:1, weekGoal:6, when:'day',     arc:'body',   why:''},
@@ -2572,7 +2572,7 @@ function arcEnsure(st, key){
   let changed = false;
   if(!st.arc){
     if(key > ARC_END) return false;
-    st.arc = {start:key, end:ARC_END, reviews:{}, bed:{base:120, goal:60, step:10}, seeded:false}; changed = true;
+    st.arc = {start:ARC_START, end:ARC_END, reviews:{}, bed:{base:120, goal:60, step:10}, seeded:false}; changed = true;
   }
   if(!st.arc.reviews) st.arc.reviews = {};
   if(!st.arc.bed) st.arc.bed = {base:120, goal:60, step:10};
@@ -2582,12 +2582,13 @@ function arcEnsure(st, key){
   }
   return changed;
 }
-/* the Wednesday check-in is due from Wednesday to Sunday until it has been done — and not before the third day of the Arc */
-function arcReviewDue(arc, key){
+/* a check-in can be made from Wednesday to Sunday, and not before the fourth day of the Arc */
+function arcCanReview(arc, key){
   if(arcPhase(arc, key) !== 'in' || arcDayNo(arc, key) < 4) return false;
-  const idx = (new Date(arcUtc(key)).getUTCDay() + 6) % 7;
-  return idx >= 2 && !arc.reviews[arcMonday(key)];
+  return (new Date(arcUtc(key)).getUTCDay() + 6) % 7 >= 2;
 }
+/* ... and it is due until it has been done */
+function arcReviewDue(arc, key){ return arcCanReview(arc, key) && !arc.reviews[arcMonday(key)]; }
 /* bedtime in minutes after midnight: 10 minutes earlier after each week she got there, never past the goal */
 function arcBedMinutes(arc){
   const good = Object.keys(arc.reviews || {}).filter(function(k){ const b = arc.reviews[k].bed; return b === 'yes' || b === 'mostly'; }).length;
@@ -2706,9 +2707,9 @@ function renderArc(){
   if(due) h += '<button class="btn btn-primary btn-full" data-act="arc-review">Start the check-in · 2 minutes</button>';
   else {
     if(lr){ const f = arcFocus(lr); h += '<article class="arc-goal"><b>Last time: '+esc(f.title)+'</b><p>'+esc(f.text)+'</p>'+(lr.note ? '<p class="arc-note">“'+esc(lr.note)+'”</p>' : '')+'</article>'; }
-    if(arcDayNo(a, key) >= 4) h += '<button class="btn btn-ghost btn-full" data-act="arc-review" style="margin-top:10px">'+(lr ? 'Check in again' : 'Check in now')+'</button>'+
+    if(arcCanReview(a, key)) h += '<button class="btn btn-ghost btn-full" data-act="arc-review" style="margin-top:10px">'+(lr ? 'Check in again' : 'Check in now')+'</button>'+
       '<p class="fd-sub">It opens by itself on Wednesday.</p>';
-    else h += '<p class="fd-sub">The first check-in opens on the fourth day, so there is a week to look back on.</p>';
+    else h += '<p class="fd-sub">The check-in opens on Wednesday, so there is a week to look back on.</p>';
   }
   view.innerHTML = h;
 }
@@ -2716,7 +2717,7 @@ function arcFmt(k){ const d = toDate(k); return MONTHS[d.getMonth()].slice(0, 3)
 function renderArcReview(){
   const a = arcState();
   if(!a){ todayView = 'main'; return renderToday(); }
-  const d = arcDraft || (arcDraft = {});
+  const d = arcDraft || (arcDraft = {week: arcMonday(today())});
   if(d.saved){
     const f = arcFocus(d.saved);
     return void (view.innerHTML = arcBack('arc-close', 'Back to today')+
@@ -3981,7 +3982,7 @@ document.addEventListener('click', function(e){
   }
   else if(act==='arc-open'){ arcDraft = null; todayView = 'arc'; window.scrollTo(0,0); renderToday(); }
   else if(act==='arc-close'){ arcDraft = null; todayView = 'main'; window.scrollTo(0,0); renderToday(); }
-  else if(act==='arc-review'){ arcDraft = null; todayView = 'arc-review'; window.scrollTo(0,0); renderToday(); }
+  else if(act==='arc-review'){ arcDraft = {week: arcMonday(today())}; todayView = 'arc-review'; window.scrollTo(0,0); renderToday(); }
   else if(act==='arc-set'){
     if(!arcDraft) arcDraft = {};
     const k = btn.getAttribute('data-k'), raw = btn.getAttribute('data-v');
@@ -3996,7 +3997,7 @@ document.addEventListener('click', function(e){
     const a = arcState();
     d.note = (($('#arcNote') || {}).value || '').trim();
     const rec = {energy:d.energy, body:d.body, calm:d.calm, home:d.home, bed:d.bed, yes:d.yes, note:d.note};
-    a.reviews[arcMonday(today())] = rec;
+    a.reviews[d.week || arcMonday(today())] = rec;
     save();
     arcDraft = {saved:rec};
     window.scrollTo(0,0); renderToday();
@@ -4129,7 +4130,7 @@ document.addEventListener('click', function(e){
   else if(act==='reset'){
     if(!confirm('Delete every habit and check-in? This cannot be undone.')) return;
     const skin = state.skin; state = seed(); state.skin = skin; state.habits = [];
-    state.arc = {start:today(), end:ARC_END, reviews:{}, bed:{base:120, goal:60, step:10}, seeded:true};
+    if(today() <= ARC_END) state.arc = {start:ARC_START, end:ARC_END, reviews:{}, bed:{base:120, goal:60, step:10}, seeded:true};
     save(); closeSheet(); render(); toast('Starting over');
   }
 });

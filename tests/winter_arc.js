@@ -9,7 +9,7 @@ function check(c, m){ if(!c) fails.push(m); }
 const m = /\/\* arc:pure \*\/([\s\S]*?)\/\* arc:end \*\//.exec(html);
 check(!!m, 'no pure Winter Arc logic found between /* arc:pure */ and /* arc:end */');
 if(m){
-  const api = new Function(m[1] + '; return {ARC_END:ARC_END, ARC_HABITS:ARC_HABITS, arcEnsure:arcEnsure, arcTotal:arcTotal, arcDayNo:arcDayNo, arcPhase:arcPhase, arcKeyAdd:arcKeyAdd, arcMonday:arcMonday, arcReviewDue:arcReviewDue, arcBedMinutes:arcBedMinutes, arcClock:arcClock, arcFocus:arcFocus, arcWeek:arcWeek, arcHeat:arcHeat, arcDayLevel:arcDayLevel};')();
+  const api = new Function(m[1] + '; return {ARC_END:ARC_END, ARC_HABITS:ARC_HABITS, arcEnsure:arcEnsure, arcTotal:arcTotal, arcDayNo:arcDayNo, arcPhase:arcPhase, arcKeyAdd:arcKeyAdd, arcMonday:arcMonday, arcReviewDue:arcReviewDue, arcCanReview:arcCanReview, arcBedMinutes:arcBedMinutes, arcClock:arcClock, arcFocus:arcFocus, arcWeek:arcWeek, arcHeat:arcHeat, arcDayLevel:arcDayLevel};')();
   const arc = {start:'2026-10-04', end:api.ARC_END, reviews:{}, bed:{base:120, goal:60, step:10}};
 
   // the calendar of the Arc
@@ -25,7 +25,11 @@ if(m){
   // starting it: habits are added once, nothing she has is touched, a deleted one does not come back
   const st = {habits:[{id:'h5', title:'Yoga', perDay:1}], log:{}};
   check(api.arcEnsure(st, '2026-10-04') === true, 'first run reports a change');
-  check(st.arc.start === '2026-10-04' && st.arc.end === '2026-12-31', 'the Arc starts the day it is first opened and ends 31 December');
+  check(st.arc.start === '2026-10-04' && st.arc.end === '2026-12-31', 'the Arc runs from 4 October to 31 December');
+  const s6 = {habits:[], log:{}}; api.arcEnsure(s6, '2026-10-06');
+  check(s6.arc.start === '2026-10-04', 'opened on 6 October the Arc still began on 4 October, got ' + s6.arc.start);
+  const s0 = {habits:[], log:{}}; api.arcEnsure(s0, '2026-09-30');
+  check(s0.arc.start === '2026-10-04', 'opened before 4 October the Arc begins on 4 October, got ' + s0.arc.start);
   const ids = st.habits.map(function(h){ return h.id; });
   check(new Set(ids).size === ids.length, 'no duplicate habit ids');
   check(ids.indexOf('h5') >= 0 && st.habits.filter(function(h){ return h.arc; }).length === 6, 'her own habit stays, six Arc habits are added');
@@ -42,6 +46,11 @@ if(m){
   check(api.arcReviewDue(a2, '2026-10-05') === false && api.arcReviewDue(a2, '2026-10-06') === false, 'not due on Monday or Tuesday');
   check(api.arcReviewDue(a2, '2026-10-04') === false, 'not due on the very first day (a Sunday), the Arc has only just begun');
   check(api.arcReviewDue(a2, '2026-10-07') === true && api.arcReviewDue(a2, '2026-10-09') === true && api.arcReviewDue(a2, '2026-10-11') === true, 'due from Wednesday through Sunday');
+  // the button to check in follows the same days, so a Monday check-in cannot count as an extra week
+  check(api.arcCanReview(a2, '2026-10-12') === false && api.arcCanReview(a2, '2026-10-13') === false, 'no check-in on a Monday or Tuesday, even after day 4');
+  check(api.arcCanReview(a2, '2026-10-14') === true && api.arcCanReview(a2, '2026-10-18') === true, 'check-in possible from Wednesday to Sunday');
+  check(api.arcCanReview(a2, '2026-10-04') === false && api.arcCanReview(a2, '2026-10-05') === false, 'no check-in in the first days');
+  check(api.arcCanReview(a2, '2027-01-06') === false, 'no check-in after the Arc');
   a2.reviews['2026-10-05'] = {note:'x'};
   check(api.arcReviewDue(a2, '2026-10-08') === false, 'done for this week, no longer due');
   check(api.arcReviewDue(a2, '2026-10-14') === true, 'due again the next Wednesday');
@@ -87,6 +96,9 @@ check(count(/arcTodayCard\(\)/g) >= 2, 'arcTodayCard() must be defined and also 
 // found in review
 const reset = /act==='reset'\)\{[\s\S]*?\n  \}\n/.exec(html);
 check(!!reset && /state\.arc\s*=/.test(reset[0]) && /seeded\s*[:=]\s*true/.test(reset[0]), 'a reset must not bring the six Arc habits back: it creates an Arc that is already seeded');
+check(/act==='reset'\)\{[\s\S]*?today\(\) <= ARC_END[\s\S]*?\n  \}\n/.test(html), 'a reset after 31 December must not build an Arc');
+check(/arcDraft = \{week:\s*arcMonday\(today\(\)\)\}/.test(html) && /d\.week/.test(html), 'the week a check-in belongs to is fixed when it is opened, not when it is saved');
+check(/arcCanReview\(a, key\)/.test(html), 'the Arc screen must show the check-in button only through arcCanReview');
 const imp = /act==='import-data'\)\{[\s\S]*?\n  \}\n/.exec(html);
 check(!!imp && /arcEnsure\(/.test(imp[0]), 'restoring a backup must run arcEnsure before the first render');
 check(/addEventListener\('input'[\s\S]{0,200}arcNote/.test(html), 'the check-in note must be kept in the draft as she types (the screen redraws when she comes back to the app)');
