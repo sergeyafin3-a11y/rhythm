@@ -1,4 +1,4 @@
-// Yoga with a strength focus: more core / back / arms / legs classes, mixed in with every other pick.
+// Yoga with a strength focus: more core / back / arms / legs classes, spread evenly through every band.
 // Run:  osascript -l JavaScript tests/core_yoga.js
 ObjC.import('Foundation');
 function read(p){ return $.NSString.stringWithContentsOfFileEncodingError(p, $.NSUTF8StringEncoding, null).js; }
@@ -69,6 +69,7 @@ if(m){
   check(api3.ygPickUnseen(pool, 5, done).v === 'D', 'the index wraps round the pool');
   check(api3.ygPickUnseen(pool, 0, {A:1, B:1, C:1, D:1, E:1}).v === 'A', 'once she has done them all it simply offers the one at the index');
   check(api3.ygPickUnseen([], 0, {}) === null, 'an empty pool offers nothing');
+  check(api3.ygPickUnseen(pool, undefined, {}).v === 'A' && api3.ygPickUnseen(pool, NaN, {}).v === 'A', 'a missing or broken index starts from the beginning instead of crashing');
 }
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: ' + strong.length + ' strength-focused yoga classes mixed into the three bands');

@@ -1732,7 +1732,7 @@ function ygState(){
 }
 function ygBand(k){ return k === 'pool' ? YG_POOL : YG_BANDS.find(function(b){ return b.k === k; }); }
 /* yg:pure */
-/* a band in a fixed, mixed order, with the strength-focused classes on every other pick — core, back, arms and legs are what she wants more of */
+/* a band in a fixed, mixed order, with the strength-focused classes spread evenly through it — core, back, arms and legs are what she wants more of */
 function ygMix(list, hash){
   const sorted = list.slice().sort(function(a, b){ return hash(a.v) - hash(b.v); });
   const strong = sorted.filter(function(w){ return w.strong; }), rest = sorted.filter(function(w){ return !w.strong; });
@@ -1757,7 +1757,7 @@ function ygDoneSet(workouts){
 function ygPickUnseen(pool, i, done){
   const n = pool.length;
   if(!n) return null;
-  const at = ((i % n) + n) % n;
+  const at = (((Number(i) || 0) % n) + n) % n;
   for(let j = 0; j < n; j++){ const w = pool[(at + j) % n]; if(!done[w.v]) return w; }
   return pool[at];
 }
