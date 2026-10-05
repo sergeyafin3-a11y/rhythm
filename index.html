@@ -2082,7 +2082,7 @@ const PRACTICE_HABITS = [
   {id:'hp-drive',   title:'Driving theory: one lesson', emoji:'🚗', perDay:1, weekGoal:7, when:'day', why:''},
   {id:'hp-diction', title:'Diction exercises',          emoji:'🗣', perDay:1, weekGoal:7, when:'day', why:''}
 ];
-const DRIVE_RX = /driving|вожден|пдд/i, DICTION_RX = /diction|дикци/i;
+const DRIVE_RX = /driving theory|вожден|(^|[^а-яё])пдд(?![а-яё])/i, DICTION_RX = /\bdiction\b|дикци/i;
 /* added once; nothing of hers is touched and a habit she deletes stays deleted */
 function practiceEnsure(st){
   if(st.practiceHabits) return false;
@@ -2090,14 +2090,24 @@ function practiceEnsure(st){
   st.practiceHabits = true;
   return true;
 }
-/* tick or untick one of them for a day; returns whether anything changed */
+/* tick or untick one of them for a day, the way tapping the circle would (same XP); returns whether anything changed.
+   A lesson only unticks a tick it made itself — never one she made by hand. */
 function practiceMark(st, id, key, on){
   const h = (st.habits || []).find(function(x){ return x.id === id; });
-  if(!h) return false;
+  if(!h || h.archived) return false;
   const log = st.log || (st.log = {}), days = log[id] || (log[id] = {}), per = h.perDay || 1, done = (days[key] || 0) >= per;
-  if(on && !done){ days[key] = per; return true; }
-  if(!on && done){ delete days[key]; return true; }
+  const auto = st.practiceAuto || (st.practiceAuto = {}), tag = id + '|' + key;
+  if(on && !done){ days[key] = per; auto[tag] = 1; st.xp = (st.xp || 0) + 10; return true; }
+  if(!on && done && auto[tag]){ delete days[key]; delete auto[tag]; st.xp = Math.max(0, (st.xp || 0) - 10 * per); return true; }
   return false;
+}
+/* she ticked or unticked the habit herself: it is hers now, and the diction page follows the habit */
+function practiceSync(st, h, key, done){
+  if(st.practiceAuto) delete st.practiceAuto[h.id + '|' + key];
+  if(h.id === 'hp-diction'){
+    if(!st.diction) st.diction = {};
+    if(done) st.diction[key] = true; else delete st.diction[key];
+  }
 }
 /* practice:end */
 function drivePanel(h){
@@ -3864,6 +3874,7 @@ function toggleHabit(id, el){
     }
   }
   ygHabitChanged(h); fcHabitChanged(h); scHabitChanged(h);
+  practiceSync(state, h, today(), isDone(h, today()));
   save(); renderToday();
 }
 
@@ -4028,8 +4039,8 @@ document.addEventListener('click', function(e){
     box.outerHTML = lnCheckHtml(qid);
     paintTabDots();
   }
-  else if(act==='dc-done'){ state.diction[today()] = true; practiceMark(state, 'hp-diction', today(), true); save(); celebrate(btn); renderSkills(); toast('Diction done for today'); }
-  else if(act==='dc-undo'){ delete state.diction[today()]; practiceMark(state, 'hp-diction', today(), false); save(); renderSkills(); }
+  else if(act==='dc-done'){ if(!state.diction) state.diction = {}; state.diction[today()] = true; practiceMark(state, 'hp-diction', today(), true); save(); celebrate(btn); renderSkills(); toast('Diction done for today'); }
+  else if(act==='dc-undo'){ if(!state.diction) state.diction = {}; delete state.diction[today()]; practiceMark(state, 'hp-diction', today(), false); save(); renderSkills(); }
   else if(act==='td-quick'){
     const f = $('#tdQuick'); const v = (f ? f.value : '').trim();
     if(!v){ if(f) f.focus(); return; }

@@ -10,7 +10,7 @@ function check(c, m){ if(!c) fails.push(m); }
 const m = /\/\* practice:pure \*\/([\s\S]*?)\/\* practice:end \*\//.exec(html);
 check(!!m, 'no pure logic found between /* practice:pure */ and /* practice:end */');
 if(m){
-  const api = new Function(m[1] + '; return {PRACTICE_HABITS:PRACTICE_HABITS, practiceEnsure:practiceEnsure, practiceMark:practiceMark, DRIVE_RX:DRIVE_RX, DICTION_RX:DICTION_RX};')();
+  const api = new Function(m[1] + '; return {PRACTICE_HABITS:PRACTICE_HABITS, practiceEnsure:practiceEnsure, practiceMark:practiceMark, practiceSync:practiceSync, DRIVE_RX:DRIVE_RX, DICTION_RX:DICTION_RX};')();
   check(api.PRACTICE_HABITS.map(function(h){ return h.id; }).join() === 'hp-drive,hp-diction', 'two habits: driving and diction');
   api.PRACTICE_HABITS.forEach(function(h){ check(h.perDay === 1 && h.weekGoal === 7 && !!h.emoji, h.title + ' is a daily, single-tick habit with an emoji'); });
   check(/lesson/i.test(api.PRACTICE_HABITS[0].title) && /driving/i.test(api.PRACTICE_HABITS[0].title), 'the driving habit says it is one lesson of the driving theory');
@@ -34,6 +34,26 @@ if(m){
   check(api.practiceMark(s2, 'hp-drive', '2026-10-05', false) === false, 'undoing when nothing was ticked changes nothing');
   check(api.practiceMark(s2, 'nope', '2026-10-05', true) === false, 'an unknown habit (she deleted it) is ignored without a crash');
   check(api.practiceMark({habits:[{id:'hp-drive', perDay:1}]}, 'hp-drive', '2026-10-05', true) === true, 'a state without a log still works');
+  // found in review: XP, hand ticks, archived habits, the diction page staying in step, loose titles
+  const s3 = {xp:0, habits:[{id:'hp-drive', perDay:1}, {id:'hp-diction', perDay:1}, {id:'old', perDay:1, archived:true}], log:{}, diction:{}};
+  api.practiceMark(s3, 'hp-drive', '2026-10-05', true);
+  check(s3.xp === 10, 'ticking a habit through the lesson gives the same 10 XP as ticking it by hand, got ' + s3.xp);
+  api.practiceMark(s3, 'hp-drive', '2026-10-05', false);
+  check(s3.xp === 0, 'undoing the lesson takes the XP back, got ' + s3.xp);
+  const s4 = {xp:10, habits:[{id:'hp-drive', perDay:1}], log:{'hp-drive':{'2026-10-05':1}}};   // she ticked it by hand
+  check(api.practiceMark(s4, 'hp-drive', '2026-10-05', false) === false && s4.log['hp-drive']['2026-10-05'] === 1 && s4.xp === 10, 'undoing a lesson never removes a tick she made by hand');
+  const s5 = {xp:0, habits:[{id:'hp-drive', perDay:1}], log:{}};
+  api.practiceMark(s5, 'hp-drive', '2026-10-05', true);
+  api.practiceSync(s5, s5.habits[0], '2026-10-05', false);     // she then unticked it by hand, and ticked it again by hand
+  s5.log['hp-drive']['2026-10-05'] = 1;
+  check(api.practiceMark(s5, 'hp-drive', '2026-10-05', false) === false && s5.log['hp-drive']['2026-10-05'] === 1, 'once she has touched the habit herself, the lesson no longer owns the tick');
+  check(api.practiceMark(s3, 'old', '2026-10-05', true) === false && !s3.log.old, 'an archived habit is never ticked');
+  const s6 = {habits:[{id:'hp-diction', perDay:1}], log:{}};
+  api.practiceSync(s6, s6.habits[0], '2026-10-05', true);
+  check(s6.diction && s6.diction['2026-10-05'] === true, 'ticking the diction habit by hand marks the diction page done (also when state.diction did not exist yet)');
+  api.practiceSync(s6, s6.habits[0], '2026-10-05', false);
+  check(s6.diction['2026-10-05'] === undefined, 'unticking it unmarks the page');
+  check(!api.DICTION_RX.test('Overcome addiction') && !api.DICTION_RX.test('Prediction practice') && !api.DRIVE_RX.test('Practice driving to work') && !api.DRIVE_RX.test('Drive to the gym'), 'the panels do not match words that merely contain "diction" or "driving"');
   // the habits open the right screen
   check(api.DRIVE_RX.test('Driving theory: one lesson') && api.DRIVE_RX.test('Урок ПДД') && !api.DRIVE_RX.test('Yoga') && !api.DRIVE_RX.test('Diction exercises'), 'the driving panel matches its own habit only');
   check(api.DICTION_RX.test('Diction exercises') && api.DICTION_RX.test('Дикция') && !api.DICTION_RX.test('Speaking spin') && !api.DICTION_RX.test('Driving theory: one lesson'), 'the diction panel matches its own habit only');
@@ -47,7 +67,7 @@ const dcDone = /act==='dc-done'\)\{[^\n]*\n/.exec(html), dcUndo = /act==='dc-und
 check(!!dcDone && /practiceMark\(state, 'hp-diction', today\(\), true\)/.test(dcDone[0]), 'pressing Done on the diction page ticks the diction habit');
 check(!!dcUndo && /practiceMark\(state, 'hp-diction', today\(\), false\)/.test(dcUndo[0]), 'undoing diction unticks the habit');
 check(/practiceEnsure\(state\)/.test(html), 'the habits are added at load (fresh install and the app she already has)');
-check(/const imp = 1/.test('const imp = 1') && /act==='import-data'\)\{[\s\S]*?practiceEnsure\(state\)[\s\S]*?\n  \}\n/.test(html), 'restoring a backup runs practiceEnsure before the first render');
+check(/act==='import-data'\)\{[\s\S]*?practiceEnsure\(state\)[\s\S]*?\n  \}\n/.test(html), 'restoring a backup runs practiceEnsure before the first render');
 const resetM = /act==='reset'\)\{[\s\S]*?\n  \}\n/.exec(html);
 check(!!resetM && /practiceHabits\s*=\s*true/.test(resetM[0]), 'a reset must not bring the two habits back');
 
@@ -57,6 +77,11 @@ check(html.indexOf('Video of the day') < 0 && html.indexOf('>All lessons<') < 0,
 check(/dc-num">1<\/div>/.test(html) && /dc-num">2<\/div>/.test(html) && !/dc-num">3<\/div>/.test(html), 'the two remaining steps are numbered 1 and 2');
 check(/Warm-up/.test(html) && /Tongue twisters/.test(html) && /twistersOfDay\(\)/.test(html) && /DICTION_WARMUP/.test(html), 'the warm-up and the tongue twisters stay');
 check(/Warm-up <span>3 min<\/span>/.test(html) && /Tongue twisters <span>3 min<\/span>/.test(html) && html.indexOf('about 10 minutes') < 0, 'the page no longer promises ten minutes (two three-minute steps)');
-check(!/diction[^.\n]*video/i.test(readme.replace(/Video of the day[^\n]*/g, '')) || readme.indexOf('video of the day') < 0, 'the README no longer mentions a video of the day');
+check(!/video of the day/i.test(readme), 'the README no longer mentions a video of the day');
+check(/practiceSync\(state, h, today\(\), isDone\(h, today\(\)\)\)/.test(html), 'toggleHabit must keep the diction page and the lesson ownership in step (practiceSync)');
+const dcH = /act==='dc-done'\)\{[^\n]*\n/.exec(html), dcU = /act==='dc-undo'\)\{[^\n]*\n/.exec(html);
+check(!!dcH && /if\(!state\.diction\) state\.diction = \{\};/.test(dcH[0]) && !!dcU && /if\(!state\.diction\) state\.diction = \{\};/.test(dcU[0]), 'the diction buttons work after a reset or a restored backup that has no state.diction');
+const lnU = /act==='ln-undo'\)\{[\s\S]*?\n  \}\n/.exec(html);
+check(!!lnU && lnU[0].indexOf("delete lnLearned()") < lnU[0].indexOf('.some('), 'ln-undo removes the lesson BEFORE it checks whether another one was learned today');
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: driving and diction habits, diction without videos');
