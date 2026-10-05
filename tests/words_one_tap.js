@@ -17,6 +17,8 @@ check(!!m, 'no pure words migration found between /* words:pure */ and /* words:
 if(m){
   const api = new Function(m[1] + '; return {isWordsHabit:isWordsHabit, wordsOneTap:wordsOneTap};')();
   check(api.isWordsHabit({title:'Learn 7 new words'}) && api.isWordsHabit({id:'h2', title:'Vocabulary'}) && api.isWordsHabit({title:'Выучить 10 слов'}), 'the words habit is recognised, even renamed (id h2) or in Russian');
+  check(!api.isWordsHabit({title:'Review new words'}) && !api.isWordsHabit({title:'Speak new words aloud'}) && !api.isWordsHabit({title:'Learn new grammar'}), 'a habit that merely mentions "new words" is not touched');
+  check(api.isWordsHabit({title:'Learn 10 words'}) && api.isWordsHabit({title:'Learn 7 new words'}), 'Learn N (new) words is recognised');
   check(!api.isWordsHabit({title:'Yoga'}) && !api.isWordsHabit({title:'Speaking spin'}) && !api.isWordsHabit({title:'20 pages of a book'}) && !api.isWordsHabit({title:'Face massage'}), 'other habits are not touched');
   const habits = [{id:'h2', title:'Learn 7 new words', perDay:7}, {id:'h5', title:'Yoga', perDay:1}, {id:'w', title:'Eight glasses of water', perDay:1}];
   const log = {h2:{'2026-09-30':7, '2026-10-01':3, '2026-10-02':9, '2026-10-03':0}, h5:{'2026-10-03':1}};

@@ -3035,7 +3035,7 @@ function waterOneTap(habits, log){
 if(!state.cleanWater){ waterOneTap(state.habits, state.log); state.cleanWater = true; }
 /* «Learn 7 new words» is one tick too — «I learned my seven» — instead of seven taps; days already logged keep their meaning */
 /* words:pure */
-function isWordsHabit(h){ return !!h && (h.id === 'h2' || /\bnew words\b|^\s*(выучить|учить)\s+\d*\s*слов/i.test(h.title || '')); }
+function isWordsHabit(h){ return !!h && (h.id === 'h2' || /^\s*learn\s+\d+\s+(new\s+)?words\b|^\s*(выучить|учить)\s+\d*\s*слов/i.test(h.title || '')); }
 function wordsOneTap(habits, log){
   let changed = false;
   (habits || []).forEach(function(h){
