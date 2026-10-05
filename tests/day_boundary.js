@@ -26,7 +26,8 @@ if(m){
   check(ymd(2026, 10, 1, 3, 30) === '2026-10-31', '03:30 on a fall-back day is still the day before, got ' + ymd(2026, 10, 1, 3, 30));
   check(ymd(2026, 10, 1, 4, 0) === '2026-11-01', '04:00 on a fall-back day starts the new day, got ' + ymd(2026, 10, 1, 4, 0));
 }
-check(/function today\(\)\{ return dayKeyAt\(\); \}/.test(html), 'today() must use dayKeyAt()');
-check(!/function paintHeader\(\)\{\s*const d = new Date\(\);/.test(html), 'the date in the header must show the logical day, not the calendar one');
+check(/function today\(\)\{ return selDay \|\| dayKeyAt\(\); \}/.test(html) && /function realToday\(\)\{ return dayKeyAt\(\); \}/.test(html), 'today() must use dayKeyAt() (or the day she chose), and realToday() the real one');
+const phM = /function paintHeader\(\)\{[\s\S]*?\n\}\n/.exec(html);
+check(!!phM && !/const d = new Date\(\)/.test(phM[0]) && /\$\('#dateLine'\)/.test(phM[0]), 'the date in the header must show the logical day, not the calendar one');
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: the day turns over at 4 a.m.');
