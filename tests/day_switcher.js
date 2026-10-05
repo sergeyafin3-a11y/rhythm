@@ -43,6 +43,10 @@ const cellM = /act==='arc-cell'\)\{[\s\S]*?\n  \}\n/.exec(html);
 check(!!cellM && /toggleHabit\(/.test(cellM[0]) && /selDay = /.test(cellM[0]) && /selDay = null/.test(cellM[0]), 'tapping a tracker cell goes through toggleHabit for that day and then returns to today');
 check(!!cellM && /realToday\(\)/.test(cellM[0]), 'a tracker cell in the future cannot be ticked');
 check(/\.daybar\{/.test(html), 'the day bar has styles');
+// second round
+check(!!goM && /selDay = null[\s\S]*paintHeader\(\)/.test(goM[0]), 'changing tab repaints the header, so it never keeps the date of a past day');
+check(!!cellM && /try\{[\s\S]*toggleHabit\(id, null\)[\s\S]*\}\s*finally\s*\{\s*selDay = null/.test(cellM[0]), 'the tracker square returns to the real today even if the tick throws (try / finally)');
+check(!!cellM && /ygHabitChanged\(hb\)/.test(cellM[0]) && /fcHabitChanged\(hb\)/.test(cellM[0]), 'a several-ticks-a-day yoga or face-massage habit still runs its own hooks when a square is tapped');
 // found in review
 check(/\.arc-cell::before\{[^}]*inset/.test(html), 'a tracker square must have a hit area larger than its 18 px drawing (::before with inset)');
 check(!!cellM && /per > 1|perDay \|\| 1\) > 1/.test(cellM[0]), 'a habit that needs several ticks a day is set to done / not done by one tap on a square, not one count at a time');

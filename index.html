@@ -4132,16 +4132,18 @@ document.addEventListener('click', function(e){
     const hb = state.habits.find(function(x){ return x.id === id; });
     if(!hb) return;
     const per = hb.perDay || 1;
-    if(per > 1){
-      /* several ticks a day: one tap on the square means all of them, or none */
-      const c = ((state.log[id] || {})[d]) || 0;
-      state.xp = Math.max(0, state.xp + (c >= per ? -10 * per : 10 * (per - c)));
-      setCount(hb, d, c >= per ? 0 : per);
-      save(); renderToday(); return;
-    }
     selDay = d === realToday() ? null : d;
-    toggleHabit(id, null);
-    selDay = null; paintHeader(); renderToday();
+    try{
+      if(per > 1){
+        /* several ticks a day: one tap on the square means all of them, or none */
+        const c = ((state.log[id] || {})[d]) || 0;
+        state.xp = Math.max(0, state.xp + (c >= per ? -10 * per : 10 * (per - c)));
+        setCount(hb, d, c >= per ? 0 : per);
+        ygHabitChanged(hb); fcHabitChanged(hb);
+        save();
+      } else toggleHabit(id, null);
+    } finally { selDay = null; }
+    paintHeader(); renderToday();
   }
   else if(act==='go-speak'){ state.enView = 'speak'; save(); go('english'); }
   else if(act==='tk-w'){
@@ -4981,7 +4983,7 @@ function paintTabDots(){
 
 /* ---------- Navigation and start-up ---------- */
 function go(t){
-  selDay = null;
+  if(selDay){ selDay = null; paintHeader(); }
   tab = t;
   document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected', x.dataset.tab===t ? 'true':'false'));
   window.scrollTo({top:0, behavior:'instant' in document.documentElement.style ? 'instant' : 'auto'});
