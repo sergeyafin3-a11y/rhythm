@@ -70,16 +70,14 @@ missing an answer in the source PDFs and were left out.
 ## Winter Arc
 
 The plan from **4 October to 31 December**. A card at the top of *Today* shows *Day N of 89* and opens the Arc:
-the three goals (body · head · the life around you), a **habit tracker** — this week as a grid, and the whole Arc as one square
-per day, darker when more got done — this week’s bedtime, and the **Wednesday check-in**.
+a **habit tracker** — this week as a grid, and the whole Arc as one square per day, darker when more got done — and the
+**Wednesday check-in**.
 
-Six habits are added when the Arc starts, one or two per sphere: *Core & strength*, *Walk 15–20 minutes*, *10 minutes on one thing I
-put off*, *One honest “no” this week*, *Write the worries down*, *Phone away, in bed on time*. Delete any of them and it stays deleted.
-Yoga stays the daily base.
+Two habits are added when the Arc starts: *Walk 15–20 minutes* and *Keep a journal*. Both are daily, one tick each. Delete either
+and it stays deleted. Yoga stays the daily base, and the strength comes from the strength-focused yoga classes.
 
-**Check-in** (opens from Wednesday until done, two minutes): energy, body, calm and home on a 1–5 scale, whether you got to bed
-on time, whether you said yes to something you did not want, and one line in your own words. It answers with one small focus
-for next week. **Bedtime** starts at 01:50 and moves 10 minutes earlier after each week you got there, down to 01:00.
+**Check-in** (opens from Wednesday until done, two minutes): energy, body, calm and home on a 1–5 scale and one line in your own
+words. It answers with one small focus for next week.
 
 No points, no streak numbers, no scale and no tape measure — only what was done and how it felt.
 
@@ -134,7 +132,7 @@ Afterwards: Settings → Theme, and Settings → Typeface.
 
 Speak English for a minute · Learn 7 new words · Eight glasses of water (one tick when you have drunk them) ·
 Meditate for 5 minutes · Yoga · 20 pages of a book · Face massage · Foot cream · Thigh roller — and, from the Winter Arc,
-Core & strength · Walk · One thing I put off · One honest “no” · Write the worries down · In bed on time
+Walk · Keep a journal
 
 Each habit belongs to a time of day — Morning, Day or Evening — and the Today list is grouped
 under those three headings. Change it in the habit editor, delete any of them, or add more from
@@ -167,12 +165,6 @@ is skipped until she has been through the whole band, with a fresh batch
 added automatically once a month. Every id was opened on YouTube: the channel and the running time are
 the real ones. No yin, no lying-down classes — she stretches on her own. **Nothing for beginners either**:
 no class whose title says «для начинающих», «с нуля» or «beginner» — all levels and intermediate only.
-
-## Core & strength
-
-The *Core & strength* habit opens five follow-along videos of 8–15 minutes from a pool of 21 — **abs first** (the biggest share, spread through the pool so every five hold at least two),
-then back, arms and legs (inner thighs included), Russian and English. The five change the moment you tick the habit; unticking
-the same day puts them back. No video promises to burn fat in one place.
 
 ## Face massage
 
