@@ -25,10 +25,10 @@ file in, **Commit changes**. The site updates in about a minute.
 
 | Tab | What it does |
 |---|---|
-| Today | The **word test** on top, the day’s to-do card, the food card and the habits — grouped into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
+| Today | The **word test** on top, the day’s to-do card and the habits — grouped into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
 | To-do | Tasks that are not habits — a call, an appointment, a bill. Quick-add at the top, optional day and time, grouped into Overdue · Today · Tomorrow · Later · No date |
 | English | **Speak** — the speaking roulette: a topic, a minute, a recording, then the language you could have used. **Saved words** — the phrases you kept from it |
-| Practice | **Driving theory** — the interactive textbook and the official Armenian question bank. **Diction** — ten minutes of Russian speech practice a day |
+| Practice | **Driving theory** — the interactive textbook and the official Armenian question bank. **Diction** — six minutes of Russian speech practice a day (warm-up and tongue twisters) |
 | 🧘 Yoga | Tap the *Yoga* habit: four choices open under it — 🌿 15–25, 🌤 26–35, 🔥 36–45 minutes, or 🏊 the pool on any day. They change the moment you mark one done |
 
 ## Files
@@ -70,16 +70,14 @@ missing an answer in the source PDFs and were left out.
 ## Winter Arc
 
 The plan from **4 October to 31 December**. A card at the top of *Today* shows *Day N of 89* and opens the Arc:
-the three goals (body · head · the life around you), a **habit tracker** — this week as a grid, and the whole Arc as one square
-per day, darker when more got done — this week’s bedtime, and the **Wednesday check-in**.
+a **habit tracker** — this week as a grid, and the whole Arc as one square per day, darker when more got done — and the
+**Wednesday check-in**.
 
-Six habits are added when the Arc starts, one or two per sphere: *Core & strength*, *Walk 15–20 minutes*, *10 minutes on one thing I
-put off*, *One honest “no” this week*, *Write the worries down*, *Phone away, in bed on time*. Delete any of them and it stays deleted.
-Yoga stays the daily base.
+Two habits are added when the Arc starts: *Walk 15–20 minutes* and *Keep a journal*. Both are daily, one tick each. Delete either
+and it stays deleted. Yoga stays the daily base, and the strength comes from the strength-focused yoga classes.
 
-**Check-in** (opens from Wednesday until done, two minutes): energy, body, calm and home on a 1–5 scale, whether you got to bed
-on time, whether you said yes to something you did not want, and one line in your own words. It answers with one small focus
-for next week. **Bedtime** starts at 01:50 and moves 10 minutes earlier after each week you got there, down to 01:00.
+**Check-in** (opens from Wednesday until done, two minutes): energy, body, calm and home on a 1–5 scale and one line in your own
+words. It answers with one small focus for next week.
 
 No points, no streak numbers, no scale and no tape measure — only what was done and how it felt.
 
@@ -118,9 +116,11 @@ It appears once you have four words. The old mood check-in card is gone; what yo
 
 ## Diction
 
-Practice → **Diction**. Ten minutes a day in Russian: an articulation warm-up, the video of
-the day from a speech teacher, and three tongue twisters, each said three ways. A week strip
-shows what you have done.
+Practice → **Diction**. About six minutes a day in Russian: an articulation warm-up and three tongue twisters, each said three
+ways. A week strip shows what you have done. No videos — just the exercises.
+
+Two habits sit next to it on *Today*: **Driving theory: one lesson** and **Diction exercises**. Each ticks by itself when you press
+“Got it” on a lesson / Done on the diction page, and opens the right screen.
 
 ## Themes and typefaces
 
@@ -132,9 +132,9 @@ Afterwards: Settings → Theme, and Settings → Typeface.
 
 ## The habits it starts with
 
-Speak English for a minute · Learn 7 new words · Eight glasses of water (one tick when you have drunk them) ·
+Speak English for a minute · Learn 7 new words (one tick when you have learned them) · Eight glasses of water (one tick when you have drunk them) ·
 Meditate for 5 minutes · Yoga · 20 pages of a book · Face massage · Foot cream · Thigh roller — and, from the Winter Arc,
-Core & strength · Walk · One thing I put off · One honest “no” · Write the worries down · In bed on time
+Walk · Keep a journal
 
 Each habit belongs to a time of day — Morning, Day or Evening — and the Today list is grouped
 under those three headings. Change it in the habit editor, delete any of them, or add more from
@@ -168,12 +168,6 @@ added automatically once a month. Every id was opened on YouTube: the channel an
 the real ones. No yin, no lying-down classes — she stretches on her own. **Nothing for beginners either**:
 no class whose title says «для начинающих», «с нуля» or «beginner» — all levels and intermediate only.
 
-## Core & strength
-
-The *Core & strength* habit opens five follow-along videos of 8–15 minutes from a pool of 21 — **abs first** (the biggest share, spread through the pool so every five hold at least two),
-then back, arms and legs (inner thighs included), Russian and English. The five change the moment you tick the habit; unticking
-the same day puts them back. No video promises to burn fat in one place.
-
 ## Face massage
 
 Tap the *Face massage* habit and **five follow-along routines** open under it, drawn from a pool of 15 —
@@ -204,6 +198,6 @@ and the date at the top shows that day.
 
 ## Data
 
-Habits, to-dos, word-test progress, yoga days, saved words, food diary and weight, lessons finished and
+Habits, to-dos, word-test progress, yoga days, saved words, lessons finished and
 questions answered live in `localStorage` on the device. Voice recordings are never stored:
 they exist only until you leave the topic. Backup: Settings → Backup.

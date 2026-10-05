@@ -925,49 +925,8 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .yg-swim .vid-body{ padding:14px 16px; }
 .yg-swim{ border-style:dashed; }
 .yg-next-line{ margin:6px 0 0; font-size:12px; color:var(--ink-mute); }
-/* ---------- Food diary ---------- */
-.fd-card{ background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius-lg); box-shadow:var(--shadow); padding:15px 16px 16px; margin-bottom:20px; }
-.fd-card .top .eyebrow{ margin:0; color:var(--accent); }
-.fd-card h3{ margin:6px 0 4px; font-family:var(--font-display); font-weight:var(--display-weight); font-size:19px; line-height:1.25; }
-.fd-top{ display:flex; width:100%; align-items:center; justify-content:space-between; }
-.fd-top .eyebrow{ color:var(--accent); }
-.fd-top .go{ font-size:12.5px; font-weight:700; color:var(--accent); }
-.fd-nums{ display:flex; align-items:baseline; gap:8px; margin:8px 0 0; }
-.fd-nums b{ font-family:var(--font-display); font-weight:var(--display-weight); font-size:32px; line-height:1; color:var(--accent); }
-.fd-nums span{ font-size:13px; color:var(--ink-mute); }
-.fd-card.over .fd-nums b{ color:var(--bad); }
-.fd-card .pbar{ margin:10px 0 12px; }
-.fd-quick{ display:flex; gap:8px; align-items:stretch; margin:0; }
-.fd-quick input, .fd-quick textarea{ flex:1; min-width:0; padding:10px 12px; border-radius:var(--radius); border:var(--border-w) solid var(--line); background:var(--ground); color:var(--ink); font:inherit; font-size:15px; }
-.fd-quick textarea{ resize:vertical; min-height:62px; line-height:1.4; }
-.fd-quick-page{ margin:16px 0 0; flex-direction:column; }
+/* a quiet caption under a heading (used by the word test and the Winter Arc) */
 .fd-sub{ margin:6px 0 12px; font-size:13px; line-height:1.5; color:var(--ink-mute); }
-.fd-list{ display:flex; flex-direction:column; gap:1px; border-radius:var(--radius); overflow:hidden; border:var(--border-w) solid var(--line); }
-.fd-row{ display:flex; align-items:center; gap:12px; width:100%; text-align:left; padding:11px 14px; background:var(--surface); color:var(--ink); }
-.fd-row + .fd-row{ border-top:var(--border-w) solid var(--line); }
-.fd-t{ flex:1; min-width:0; }
-.fd-t b{ display:block; font-size:14.5px; line-height:1.3; }
-.fd-t small{ display:block; margin-top:2px; font-size:12px; color:var(--ink-mute); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.fd-k{ font-weight:700; font-size:15px; color:var(--ink-soft); }
-.fd-row.unknown .fd-k{ color:var(--bad); }
-.fd-week{ display:grid; grid-template-columns:repeat(7, 1fr); gap:6px; height:130px; align-items:end; }
-.fd-week div{ display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; gap:4px; }
-.fd-week i{ display:block; width:100%; max-width:26px; min-height:3px; border-radius:6px 6px 3px 3px; background:var(--accent-soft); }
-.fd-week .now i{ background:var(--accent); }
-.fd-week .over i{ background:#E3A69B; }
-.fd-week span{ font-size:11px; font-weight:700; color:var(--ink-mute); }
-.fd-week small{ font-size:10px; color:var(--ink-mute); min-height:12px; }
-.fd-weight{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
-.fd-weight b{ display:block; font-family:var(--font-display); font-weight:var(--display-weight); font-size:24px; }
-.fd-weight span{ font-size:12px; color:var(--ink-mute); }
-.fd-weight .btn{ margin-left:auto; }
-.fd-two{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.fd-q{ margin:4px 0 8px; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-mute); }
-.fd-opts{ display:flex; flex-direction:column; gap:7px; margin-bottom:16px; }
-.fd-opt{ text-align:left; padding:11px 13px; border-radius:var(--radius); border:var(--border-w) solid var(--line); background:var(--surface); color:var(--ink); }
-.fd-opt b{ display:block; font-size:14.5px; }
-.fd-opt span{ display:block; margin-top:2px; font-size:12.5px; color:var(--ink-mute); }
-.fd-opt[aria-pressed="true"]{ border-color:var(--accent); background:var(--accent-soft); }
 /* ---------- Speaking: words and recordings ---------- */
 .tk-take{ grid-template-columns:52px 1fr; }
 .tk-take-acts{ grid-column:1 / -1; display:flex; flex-wrap:wrap; gap:8px; margin:2px 0 6px; }
@@ -1000,7 +959,6 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .arc-day{ display:block; margin:6px 0 8px; font-family:var(--font-display); font-weight:var(--display-weight); font-size:22px; line-height:1.2; }
 .arc-card .pbar{ display:block; margin:0 0 8px; }
 .arc-sub{ display:block; font-size:13px; color:var(--ink-soft); }
-.arc-goals{ display:flex; flex-direction:column; gap:8px; }
 .arc-goal{ padding:12px 14px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); }
 .arc-goal b{ display:block; font-size:14.5px; }
 .arc-goal p{ margin:4px 0 0; font-size:13.5px; line-height:1.5; color:var(--ink-soft); }
@@ -1035,9 +993,7 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .arc-sec{ margin:0 0 18px; }
 .arc-q{ margin:0 0 8px; font-size:14.5px; font-weight:700; line-height:1.4; }
 .arc-scale{ display:grid; grid-template-columns:repeat(5, 1fr); gap:6px; }
-.arc-scale.wide{ grid-template-columns:repeat(3, 1fr); }
 .arc-scale button{ padding:11px 4px; border-radius:var(--radius); font-size:16px; font-weight:700; background:var(--surface); border:var(--border-w) solid var(--line); color:var(--ink); }
-.arc-scale.wide button{ font-size:13.5px; }
 .arc-scale button[aria-pressed="true"]{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
 .arc-text{ width:100%; padding:10px 12px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); color:var(--ink); font:inherit; }
 .wk-strip{ display:flex; gap:6px; margin:14px 0 0; }
@@ -1604,7 +1560,7 @@ function fireworks(opt){
 const LIBRARY = [
   {cat:'English', items:[
     {t:'Speak English for a minute', e:'🎙', p:1, w:7},
-    {t:'Learn 7 new words', e:'🔤', p:7, w:7},
+    {t:'Learn 7 new words', e:'🔤', p:1, w:7},
     {t:'Revise yesterday&#39;s words', e:'🔁', p:1, w:7},
     {t:'20 pages of a book', e:'📖', p:1, w:7},
     {t:'Ten minutes of watching, no subtitles', e:'🎬', p:1, w:5},
@@ -2014,73 +1970,49 @@ function spPanel(h){
     '<button class="btn btn-primary btn-sm" data-act="go-speak">Open the roulette →</button></div>';
 }
 
-/* ---------- Core & strength: abs first, then back, arms and legs ----------
-   A pool of follow-along videos, five at a time; the five change the moment the habit
-   is ticked, like the face massage. Every id opened on YouTube. */
-const STRENGTH_VIDEOS = [
-  {id:'s1', v:'RUjxpcr5VeA', t:'Ten minute abs without leg lifts', min:10, by:'Лера Логунова', lang:'ru', focus:'abs', desc:'A steady ten-minute abs session on the mat with no leg raises, so the lower back stays calm.'},
-  {id:'s2', v:'r9xd8umAnZQ', t:'Ten minute abs, no strain on the neck', min:10, by:'Лера Логунова', lang:'ru', focus:'abs', desc:'Ten minutes of abs chosen so the neck stays relaxed, with clear form cues.'},
-  {id:'s3', v:'YFHea9AeqZ4', t:'Core and back in eight minutes', min:8, by:'Арсений Ким', lang:'ru', focus:'abs', desc:'A short core session that also strengthens the back, easy to fit in anywhere.'},
-  {id:'s4', v:'NSNjXUxs0d0', t:'Fifteen minute pilates for the abs', min:15, by:'SMSTRETCHING', lang:'ru', focus:'abs', desc:'A pilates-style abs class with no jumping and no equipment, steady and controlled.'},
-  {id:'s5', v:'NQxEUC3-aaE', t:'Complete core strengthening in ten minutes', min:11, by:'Tone and Tighten', lang:'en', focus:'abs', desc:'A physical therapist’s ten-minute routine for the whole trunk and hips, not just a six-pack.'},
-  {id:'s6', v:'soue2Fz-8Yw', t:'Ten minute abs workout, no equipment', min:11, by:'Rowan Row', lang:'en', focus:'abs', desc:'A straightforward ten-minute follow-along abs workout on the mat.'},
-  {id:'s7', v:'8T39OBNaNzU', t:'Twelve minute core conditioning', min:12, by:'Yoga With Adriene', lang:'en', focus:'abs', desc:'Floor core work to build a connection to your centre, from a yoga teacher.'},
-  {id:'s8', v:'1p6xiBIZDuk', t:'Twelve minute standing abs, no jumping', min:13, by:'BurpeeGirl', lang:'en', focus:'abs', desc:'Slow, controlled standing abs that are gentle on the knees and back.'},
-  {id:'s9', v:'bkkQ_hnHWxA', t:'Abs and core that are safe for the lower back', min:12, by:'Oliver Sjostrom', lang:'en', focus:'abs', desc:'Ten-plus minutes of abs and core built to protect and strengthen the lower back.'},
-  {id:'s10', v:'lQwpksc8Gf8', t:'Ten minute back workout', min:11, by:'Лера Логунова', lang:'ru', focus:'back', desc:'Thirty seconds on, ten off: strengthens the upper and lower back and helps posture.'},
-  {id:'s11', v:'jPLZwL1eZpI', t:'Twelve minute back and posture workout', min:13, by:'ДелайТело', lang:'ru', focus:'back', desc:'A home workout for a straighter back and lighter posture, no equipment.'},
-  {id:'s12', v:'ixVtqI1uUtc', t:'Healthy back, ten minutes', min:10, by:'IMAGINE fitness', lang:'ru', focus:'back', desc:'Ten minutes of exercises for a strong, healthy back at home.'},
-  {id:'s13', v:'Pb5ywB4Zh4o', t:'Daily exercises for the back and posture', min:11, by:'Mari Stretching', lang:'ru', focus:'back', desc:'A comfortable daily routine for the back, good after a day at a desk.'},
-  {id:'s14', v:'gEOwBSYs1pk', t:'Lower back relief, ten minutes', min:11, by:'Tone and Tighten', lang:'en', focus:'back', desc:'A physical therapist’s ten-minute routine to loosen the hips and strengthen the core and lower back.'},
-  {id:'s15', v:'Dw4xfH8GRlU', t:'Arms and back in ten minutes', min:11, by:'ДелайТело', lang:'ru', focus:'arms', desc:'Ten minutes for toned arms and a healthy back, no equipment.'},
-  {id:'s16', v:'tcK0pU8wDN8', t:'Ten minute pilates for the arms', min:11, by:'Lidia Mera', lang:'en', focus:'arms', desc:'A pilates-style arm workout with no equipment needed.'},
-  {id:'s17', v:'hxtDF4nXDBY', t:'Ten minute standing arm workout', min:10, by:'Coach Mich', lang:'en', focus:'arms', desc:'A low-impact standing arm workout with no weights and no floor work.'},
-  {id:'s18', v:'yEkKX_dU16M', t:'Ten minute arm workout, standing only', min:11, by:'guidedbyangie', lang:'en', focus:'arms', desc:'A guided standing-only arm workout, no equipment.'},
-  {id:'s19', v:'8w-AkCiq57c', t:'Twelve minutes of legs and glutes, standing', min:13, by:'Здоровая спина: Йога и Пилатес с Анной', lang:'ru', focus:'legs', desc:'A standing leg and glute workout with no jumping, from a yoga and pilates teacher.'},
-  {id:'s20', v:'oZjTGIhUOEo', t:'Inner and outer thigh sculpting', min:14, by:'ДелайТело', lang:'ru', focus:'legs', desc:'Exercises for the inner and outer thigh, suitable for every level.'},
-  {id:'s21', v:'oGXK5pULe0c', t:'Ten minutes for the inner thighs', min:10, by:'Лера Логунова', lang:'ru', focus:'legs', desc:'A non-stop ten minutes for the inner thighs, no equipment.'}
+/* ---------- Two habits for the Practice tab: a driving-theory lesson and diction, every day ----------
+   Each ticks by itself when the lesson is learned / the diction page is done, and opens the right screen. */
+/* practice:pure */
+const PRACTICE_HABITS = [
+  {id:'hp-drive',   title:'Driving theory: one lesson', emoji:'🚗', perDay:1, weekGoal:7, when:'day', why:''},
+  {id:'hp-diction', title:'Diction exercises',          emoji:'🗣', perDay:1, weekGoal:7, when:'day', why:''}
 ];
-/* sc:pure */
-/* the pool in a fixed, mixed order with every focus spread evenly through it, abs starting first —
-   so any five in a row, wrapping round the end, hold at least two abs videos */
-function scOrder(list, hash){
-  const by = {}, start = {abs:0.05, back:0.4, arms:0.6, legs:0.8}, out = [];
-  list.slice().sort(function(a, b){ return hash(a.v) - hash(b.v); }).forEach(function(x){ (by[x.focus] || (by[x.focus] = [])).push(x); });
-  Object.keys(by).forEach(function(f){
-    by[f].forEach(function(x, i){ out.push({x:x, at:(i + (start[f] == null ? 0.5 : start[f])) / by[f].length}); });
-  });
-  return out.sort(function(a, b){ return a.at - b.at || hash(a.x.v) - hash(b.x.v); }).map(function(o){ return o.x; });
+const DRIVE_RX = /driving theory|вожден|(^|[^а-яё])пдд(?![а-яё])/i, DICTION_RX = /\bdiction\b|дикци/i;
+/* added once; nothing of hers is touched and a habit she deletes stays deleted */
+function practiceEnsure(st){
+  if(st.practiceHabits) return false;
+  PRACTICE_HABITS.forEach(function(h){ if(!st.habits.some(function(x){ return x.id === h.id; })) st.habits.push(Object.assign({}, h)); });
+  st.practiceHabits = true;
+  return true;
 }
-/* a title that means this habit — «пресс» only as a word of its own, never inside «экспресс» or «компрессия» */
-const SC_RX = /core\s*(&|and)\s*strength|(^|[^а-яё])пресс/i;
-/* ticking moves the batch on; unticking the same day puts it back; a second tick the same day does nothing */
-function scRotate(st, key, done, n){
-  if(done && st.k !== key){ st.i += n; st.k = key; }
-  else if(!done && st.k === key){ st.i -= n; delete st.k; }
-  return st;
+/* tick or untick one of them for a day, the way tapping the circle would (same XP); returns whether anything changed.
+   A lesson only unticks a tick it made itself — never one she made by hand;
+   `force` is for the diction page, which IS the habit's state. */
+function practiceMark(st, id, key, on, force){
+  const h = (st.habits || []).find(function(x){ return x.id === id; });
+  if(!h || h.archived) return false;
+  const log = st.log || (st.log = {}), days = log[id] || (log[id] = {}), per = h.perDay || 1, done = (days[key] || 0) >= per;
+  const auto = st.practiceAuto || (st.practiceAuto = {}), tag = id + '|' + key;
+  if(on && !done){ days[key] = per; auto[tag] = 1; st.xp = (st.xp || 0) + 10 * per; return true; }
+  if(!on && done && (auto[tag] || force)){ delete days[key]; delete auto[tag]; st.xp = Math.max(0, (st.xp || 0) - 10 * per); return true; }
+  return false;
 }
-/* sc:end */
-const SC_SHOW = 5;
-let scPool = null;
-function scState(){ if(!state.strength) state.strength = {i:0}; return state.strength; }
-function scHabit(){ return state.habits.find(function(h){ const p = SC_RX.test(h.title || '') && hbVideos(h); return p && p.panel === scPanel; }); }
-function scBatch(){
-  if(!scPool) scPool = scOrder(STRENGTH_VIDEOS, vidHash);
-  const st = scState(), out = [];
-  for(let n = 0; n < Math.min(SC_SHOW, scPool.length); n++) out.push(scPool[((st.i + n) % scPool.length + scPool.length) % scPool.length]);
-  return out;
+/* she ticked or unticked the habit herself: it is hers now, and the diction page follows the habit */
+function practiceSync(st, h, key, done){
+  if(st.practiceAuto) delete st.practiceAuto[h.id + '|' + key];
+  if(h.id === 'hp-diction'){
+    if(!st.diction) st.diction = {};
+    if(done) st.diction[key] = true; else delete st.diction[key];
+  }
 }
-function scHabitChanged(h){
-  const s = scHabit();
-  if(!s || s.id !== h.id) return;
-  scRotate(scState(), today(), isDone(h, today()), SC_SHOW);
+/* practice:end */
+function drivePanel(h){
+  return '<div class="hb-vids"><p class="hb-tip">One lesson a day. Pressing “Got it” on a lesson ticks this habit by itself.</p>'+
+    '<button class="btn btn-primary btn-sm" data-act="go-drive">Open the lessons →</button></div>';
 }
-function scHint(h){ return isDone(h, today()) ? '✓ Done · five new ones' : SC_SHOW + ' of ' + STRENGTH_VIDEOS.length + ' videos'; }
-function scPanel(h){
-  return '<div class="hb-vids"><p class="hb-tip">'+(isDone(h, today())
-    ? 'Five new ones — the set changes every time you tick the habit.'
-    : 'Ten to fifteen minutes, abs most days. Slow and controlled beats fast: breathe out on the effort, keep the lower back long.')+
-    '</p><div class="vid-list">'+scBatch().map(function(x){ return vidCard(x, false); }).join('')+'</div></div>';
+function dictionPanel(h){
+  return '<div class="hb-vids"><p class="hb-tip">A short warm-up and three tongue twisters. Pressing Done on the diction page ticks this habit by itself.</p>'+
+    '<button class="btn btn-primary btn-sm" data-act="go-diction">Open diction →</button></div>';
 }
 
 /* ---------- Habits that open into something ---------- */
@@ -2088,495 +2020,14 @@ const HABIT_PANELS = [
   {match:/speak|говор|спикинг/i, hint:function(h){ return isDone(h, today()) ? '✓ Spoken today' : 'Spin a topic'; }, panel:spPanel},
   {match:/^\s*yoga\b|йога/i, hint:ygHint, panel:ygPanel},
   {match:/face massage|массаж лица|gua ?sha|гуаша/i, hint:fcHint, panel:facePanel},
-  {match:SC_RX, hint:scHint, panel:scPanel}
+  {match:DRIVE_RX, hint:function(h){ return isDone(h, today()) ? '✓ Lesson done' : 'One lesson'; }, panel:drivePanel},
+  {match:DICTION_RX, hint:function(h){ return isDone(h, today()) ? '✓ Diction done' : 'A few minutes'; }, panel:dictionPanel}
 ];
 const hbOpen = {};
 function hbVideos(h){ return HABIT_PANELS.find(function(x){ return x.match.test(h.title || ''); }); }
 function hbPanel(h){
   const p = hbVideos(h);
   return p && hbOpen[h.id] ? p.panel(h) : '';
-}
-
-/* Calories per 100 g (drinks per 100 ml) and protein per 100 g, from standard food tables (USDA values where they exist).
-   [key, name, aliases, kcal, protein, piece g, default portion g, the dry/cooked twin, extra units]
-   Aliases are word stems, so «гречки», «гречкой» and «гречка» all land on the same line. */
-const FOOD_DB = [
-  // grains and bread — cooked unless it says dry
-  ['buckwheat', 'Buckwheat, cooked', 'гречк|гречнев|buckwheat', 92, 3.4, 0, 150, 'buckwheat_dry'],
-  ['buckwheat_dry', 'Buckwheat, dry', '', 343, 13, 0, 60],
-  ['rice', 'Rice, cooked', 'рис|rice', 130, 2.7, 0, 150, 'rice_dry'],
-  ['rice_dry', 'Rice, dry', '', 360, 7, 0, 60],
-  ['brown_rice', 'Brown rice, cooked', 'бурый рис|коричнев|brown rice', 123, 2.7, 0, 150],
-  ['oats_dry', 'Oat flakes, dry', 'овсян|овес|овёс|геркулес|oat|oatmeal', 379, 13, 0, 50, 'oats_cooked'],
-  ['oats_cooked', 'Oatmeal on water', '', 71, 2.5, 0, 250],
-  ['oats_milk', 'Oatmeal on milk', 'овсянка на молок|каша на молок|овсяная каша на молок|oatmeal with milk|porridge with milk', 102, 4, 0, 250],
-  ['bulgur', 'Bulgur, cooked', 'булгур|bulgur', 83, 3.1, 0, 150, 'bulgur_dry'],
-  ['bulgur_dry', 'Bulgur, dry', '', 342, 12, 0, 60],
-  ['quinoa', 'Quinoa, cooked', 'киноа|quinoa', 120, 4.4, 0, 150, 'quinoa_dry'],
-  ['quinoa_dry', 'Quinoa, dry', '', 368, 14, 0, 60],
-  ['pasta', 'Pasta, cooked', 'макарон|паст|спагетти|лапш|pasta|spaghetti|noodle|penne', 158, 5.8, 0, 200, 'pasta_dry'],
-  ['pasta_dry', 'Pasta, dry', '', 371, 13, 0, 80],
-  ['couscous', 'Couscous, cooked', 'кускус|couscous', 112, 3.8, 0, 150],
-  ['millet', 'Millet, cooked', 'пшен|millet', 119, 3.5, 0, 150],
-  ['barley', 'Pearl barley, cooked', 'перлов|ячнев|barley', 123, 2.3, 0, 150],
-  ['semolina', 'Semolina porridge on milk', 'манк|манная|semolina', 98, 3, 0, 250],
-  ['potato', 'Potatoes, boiled', 'картоф|картошк|potato', 87, 1.9, 100, 200],
-  ['potato_mash', 'Mashed potatoes', 'пюре|mashed', 113, 2, 0, 200],
-  ['potato_fried', 'Fried potatoes', 'жарен картош|жареная картош|картошка фри|картофель фри|фри|fries|chips fries', 312, 3.4, 0, 150],
-  ['bread', 'Bread, white', 'хлеб|батон|багет|матнакаш|bread|baguette', 265, 9, 30, 30],
-  ['rye_bread', 'Bread, rye', 'ржан|бородин|черный хлеб|чёрный хлеб|rye', 259, 8.5, 30, 30],
-  ['wholegrain_bread', 'Bread, wholegrain', 'цельнозерн|wholegrain|whole grain|whole wheat', 247, 13, 30, 30],
-  ['lavash', 'Lavash', 'лаваш|lavash', 275, 9, 80, 80],
-  ['pita', 'Pita', 'пита|pita', 275, 9, 60, 60],
-  ['crispbread', 'Crispbread', 'хлебц|crispbread|rice cake', 370, 10, 10, 20],
-  ['croissant', 'Croissant', 'круассан|croissant', 406, 8, 60, 60],
-  ['granola', 'Granola', 'гранол|granola', 471, 10, 0, 50],
-  ['muesli', 'Muesli', 'мюсли|muesli', 360, 10, 0, 50],
-  ['cornflakes', 'Cornflakes', 'хлопья|кукурузные хлопья|cornflakes|cereal', 357, 7.5, 0, 40],
-  ['pancake', 'Pancakes (blini)', 'блин|блинчик|оладь|pancake|crepe', 233, 6, 50, 150],
-  ['syrniki', 'Syrniki', 'сырник|syrniki', 220, 13, 50, 150],
-
-  // milk, cheese, eggs
-  ['milk', 'Milk 2.5%', 'молок|milk', 52, 2.9, 0, 200, '', {cup:250}],
-  ['milk_oat', 'Oat milk', 'овсяное молоко|oat milk', 45, 1, 0, 200, '', {cup:250}],
-  ['milk_almond', 'Almond milk, unsweetened', 'миндальное молоко|almond milk', 15, 0.5, 0, 200, '', {cup:250}],
-  ['milk_soy', 'Soy milk', 'соевое молоко|soy milk', 40, 3.3, 0, 200, '', {cup:250}],
-  ['kefir', 'Kefir 2.5%', 'кефир|kefir', 50, 2.9, 0, 250, '', {cup:250}],
-  ['matsoni', 'Matsoni', 'мацун|мацони|matsoni|matsun', 60, 3, 0, 200],
-  ['tan', 'Tan (yoghurt drink)', 'тан|айран|tan|ayran', 27, 1.5, 0, 250, '', {cup:250}],
-  ['yogurt', 'Yoghurt, plain', 'йогурт|yogurt|yoghurt', 66, 3.5, 0, 150],
-  ['greek_yogurt', 'Greek yoghurt 2%', 'греческ|greek', 73, 10, 0, 150],
-  ['tvorog0', 'Cottage cheese (tvorog) 0%', 'творог 0|обезжирен|творог обезж|fat-free cottage', 71, 16.5, 0, 150],
-  ['tvorog', 'Cottage cheese (tvorog) 5%', 'творог|творож|tvorog|cottage cheese', 121, 17, 0, 150],
-  ['tvorog9', 'Cottage cheese (tvorog) 9%', 'творог 9|творог 9%', 159, 16.7, 0, 150],
-  ['grain_cottage', 'Cottage cheese, grained', 'зерненый|зернёный|зерненн|зернён|grained', 103, 11, 0, 150],
-  ['sour_cream', 'Sour cream 15%', 'сметан|sour cream', 158, 2.6, 0, 30, '', {tbsp:20}],
-  ['cream', 'Cream 10%', 'сливки|сливок|cream', 118, 3, 0, 30, '', {tbsp:15}],
-  ['butter', 'Butter', 'масло сливоч|сливочное|сливочн|butter', 717, 0.9, 0, 10, '', {tbsp:14, tsp:5}],
-  ['cheese', 'Cheese, hard', 'сыр|cheddar|гауда|gouda|cheese', 360, 24, 20, 30],
-  ['mozzarella', 'Mozzarella', 'моцарел|mozzarella', 280, 22, 0, 60],
-  ['feta', 'Feta', 'фет|feta', 264, 14, 0, 50],
-  ['brynza', 'Brynza', 'брынз|brynza', 260, 18, 0, 50],
-  ['suluguni', 'Suluguni', 'сулугун|suluguni', 290, 20, 0, 50],
-  ['lori', 'Lori cheese', 'лори|lori', 290, 21, 0, 50],
-  ['chanakh', 'Chanakh cheese', 'чанах|chanakh', 260, 18, 0, 50],
-  ['parmesan', 'Parmesan', 'пармезан|parmesan', 392, 36, 0, 15],
-  ['ricotta', 'Ricotta', 'рикотт|ricotta', 174, 11, 0, 60],
-  ['cream_cheese', 'Cream cheese', 'сливочный сыр|творожный сыр|филадельф|cream cheese|philadelphia', 342, 6, 0, 30],
-  ['ice_cream', 'Ice cream', 'мороженое|пломбир|ice cream', 207, 3.5, 0, 80],
-  ['egg', 'Egg', 'яйц|яиц|яйко|egg', 143, 12.6, 55, 55],
-  ['egg_white', 'Egg white', 'белок яйц|белки яиц|egg white', 52, 11, 33, 33],
-  ['omelette', 'Omelette', 'омлет|omelet|omelette', 154, 11, 0, 150],
-
-  // beans, soy
-  ['lentils', 'Lentils, cooked', 'чечевиц|lentil', 116, 9, 0, 150, 'lentils_dry'],
-  ['lentils_dry', 'Lentils, dry', '', 352, 24.6, 0, 60],
-  ['chickpeas', 'Chickpeas, cooked', 'нут|chickpea', 164, 8.9, 0, 150],
-  ['beans', 'Beans, cooked', 'фасол|bean', 127, 8.7, 0, 150],
-  ['green_peas', 'Green peas', 'горош|горох|pea', 81, 5.4, 0, 80],
-  ['hummus', 'Hummus', 'хумус|хумм|hummus', 166, 7.9, 0, 50, '', {tbsp:15}],
-  ['tofu', 'Tofu, firm', 'тофу|tofu', 144, 15.6, 0, 100],
-  ['tempeh', 'Tempeh', 'темпе|tempeh', 192, 20, 0, 100],
-  ['edamame', 'Edamame', 'эдамаме|edamame', 121, 12, 0, 100],
-  ['falafel', 'Falafel', 'фалафел|falafel', 333, 13, 17, 100],
-
-  // fish, in case
-  ['salmon', 'Salmon', 'лосос|семг|сёмг|форел|salmon|trout', 208, 20, 0, 120],
-  ['tuna', 'Tuna, canned in water', 'тунец|tuna', 116, 26, 0, 100],
-  ['white_fish', 'White fish (cod, hake)', 'треск|хек|минтай|белая рыба|cod|hake', 82, 18, 0, 150],
-  ['shrimp', 'Shrimp', 'кревет|shrimp|prawn', 99, 24, 0, 100],
-
-  // vegetables
-  ['cucumber', 'Cucumber', 'огур|cucumber', 15, 0.7, 150, 150],
-  ['tomato', 'Tomato', 'помидор|томат|черри|tomato|cherry tomato', 18, 0.9, 120, 120],
-  ['pepper', 'Bell pepper', 'перец|перц|pepper', 26, 1, 150, 150],
-  ['carrot', 'Carrot', 'морков|carrot', 41, 0.9, 80, 80],
-  ['cabbage', 'Cabbage', 'капуст|cabbage', 25, 1.3, 0, 100],
-  ['broccoli', 'Broccoli', 'брокколи|broccoli', 34, 2.8, 0, 150],
-  ['cauliflower', 'Cauliflower', 'цветн|cauliflower', 25, 1.9, 0, 150],
-  ['zucchini', 'Courgette', 'кабач|цукин|zucchini|courgette', 17, 1.2, 200, 200],
-  ['eggplant', 'Aubergine', 'баклажан|eggplant|aubergine', 25, 1, 250, 200],
-  ['onion', 'Onion', 'лук|onion', 40, 1.1, 110, 50],
-  ['beetroot', 'Beetroot, boiled', 'свекл|свёкл|beet', 44, 1.7, 150, 100],
-  ['spinach', 'Spinach', 'шпинат|spinach', 23, 2.9, 0, 50],
-  ['salad_leaves', 'Salad leaves', 'салатные листья|листья салата|айсберг|руккол|латук|lettuce|rocket|arugula', 15, 1.4, 0, 50],
-  ['greens', 'Herbs (parsley, dill, coriander)', 'зелень|петрушк|укроп|кинз|тархун|базилик|herbs|parsley|dill|coriander', 36, 3, 0, 20],
-  ['mushrooms', 'Mushrooms', 'гриб|шампиньон|mushroom', 22, 3.1, 0, 100],
-  ['pumpkin', 'Pumpkin', 'тыкв|pumpkin', 26, 1, 0, 150],
-  ['corn', 'Sweetcorn', 'кукуруз|corn', 86, 3.3, 0, 80],
-  ['avocado', 'Avocado', 'авокадо|avocado', 160, 2, 150, 75],
-  ['olives', 'Olives', 'олив|маслин|olive', 115, 0.8, 4, 30],
-  ['green_beans', 'Green beans', 'стручков|green bean', 31, 1.8, 0, 100],
-  ['radish', 'Radish', 'редис|radish', 16, 0.7, 15, 50],
-  ['celery', 'Celery', 'сельдер|celery', 16, 0.7, 0, 50],
-  ['pickles', 'Pickled cucumbers', 'солен огур|маринован|соленые огурцы|pickle', 11, 0.3, 60, 60],
-  ['sauerkraut', 'Sauerkraut', 'квашен|sauerkraut', 19, 0.9, 0, 100],
-  ['veg_salad', 'Vegetable salad with oil', 'овощной салат|салат из овощей|салат с маслом|vegetable salad|salad', 80, 1.2, 0, 200],
-  ['greek_salad', 'Greek salad', 'греческий салат|greek salad', 110, 3, 0, 200],
-  ['vinaigrette', 'Vinaigrette (beet salad)', 'винегрет|vinaigrette', 76, 1.6, 0, 200],
-  ['veg_stew', 'Vegetable stew', 'рагу|овощное рагу|аджапсандал|ajapsandal|stew|ratatouille|рататуй', 60, 1.5, 0, 250],
-
-  // fruit
-  ['apple', 'Apple', 'яблок|apple', 52, 0.3, 180, 180],
-  ['banana', 'Banana', 'банан|banana', 89, 1.1, 120, 120],
-  ['orange', 'Orange', 'апельсин|orange', 47, 0.9, 140, 140],
-  ['tangerine', 'Tangerine', 'мандарин|tangerine|clementine', 53, 0.8, 75, 75],
-  ['pear', 'Pear', 'груш|pear', 57, 0.4, 170, 170],
-  ['grapes', 'Grapes', 'виноград|grape', 69, 0.7, 0, 150],
-  ['peach', 'Peach', 'персик|нектарин|peach|nectarine', 39, 0.9, 150, 150],
-  ['apricot', 'Apricot', 'абрикос|apricot', 48, 1.4, 35, 105],
-  ['plum', 'Plum', 'слив|plum', 46, 0.7, 30, 90],
-  ['cherries', 'Cherries', 'черешн|вишн|cherr', 63, 1.1, 0, 150],
-  ['strawberries', 'Strawberries', 'клубник|земляник|strawberr', 32, 0.7, 0, 150],
-  ['raspberries', 'Raspberries', 'малин|raspberr', 52, 1.2, 0, 100],
-  ['blueberries', 'Blueberries', 'черник|голубик|blueberr', 57, 0.7, 0, 100],
-  ['watermelon', 'Watermelon', 'арбуз|watermelon', 30, 0.6, 0, 300],
-  ['melon', 'Melon', 'дын|melon', 34, 0.8, 0, 250],
-  ['pomegranate', 'Pomegranate', 'гранат|pomegranate', 83, 1.7, 150, 150],
-  ['kiwi', 'Kiwi', 'киви|kiwi', 61, 1.1, 75, 75],
-  ['persimmon', 'Persimmon', 'хурм|persimmon', 70, 0.6, 170, 170],
-  ['fig', 'Fig, fresh', 'инжир|fig', 74, 0.8, 50, 100],
-  ['pineapple', 'Pineapple', 'ананас|pineapple', 50, 0.5, 0, 150],
-  ['mango', 'Mango', 'манго|mango', 60, 0.8, 200, 150],
-  ['lemon', 'Lemon', 'лимон|lemon', 29, 1.1, 0, 20],
-  ['raisins', 'Raisins', 'изюм|raisin', 299, 3.1, 0, 30],
-  ['dried_apricots', 'Dried apricots', 'кураг|dried apricot', 241, 3.4, 8, 30],
-  ['prunes', 'Prunes', 'чернослив|prune', 240, 2.2, 8, 30],
-  ['dates', 'Dates', 'финик|dates|date fruit', 282, 2.5, 8, 30],
-  ['dried_figs', 'Dried figs', 'сушеный инжир|сушёный инжир|dried fig', 249, 3.3, 20, 40],
-
-  // nuts, seeds
-  ['walnuts', 'Walnuts', 'грецк|walnut', 654, 15, 5, 30],
-  ['almonds', 'Almonds', 'миндал|almond', 579, 21, 1.2, 30],
-  ['hazelnuts', 'Hazelnuts', 'фундук|лесн|hazelnut', 628, 15, 1.5, 30],
-  ['cashews', 'Cashews', 'кешью|cashew', 553, 18, 1.6, 30],
-  ['peanuts', 'Peanuts', 'арахис|peanut', 567, 26, 1, 30],
-  ['pistachios', 'Pistachios', 'фисташ|pistachio', 560, 20, 0.7, 30],
-  ['nuts', 'Mixed nuts', 'орех|nuts|nut mix', 607, 20, 0, 30],
-  ['sunflower_seeds', 'Sunflower seeds', 'семечк|подсолнечн семеч|sunflower seed', 584, 21, 0, 30],
-  ['pumpkin_seeds', 'Pumpkin seeds', 'тыквенн|pumpkin seed', 559, 30, 0, 30],
-  ['chia', 'Chia seeds', 'чиа|chia', 486, 17, 0, 15, '', {tbsp:12}],
-  ['flax', 'Flax seeds', 'льн|лён|flax|linseed', 534, 18, 0, 15, '', {tbsp:10}],
-  ['sesame', 'Sesame', 'кунжут|sesame', 573, 18, 0, 10, '', {tbsp:9}],
-  ['peanut_butter', 'Peanut butter', 'арахисовая паста|арахисовое масло|peanut butter', 588, 25, 0, 16, '', {tbsp:16, tsp:5}],
-  ['tahini', 'Tahini', 'тахин|кунжутная паста|tahini', 595, 17, 0, 15, '', {tbsp:15}],
-
-  // fats, sauces, sweeteners
-  ['oil', 'Oil (olive, sunflower)', 'масл|оливков|подсолнечн|oil', 884, 0, 0, 10, '', {tbsp:13, tsp:4.5}],
-  ['mayonnaise', 'Mayonnaise', 'майонез|mayo', 680, 1, 0, 15, '', {tbsp:15}],
-  ['ketchup', 'Ketchup', 'кетчуп|ketchup', 112, 1.2, 0, 17, '', {tbsp:17}],
-  ['soy_sauce', 'Soy sauce', 'соев соус|соевый|soy sauce', 53, 8, 0, 15, '', {tbsp:16}],
-  ['pesto', 'Pesto', 'песто|pesto', 458, 5, 0, 20, '', {tbsp:15}],
-  ['honey', 'Honey', 'мед|мёд|honey', 304, 0.3, 0, 20, '', {tbsp:21, tsp:7}],
-  ['sugar', 'Sugar', 'сахар|sugar', 387, 0, 5, 5, '', {tbsp:12, tsp:5}],
-  ['jam', 'Jam', 'варень|джем|конфитюр|jam', 250, 0.4, 0, 20, '', {tbsp:20, tsp:7}],
-  ['maple_syrup', 'Syrup', 'сироп|syrup', 260, 0, 0, 20, '', {tbsp:20}],
-
-  // sweets and snacks
-  ['dark_chocolate', 'Dark chocolate', 'горький шоколад|темный шоколад|тёмный шоколад|dark chocolate', 546, 5, 5, 20],
-  ['chocolate', 'Milk chocolate', 'шоколад|chocolate', 535, 7.6, 5, 20],
-  ['choc_bar', 'Chocolate bar (Snickers-type)', 'сникерс|марс|твикс|батончик шоколад|snickers|mars|twix', 488, 8, 50, 50],
-  ['protein_bar', 'Protein bar', 'протеиновый батончик|протеин батончик|protein bar', 350, 30, 60, 60],
-  ['cereal_bar', 'Cereal bar', 'батончик|злаковый|cereal bar|granola bar', 400, 6, 25, 25],
-  ['cookie', 'Biscuit, cookie', 'печень|cookie|biscuit', 480, 6, 12, 36],
-  ['gata', 'Gata', 'гата|gata', 390, 6, 80, 80],
-  ['baklava', 'Baklava', 'пахлав|баклав|baklava', 428, 6, 40, 40],
-  ['cake', 'Cake', 'торт|пирожн|cake', 350, 5, 0, 100],
-  ['cheesecake', 'Cheesecake', 'чизкейк|cheesecake', 321, 5.5, 0, 100],
-  ['muffin', 'Muffin', 'маффин|кекс|muffin|cupcake', 377, 5, 90, 90],
-  ['donut', 'Doughnut', 'пончик|donut|doughnut', 452, 5, 60, 60],
-  ['zefir', 'Zefir, marshmallow', 'зефир|пастил|marshmallow', 326, 0.8, 30, 30],
-  ['halva', 'Halva', 'халв|halva', 516, 12, 0, 30],
-  ['sweets', 'Sweets, candy', 'конфет|candy|sweets', 400, 3, 10, 20],
-  ['chips', 'Crisps', 'чипс|crisps|potato chips', 536, 7, 0, 30],
-  ['popcorn', 'Popcorn', 'попкорн|popcorn', 387, 13, 0, 30],
-  ['crackers', 'Crackers', 'крекер|cracker|сушк|сухар', 440, 9, 5, 30],
-
-  // drinks
-  ['coffee', 'Coffee, black', 'кофе|эспрессо|американо|coffee|espresso|americano', 2, 0.1, 0, 200, '', {cup:200}],
-  ['tea', 'Tea', 'чай|tea', 1, 0, 0, 250, '', {cup:250}],
-  ['latte', 'Latte', 'латте|latte', 54, 3, 0, 300, '', {cup:300}],
-  ['cappuccino', 'Cappuccino', 'капучино|cappuccino|флэт уайт|flat white', 40, 2.2, 0, 200, '', {cup:200}],
-  ['cocoa', 'Hot chocolate, cocoa', 'какао|горячий шоколад|cocoa|hot chocolate', 77, 3.5, 0, 250, '', {cup:250}],
-  ['juice', 'Juice', 'сок|juice', 46, 0.5, 0, 250, '', {cup:250}],
-  ['cola', 'Cola, soda', 'кола|лимонад|газировк|фант|спрайт|cola|coke|soda|lemonade', 42, 0, 0, 330, '', {cup:250}],
-  ['smoothie', 'Smoothie', 'смузи|smoothie', 60, 1, 0, 300, '', {cup:300}],
-  ['kompot', 'Kompot', 'компот|морс|kompot', 40, 0.2, 0, 250, '', {cup:250}],
-  ['wine', 'Wine', 'вин|wine|просекко|шампанск|prosecco|champagne', 84, 0.1, 0, 150, '', {cup:150}],
-  ['beer', 'Beer', 'пив|beer', 43, 0.5, 0, 500, '', {cup:500}],
-  ['protein_shake', 'Protein shake', 'протеин|protein shake|protein', 110, 20, 0, 300, '', {cup:300}],
-
-  // dishes, typical recipes
-  ['pizza', 'Pizza margherita', 'пицц|pizza', 266, 11, 110, 220],
-  ['khachapuri', 'Khachapuri', 'хачапури|khachapuri', 290, 11, 0, 200],
-  ['lentil_soup', 'Lentil soup', 'чечевичный суп|суп из чечевицы|lentil soup', 70, 4, 0, 300],
-  ['veg_soup', 'Vegetable soup', 'суп|щи|soup', 35, 1.5, 0, 300],
-  ['borscht', 'Borscht, vegetarian', 'борщ|borscht|borsch', 40, 1.3, 0, 300],
-  ['cream_soup', 'Cream soup', 'крем-суп|суп-пюре|крем суп|cream soup', 60, 1.5, 0, 300],
-  ['spas', 'Spas (yoghurt soup)', 'спас|spas', 50, 2.5, 0, 300],
-  ['pasta_tomato', 'Pasta with tomato sauce', 'паста с томат|макароны с томат|паста помидор|pasta with tomato|pasta pomodoro', 130, 4.5, 0, 300],
-  ['pasta_cheese', 'Pasta with cheese', 'макароны с сыром|паста с сыром|mac and cheese|pasta with cheese', 164, 7, 0, 300],
-  ['vareniki_potato', 'Vareniki with potato', 'вареники с картош|vareniki with potato', 148, 4, 0, 200],
-  ['vareniki_tvorog', 'Vareniki with tvorog', 'вареники с творог|вареники|vareniki', 200, 10, 0, 200],
-  ['sushi', 'Sushi, vegetarian rolls', 'ролл|суши|sushi|roll', 150, 3, 30, 240],
-  ['caprese', 'Caprese', 'капрезе|caprese', 190, 10, 0, 150],
-  ['guacamole', 'Guacamole', 'гуакамоле|guacamole', 160, 2, 0, 50]
-];
-/* ---------- Food: write what you ate, the app counts ----------
-   «гречка 150 г, 2 яйца, огурец» becomes three lines with calories. Stems find
-   the food, the number and the unit find the grams, and anything unknown can be
-   taught once and is remembered. Nothing leaves the phone. */
-FOOD_DB.push(
-  ['water', 'Water', 'вод|water', 0, 0, 0, 250, '', {cup:250}],
-  ['coffee_milk', 'Coffee with milk', 'кофе с молоком|coffee with milk', 25, 1.2, 0, 250, '', {cup:250}]
-);
-const FD_BY = {};
-FOOD_DB.forEach(function(r){ FD_BY[r[0]] = r; });
-const FD_ACT = [
-  ['light',    1.375, 'Light',    'Yoga a few times a week, mostly sitting otherwise'],
-  ['moderate', 1.55,  'Moderate', 'Yoga most days and the pool — your plan'],
-  ['active',   1.725, 'Active',   'Hard training almost every day, lots of walking']
-];
-const FD_PACE = [[0.1, 'Gentle', '−10%, about 0.25 kg a week'], [0.2, 'Steady', '−20%, about 0.4 kg a week']];
-let fdEdit = null;
-
-function fdState(){
-  if(!state.food) state.food = {};
-  const f = state.food;
-  if(!f.days) f.days = {}; if(!f.my) f.my = {}; if(!f.weight) f.weight = {};
-  if(!f.prof) f.prof = {sex:'f', age:0, h:169, w:70, act:'moderate', pace:0.2};
-  return f;
-}
-function fdLatestWeight(){
-  const f = fdState(), ks = Object.keys(f.weight).sort();
-  return ks.length ? f.weight[ks[ks.length - 1]] : f.prof.w;
-}
-/* Mifflin–St Jeor for the resting burn, times activity for the day, minus the deficit — never below the resting burn */
-function fdPlan(){
-  const p = fdState().prof, w = fdLatestWeight();
-  if(!p.age) return null;
-  const bmr = 10 * w + 6.25 * p.h - 5 * p.age + (p.sex === 'm' ? 5 : -161);
-  const act = (FD_ACT.find(function(a){ return a[0] === p.act; }) || FD_ACT[1])[1];
-  const tdee = bmr * act;
-  const auto = Math.max(Math.round(tdee * (1 - p.pace) / 10) * 10, Math.round(bmr / 10) * 10);
-  return {bmr:Math.round(bmr), tdee:Math.round(tdee / 10) * 10, auto:auto, target:p.target || auto, protein:Math.round(w * 1.4)};
-}
-function fdDay(key){ const f = fdState(); return f.days[key] || (f.days[key] = []); }
-function fdTotals(key){
-  const d = (fdState().days[key] || []);
-  return d.reduce(function(a, e){ a.kcal += e.kcal || 0; a.p += e.p || 0; return a; }, {kcal:0, p:0});
-}
-
-/* ---- reading what she typed ---- */
-function fdNorm(s){ return ' ' + String(s).toLowerCase().replace(/ё/g, 'е').replace(/\s+/g, ' ').trim() + ' '; }
-function fdMatch(text){
-  const t = fdNorm(text), my = fdState().my;
-  let best = null, bestLen = 0;
-  Object.keys(my).forEach(function(name){
-    if(t.indexOf(' ' + name) !== -1 && name.length > bestLen){ best = {my:name}; bestLen = name.length; }
-  });
-  FOOD_DB.forEach(function(r){
-    if(!r[2]) return;
-    r[2].split('|').forEach(function(a){
-      const al = fdNorm(a).trim();
-      if(al && t.indexOf(' ' + al) !== -1 && al.length > bestLen){ best = {row:r, alias:al}; bestLen = al.length; }
-    });
-  });
-  if(best && best.row){
-    const r = best.row;
-    if(r[7] && /(^|\s)(сух|dry|raw|крупа|крупы|хлопья|flakes)/.test(t) && r[0] !== 'oats_dry') best.row = FD_BY[r[7]];
-    if(r[0] === 'oats_dry' && /(^|\s)(варен|cooked|каша на вод|на воде|porridge)/.test(t)) best.row = FD_BY.oats_cooked;
-  }
-  return best;
-}
-const FD_NUM = '(\\d+(?:[.,]\\d+)?|½|¼)';
-const FD_UNITS = [
-  ['kg',   '(?:кг|kg)'],
-  ['l',    '(?:л|l|литр[а-я]*|litres?|liters?)'],
-  ['g',    '(?:г|гр|грамм[а-я]*|g|gr|grams?)'],
-  ['ml',   '(?:мл|ml)'],
-  ['tbsp', '(?:ст\\.?\\s?л\\.?|столов[а-я]*\\s+ложк[а-я]*|ложк[а-я]*|tbsp|tablespoons?|spoons?)'],
-  ['tsp',  '(?:ч\\.?\\s?л\\.?|чайн[а-я]*\\s+ложк[а-я]*|tsp|teaspoons?)'],
-  ['cup',  '(?:стакан[а-я]*|бокал[а-я]*|кружк[а-я]*|чашк[а-я]*|cups?|glass(?:es)?|mugs?)'],
-  ['slice','(?:кус[а-я]*|ломт[а-я]*|дольк[а-я]*|slices?|pieces?)'],
-  ['hand', '(?:горст[а-я]*|handfuls?)'],
-  ['bowl', '(?:тарелк[а-я]*|миск[а-я]*|bowls?|plates?)'],
-  ['por',  '(?:порци[а-я]*|portions?|servings?)'],
-  ['pc',   '(?:шт[а-я]*|pcs?|x)']
-];
-function fdNum(s){ return s === '½' ? 0.5 : s === '¼' ? 0.25 : parseFloat(String(s).replace(',', '.')); }
-function fdUnitGrams(u, r){
-  const x = (r && r[8]) || {};
-  if(u === 'kg') return 1000; if(u === 'l') return 1000; if(u === 'g' || u === 'ml') return 1;
-  if(u === 'tbsp') return x.tbsp || 15; if(u === 'tsp') return x.tsp || 5;
-  if(u === 'cup') return x.cup || 250; if(u === 'hand') return 30; if(u === 'bowl') return 300;
-  if(u === 'por') return (r && r[6]) || 250;
-  if(u === 'slice' || u === 'pc') return (r && (r[5] || r[6])) || 100;
-  return 1;
-}
-function fdQty(text, r){
-  const t = fdNorm(text).replace(/\d+(?:[.,]\d+)?\s*%/g, ' ');
-  for(const u of FD_UNITS){
-    const m = new RegExp(FD_NUM + '\\s*' + u[1] + '(?![а-яa-z])', 'i').exec(t);
-    if(m) return fdNum(m[1]) * fdUnitGrams(u[0], r);
-  }
-  const half = /(^|\s)пол(овин[а-я]*)?(\s|стакан|тарелк|порци|кус|банан|яблок|авокадо)/.test(t) ? 0.5 : 0;
-  for(const u of FD_UNITS){
-    if(new RegExp('(^|\\s)(?:пол)?' + u[1] + '(?![а-яa-z])', 'i').test(t)) return (half || 1) * fdUnitGrams(u[0], r);
-  }
-  const n = /(^|\s)(\d+(?:[.,]\d+)?|½|¼)(?=\s|$)/.exec(t);
-  if(n){
-    const v = fdNum(n[2]);
-    if(r && r[5] && v <= 12) return v * r[5];
-    return v;
-  }
-  if(half) return 0.5 * ((r && (r[5] || r[6])) || 100);
-  return r ? (r[6] || r[5] || 100) : 100;
-}
-/* one line of what she wrote → one or more entries */
-function fdParseItem(raw){
-  const text = raw.trim();
-  if(!text) return [];
-  const direct = /(\d+)\s*(ккал|kcal|кал|cal)(?![а-яa-z])/i.exec(text);
-  if(direct){
-    return [{t:text, name:text.replace(direct[0], '').trim() || 'Something', k:'', g:0, kcal:+direct[1], p:0}];
-  }
-  const m = fdMatch(text);
-  if(!(m && m.alias && m.alias.indexOf(' с ') !== -1) && /\s(с|со|with)\s/i.test(' ' + text + ' ')){
-    const parts = (' ' + text + ' ').split(/\s(?:с|со|with)\s/i).map(function(x){ return x.trim(); }).filter(Boolean);
-    if(parts.length > 1) return parts.reduce(function(a, p){ return a.concat(fdParseItem(p)); }, []);
-  }
-  if(m && m.my){
-    const v = fdState().my[m.my], g = fdQty(text, null);
-    return [{t:text, name:m.my.replace(/^./, function(c){ return c.toUpperCase(); }), k:'my:' + m.my, g:Math.round(g),
-             kcal:Math.round(v[0] * g / 100), p:Math.round((v[1] || 0) * g / 10) / 10}];
-  }
-  if(m && m.row){
-    const r = m.row, g = fdQty(text, r);
-    return [{t:text, name:r[1], k:r[0], g:Math.round(g), kcal:Math.round(r[3] * g / 100), p:Math.round(r[4] * g / 10) / 10}];
-  }
-  return [{t:text, name:text, k:'', g:Math.round(fdQty(text, null)), kcal:0, p:0, u:1}];
-}
-function fdParse(input){
-  return String(input).split(/\n|,|;|\+|\s+и\s+|\s+and\s+/i).reduce(function(a, p){ return a.concat(fdParseItem(p)); }, []);
-}
-function fdAdd(input){
-  const list = fdParse(input);
-  if(!list.length) return [];
-  const day = fdDay(today()), now = Date.now();
-  list.forEach(function(e, i){ e.id = 'f' + now.toString(36) + i; e.at = now; day.push(e); });
-  save();
-  return list;
-}
-
-/* ---- the card on Today ---- */
-function fdTodayCard(){
-  const plan = fdPlan(), tot = fdTotals(today());
-  if(!plan){
-    return '<section class="fd-card"><div class="top"><p class="eyebrow">🍽 Food</p></div>'+
-      '<h3>Count calories the easy way</h3><p class="fd-sub">Write what you ate — «гречка 150 г, 2 яйца» — and the app counts. First, a few numbers so it knows your target.</p>'+
-      '<button class="btn btn-primary btn-full" data-act="fd-setup">Set my target</button></section>';
-  }
-  const left = plan.target - tot.kcal, pct = Math.min(100, Math.round(100 * tot.kcal / plan.target));
-  return '<section class="fd-card'+(left < 0 ? ' over' : '')+'">'+
-    '<button class="fd-top" data-act="fd-open"><span class="eyebrow">🍽 Food</span><span class="go">Diary →</span></button>'+
-    '<div class="fd-nums"><b class="num">'+(left >= 0 ? left : -left)+'</b><span>'+(left >= 0 ? 'kcal left' : 'kcal over')+' · '+tot.kcal+' of '+plan.target+'</span></div>'+
-    '<div class="pbar"><i style="width:'+pct+'%"></i></div>'+
-    '<form class="fd-quick" onsubmit="return false"><input id="fdQuick" type="text" autocomplete="off" enterkeyhint="done" placeholder="What did you eat? e.g. овсянка 50 г, банан">'+
-    '<button type="button" class="btn btn-primary btn-sm" data-act="fd-add">Add</button></form>'+
-    '</section>';
-}
-
-/* ---- the diary page ---- */
-function fdTime(ts){ const d = new Date(ts); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }
-function renderFood(){
-  const plan = fdPlan(), key = today(), day = fdDay(key), tot = fdTotals(key), f = fdState();
-  let h = '<button class="backbtn" data-act="fd-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to today</button>'+
-    '<p class="eyebrow">Food · '+WDAYS[logicalNow().getDay()]+'</p>';
-  if(plan){
-    const left = plan.target - tot.kcal;
-    h += '<h2 class="rec-title">'+(left >= 0 ? left+' kcal left' : (-left)+' kcal over')+'</h2>'+
-      '<div class="pbar"><i style="width:'+Math.min(100, Math.round(100 * tot.kcal / plan.target))+'%"></i></div>'+
-      '<div class="stats" style="margin:14px 0 4px">'+
-        '<div class="stat"><b class="num">'+tot.kcal+'</b><span>eaten, kcal</span></div>'+
-        '<div class="stat"><b class="num">'+plan.target+'</b><span>today’s target</span></div>'+
-        '<div class="stat"><b class="num">'+Math.round(tot.p)+'</b><span>protein, g · aim ~'+plan.protein+'</span></div>'+
-      '</div>';
-  }
-  h += '<form class="fd-quick fd-quick-page" onsubmit="return false"><textarea id="fdQuick" rows="2" placeholder="гречка 150 г, 2 яйца, огурец\nкофе с молоком"></textarea>'+
-    '<button type="button" class="btn btn-primary" data-act="fd-add">Add</button></form>';
-
-  h += '<section class="rd-block"><p class="eyebrow">Today</p>';
-  if(!day.length) h += '<p class="fd-sub">Nothing yet. Separate foods with commas; a number with г, мл, шт, ст.л. or стакан sets the amount, and without one a usual portion is used.</p>';
-  else h += '<div class="fd-list">'+day.map(function(e){
-    return '<button class="fd-row'+(e.u ? ' unknown' : '')+'" data-act="fd-edit" data-id="'+e.id+'">'+
-      '<span class="fd-t"><b>'+esc(e.name)+'</b><small>'+fdTime(e.at)+(e.g ? ' · '+e.g+' g' : '')+(e.k && e.name !== e.t ? ' · '+esc(e.t) : '')+'</small></span>'+
-      '<span class="fd-k num">'+(e.u ? '?' : e.kcal)+'</span></button>';
-  }).join('')+'</div>';
-  h += '</section>';
-
-  const ws = weekStart(key);
-  if(plan){
-    h += '<section class="rd-block"><p class="eyebrow">This week</p><div class="fd-week">';
-    for(let i = 0; i < 7; i++){
-      const d = shift(ws, i), t = fdTotals(d).kcal, hgt = Math.min(100, Math.round(100 * t / (plan.target * 1.3)));
-      h += '<div class="'+(d === key ? 'now' : '')+(t > plan.target ? ' over' : '')+'"><i style="height:'+hgt+'%"></i><span>'+WSHORT[i]+'</span><small class="num">'+(t || '')+'</small></div>';
-    }
-    h += '</div><p class="fd-sub" style="text-align:center">The line is your target of '+plan.target+' kcal.</p></section>';
-  }
-
-  const wk = Object.keys(f.weight).sort();
-  const lastW = fdLatestWeight(), firstW = wk.length ? f.weight[wk[0]] : null;
-  h += '<section class="rd-block"><p class="eyebrow">Weight</p><div class="fd-weight">'+
-    '<div><b class="num">'+lastW+'</b><span>kg'+(wk.length ? ' · '+fdShortDate(wk[wk.length - 1]) : ' · from the setup')+'</span></div>'+
-    (firstW != null && wk.length > 1 ? '<div><b class="num">'+(lastW - firstW > 0 ? '+' : '')+(Math.round((lastW - firstW) * 10) / 10)+'</b><span>kg since '+fdShortDate(wk[0])+'</span></div>' : '')+
-    '<button class="btn btn-sm" data-act="fd-weigh">Log weight</button></div>'+
-    '<p class="fd-sub">Once a week is enough — the same morning, before breakfast. Day-to-day numbers jump with water, not fat.</p></section>';
-
-  if(plan){
-    h += '<section class="rd-block"><p class="eyebrow">How the target is set</p><p class="fd-sub">'+
-      'Resting burn about <b>'+plan.bmr+'</b> kcal, a normal day with your activity about <b>'+plan.tdee+'</b>. '+
-      (f.prof.target ? 'You set the target by hand.' : 'The target is that minus '+Math.round(f.prof.pace * 100)+'%, and never below the resting burn.')+
-      ' It is an estimate from a standard formula, not a medical prescription.</p>'+
-      '<button class="btn btn-ghost btn-full" data-act="fd-setup">Change my numbers</button></section>';
-  }
-  view.innerHTML = h;
-}
-function fdShortDate(k){ const d = toDate(k); return MONTHS[d.getMonth()].slice(0, 3) + ' ' + d.getDate(); }
-
-/* ---- sheets ---- */
-function sheetFoodSetup(){
-  const p = fdState().prof;
-  openSheet('<h2>Your numbers</h2><p class="sub">Used only on this phone, to estimate how much you burn in a day.</p>'+
-    '<div class="field"><label for="fdAge">Age</label><input type="number" id="fdAge" inputmode="numeric" min="14" max="90" value="'+(p.age || '')+'" placeholder="for example 34"></div>'+
-    '<div class="fd-two"><div class="field"><label for="fdH">Height, cm</label><input type="number" id="fdH" inputmode="decimal" value="'+p.h+'"></div>'+
-    '<div class="field"><label for="fdW">Weight, kg</label><input type="number" id="fdW" inputmode="decimal" step="0.1" value="'+fdLatestWeight()+'"></div></div>'+
-    '<p class="fd-q">How active are you?</p><div class="fd-opts">'+FD_ACT.map(function(a){
-      return '<button type="button" class="fd-opt" data-act="fd-pick" data-g="act" data-v="'+a[0]+'" aria-pressed="'+(p.act === a[0])+'"><b>'+a[2]+'</b><span>'+a[3]+'</span></button>';
-    }).join('')+'</div>'+
-    '<p class="fd-q">How fast?</p><div class="fd-opts">'+FD_PACE.map(function(a){
-      return '<button type="button" class="fd-opt" data-act="fd-pick" data-g="pace" data-v="'+a[0]+'" aria-pressed="'+(p.pace === a[0])+'"><b>'+a[1]+'</b><span>'+a[2]+'</span></button>';
-    }).join('')+'</div>'+
-    '<div class="field"><label for="fdT">Your own target, kcal (leave empty to let the app count)</label><input type="number" id="fdT" inputmode="numeric" value="'+(p.target || '')+'"></div>'+
-    '<div class="sheet-actions"><button class="btn btn-primary btn-full" data-act="fd-save">Save</button></div>');
-}
-function sheetFoodEdit(e){
-  const known = !e.u;
-  openSheet('<h2>'+esc(e.name)+'</h2><p class="sub">You wrote: «'+esc(e.t)+'»</p>'+
-    (known
-      ? '<div class="field"><label for="fdG">Grams</label><input type="number" id="fdG" inputmode="decimal" value="'+e.g+'"></div>'+
-        '<p class="sub" style="margin-top:-6px">'+e.kcal+' kcal now'+(e.p ? ' · '+e.p+' g protein' : '')+'</p>'
-      : '<p class="sub">I don’t know this one yet. Tell me once and I will remember it.</p>'+
-        '<div class="fd-two"><div class="field"><label for="fdK100">kcal per 100 g</label><input type="number" id="fdK100" inputmode="decimal" placeholder="from the pack"></div>'+
-        '<div class="field"><label for="fdG">Grams eaten</label><input type="number" id="fdG" inputmode="decimal" value="'+(e.g || 100)+'"></div></div>'+
-        '<div class="field"><label for="fdP100">Protein per 100 g (optional)</label><input type="number" id="fdP100" inputmode="decimal"></div>')+
-    '<div class="sheet-actions"><button class="btn btn-danger" data-act="fd-del" data-id="'+e.id+'">Delete</button>'+
-    '<button class="btn btn-primary" data-act="fd-upd" data-id="'+e.id+'">Save</button></div>');
-}
-function sheetWeigh(){
-  openSheet('<h2>Today’s weight</h2><p class="sub">Morning, before breakfast, same scales.</p>'+
-    '<div class="field"><label for="fdKg">Kilograms</label><input type="number" id="fdKg" inputmode="decimal" step="0.1" value="'+fdLatestWeight()+'"></div>'+
-    '<div class="sheet-actions"><button class="btn btn-primary btn-full" data-act="fd-weigh-save">Save</button></div>');
 }
 
 /* ---------- Word test: five of her own saved words, once a day ----------
@@ -2719,19 +2170,17 @@ function sheetAddWord(){
 }
 
 /* ---------- Winter Arc: 4 October to 31 December ----------
-   Three spheres — body, head, the life around her — each with one small habit, yoga
-   kept as the daily base, and a short check-in every Wednesday. No points, no streak
-   numbers: a tracker of what was done, and a quiet «day N of 89». */
+   Yoga stays the daily base; two small habits (a walk, a journal); a tracker of what was
+   done day by day, a quiet «day N of 89» and a short check-in every Wednesday. No points,
+   no streak numbers. */
 /* arc:pure */
 const ARC_START = '2026-10-04', ARC_END = '2026-12-31';
 const ARC_HABITS = [
-  {id:'a-core',  title:'Core & strength',                  emoji:'💪', perDay:1, weekGoal:6, when:'day',     arc:'body',   why:''},
-  {id:'a-walk',  title:'Walk 15–20 minutes',               emoji:'🚶', perDay:1, weekGoal:6, when:'day',     arc:'body',   why:''},
-  {id:'a-avoid', title:'10 minutes on one thing I put off', emoji:'⏱', perDay:1, weekGoal:6, when:'day',     arc:'around', why:''},
-  {id:'a-no',    title:'One honest “no” this week',        emoji:'🙅', perDay:1, weekGoal:1, when:'day',     arc:'around', why:''},
-  {id:'a-worry', title:'Write the worries down',           emoji:'📝', perDay:1, weekGoal:7, when:'evening', arc:'head',   why:''},
-  {id:'a-bed',   title:'Phone away, in bed on time',   emoji:'🌙', perDay:1, weekGoal:7, when:'evening', arc:'sleep',  why:''}
+  {id:'a-walk',  title:'Walk 15–20 minutes', emoji:'🚶', perDay:1, weekGoal:7, when:'day',     arc:'body', why:''},
+  {id:'a-worry', title:'Keep a journal',     emoji:'📓', perDay:1, weekGoal:7, when:'evening', arc:'head', why:''}
 ];
+/* the first version of the Arc had six habits; these four are gone */
+const ARC_GONE = ['a-core', 'a-avoid', 'a-no', 'a-bed'];
 function arcUtc(key){ const p = String(key).split('-').map(Number); return Date.UTC(p[0], p[1] - 1, p[2]); }
 function arcDiff(a, b){ return Math.round((arcUtc(b) - arcUtc(a)) / 86400000); }
 function arcKeyAdd(key, n){
@@ -2747,15 +2196,28 @@ function arcEnsure(st, key){
   let changed = false;
   if(!st.arc){
     if(key > ARC_END) return false;
-    st.arc = {start:ARC_START, end:ARC_END, reviews:{}, bed:{base:120, goal:60, step:10}, seeded:false}; changed = true;
+    st.arc = {start:ARC_START, end:ARC_END, reviews:{}, seeded:false, simple:true}; changed = true;
   }
   if(!st.arc.reviews) st.arc.reviews = {};
-  if(!st.arc.bed) st.arc.bed = {base:120, goal:60, step:10};
   if(!st.arc.seeded){
     ARC_HABITS.forEach(function(h){ if(!st.habits.some(function(x){ return x.id === h.id; })) st.habits.push(Object.assign({}, h)); });
     st.arc.seeded = true; changed = true;
   }
+  if(arcSimplify(st)) changed = true;
   return changed;
+}
+/* the first version of the Arc, already on her phone, becomes the simple one — once */
+function arcSimplify(st){
+  if(!st.arc || st.arc.simple) return false;
+  st.habits = st.habits.filter(function(h){ return ARC_GONE.indexOf(h.id) < 0; });
+  ARC_GONE.forEach(function(id){ if(st.log) delete st.log[id]; });
+  st.habits.forEach(function(h){
+    if(h.id === 'a-worry'){ if(/worries/i.test(h.title || '')){ h.title = 'Keep a journal'; h.emoji = '📓'; } h.weekGoal = 7; }
+    if(h.id === 'a-walk') h.weekGoal = 7;
+  });
+  delete st.strength;
+  st.arc.simple = true;
+  return true;
 }
 /* a check-in can be made from Wednesday to Sunday, and not before the fourth day of the Arc */
 function arcCanReview(arc, key){
@@ -2764,30 +2226,19 @@ function arcCanReview(arc, key){
 }
 /* ... and it is due until it has been done */
 function arcReviewDue(arc, key){ return arcCanReview(arc, key) && !arc.reviews[arcMonday(key)]; }
-/* bedtime in minutes after midnight: 10 minutes earlier after each week she got there, never past the goal */
-function arcBedMinutes(arc){
-  const good = Object.keys(arc.reviews || {}).filter(function(k){ const b = arc.reviews[k].bed; return b === 'yes' || b === 'mostly'; }).length;
-  return Math.max(arc.bed.goal, arc.bed.base - arc.bed.step * (1 + good));
-}
-function arcClock(m){ return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); }
 const ARC_ADVICE = {
-  body:   {title:'Build the core',        text:'Add two minutes to your Core & strength block and hold every move one breath longer than feels comfortable.'},
-  calm:   {title:'Quieter evenings',      text:'Write the worries down every evening and put each one in a box: “can I do one step? → do it” or “no → let it go”.'},
-  energy: {title:'Protect your energy',   text:'Pick one thing that drains you and do less of it this week, and take a short walk after your first meal.'},
-  home:   {title:'One small order',       text:'Choose one corner or one overdue task and give it ten minutes a day; stop when the timer ends, even mid-thought.'},
-  people: {title:'Practise one “no”',     text:'Turn down one invitation this week with a single calm sentence: “Thank you, I can’t this time.” No explaining.'},
-  keep:   {title:'Hold the line',         text:'It is going well. Keep the same week and notice what has become easy — that is the progress.'}
+  body:   {title:'Build the core',      text:'Pick a strength-focused yoga class on two days this week, and hold every pose one breath longer than feels comfortable.'},
+  calm:   {title:'Quieter evenings',    text:'Write the evening down in your journal, and next to every worry put one line: “one step I can take” or “let it go”.'},
+  energy: {title:'Protect your energy', text:'Pick one thing that drains you and do less of it this week, and take a short walk after your first meal.'},
+  home:   {title:'One small order',     text:'Choose one corner or one overdue task and give it ten minutes a day; stop when the timer ends, even mid-thought.'},
+  keep:   {title:'Hold the line',       text:'It is going well. Keep the same week and notice what has become easy — that is the progress.'}
 };
-/* what to change next week: saying yes against her wish wins, otherwise the weakest area */
+/* what to change next week: the weakest of the four areas */
 function arcFocus(r){
-  let key;
-  if((r.yes || 0) >= 2) key = 'people';
-  else {
-    const order = ['body', 'calm', 'energy', 'home'];
-    key = order[0];
-    order.forEach(function(k){ if((r[k] || 0) < (r[key] || 0)) key = k; });
-    if((r[key] || 0) >= 4) key = 'keep';
-  }
+  const order = ['body', 'calm', 'energy', 'home'];
+  let key = order[0];
+  order.forEach(function(k){ if((r[k] || 0) < (r[key] || 0)) key = k; });
+  if((r[key] || 0) >= 4) key = 'keep';
   return {key:key, title:ARC_ADVICE[key].title, text:ARC_ADVICE[key].text};
 }
 function arcDone(h, log, key){ return (((log[h.id] || {})[key]) || 0) >= (h.perDay || 1); }
@@ -2814,11 +2265,6 @@ function arcHeat(arc, habits, log, key){
 }
 /* arc:end */
 
-const ARC_SPHERES = [
-  {k:'body',   emoji:'💪', name:'Body',         goal:'A body that feels strong: my core holds me up without pulling in, my legs have room to move, and I have energy through the day.'},
-  {k:'head',   emoji:'🌿', name:'Head',         goal:'A quieter mind: I park the worries instead of living them, and I do the thing I have been putting off.'},
-  {k:'around', emoji:'🏡', name:'Around me',    goal:'A tidy home and the right people: I say no to what drains me and spend my time with people who lift me.'}
-];
 const ARC_REVIEW_Q = [
   ['energy', 'Energy', 'How was your energy this week?', ['😴', '🥱', '😐', '🙂', '⚡']],
   ['body',   'Body',   'Do you feel stronger in your body?', ['1', '2', '3', '4', '5']],
@@ -2840,11 +2286,6 @@ function arcTodayCard(){
     '<span class="pbar"><i style="width:'+pct+'%"></i></span>'+
     '<span class="arc-sub">'+(due ? '✨ Your Wednesday check-in is ready' : 'Stronger, calmer, lighter by 1 January')+'</span></button>';
 }
-function arcWhy(h){
-  const a = arcState();
-  if(a && (h.arc === 'sleep' || h.id === 'a-bed')) return '<p class="habit-why">In bed by '+arcClock(arcBedMinutes(a))+' tonight</p>';
-  return h.why ? '<p class="habit-why">'+esc(h.why)+'</p>' : '';
-}
 function arcBack(act, label){
   return '<button class="backbtn" data-act="'+act+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>'+label+'</button>';
 }
@@ -2858,9 +2299,6 @@ function renderArc(){
     '<h2 class="rec-title">Day '+n+' of '+total+'</h2>'+
     '<div class="pbar" style="margin:10px 0 4px"><i style="width:'+Math.round(n / total * 100)+'%"></i></div>'+
     '<p class="fd-sub" style="margin-top:6px">'+arcFmt(a.start)+' → '+arcFmt(a.end)+'. Yoga stays the base of every day.</p>';
-  h += '<div class="section-head"><p class="eyebrow">Where I am going</p></div><div class="arc-goals">'+ARC_SPHERES.map(function(s){
-    return '<article class="arc-goal"><b>'+s.emoji+' '+s.name+'</b><p>'+esc(s.goal)+'</p></article>';
-  }).join('')+'</div><p class="fd-sub">No scale and no tape measure: the check-in asks how it feels.</p>';
   /* the week */
   h += '<div class="section-head"><p class="eyebrow">This week</p></div><p class="fd-sub" style="margin-top:-4px">Tap a square to mark or unmark that day.</p><div class="arc-week"><div class="arc-wrow arc-whead"><span></span>'+
     WSHORT.map(function(d){ return '<span>'+d+'</span>'; }).join('')+'</div>'+
@@ -2875,9 +2313,6 @@ function renderArc(){
     arcHeat(a, habits, state.log, key).map(function(c){
       return '<i class="l'+(c.level < 0 ? 'f' : c.level)+(c.key === key ? ' today' : '')+'" title="'+esc(arcFmt(c.key))+'"></i>';
     }).join('')+'</div><p class="fd-sub">Every square is a day; the darker, the more of it you did.</p>';
-  /* sleep */
-  h += '<div class="section-head"><p class="eyebrow">Sleep</p></div><article class="arc-goal"><b>🌙 This week: in bed by '+arcClock(arcBedMinutes(a))+'</b>'+
-    '<p>Goal '+arcClock(a.bed.goal)+'. After every week you get there on time, the target moves '+a.bed.step+' minutes earlier.</p></article>';
   /* the check-in */
   const last = Object.keys(a.reviews).sort().pop(), lr = last && a.reviews[last];
   h += '<div class="section-head"><p class="eyebrow">Wednesday check-in</p></div>';
@@ -2901,9 +2336,6 @@ function renderArcReview(){
       '<p class="eyebrow" style="margin:14px 2px 0">Wednesday check-in · done</p><h2 class="rec-title">Next week</h2>'+
       '<article class="arc-goal arc-focus"><b>'+esc(f.title)+'</b><p>'+esc(f.text)+'</p></article>'+
       (d.saved.note ? '<p class="arc-note">“'+esc(d.saved.note)+'”</p>' : '')+
-      '<article class="arc-goal"><b>🌙 Bedtime: '+arcClock(arcBedMinutes(a))+'</b><p>'+(d.saved.bed === 'no'
-        ? 'Same target as before — it moves earlier once you get there on time for a week.'
-        : 'Ten minutes earlier than last week.')+'</p></article>'+
       '<button class="btn btn-primary btn-full" data-act="arc-close" style="margin-top:14px">Done</button>');
   }
   const pick = function(k, v){ return d[k] === v ? 'true' : 'false'; };
@@ -2914,12 +2346,8 @@ function renderArcReview(){
       return '<button type="button" data-act="arc-set" data-k="'+q[0]+'" data-v="'+(i + 1)+'" aria-pressed="'+pick(q[0], i + 1)+'">'+e+'</button>';
     }).join('')+'</div></section>';
   });
-  h += '<section class="arc-sec"><p class="arc-q">Did you get to bed by the target most nights?</p><div class="arc-scale wide">'+
-    [['yes', 'Yes'], ['mostly', 'Mostly'], ['no', 'No']].map(function(o){ return '<button type="button" data-act="arc-set" data-k="bed" data-v="'+o[0]+'" aria-pressed="'+pick('bed', o[0])+'">'+o[1]+'</button>'; }).join('')+'</div></section>'+
-    '<section class="arc-sec"><p class="arc-q">Did you say yes to something you did not want?</p><div class="arc-scale wide">'+
-    [[0, 'Never'], [1, 'Once'], [2, 'More than once']].map(function(o){ return '<button type="button" data-act="arc-set" data-k="yes" data-v="'+o[0]+'" aria-pressed="'+pick('yes', o[0])+'">'+o[1]+'</button>'; }).join('')+'</div></section>'+
-    '<section class="arc-sec"><p class="arc-q">One line, in your own words: what do you want to change next week?</p>'+
-    '<textarea id="arcNote" rows="3" class="arc-text" placeholder="e.g. Go to bed before the series, not after">'+esc(d.note || '')+'</textarea></section>'+
+  h += '<section class="arc-sec"><p class="arc-q">One line, in your own words: what do you want to change next week?</p>'+
+    '<textarea id="arcNote" rows="3" class="arc-text" placeholder="e.g. A longer walk at the weekend">'+esc(d.note || '')+'</textarea></section>'+
     '<button class="btn btn-primary btn-full" data-act="arc-save">Save the check-in</button>';
   view.innerHTML = h;
 }
@@ -2940,7 +2368,7 @@ function seed(){
   return {
     v:1, skin:null, font:'auto', sound:true, why:'', name:'', started: today(),
     habits:[
-      {id:'h2', title:'Learn 7 new words',               emoji:'🔤', perDay:7, weekGoal:7, when:'day'},
+      {id:'h2', title:'Learn 7 new words',               emoji:'🔤', perDay:1, weekGoal:7, when:'day'},
       {id:'h3', title:'20 pages of a book',              emoji:'📖', perDay:1, weekGoal:7, when:'evening'},
       {id:'h4', title:'Meditate for 5 minutes',          emoji:'🧘', perDay:1, weekGoal:7, when:'morning'},
       {id:'h5', title:'Yoga',                            emoji:'🤸', perDay:1, weekGoal:7, when:'morning'},
@@ -2949,7 +2377,7 @@ function seed(){
       {id:'h11',title:'Foot cream',                      emoji:'🦶', perDay:1, weekGoal:7, when:'evening'},
       {id:'h12',title:'Thigh roller',                    emoji:'🦵', perDay:1, weekGoal:7, when:'evening'}
     ],
-    log:{}, xp:0, cleanup1:true, cleanWater:true
+    log:{}, xp:0, cleanup1:true, cleanWater:true, cleanWords:true
   };
 }
 
@@ -3064,10 +2492,26 @@ function waterOneTap(habits, log){
 }
 /* water:end */
 if(!state.cleanWater){ waterOneTap(state.habits, state.log); state.cleanWater = true; }
+/* «Learn 7 new words» is one tick too — «I learned my seven» — instead of seven taps; days already logged keep their meaning */
+/* words:pure */
+function isWordsHabit(h){ return !!h && (h.id === 'h2' || /^\s*learn\s+\d+\s+(new\s+)?words\b|^\s*(выучить|учить)\s+\d*\s*слов/i.test(h.title || '')); }
+function wordsOneTap(habits, log){
+  let changed = false;
+  (habits || []).forEach(function(h){
+    if(!isWordsHabit(h) || !(h.perDay > 1)) return;
+    const old = h.perDay, days = (log && log[h.id]) || {};
+    Object.keys(days).forEach(function(k){ if(days[k] >= old) days[k] = 1; else delete days[k]; });
+    h.perDay = 1; changed = true;
+  });
+  return {changed:changed};
+}
+/* words:end */
+if(!state.cleanWords){ wordsOneTap(state.habits, state.log); state.cleanWords = true; }
 if(!state.diction) state.diction = {};
 if(!wkHabit()) state.habits.push({id:'hw', title:'Yoga', emoji:'🧘', perDay:1, weekGoal:7, when:'morning', why:''});
 if(state.why === undefined) state.why = '';
 arcEnsure(state, today());
+practiceEnsure(state);
 if(!state.started) state.started = today();
 let openPack = null;
 let tab = 'today';
@@ -3262,7 +2706,6 @@ function dayBar(){
 function renderToday(){
   const hs = activeHabits(), n = hs.length;
 
-  if(todayView === 'food') return renderFood();
   if(todayView === 'wq') return renderWordTest();
   if(todayView === 'arc') return renderArc();
   if(todayView === 'arc-review') return renderArcReview();
@@ -3270,7 +2713,6 @@ function renderToday(){
   html += selDay ? '' : arcTodayCard();
   html += selDay ? '' : wqTodayCard();
   html += selDay ? '' : tdTodayCard();
-  html += selDay ? '' : fdTodayCard();
 
   if(n===0){
     html += '<div class="empty"><div style="font-size:40px">🌱</div><p>Your habits will live here.<br>Start with one. Really, just one.</p>'+
@@ -3292,7 +2734,7 @@ function renderToday(){
           '<button class="habit-emoji" data-act="edit-habit" data-id="'+h.id+'" aria-label="Edit &quot;'+esc(h.title)+'&quot;">'+esc(h.emoji||'⭐️')+'</button>'+
           '<div class="habit-main"'+(hbVideos(h) ? ' data-act="hb-more" data-id="'+h.id+'"' : '')+'><p class="habit-name">'+esc(h.title)+'</p>'+
           meta+
-          arcWhy(h)+
+          (h.why ? '<p class="habit-why">'+esc(h.why)+'</p>' : '')+
           (hbVideos(h) ? '<span class="hb-hint">'+(hbOpen[h.id] ? '▴ Hide' : '▾ '+hbVideos(h).hint(h))+'</span>' : '')+'</div>'+
           '<div class="counter">'+(per>1?'<span class="cnt num">'+c+'/'+per+'</span>':'')+
           '<button class="check" data-act="toggle" data-id="'+h.id+'" aria-pressed="'+(done?'true':'false')+'" aria-label="Check off &quot;'+esc(h.title)+'&quot;">'+
@@ -3866,7 +3308,8 @@ function toggleHabit(id, el){
       }
     }
   }
-  ygHabitChanged(h); fcHabitChanged(h); scHabitChanged(h);
+  ygHabitChanged(h); fcHabitChanged(h);
+  practiceSync(state, h, today(), isDone(h, today()));
   save(); renderToday();
 }
 
@@ -3996,10 +3439,14 @@ document.addEventListener('click', function(e){
   else if(act==='ln-ch'){ lnCh = +btn.getAttribute('data-c'); window.scrollTo(0,0); renderSkills(); }
   else if(act==='ln-home'){ lnCh = null; window.scrollTo(0,0); renderSkills(); }
   else if(act==='ln-done'){
-    lnLearned()[btn.getAttribute('data-l')] = today(); save(); celebrate(btn); renderSkills();
+    lnLearned()[btn.getAttribute('data-l')] = today(); practiceMark(state, 'hp-drive', today(), true); save(); celebrate(btn); renderSkills();
     toast('Learned — its questions join your daily practice');
   }
-  else if(act==='ln-undo'){ delete lnLearned()[btn.getAttribute('data-l')]; save(); renderSkills(); }
+  else if(act==='ln-undo'){
+    delete lnLearned()[btn.getAttribute('data-l')];
+    if(!Object.keys(lnLearned()).some(function(k){ return lnLearned()[k] === today(); })) practiceMark(state, 'hp-drive', today(), false);
+    save(); renderSkills();
+  }
   else if(act==='ln-flip'){
     const k = btn.getAttribute('data-k');
     lnOpen[k] = !lnOpen[k];
@@ -4027,8 +3474,8 @@ document.addEventListener('click', function(e){
     box.outerHTML = lnCheckHtml(qid);
     paintTabDots();
   }
-  else if(act==='dc-done'){ state.diction[today()] = true; save(); celebrate(btn); renderSkills(); toast('Diction done for today'); }
-  else if(act==='dc-undo'){ delete state.diction[today()]; save(); renderSkills(); }
+  else if(act==='dc-done'){ if(!state.diction) state.diction = {}; state.diction[today()] = true; practiceMark(state, 'hp-diction', today(), true); save(); celebrate(btn); renderSkills(); toast('Diction done for today'); }
+  else if(act==='dc-undo'){ if(!state.diction) state.diction = {}; delete state.diction[today()]; practiceMark(state, 'hp-diction', today(), false, true); save(); renderSkills(); }
   else if(act==='td-quick'){
     const f = $('#tdQuick'); const v = (f ? f.value : '').trim();
     if(!v){ if(f) f.focus(); return; }
@@ -4063,66 +3510,8 @@ document.addEventListener('click', function(e){
     state.todos = todos().filter(function(x){ return x.id !== id; });
     save(); closeSheet(); go('todo'); toast('Deleted');
   }
-  else if(act==='fd-setup'){ sheetFoodSetup(); }
-  else if(act==='fd-pick'){
-    btn.parentElement.querySelectorAll('.fd-opt').forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
-  }
-  else if(act==='fd-save'){
-    const p = fdState().prof;
-    const age = +$('#fdAge').value, hh = +$('#fdH').value, ww = +$('#fdW').value, tt = +$('#fdT').value;
-    if(!(age >= 14 && age <= 90)){ toast('Add your age first'); $('#fdAge').focus(); return; }
-    p.age = age; if(hh > 120 && hh < 230) p.h = hh;
-    if(ww > 30 && ww < 250){ p.w = ww; fdState().weight[today()] = ww; }
-    const a = sheet.querySelector('.fd-opt[data-g="act"][aria-pressed="true"]'), pc = sheet.querySelector('.fd-opt[data-g="pace"][aria-pressed="true"]');
-    if(a) p.act = a.getAttribute('data-v');
-    if(pc) p.pace = +pc.getAttribute('data-v');
-    if(tt >= 800 && tt <= 5000) p.target = tt; else delete p.target;
-    save(); closeSheet(); renderToday();
-    const pl = fdPlan();
-    toast('Your target: ' + pl.target + ' kcal a day' + (p.target && p.target < 1200 ? ' — that is very low' : ''));
-  }
-  else if(act==='fd-add'){
-    const inp = $('#fdQuick'), v = inp ? inp.value.trim() : '';
-    if(!v){ if(inp) inp.focus(); return; }
-    const added = fdAdd(v);
-    const unknown = added.filter(function(e){ return e.u; }).length;
-    renderToday();
-    toast(added.map(function(e){ return e.u ? '? ' + e.t : e.name + ' ' + e.kcal; }).join(' · ') + (unknown ? ' — tap the ? to teach me' : ''));
-  }
-  else if(act==='fd-open'){ todayView = 'food'; window.scrollTo(0,0); renderToday(); }
-  else if(act==='fd-close'){ todayView = 'main'; window.scrollTo(0,0); renderToday(); }
-  else if(act==='fd-edit'){
-    const e = fdDay(today()).find(function(x){ return x.id === btn.getAttribute('data-id'); });
-    if(e) sheetFoodEdit(e);
-  }
-  else if(act==='fd-upd'){
-    const day = fdDay(today()), e = day.find(function(x){ return x.id === btn.getAttribute('data-id'); });
-    if(!e) return;
-    const g = +($('#fdG') || {}).value;
-    if(e.u){
-      const k100 = +($('#fdK100') || {}).value, p100 = +($('#fdP100') || {}).value || 0;
-      if(!(k100 >= 0 && ($('#fdK100').value !== ''))){ toast('Add the calories per 100 g'); return; }
-      const name = fdNorm(e.t).replace(/\d+(?:[.,]\d+)?\s*[а-яa-z.]*/gi, ' ').replace(/\s+/g, ' ').trim();
-      if(name) fdState().my[name] = [k100, p100];
-      e.k = 'my:' + name; e.name = name.replace(/^./, function(c){ return c.toUpperCase(); }); delete e.u;
-      e.g = g > 0 ? g : 100; e.kcal = Math.round(k100 * e.g / 100); e.p = Math.round(p100 * e.g / 10) / 10;
-    } else if(g > 0){
-      const per = e.k && e.k.indexOf('my:') === 0 ? fdState().my[e.k.slice(3)] : (FD_BY[e.k] ? [FD_BY[e.k][3], FD_BY[e.k][4]] : null);
-      if(per){ e.g = g; e.kcal = Math.round(per[0] * g / 100); e.p = Math.round(per[1] * g / 10) / 10; }
-    }
-    save(); closeSheet(); renderToday();
-  }
-  else if(act==='fd-del'){
-    const f = fdState(), k = today();
-    f.days[k] = fdDay(k).filter(function(x){ return x.id !== btn.getAttribute('data-id'); });
-    save(); closeSheet(); renderToday();
-  }
-  else if(act==='fd-weigh'){ sheetWeigh(); }
-  else if(act==='fd-weigh-save'){
-    const kg = +$('#fdKg').value;
-    if(!(kg > 30 && kg < 250)){ toast('That doesn’t look like a weight'); return; }
-    fdState().weight[today()] = Math.round(kg * 10) / 10; save(); closeSheet(); renderToday(); toast('Saved — ' + kg + ' kg');
-  }
+  else if(act==='go-drive'){ skView = 'pdd'; go('practice'); }
+  else if(act==='go-diction'){ skView = 'diction'; go('practice'); }
   else if(act==='day-prev'){ selDay = dnPrev(selDay, realToday()); paintHeader(); renderToday(); }
   else if(act==='day-next'){ selDay = dnNext(selDay, realToday()); paintHeader(); renderToday(); }
   else if(act==='day-today'){ selDay = null; paintHeader(); renderToday(); }
@@ -4236,17 +3625,17 @@ document.addEventListener('click', function(e){
   else if(act==='arc-set'){
     if(!arcDraft) arcDraft = {};
     const k = btn.getAttribute('data-k'), raw = btn.getAttribute('data-v');
-    arcDraft[k] = (k === 'bed') ? raw : +raw;
+    arcDraft[k] = +raw;
     btn.parentElement.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
   }
   else if(act==='arc-save'){
     const d = arcDraft;
     if(!d){ toast('Tap your answers first'); return; }
-    const missing = ARC_REVIEW_Q.filter(function(q){ return !d[q[0]]; }).length + (d.bed ? 0 : 1) + (d.yes == null ? 1 : 0);
+    const missing = ARC_REVIEW_Q.filter(function(q){ return !d[q[0]]; }).length;
     if(missing){ toast(missing + (missing === 1 ? ' answer is' : ' answers are') + ' still empty'); return; }
     const a = arcState();
     d.note = (($('#arcNote') || {}).value || '').trim();
-    const rec = {energy:d.energy, body:d.body, calm:d.calm, home:d.home, bed:d.bed, yes:d.yes, note:d.note};
+    const rec = {energy:d.energy, body:d.body, calm:d.calm, home:d.home, note:d.note};
     a.reviews[d.week || arcMonday(today())] = rec;
     save();
     arcDraft = {saved:rec};
@@ -4374,14 +3763,16 @@ document.addEventListener('click', function(e){
       if(!obj || !Array.isArray(obj.habits)) throw new Error('bad');
       state = obj;
       if(!state.cleanWater){ if(!state.log) state.log = {}; waterOneTap(state.habits, state.log); state.cleanWater = true; }
+      if(!state.cleanWords){ if(!state.log) state.log = {}; wordsOneTap(state.habits, state.log); state.cleanWords = true; }
       arcEnsure(state, today());
+      practiceEnsure(state);
       applySkin(state.skin||'peach'); applyFont(state.font||'auto'); save(); closeSheet(); paintHeader(); render(); toast('Data restored');
     }catch(err){ toast('Could not read that — check the text'); }
   }
   else if(act==='reset'){
     if(!confirm('Delete every habit and check-in? This cannot be undone.')) return;
-    const skin = state.skin; state = seed(); state.skin = skin; state.habits = [];
-    if(today() <= ARC_END) state.arc = {start:ARC_START, end:ARC_END, reviews:{}, bed:{base:120, goal:60, step:10}, seeded:true};
+    const skin = state.skin; state = seed(); state.skin = skin; state.habits = []; state.practiceHabits = true;
+    if(today() <= ARC_END) state.arc = {start:ARC_START, end:ARC_END, reviews:{}, seeded:true, simple:true};
     save(); closeSheet(); render(); toast('Starting over');
   }
 });
@@ -4397,11 +3788,6 @@ document.addEventListener('input', function(e){
   if(e.target && e.target.id === 'tdQuick'){ todoDraft = e.target.value; }
 });
 document.addEventListener('keydown', function(e){
-  if(e.key === 'Enter' && !e.shiftKey && e.target && e.target.id === 'fdQuick'){
-    e.preventDefault();
-    const b = document.querySelector('[data-act="fd-add"]'); if(b) b.click();
-    return;
-  }
   if(e.key === 'Enter' && e.target && e.target.id === 'tdQuick'){
     e.preventDefault();
     const b = document.querySelector('[data-act="td-quick"]'); if(b) b.click();
@@ -4908,23 +4294,6 @@ const TWISTERS = [
   'Бык тупогуб, тупогубенький бычок, у быка бела губа была тупа.',
   'Кукушка кукушонку купила капюшон. Надел кукушонок капюшон: как в капюшоне он смешон.'
 ];
-const DICTION_VIDEOS = [
-  {id:'d1',  v:'l6S7Kq2UYDM', t:'Speech in 10 minutes: diction, articulation, voice, breath', min:11, by:'Татьяна Мерзлякова', daily:true,  desc:'A whole daily set in one video — do it along with her.'},
-  {id:'d2',  v:'t7atQvsgsaw', t:'A lip warm-up for every day',                  min:4,  by:'ЦОИ «Ораторское искусство, риторика»', daily:true, desc:'Short and physical: the lips first, before anything else.'},
-  {id:'d3',  v:'89WXOMmtr24', t:'One exercise for clear articulation',          min:4,  by:'Vocal Image', daily:true, desc:'A single exercise, explained well enough to do it every day.'},
-  {id:'d4',  v:'IUcelmSU5ZI', t:'Articulation gymnastics for adults',           min:8,  by:'Логопед Євгенія Груленко', daily:true, desc:'From a speech therapist: the classic set, done for grown-ups.'},
-  {id:'d5',  v:'StK9TlMAeSc', t:'Articulation: releasing tension in the mouth', min:9,  by:'Французский суслик', daily:true, desc:'Loosens the jaw and tongue so the sounds stop sticking.'},
-  {id:'d6',  v:'ynO-FD_wYSc', t:'Simple articulation exercises',                min:7,  by:'Говори Просто', daily:true, desc:'Lips, tongue and jaw, one after another.'},
-  {id:'d7',  v:'okZWYpcbeQQ', t:'7 exercises for voice and diction',            min:9,  by:'Кирилл Плешаков-Качалин', daily:true, desc:'An actor and speech coach; a lot of voice work here.'},
-  {id:'d8',  v:'JFylhQsFcCE', t:'5 exercises to improve diction',               min:7,  by:'Кирилл Плешаков-Качалин', daily:true, desc:'Quick exercises with an effect you hear straight away.'},
-  {id:'d9',  v:'jZ5-0Z9VJKg', t:'10 tongue twisters for consonants',            min:10, by:'Марина Кочнева', daily:true, desc:'Tongue twisters picked sound by sound.'},
-  {id:'d10', v:'xe5KtiRVojI', t:'The “Liguria” tongue twister',                 min:5,  by:'Говори Просто', daily:true, desc:'The famous hard one, taken apart slowly.'},
-  {id:'d11', v:'GbDwP_6DYHo', t:'4 ways to train with tongue twisters',         min:7,  by:'Анна Ивановская', daily:true, desc:'Not just saying them fast — four different ways to use them.'},
-  {id:'d12', v:'E4H4uY8IIho', t:'4 techniques for clear, audible speech',       min:11, by:'Катерина Мотызлевская', daily:false, desc:'A voice and speech trainer on being understood in a room.'},
-  {id:'d13', v:'vhq3G2p2eVc', t:'5 diction exercises and a tongue twister',     min:12, by:'Кирилл Плешаков-Качалин', daily:false, desc:'A longer lesson with more explanation.'},
-  {id:'d14', v:'5wf2WLUhlWI', t:'Making speech vivid and convincing',           min:15, by:'Кирилл Плешаков-Качалин', daily:false, desc:'Beyond clear sounds: intonation and emphasis.'}
-];
-function dictionOfDay(){ const d = DICTION_VIDEOS.filter(function(x){ return x.daily; }); return d[dayIndex() % d.length]; }
 function twistersOfDay(){
   const base = (dayIndex() * 3) % TWISTERS.length;
   return [0, 1, 2].map(function(k){ return TWISTERS[(base + k) % TWISTERS.length]; });
@@ -4932,9 +4301,9 @@ function twistersOfDay(){
 function dictionDone(key){ return !!(state.diction && state.diction[key || today()]); }
 
 function renderDiction(){
-  const v = dictionOfDay(), done = dictionDone();
+  const done = dictionDone();
   let h = skSeg();
-  h += '<p class="eyebrow" style="margin-top:6px">Today · about 10 minutes</p>';
+  h += '<p class="eyebrow" style="margin-top:6px">Today · about 6 minutes</p>';
 
   h += '<section class="dc-step"><div class="dc-num">1</div><div class="dc-body">'+
     '<p class="dc-title">Warm-up <span>3 min</span></p>'+
@@ -4942,10 +4311,6 @@ function renderDiction(){
     '</div></section>';
 
   h += '<section class="dc-step"><div class="dc-num">2</div><div class="dc-body">'+
-    '<p class="dc-title">Video of the day <span>'+v.min+' min</span></p>'+vidCard(v, true)+
-    '</div></section>';
-
-  h += '<section class="dc-step"><div class="dc-num">3</div><div class="dc-body">'+
     '<p class="dc-title">Tongue twisters <span>3 min</span></p>'+
     '<p class="dc-how">Each one three ways: slowly and over-articulated, then at normal speed, then as fast as you can while every sound stays clear. Finish with a whisper.</p>'+
     twistersOfDay().map(function(t){ return '<blockquote class="dc-tw" lang="ru">'+esc(t)+'</blockquote>'; }).join('')+
@@ -4963,9 +4328,6 @@ function renderDiction(){
   }
   h += '</div>';
 
-  h += '<section class="rd-block"><p class="eyebrow">All lessons</p><div class="vid-list">'+
-    DICTION_VIDEOS.filter(function(x){ return x.id !== v.id; }).map(function(x){ return vidCard(x, false); }).join('')+
-    '</div></section>';
   view.innerHTML = h;
 }
 
