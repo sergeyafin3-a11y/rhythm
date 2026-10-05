@@ -28,7 +28,7 @@ file in, **Commit changes**. The site updates in about a minute.
 | Today | The **word test** on top, the day’s to-do card, the food card and the habits — grouped into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
 | To-do | Tasks that are not habits — a call, an appointment, a bill. Quick-add at the top, optional day and time, grouped into Overdue · Today · Tomorrow · Later · No date |
 | English | **Speak** — the speaking roulette: a topic, a minute, a recording, then the language you could have used. **Saved words** — the phrases you kept from it |
-| Practice | **Driving theory** — the interactive textbook and the official Armenian question bank. **Diction** — ten minutes of Russian speech practice a day |
+| Practice | **Driving theory** — the interactive textbook and the official Armenian question bank. **Diction** — six minutes of Russian speech practice a day (warm-up and tongue twisters) |
 | 🧘 Yoga | Tap the *Yoga* habit: four choices open under it — 🌿 15–25, 🌤 26–35, 🔥 36–45 minutes, or 🏊 the pool on any day. They change the moment you mark one done |
 
 ## Files
@@ -118,9 +118,11 @@ It appears once you have four words. The old mood check-in card is gone; what yo
 
 ## Diction
 
-Practice → **Diction**. Ten minutes a day in Russian: an articulation warm-up, the video of
-the day from a speech teacher, and three tongue twisters, each said three ways. A week strip
-shows what you have done.
+Practice → **Diction**. About six minutes a day in Russian: an articulation warm-up and three tongue twisters, each said three
+ways. A week strip shows what you have done. No videos — just the exercises.
+
+Two habits sit next to it on *Today*: **Driving theory: one lesson** and **Diction exercises**. Each ticks by itself when you press
+“Got it” on a lesson / Done on the diction page, and opens the right screen.
 
 ## Themes and typefaces
 

@@ -2075,12 +2075,48 @@ function scPanel(h){
     '</p><div class="vid-list">'+scBatch().map(function(x){ return vidCard(x, false); }).join('')+'</div></div>';
 }
 
+/* ---------- Two habits for the Practice tab: a driving-theory lesson and diction, every day ----------
+   Each ticks by itself when the lesson is learned / the diction page is done, and opens the right screen. */
+/* practice:pure */
+const PRACTICE_HABITS = [
+  {id:'hp-drive',   title:'Driving theory: one lesson', emoji:'🚗', perDay:1, weekGoal:7, when:'day', why:''},
+  {id:'hp-diction', title:'Diction exercises',          emoji:'🗣', perDay:1, weekGoal:7, when:'day', why:''}
+];
+const DRIVE_RX = /driving|вожден|пдд/i, DICTION_RX = /diction|дикци/i;
+/* added once; nothing of hers is touched and a habit she deletes stays deleted */
+function practiceEnsure(st){
+  if(st.practiceHabits) return false;
+  PRACTICE_HABITS.forEach(function(h){ if(!st.habits.some(function(x){ return x.id === h.id; })) st.habits.push(Object.assign({}, h)); });
+  st.practiceHabits = true;
+  return true;
+}
+/* tick or untick one of them for a day; returns whether anything changed */
+function practiceMark(st, id, key, on){
+  const h = (st.habits || []).find(function(x){ return x.id === id; });
+  if(!h) return false;
+  const log = st.log || (st.log = {}), days = log[id] || (log[id] = {}), per = h.perDay || 1, done = (days[key] || 0) >= per;
+  if(on && !done){ days[key] = per; return true; }
+  if(!on && done){ delete days[key]; return true; }
+  return false;
+}
+/* practice:end */
+function drivePanel(h){
+  return '<div class="hb-vids"><p class="hb-tip">One lesson a day. Pressing “Got it” on a lesson ticks this habit by itself.</p>'+
+    '<button class="btn btn-primary btn-sm" data-act="go-drive">Open the lessons →</button></div>';
+}
+function dictionPanel(h){
+  return '<div class="hb-vids"><p class="hb-tip">A short warm-up and three tongue twisters. Pressing Done on the diction page ticks this habit by itself.</p>'+
+    '<button class="btn btn-primary btn-sm" data-act="go-diction">Open diction →</button></div>';
+}
+
 /* ---------- Habits that open into something ---------- */
 const HABIT_PANELS = [
   {match:/speak|говор|спикинг/i, hint:function(h){ return isDone(h, today()) ? '✓ Spoken today' : 'Spin a topic'; }, panel:spPanel},
   {match:/^\s*yoga\b|йога/i, hint:ygHint, panel:ygPanel},
   {match:/face massage|массаж лица|gua ?sha|гуаша/i, hint:fcHint, panel:facePanel},
-  {match:SC_RX, hint:scHint, panel:scPanel}
+  {match:SC_RX, hint:scHint, panel:scPanel},
+  {match:DRIVE_RX, hint:function(h){ return isDone(h, today()) ? '✓ Lesson done' : 'One lesson'; }, panel:drivePanel},
+  {match:DICTION_RX, hint:function(h){ return isDone(h, today()) ? '✓ Diction done' : 'A few minutes'; }, panel:dictionPanel}
 ];
 const hbOpen = {};
 function hbVideos(h){ return HABIT_PANELS.find(function(x){ return x.match.test(h.title || ''); }); }
@@ -3037,6 +3073,7 @@ if(!state.diction) state.diction = {};
 if(!wkHabit()) state.habits.push({id:'hw', title:'Yoga', emoji:'🧘', perDay:1, weekGoal:7, when:'morning', why:''});
 if(state.why === undefined) state.why = '';
 arcEnsure(state, today());
+practiceEnsure(state);
 if(!state.started) state.started = today();
 let openPack = null;
 let tab = 'today';
@@ -3956,10 +3993,14 @@ document.addEventListener('click', function(e){
   else if(act==='ln-ch'){ lnCh = +btn.getAttribute('data-c'); window.scrollTo(0,0); renderSkills(); }
   else if(act==='ln-home'){ lnCh = null; window.scrollTo(0,0); renderSkills(); }
   else if(act==='ln-done'){
-    lnLearned()[btn.getAttribute('data-l')] = today(); save(); celebrate(btn); renderSkills();
+    lnLearned()[btn.getAttribute('data-l')] = today(); practiceMark(state, 'hp-drive', today(), true); save(); celebrate(btn); renderSkills();
     toast('Learned — its questions join your daily practice');
   }
-  else if(act==='ln-undo'){ delete lnLearned()[btn.getAttribute('data-l')]; save(); renderSkills(); }
+  else if(act==='ln-undo'){
+    delete lnLearned()[btn.getAttribute('data-l')];
+    if(!Object.keys(lnLearned()).some(function(k){ return lnLearned()[k] === today(); })) practiceMark(state, 'hp-drive', today(), false);
+    save(); renderSkills();
+  }
   else if(act==='ln-flip'){
     const k = btn.getAttribute('data-k');
     lnOpen[k] = !lnOpen[k];
@@ -3987,8 +4028,8 @@ document.addEventListener('click', function(e){
     box.outerHTML = lnCheckHtml(qid);
     paintTabDots();
   }
-  else if(act==='dc-done'){ state.diction[today()] = true; save(); celebrate(btn); renderSkills(); toast('Diction done for today'); }
-  else if(act==='dc-undo'){ delete state.diction[today()]; save(); renderSkills(); }
+  else if(act==='dc-done'){ state.diction[today()] = true; practiceMark(state, 'hp-diction', today(), true); save(); celebrate(btn); renderSkills(); toast('Diction done for today'); }
+  else if(act==='dc-undo'){ delete state.diction[today()]; practiceMark(state, 'hp-diction', today(), false); save(); renderSkills(); }
   else if(act==='td-quick'){
     const f = $('#tdQuick'); const v = (f ? f.value : '').trim();
     if(!v){ if(f) f.focus(); return; }
@@ -4083,6 +4124,8 @@ document.addEventListener('click', function(e){
     if(!(kg > 30 && kg < 250)){ toast('That doesn’t look like a weight'); return; }
     fdState().weight[today()] = Math.round(kg * 10) / 10; save(); closeSheet(); renderToday(); toast('Saved — ' + kg + ' kg');
   }
+  else if(act==='go-drive'){ skView = 'pdd'; go('practice'); }
+  else if(act==='go-diction'){ skView = 'diction'; go('practice'); }
   else if(act==='go-speak'){ state.enView = 'speak'; save(); go('english'); }
   else if(act==='tk-w'){
     const t = TALK && TALK.byId[tk.id], pop = document.querySelector('.tk-pop');
@@ -4313,12 +4356,13 @@ document.addEventListener('click', function(e){
       state = obj;
       if(!state.cleanWater){ if(!state.log) state.log = {}; waterOneTap(state.habits, state.log); state.cleanWater = true; }
       arcEnsure(state, today());
+      practiceEnsure(state);
       applySkin(state.skin||'peach'); applyFont(state.font||'auto'); save(); closeSheet(); paintHeader(); render(); toast('Data restored');
     }catch(err){ toast('Could not read that — check the text'); }
   }
   else if(act==='reset'){
     if(!confirm('Delete every habit and check-in? This cannot be undone.')) return;
-    const skin = state.skin; state = seed(); state.skin = skin; state.habits = [];
+    const skin = state.skin; state = seed(); state.skin = skin; state.habits = []; state.practiceHabits = true;
     if(today() <= ARC_END) state.arc = {start:ARC_START, end:ARC_END, reviews:{}, bed:{base:120, goal:60, step:10}, seeded:true};
     save(); closeSheet(); render(); toast('Starting over');
   }
@@ -4846,23 +4890,6 @@ const TWISTERS = [
   'Бык тупогуб, тупогубенький бычок, у быка бела губа была тупа.',
   'Кукушка кукушонку купила капюшон. Надел кукушонок капюшон: как в капюшоне он смешон.'
 ];
-const DICTION_VIDEOS = [
-  {id:'d1',  v:'l6S7Kq2UYDM', t:'Speech in 10 minutes: diction, articulation, voice, breath', min:11, by:'Татьяна Мерзлякова', daily:true,  desc:'A whole daily set in one video — do it along with her.'},
-  {id:'d2',  v:'t7atQvsgsaw', t:'A lip warm-up for every day',                  min:4,  by:'ЦОИ «Ораторское искусство, риторика»', daily:true, desc:'Short and physical: the lips first, before anything else.'},
-  {id:'d3',  v:'89WXOMmtr24', t:'One exercise for clear articulation',          min:4,  by:'Vocal Image', daily:true, desc:'A single exercise, explained well enough to do it every day.'},
-  {id:'d4',  v:'IUcelmSU5ZI', t:'Articulation gymnastics for adults',           min:8,  by:'Логопед Євгенія Груленко', daily:true, desc:'From a speech therapist: the classic set, done for grown-ups.'},
-  {id:'d5',  v:'StK9TlMAeSc', t:'Articulation: releasing tension in the mouth', min:9,  by:'Французский суслик', daily:true, desc:'Loosens the jaw and tongue so the sounds stop sticking.'},
-  {id:'d6',  v:'ynO-FD_wYSc', t:'Simple articulation exercises',                min:7,  by:'Говори Просто', daily:true, desc:'Lips, tongue and jaw, one after another.'},
-  {id:'d7',  v:'okZWYpcbeQQ', t:'7 exercises for voice and diction',            min:9,  by:'Кирилл Плешаков-Качалин', daily:true, desc:'An actor and speech coach; a lot of voice work here.'},
-  {id:'d8',  v:'JFylhQsFcCE', t:'5 exercises to improve diction',               min:7,  by:'Кирилл Плешаков-Качалин', daily:true, desc:'Quick exercises with an effect you hear straight away.'},
-  {id:'d9',  v:'jZ5-0Z9VJKg', t:'10 tongue twisters for consonants',            min:10, by:'Марина Кочнева', daily:true, desc:'Tongue twisters picked sound by sound.'},
-  {id:'d10', v:'xe5KtiRVojI', t:'The “Liguria” tongue twister',                 min:5,  by:'Говори Просто', daily:true, desc:'The famous hard one, taken apart slowly.'},
-  {id:'d11', v:'GbDwP_6DYHo', t:'4 ways to train with tongue twisters',         min:7,  by:'Анна Ивановская', daily:true, desc:'Not just saying them fast — four different ways to use them.'},
-  {id:'d12', v:'E4H4uY8IIho', t:'4 techniques for clear, audible speech',       min:11, by:'Катерина Мотызлевская', daily:false, desc:'A voice and speech trainer on being understood in a room.'},
-  {id:'d13', v:'vhq3G2p2eVc', t:'5 diction exercises and a tongue twister',     min:12, by:'Кирилл Плешаков-Качалин', daily:false, desc:'A longer lesson with more explanation.'},
-  {id:'d14', v:'5wf2WLUhlWI', t:'Making speech vivid and convincing',           min:15, by:'Кирилл Плешаков-Качалин', daily:false, desc:'Beyond clear sounds: intonation and emphasis.'}
-];
-function dictionOfDay(){ const d = DICTION_VIDEOS.filter(function(x){ return x.daily; }); return d[dayIndex() % d.length]; }
 function twistersOfDay(){
   const base = (dayIndex() * 3) % TWISTERS.length;
   return [0, 1, 2].map(function(k){ return TWISTERS[(base + k) % TWISTERS.length]; });
@@ -4870,9 +4897,9 @@ function twistersOfDay(){
 function dictionDone(key){ return !!(state.diction && state.diction[key || today()]); }
 
 function renderDiction(){
-  const v = dictionOfDay(), done = dictionDone();
+  const done = dictionDone();
   let h = skSeg();
-  h += '<p class="eyebrow" style="margin-top:6px">Today · about 10 minutes</p>';
+  h += '<p class="eyebrow" style="margin-top:6px">Today · about 6 minutes</p>';
 
   h += '<section class="dc-step"><div class="dc-num">1</div><div class="dc-body">'+
     '<p class="dc-title">Warm-up <span>3 min</span></p>'+
@@ -4880,10 +4907,6 @@ function renderDiction(){
     '</div></section>';
 
   h += '<section class="dc-step"><div class="dc-num">2</div><div class="dc-body">'+
-    '<p class="dc-title">Video of the day <span>'+v.min+' min</span></p>'+vidCard(v, true)+
-    '</div></section>';
-
-  h += '<section class="dc-step"><div class="dc-num">3</div><div class="dc-body">'+
     '<p class="dc-title">Tongue twisters <span>3 min</span></p>'+
     '<p class="dc-how">Each one three ways: slowly and over-articulated, then at normal speed, then as fast as you can while every sound stays clear. Finish with a whisper.</p>'+
     twistersOfDay().map(function(t){ return '<blockquote class="dc-tw" lang="ru">'+esc(t)+'</blockquote>'; }).join('')+
@@ -4901,9 +4924,6 @@ function renderDiction(){
   }
   h += '</div>';
 
-  h += '<section class="rd-block"><p class="eyebrow">All lessons</p><div class="vid-list">'+
-    DICTION_VIDEOS.filter(function(x){ return x.id !== v.id; }).map(function(x){ return vidCard(x, false); }).join('')+
-    '</div></section>';
   view.innerHTML = h;
 }
 
