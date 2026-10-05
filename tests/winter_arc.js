@@ -58,6 +58,15 @@ if(m){
   check(Object.keys(old.arc.reviews).length === 1 && old.arc.reviews['2026-10-05'].note === 'x', 'her check-in is kept');
   check(api.arcEnsure(old, '2026-10-06') === false && old.habits.length === 4, 'running it again changes nothing');
   check(api.arcSimplify({habits:[], log:{}}) === false, 'no Arc, nothing to simplify');
+  // what she changed herself before the update is respected
+  const mine = {arc:{start:'2026-10-04', end:'2026-12-31', reviews:{}, seeded:true},
+    habits:[{id:'a-worry', title:'My evening notes', emoji:'🌙', perDay:1, weekGoal:5}, {id:'a-core', title:'Abs, my way', perDay:1, weekGoal:6}],
+    log:{'a-worry':{'2026-10-04':1}}};
+  api.arcEnsure(mine, '2026-10-05');
+  check(mine.habits.length === 1 && mine.habits[0].id === 'a-worry' && mine.habits[0].title === 'My evening notes' && mine.habits[0].emoji === '🌙', 'a journal habit she renamed keeps her name and emoji');
+  check(mine.habits[0].weekGoal === 7 && mine.log['a-worry']['2026-10-04'] === 1, 'but it is daily now, and her ticks stay');
+  const nothing = {arc:{start:'2026-10-04', end:'2026-12-31', reviews:{}, seeded:true}, habits:[{id:'h5', title:'Yoga', perDay:1, weekGoal:7}], log:{}};
+  check(api.arcEnsure(nothing, '2026-10-05') === true && nothing.habits.length === 1 && nothing.arc.simple === true, 'she had already deleted every Arc habit: none come back');
 
   // the check-in is possible from Wednesday to Sunday and due until it is done
   const a2 = {start:'2026-10-04', end:'2026-12-31', reviews:{}};
@@ -103,8 +112,13 @@ check(html.indexOf('STRENGTH_VIDEOS') < 0 && html.indexOf('scHabitChanged') < 0 
 check(!/'a-core'|'a-bed'|'a-no'|'a-avoid'/.test(html.replace(/const ARC_GONE = \[[^\]]*\];/, '')), 'the removed habits are only mentioned in the cleanup list');
 check(/arcTodayCard\(\)/.test(html) && (html.match(/arcTodayCard\(\)/g) || []).length >= 2, 'Today still shows the Winter Arc card');
 check(/\(h\.why \? '<p class="habit-why">'\+esc\(h\.why\)\+'<\/p>' : ''\)\+/.test(html), 'the habit row shows its own “why” again');
+const impM = /act==='import-data'\)\{[\s\S]*?\n  \}\n/.exec(html);
+check(!!impM && /arcEnsure\(/.test(impM[0]), 'restoring a backup must run arcEnsure before the first render');
+check(/arcDraft = \{week:\s*arcMonday\(today\(\)\)\}/.test(html) && /d\.week/.test(html), 'the week a check-in belongs to is fixed when it is opened, not when it is saved');
+check(/arcCanReview\(a, key\)/.test(html), 'the Arc screen must show the check-in button only through arcCanReview');
+check(/addEventListener\('input'[\s\S]{0,200}arcNote/.test(html), 'the check-in note must be kept in the draft as she types');
 const resetM = /act==='reset'\)\{[\s\S]*?\n  \}\n/.exec(html);
-check(!!resetM && /simple:\s*true/.test(resetM[0]) && /today\(\) <= ARC_END/.test(resetM[0]), 'a reset after 31 Dec builds no Arc, before it builds an already-simple one');
+check(!!resetM && /simple:\s*true/.test(resetM[0]) && /seeded:\s*true/.test(resetM[0]) && /today\(\) <= ARC_END/.test(resetM[0]), 'a reset after 31 Dec builds no Arc, before it builds an already seeded, simple one');
 const drop = /const DROP = (\[[^\]]*\]);/.exec(html);
 if(drop && m){
   const list = new Function('return ' + drop[1])(), hs = new Function(m[1] + '; return ARC_HABITS;')();

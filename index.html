@@ -1027,7 +1027,6 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .arc-q{ margin:0 0 8px; font-size:14.5px; font-weight:700; line-height:1.4; }
 .arc-scale{ display:grid; grid-template-columns:repeat(5, 1fr); gap:6px; }
 .arc-scale button{ padding:11px 4px; border-radius:var(--radius); font-size:16px; font-weight:700; background:var(--surface); border:var(--border-w) solid var(--line); color:var(--ink); }
-.arc-scale.wide button{ font-size:13.5px; }
 .arc-scale button[aria-pressed="true"]{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
 .arc-text{ width:100%; padding:10px 12px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); color:var(--ink); font:inherit; }
 .wk-strip{ display:flex; gap:6px; margin:14px 0 0; }
@@ -2639,9 +2638,9 @@ function sheetAddWord(){
 }
 
 /* ---------- Winter Arc: 4 October to 31 December ----------
-   Three spheres — body, head, the life around her — each with one small habit, yoga
-   kept as the daily base, and a short check-in every Wednesday. No points, no streak
-   numbers: a tracker of what was done, and a quiet «day N of 89». */
+   Yoga stays the daily base; two small habits (a walk, a journal); a tracker of what was
+   done day by day, a quiet «day N of 89» and a short check-in every Wednesday. No points,
+   no streak numbers. */
 /* arc:pure */
 const ARC_START = '2026-10-04', ARC_END = '2026-12-31';
 const ARC_HABITS = [
@@ -2681,7 +2680,7 @@ function arcSimplify(st){
   st.habits = st.habits.filter(function(h){ return ARC_GONE.indexOf(h.id) < 0; });
   ARC_GONE.forEach(function(id){ if(st.log) delete st.log[id]; });
   st.habits.forEach(function(h){
-    if(h.id === 'a-worry'){ h.title = 'Keep a journal'; h.emoji = '📓'; h.weekGoal = 7; }
+    if(h.id === 'a-worry'){ if(/worries/i.test(h.title || '')){ h.title = 'Keep a journal'; h.emoji = '📓'; } h.weekGoal = 7; }
     if(h.id === 'a-walk') h.weekGoal = 7;
   });
   delete st.strength;
