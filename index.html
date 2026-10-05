@@ -1000,7 +1000,6 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .arc-day{ display:block; margin:6px 0 8px; font-family:var(--font-display); font-weight:var(--display-weight); font-size:22px; line-height:1.2; }
 .arc-card .pbar{ display:block; margin:0 0 8px; }
 .arc-sub{ display:block; font-size:13px; color:var(--ink-soft); }
-.arc-goals{ display:flex; flex-direction:column; gap:8px; }
 .arc-goal{ padding:12px 14px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); }
 .arc-goal b{ display:block; font-size:14.5px; }
 .arc-goal p{ margin:4px 0 0; font-size:13.5px; line-height:1.5; color:var(--ink-soft); }
@@ -1027,9 +1026,7 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .arc-sec{ margin:0 0 18px; }
 .arc-q{ margin:0 0 8px; font-size:14.5px; font-weight:700; line-height:1.4; }
 .arc-scale{ display:grid; grid-template-columns:repeat(5, 1fr); gap:6px; }
-.arc-scale.wide{ grid-template-columns:repeat(3, 1fr); }
 .arc-scale button{ padding:11px 4px; border-radius:var(--radius); font-size:16px; font-weight:700; background:var(--surface); border:var(--border-w) solid var(--line); color:var(--ink); }
-.arc-scale.wide button{ font-size:13.5px; }
 .arc-scale button[aria-pressed="true"]{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
 .arc-text{ width:100%; padding:10px 12px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); color:var(--ink); font:inherit; }
 .wk-strip{ display:flex; gap:6px; margin:14px 0 0; }
@@ -2006,81 +2003,11 @@ function spPanel(h){
     '<button class="btn btn-primary btn-sm" data-act="go-speak">Open the roulette →</button></div>';
 }
 
-/* ---------- Core & strength: abs first, then back, arms and legs ----------
-   A pool of follow-along videos, five at a time; the five change the moment the habit
-   is ticked, like the face massage. Every id opened on YouTube. */
-const STRENGTH_VIDEOS = [
-  {id:'s1', v:'RUjxpcr5VeA', t:'Ten minute abs without leg lifts', min:10, by:'Лера Логунова', lang:'ru', focus:'abs', desc:'A steady ten-minute abs session on the mat with no leg raises, so the lower back stays calm.'},
-  {id:'s2', v:'r9xd8umAnZQ', t:'Ten minute abs, no strain on the neck', min:10, by:'Лера Логунова', lang:'ru', focus:'abs', desc:'Ten minutes of abs chosen so the neck stays relaxed, with clear form cues.'},
-  {id:'s3', v:'YFHea9AeqZ4', t:'Core and back in eight minutes', min:8, by:'Арсений Ким', lang:'ru', focus:'abs', desc:'A short core session that also strengthens the back, easy to fit in anywhere.'},
-  {id:'s4', v:'NSNjXUxs0d0', t:'Fifteen minute pilates for the abs', min:15, by:'SMSTRETCHING', lang:'ru', focus:'abs', desc:'A pilates-style abs class with no jumping and no equipment, steady and controlled.'},
-  {id:'s5', v:'NQxEUC3-aaE', t:'Complete core strengthening in ten minutes', min:11, by:'Tone and Tighten', lang:'en', focus:'abs', desc:'A physical therapist’s ten-minute routine for the whole trunk and hips, not just a six-pack.'},
-  {id:'s6', v:'soue2Fz-8Yw', t:'Ten minute abs workout, no equipment', min:11, by:'Rowan Row', lang:'en', focus:'abs', desc:'A straightforward ten-minute follow-along abs workout on the mat.'},
-  {id:'s7', v:'8T39OBNaNzU', t:'Twelve minute core conditioning', min:12, by:'Yoga With Adriene', lang:'en', focus:'abs', desc:'Floor core work to build a connection to your centre, from a yoga teacher.'},
-  {id:'s8', v:'1p6xiBIZDuk', t:'Twelve minute standing abs, no jumping', min:13, by:'BurpeeGirl', lang:'en', focus:'abs', desc:'Slow, controlled standing abs that are gentle on the knees and back.'},
-  {id:'s9', v:'bkkQ_hnHWxA', t:'Abs and core that are safe for the lower back', min:12, by:'Oliver Sjostrom', lang:'en', focus:'abs', desc:'Ten-plus minutes of abs and core built to protect and strengthen the lower back.'},
-  {id:'s10', v:'lQwpksc8Gf8', t:'Ten minute back workout', min:11, by:'Лера Логунова', lang:'ru', focus:'back', desc:'Thirty seconds on, ten off: strengthens the upper and lower back and helps posture.'},
-  {id:'s11', v:'jPLZwL1eZpI', t:'Twelve minute back and posture workout', min:13, by:'ДелайТело', lang:'ru', focus:'back', desc:'A home workout for a straighter back and lighter posture, no equipment.'},
-  {id:'s12', v:'ixVtqI1uUtc', t:'Healthy back, ten minutes', min:10, by:'IMAGINE fitness', lang:'ru', focus:'back', desc:'Ten minutes of exercises for a strong, healthy back at home.'},
-  {id:'s13', v:'Pb5ywB4Zh4o', t:'Daily exercises for the back and posture', min:11, by:'Mari Stretching', lang:'ru', focus:'back', desc:'A comfortable daily routine for the back, good after a day at a desk.'},
-  {id:'s14', v:'gEOwBSYs1pk', t:'Lower back relief, ten minutes', min:11, by:'Tone and Tighten', lang:'en', focus:'back', desc:'A physical therapist’s ten-minute routine to loosen the hips and strengthen the core and lower back.'},
-  {id:'s15', v:'Dw4xfH8GRlU', t:'Arms and back in ten minutes', min:11, by:'ДелайТело', lang:'ru', focus:'arms', desc:'Ten minutes for toned arms and a healthy back, no equipment.'},
-  {id:'s16', v:'tcK0pU8wDN8', t:'Ten minute pilates for the arms', min:11, by:'Lidia Mera', lang:'en', focus:'arms', desc:'A pilates-style arm workout with no equipment needed.'},
-  {id:'s17', v:'hxtDF4nXDBY', t:'Ten minute standing arm workout', min:10, by:'Coach Mich', lang:'en', focus:'arms', desc:'A low-impact standing arm workout with no weights and no floor work.'},
-  {id:'s18', v:'yEkKX_dU16M', t:'Ten minute arm workout, standing only', min:11, by:'guidedbyangie', lang:'en', focus:'arms', desc:'A guided standing-only arm workout, no equipment.'},
-  {id:'s19', v:'8w-AkCiq57c', t:'Twelve minutes of legs and glutes, standing', min:13, by:'Здоровая спина: Йога и Пилатес с Анной', lang:'ru', focus:'legs', desc:'A standing leg and glute workout with no jumping, from a yoga and pilates teacher.'},
-  {id:'s20', v:'oZjTGIhUOEo', t:'Inner and outer thigh sculpting', min:14, by:'ДелайТело', lang:'ru', focus:'legs', desc:'Exercises for the inner and outer thigh, suitable for every level.'},
-  {id:'s21', v:'oGXK5pULe0c', t:'Ten minutes for the inner thighs', min:10, by:'Лера Логунова', lang:'ru', focus:'legs', desc:'A non-stop ten minutes for the inner thighs, no equipment.'}
-];
-/* sc:pure */
-/* the pool in a fixed, mixed order with every focus spread evenly through it, abs starting first —
-   so any five in a row, wrapping round the end, hold at least two abs videos */
-function scOrder(list, hash){
-  const by = {}, start = {abs:0.05, back:0.4, arms:0.6, legs:0.8}, out = [];
-  list.slice().sort(function(a, b){ return hash(a.v) - hash(b.v); }).forEach(function(x){ (by[x.focus] || (by[x.focus] = [])).push(x); });
-  Object.keys(by).forEach(function(f){
-    by[f].forEach(function(x, i){ out.push({x:x, at:(i + (start[f] == null ? 0.5 : start[f])) / by[f].length}); });
-  });
-  return out.sort(function(a, b){ return a.at - b.at || hash(a.x.v) - hash(b.x.v); }).map(function(o){ return o.x; });
-}
-/* a title that means this habit — «пресс» only as a word of its own, never inside «экспресс» or «компрессия» */
-const SC_RX = /core\s*(&|and)\s*strength|(^|[^а-яё])пресс/i;
-/* ticking moves the batch on; unticking the same day puts it back; a second tick the same day does nothing */
-function scRotate(st, key, done, n){
-  if(done && st.k !== key){ st.i += n; st.k = key; }
-  else if(!done && st.k === key){ st.i -= n; delete st.k; }
-  return st;
-}
-/* sc:end */
-const SC_SHOW = 5;
-let scPool = null;
-function scState(){ if(!state.strength) state.strength = {i:0}; return state.strength; }
-function scHabit(){ return state.habits.find(function(h){ const p = SC_RX.test(h.title || '') && hbVideos(h); return p && p.panel === scPanel; }); }
-function scBatch(){
-  if(!scPool) scPool = scOrder(STRENGTH_VIDEOS, vidHash);
-  const st = scState(), out = [];
-  for(let n = 0; n < Math.min(SC_SHOW, scPool.length); n++) out.push(scPool[((st.i + n) % scPool.length + scPool.length) % scPool.length]);
-  return out;
-}
-function scHabitChanged(h){
-  const s = scHabit();
-  if(!s || s.id !== h.id) return;
-  scRotate(scState(), today(), isDone(h, today()), SC_SHOW);
-}
-function scHint(h){ return isDone(h, today()) ? '✓ Done · five new ones' : SC_SHOW + ' of ' + STRENGTH_VIDEOS.length + ' videos'; }
-function scPanel(h){
-  return '<div class="hb-vids"><p class="hb-tip">'+(isDone(h, today())
-    ? 'Five new ones — the set changes every time you tick the habit.'
-    : 'Ten to fifteen minutes, abs most days. Slow and controlled beats fast: breathe out on the effort, keep the lower back long.')+
-    '</p><div class="vid-list">'+scBatch().map(function(x){ return vidCard(x, false); }).join('')+'</div></div>';
-}
-
 /* ---------- Habits that open into something ---------- */
 const HABIT_PANELS = [
   {match:/speak|говор|спикинг/i, hint:function(h){ return isDone(h, today()) ? '✓ Spoken today' : 'Spin a topic'; }, panel:spPanel},
   {match:/^\s*yoga\b|йога/i, hint:ygHint, panel:ygPanel},
-  {match:/face massage|массаж лица|gua ?sha|гуаша/i, hint:fcHint, panel:facePanel},
-  {match:SC_RX, hint:scHint, panel:scPanel}
+  {match:/face massage|массаж лица|gua ?sha|гуаша/i, hint:fcHint, panel:facePanel}
 ];
 const hbOpen = {};
 function hbVideos(h){ return HABIT_PANELS.find(function(x){ return x.match.test(h.title || ''); }); }
@@ -2711,19 +2638,17 @@ function sheetAddWord(){
 }
 
 /* ---------- Winter Arc: 4 October to 31 December ----------
-   Three spheres — body, head, the life around her — each with one small habit, yoga
-   kept as the daily base, and a short check-in every Wednesday. No points, no streak
-   numbers: a tracker of what was done, and a quiet «day N of 89». */
+   Yoga stays the daily base; two small habits (a walk, a journal); a tracker of what was
+   done day by day, a quiet «day N of 89» and a short check-in every Wednesday. No points,
+   no streak numbers. */
 /* arc:pure */
 const ARC_START = '2026-10-04', ARC_END = '2026-12-31';
 const ARC_HABITS = [
-  {id:'a-core',  title:'Core & strength',                  emoji:'💪', perDay:1, weekGoal:6, when:'day',     arc:'body',   why:''},
-  {id:'a-walk',  title:'Walk 15–20 minutes',               emoji:'🚶', perDay:1, weekGoal:6, when:'day',     arc:'body',   why:''},
-  {id:'a-avoid', title:'10 minutes on one thing I put off', emoji:'⏱', perDay:1, weekGoal:6, when:'day',     arc:'around', why:''},
-  {id:'a-no',    title:'One honest “no” this week',        emoji:'🙅', perDay:1, weekGoal:1, when:'day',     arc:'around', why:''},
-  {id:'a-worry', title:'Write the worries down',           emoji:'📝', perDay:1, weekGoal:7, when:'evening', arc:'head',   why:''},
-  {id:'a-bed',   title:'Phone away, in bed on time',   emoji:'🌙', perDay:1, weekGoal:7, when:'evening', arc:'sleep',  why:''}
+  {id:'a-walk',  title:'Walk 15–20 minutes', emoji:'🚶', perDay:1, weekGoal:7, when:'day',     arc:'body', why:''},
+  {id:'a-worry', title:'Keep a journal',     emoji:'📓', perDay:1, weekGoal:7, when:'evening', arc:'head', why:''}
 ];
+/* the first version of the Arc had six habits; these four are gone */
+const ARC_GONE = ['a-core', 'a-avoid', 'a-no', 'a-bed'];
 function arcUtc(key){ const p = String(key).split('-').map(Number); return Date.UTC(p[0], p[1] - 1, p[2]); }
 function arcDiff(a, b){ return Math.round((arcUtc(b) - arcUtc(a)) / 86400000); }
 function arcKeyAdd(key, n){
@@ -2739,15 +2664,28 @@ function arcEnsure(st, key){
   let changed = false;
   if(!st.arc){
     if(key > ARC_END) return false;
-    st.arc = {start:ARC_START, end:ARC_END, reviews:{}, bed:{base:120, goal:60, step:10}, seeded:false}; changed = true;
+    st.arc = {start:ARC_START, end:ARC_END, reviews:{}, seeded:false, simple:true}; changed = true;
   }
   if(!st.arc.reviews) st.arc.reviews = {};
-  if(!st.arc.bed) st.arc.bed = {base:120, goal:60, step:10};
   if(!st.arc.seeded){
     ARC_HABITS.forEach(function(h){ if(!st.habits.some(function(x){ return x.id === h.id; })) st.habits.push(Object.assign({}, h)); });
     st.arc.seeded = true; changed = true;
   }
+  if(arcSimplify(st)) changed = true;
   return changed;
+}
+/* the first version of the Arc, already on her phone, becomes the simple one — once */
+function arcSimplify(st){
+  if(!st.arc || st.arc.simple) return false;
+  st.habits = st.habits.filter(function(h){ return ARC_GONE.indexOf(h.id) < 0; });
+  ARC_GONE.forEach(function(id){ if(st.log) delete st.log[id]; });
+  st.habits.forEach(function(h){
+    if(h.id === 'a-worry'){ if(/worries/i.test(h.title || '')){ h.title = 'Keep a journal'; h.emoji = '📓'; } h.weekGoal = 7; }
+    if(h.id === 'a-walk') h.weekGoal = 7;
+  });
+  delete st.strength;
+  st.arc.simple = true;
+  return true;
 }
 /* a check-in can be made from Wednesday to Sunday, and not before the fourth day of the Arc */
 function arcCanReview(arc, key){
@@ -2756,30 +2694,19 @@ function arcCanReview(arc, key){
 }
 /* ... and it is due until it has been done */
 function arcReviewDue(arc, key){ return arcCanReview(arc, key) && !arc.reviews[arcMonday(key)]; }
-/* bedtime in minutes after midnight: 10 minutes earlier after each week she got there, never past the goal */
-function arcBedMinutes(arc){
-  const good = Object.keys(arc.reviews || {}).filter(function(k){ const b = arc.reviews[k].bed; return b === 'yes' || b === 'mostly'; }).length;
-  return Math.max(arc.bed.goal, arc.bed.base - arc.bed.step * (1 + good));
-}
-function arcClock(m){ return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); }
 const ARC_ADVICE = {
-  body:   {title:'Build the core',        text:'Add two minutes to your Core & strength block and hold every move one breath longer than feels comfortable.'},
-  calm:   {title:'Quieter evenings',      text:'Write the worries down every evening and put each one in a box: “can I do one step? → do it” or “no → let it go”.'},
-  energy: {title:'Protect your energy',   text:'Pick one thing that drains you and do less of it this week, and take a short walk after your first meal.'},
-  home:   {title:'One small order',       text:'Choose one corner or one overdue task and give it ten minutes a day; stop when the timer ends, even mid-thought.'},
-  people: {title:'Practise one “no”',     text:'Turn down one invitation this week with a single calm sentence: “Thank you, I can’t this time.” No explaining.'},
-  keep:   {title:'Hold the line',         text:'It is going well. Keep the same week and notice what has become easy — that is the progress.'}
+  body:   {title:'Build the core',      text:'Pick a strength-focused yoga class on two days this week, and hold every pose one breath longer than feels comfortable.'},
+  calm:   {title:'Quieter evenings',    text:'Write the evening down in your journal, and next to every worry put one line: “one step I can take” or “let it go”.'},
+  energy: {title:'Protect your energy', text:'Pick one thing that drains you and do less of it this week, and take a short walk after your first meal.'},
+  home:   {title:'One small order',     text:'Choose one corner or one overdue task and give it ten minutes a day; stop when the timer ends, even mid-thought.'},
+  keep:   {title:'Hold the line',       text:'It is going well. Keep the same week and notice what has become easy — that is the progress.'}
 };
-/* what to change next week: saying yes against her wish wins, otherwise the weakest area */
+/* what to change next week: the weakest of the four areas */
 function arcFocus(r){
-  let key;
-  if((r.yes || 0) >= 2) key = 'people';
-  else {
-    const order = ['body', 'calm', 'energy', 'home'];
-    key = order[0];
-    order.forEach(function(k){ if((r[k] || 0) < (r[key] || 0)) key = k; });
-    if((r[key] || 0) >= 4) key = 'keep';
-  }
+  const order = ['body', 'calm', 'energy', 'home'];
+  let key = order[0];
+  order.forEach(function(k){ if((r[k] || 0) < (r[key] || 0)) key = k; });
+  if((r[key] || 0) >= 4) key = 'keep';
   return {key:key, title:ARC_ADVICE[key].title, text:ARC_ADVICE[key].text};
 }
 function arcDone(h, log, key){ return (((log[h.id] || {})[key]) || 0) >= (h.perDay || 1); }
@@ -2806,11 +2733,6 @@ function arcHeat(arc, habits, log, key){
 }
 /* arc:end */
 
-const ARC_SPHERES = [
-  {k:'body',   emoji:'💪', name:'Body',         goal:'A body that feels strong: my core holds me up without pulling in, my legs have room to move, and I have energy through the day.'},
-  {k:'head',   emoji:'🌿', name:'Head',         goal:'A quieter mind: I park the worries instead of living them, and I do the thing I have been putting off.'},
-  {k:'around', emoji:'🏡', name:'Around me',    goal:'A tidy home and the right people: I say no to what drains me and spend my time with people who lift me.'}
-];
 const ARC_REVIEW_Q = [
   ['energy', 'Energy', 'How was your energy this week?', ['😴', '🥱', '😐', '🙂', '⚡']],
   ['body',   'Body',   'Do you feel stronger in your body?', ['1', '2', '3', '4', '5']],
@@ -2832,11 +2754,6 @@ function arcTodayCard(){
     '<span class="pbar"><i style="width:'+pct+'%"></i></span>'+
     '<span class="arc-sub">'+(due ? '✨ Your Wednesday check-in is ready' : 'Stronger, calmer, lighter by 1 January')+'</span></button>';
 }
-function arcWhy(h){
-  const a = arcState();
-  if(a && (h.arc === 'sleep' || h.id === 'a-bed')) return '<p class="habit-why">In bed by '+arcClock(arcBedMinutes(a))+' tonight</p>';
-  return h.why ? '<p class="habit-why">'+esc(h.why)+'</p>' : '';
-}
 function arcBack(act, label){
   return '<button class="backbtn" data-act="'+act+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>'+label+'</button>';
 }
@@ -2850,9 +2767,6 @@ function renderArc(){
     '<h2 class="rec-title">Day '+n+' of '+total+'</h2>'+
     '<div class="pbar" style="margin:10px 0 4px"><i style="width:'+Math.round(n / total * 100)+'%"></i></div>'+
     '<p class="fd-sub" style="margin-top:6px">'+arcFmt(a.start)+' → '+arcFmt(a.end)+'. Yoga stays the base of every day.</p>';
-  h += '<div class="section-head"><p class="eyebrow">Where I am going</p></div><div class="arc-goals">'+ARC_SPHERES.map(function(s){
-    return '<article class="arc-goal"><b>'+s.emoji+' '+s.name+'</b><p>'+esc(s.goal)+'</p></article>';
-  }).join('')+'</div><p class="fd-sub">No scale and no tape measure: the check-in asks how it feels.</p>';
   /* the week */
   h += '<div class="section-head"><p class="eyebrow">This week</p></div><div class="arc-week"><div class="arc-wrow arc-whead"><span></span>'+
     WSHORT.map(function(d){ return '<span>'+d+'</span>'; }).join('')+'</div>'+
@@ -2865,9 +2779,6 @@ function renderArc(){
     arcHeat(a, habits, state.log, key).map(function(c){
       return '<i class="l'+(c.level < 0 ? 'f' : c.level)+(c.key === key ? ' today' : '')+'" title="'+esc(arcFmt(c.key))+'"></i>';
     }).join('')+'</div><p class="fd-sub">Every square is a day; the darker, the more of it you did.</p>';
-  /* sleep */
-  h += '<div class="section-head"><p class="eyebrow">Sleep</p></div><article class="arc-goal"><b>🌙 This week: in bed by '+arcClock(arcBedMinutes(a))+'</b>'+
-    '<p>Goal '+arcClock(a.bed.goal)+'. After every week you get there on time, the target moves '+a.bed.step+' minutes earlier.</p></article>';
   /* the check-in */
   const last = Object.keys(a.reviews).sort().pop(), lr = last && a.reviews[last];
   h += '<div class="section-head"><p class="eyebrow">Wednesday check-in</p></div>';
@@ -2891,9 +2802,6 @@ function renderArcReview(){
       '<p class="eyebrow" style="margin:14px 2px 0">Wednesday check-in · done</p><h2 class="rec-title">Next week</h2>'+
       '<article class="arc-goal arc-focus"><b>'+esc(f.title)+'</b><p>'+esc(f.text)+'</p></article>'+
       (d.saved.note ? '<p class="arc-note">“'+esc(d.saved.note)+'”</p>' : '')+
-      '<article class="arc-goal"><b>🌙 Bedtime: '+arcClock(arcBedMinutes(a))+'</b><p>'+(d.saved.bed === 'no'
-        ? 'Same target as before — it moves earlier once you get there on time for a week.'
-        : 'Ten minutes earlier than last week.')+'</p></article>'+
       '<button class="btn btn-primary btn-full" data-act="arc-close" style="margin-top:14px">Done</button>');
   }
   const pick = function(k, v){ return d[k] === v ? 'true' : 'false'; };
@@ -2904,12 +2812,8 @@ function renderArcReview(){
       return '<button type="button" data-act="arc-set" data-k="'+q[0]+'" data-v="'+(i + 1)+'" aria-pressed="'+pick(q[0], i + 1)+'">'+e+'</button>';
     }).join('')+'</div></section>';
   });
-  h += '<section class="arc-sec"><p class="arc-q">Did you get to bed by the target most nights?</p><div class="arc-scale wide">'+
-    [['yes', 'Yes'], ['mostly', 'Mostly'], ['no', 'No']].map(function(o){ return '<button type="button" data-act="arc-set" data-k="bed" data-v="'+o[0]+'" aria-pressed="'+pick('bed', o[0])+'">'+o[1]+'</button>'; }).join('')+'</div></section>'+
-    '<section class="arc-sec"><p class="arc-q">Did you say yes to something you did not want?</p><div class="arc-scale wide">'+
-    [[0, 'Never'], [1, 'Once'], [2, 'More than once']].map(function(o){ return '<button type="button" data-act="arc-set" data-k="yes" data-v="'+o[0]+'" aria-pressed="'+pick('yes', o[0])+'">'+o[1]+'</button>'; }).join('')+'</div></section>'+
-    '<section class="arc-sec"><p class="arc-q">One line, in your own words: what do you want to change next week?</p>'+
-    '<textarea id="arcNote" rows="3" class="arc-text" placeholder="e.g. Go to bed before the series, not after">'+esc(d.note || '')+'</textarea></section>'+
+  h += '<section class="arc-sec"><p class="arc-q">One line, in your own words: what do you want to change next week?</p>'+
+    '<textarea id="arcNote" rows="3" class="arc-text" placeholder="e.g. A longer walk at the weekend">'+esc(d.note || '')+'</textarea></section>'+
     '<button class="btn btn-primary btn-full" data-act="arc-save">Save the check-in</button>';
   view.innerHTML = h;
 }
@@ -3252,7 +3156,7 @@ function renderToday(){
           '<button class="habit-emoji" data-act="edit-habit" data-id="'+h.id+'" aria-label="Edit &quot;'+esc(h.title)+'&quot;">'+esc(h.emoji||'⭐️')+'</button>'+
           '<div class="habit-main"'+(hbVideos(h) ? ' data-act="hb-more" data-id="'+h.id+'"' : '')+'><p class="habit-name">'+esc(h.title)+'</p>'+
           meta+
-          arcWhy(h)+
+          (h.why ? '<p class="habit-why">'+esc(h.why)+'</p>' : '')+
           (hbVideos(h) ? '<span class="hb-hint">'+(hbOpen[h.id] ? '▴ Hide' : '▾ '+hbVideos(h).hint(h))+'</span>' : '')+'</div>'+
           '<div class="counter">'+(per>1?'<span class="cnt num">'+c+'/'+per+'</span>':'')+
           '<button class="check" data-act="toggle" data-id="'+h.id+'" aria-pressed="'+(done?'true':'false')+'" aria-label="Check off &quot;'+esc(h.title)+'&quot;">'+
@@ -3826,7 +3730,7 @@ function toggleHabit(id, el){
       }
     }
   }
-  ygHabitChanged(h); fcHabitChanged(h); scHabitChanged(h);
+  ygHabitChanged(h); fcHabitChanged(h);
   save(); renderToday();
 }
 
@@ -4174,17 +4078,17 @@ document.addEventListener('click', function(e){
   else if(act==='arc-set'){
     if(!arcDraft) arcDraft = {};
     const k = btn.getAttribute('data-k'), raw = btn.getAttribute('data-v');
-    arcDraft[k] = (k === 'bed') ? raw : +raw;
+    arcDraft[k] = +raw;
     btn.parentElement.querySelectorAll('button').forEach(function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
   }
   else if(act==='arc-save'){
     const d = arcDraft;
     if(!d){ toast('Tap your answers first'); return; }
-    const missing = ARC_REVIEW_Q.filter(function(q){ return !d[q[0]]; }).length + (d.bed ? 0 : 1) + (d.yes == null ? 1 : 0);
+    const missing = ARC_REVIEW_Q.filter(function(q){ return !d[q[0]]; }).length;
     if(missing){ toast(missing + (missing === 1 ? ' answer is' : ' answers are') + ' still empty'); return; }
     const a = arcState();
     d.note = (($('#arcNote') || {}).value || '').trim();
-    const rec = {energy:d.energy, body:d.body, calm:d.calm, home:d.home, bed:d.bed, yes:d.yes, note:d.note};
+    const rec = {energy:d.energy, body:d.body, calm:d.calm, home:d.home, note:d.note};
     a.reviews[d.week || arcMonday(today())] = rec;
     save();
     arcDraft = {saved:rec};
@@ -4319,7 +4223,7 @@ document.addEventListener('click', function(e){
   else if(act==='reset'){
     if(!confirm('Delete every habit and check-in? This cannot be undone.')) return;
     const skin = state.skin; state = seed(); state.skin = skin; state.habits = [];
-    if(today() <= ARC_END) state.arc = {start:ARC_START, end:ARC_END, reviews:{}, bed:{base:120, goal:60, step:10}, seeded:true};
+    if(today() <= ARC_END) state.arc = {start:ARC_START, end:ARC_END, reviews:{}, seeded:true, simple:true};
     save(); closeSheet(); render(); toast('Starting over');
   }
 });
