@@ -190,6 +190,13 @@ synthesised with the Web Audio API, so there are no audio files and it works off
 Settings → Fireworks sound to silence it. It also respects the system
 "reduce motion" setting: no animation when that is on.
 
+## Marking another day
+
+At the top of *Today*, **‹ Today ›** moves between days: press ‹ to go back to yesterday (or further, up to a year) and tick a habit there —
+useful when you did your yoga after midnight and it still belongs to the day before. Only the habits are shown on a past day; tap the
+gold bar, press ›, change the tab or reopen the app to come back to today. In the Winter Arc, **every square of this week's grid is a
+button**: tap one to mark or unmark that habit on that day, and it shows up in the tracker at once.
+
 ## When the day turns over
 
 The day changes at **4 a.m.**, not at midnight. A habit ticked at 1 a.m. counts for the day you have not slept off yet,

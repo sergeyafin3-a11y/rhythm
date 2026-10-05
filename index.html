@@ -1012,10 +1012,17 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .arc-whead span{ text-align:center; font-size:10px; font-weight:700; color:var(--ink-mute); }
 .arc-wname{ font-size:12.5px; line-height:1.3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .arc-wname small{ font-size:10px; color:var(--ink-mute); }
-.arc-wrow i{ display:block; width:18px; height:18px; border-radius:6px; background:var(--surface-2); }
-.arc-wrow i.on{ background:var(--accent); }
-.arc-wrow i.today{ box-shadow:0 0 0 2px var(--accent-soft), 0 0 0 3.5px var(--accent); }
-.arc-wrow i.future{ opacity:.45; }
+.arc-cell{ display:block; width:18px; height:18px; padding:0; border:0; border-radius:6px; background:var(--surface-2); cursor:pointer; }
+.arc-cell.on{ background:var(--accent); }
+.arc-cell.today{ box-shadow:0 0 0 2px var(--accent-soft), 0 0 0 3.5px var(--accent); }
+.arc-cell.future{ opacity:.45; cursor:default; }
+.daybar{ display:flex; align-items:stretch; gap:8px; margin:0 0 14px; }
+.daybar-btn{ flex:none; width:44px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); color:var(--ink); font-size:22px; line-height:1; }
+.daybar-btn:disabled{ opacity:.35; }
+.daybar-mid{ flex:1; min-width:0; padding:8px 12px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); color:var(--ink); text-align:center; }
+.daybar-mid b{ display:block; font-size:15px; }
+.daybar-mid small{ display:block; margin-top:1px; font-size:11.5px; color:var(--ink-mute); }
+.daybar-mid:not(:disabled){ border-color:var(--accent); background:var(--accent-soft); }
 .arc-heat{ display:grid; grid-template-columns:repeat(auto-fill, minmax(15px, 1fr)); gap:4px; }
 .arc-heat i{ display:block; aspect-ratio:1; border-radius:4px; background:var(--surface-2); }
 .arc-heat i.lf{ background:transparent; box-shadow:inset 0 0 0 1px var(--line); }
@@ -2854,11 +2861,13 @@ function renderArc(){
     return '<article class="arc-goal"><b>'+s.emoji+' '+s.name+'</b><p>'+esc(s.goal)+'</p></article>';
   }).join('')+'</div><p class="fd-sub">No scale and no tape measure: the check-in asks how it feels.</p>';
   /* the week */
-  h += '<div class="section-head"><p class="eyebrow">This week</p></div><div class="arc-week"><div class="arc-wrow arc-whead"><span></span>'+
+  h += '<div class="section-head"><p class="eyebrow">This week</p></div><p class="fd-sub" style="margin-top:-4px">Tap a square to mark or unmark that day.</p><div class="arc-week"><div class="arc-wrow arc-whead"><span></span>'+
     WSHORT.map(function(d){ return '<span>'+d+'</span>'; }).join('')+'</div>'+
     arcWeek(habits, state.log, key).map(function(r){
       return '<div class="arc-wrow"><span class="arc-wname">'+esc(r.emoji || '⭐️')+' '+esc(r.title)+(r.weekly ? ' <small>weekly</small>' : '')+'</span>'+
-        r.cells.map(function(c){ return '<i class="'+(c.done ? 'on' : '')+(c.today ? ' today' : '')+(c.future ? ' future' : '')+'"></i>'; }).join('')+'</div>';
+        r.cells.map(function(c){
+          return '<button type="button" class="arc-cell'+(c.done ? ' on' : '')+(c.today ? ' today' : '')+(c.future ? ' future' : '')+'" data-act="arc-cell" data-id="'+esc(r.id)+'" data-d="'+c.key+'"'+(c.future ? ' disabled' : '')+' aria-label="'+esc(r.title)+', '+esc(arcFmt(c.key))+(c.done ? ', done' : '')+'"></button>';
+        }).join('')+'</div>';
     }).join('')+'</div>';
   /* the whole Arc */
   h += '<div class="section-head"><p class="eyebrow">The whole Arc</p></div><div class="arc-heat">'+
@@ -2951,7 +2960,28 @@ const DAY_STARTS_AT = 4;
 function logicalNow(ms){ const d = new Date(ms == null ? Date.now() : ms); d.setHours(d.getHours() - DAY_STARTS_AT); return d; }
 function dayKeyAt(ms){ return dk(logicalNow(ms)); }
 /* day:end */
-function today(){ return dayKeyAt(); }
+/* a past day chosen with ‹ › on Today (null = the real today); every habit tick, yoga log and rotation follows it */
+let selDay = null;
+function realToday(){ return dayKeyAt(); }
+function today(){ return selDay || dayKeyAt(); }
+/* daynav:pure */
+function dnAdd(key, n){
+  const p = String(key).split('-').map(Number), d = new Date(Date.UTC(p[0], p[1] - 1, p[2] + n));
+  return d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0') + '-' + String(d.getUTCDate()).padStart(2, '0');
+}
+const DN_BACK = 365;
+/* ‹ : one day earlier, never more than a year back */
+function dnPrev(sel, real){ const cur = sel || real, p = dnAdd(cur, -1); return p < dnAdd(real, -DN_BACK) ? cur : p; }
+/* › : one day later; reaching today means «today» (null), and never past it */
+function dnNext(sel, real){ if(!sel) return null; const n = dnAdd(sel, 1); return n >= real ? null : n; }
+function dnLabel(sel, real){
+  if(!sel) return 'Today';
+  const a = String(sel).split('-').map(Number), b = String(real).split('-').map(Number);
+  const d = Math.round((Date.UTC(b[0], b[1] - 1, b[2]) - Date.UTC(a[0], a[1] - 1, a[2])) / 86400000);
+  return d === 1 ? 'Yesterday' : d + ' days ago';
+}
+function dnCanMark(key, real){ return key <= real; }
+/* daynav:end */
 function shift(key, n){ const p=key.split('-').map(Number); return dk(new Date(p[0], p[1]-1, p[2]+n)); }
 function toDate(key){ const p=key.split('-').map(Number); return new Date(p[0], p[1]-1, p[2]); }
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -3220,6 +3250,14 @@ function sheetTodo(id){
 }
 
 /* ---------- Today tab ---------- */
+/* ‹ Today › — mark a habit for a day you missed, or one you did after midnight for the day before */
+function dayBar(){
+  const real = realToday(), d = toDate(today());
+  return '<div class="daybar"><button class="daybar-btn" data-act="day-prev" aria-label="Previous day">‹</button>'+
+    '<button class="daybar-mid" data-act="day-today"'+(selDay ? '' : ' disabled')+'><b>'+dnLabel(selDay, real)+'</b>'+
+    '<small>'+WDAYS[d.getDay()].slice(0, 3)+', '+MONTHS[d.getMonth()].slice(0, 3)+' '+d.getDate()+(selDay ? ' · tap to go back to today' : '')+'</small></button>'+
+    '<button class="daybar-btn" data-act="day-next" aria-label="Next day"'+(selDay ? '' : ' disabled')+'>›</button></div>';
+}
 function renderToday(){
   const hs = activeHabits(), n = hs.length;
 
@@ -3227,10 +3265,11 @@ function renderToday(){
   if(todayView === 'wq') return renderWordTest();
   if(todayView === 'arc') return renderArc();
   if(todayView === 'arc-review') return renderArcReview();
-  let html = arcTodayCard();
-  html += wqTodayCard();
-  html += tdTodayCard();
-  html += fdTodayCard();
+  let html = dayBar();
+  html += selDay ? '' : arcTodayCard();
+  html += selDay ? '' : wqTodayCard();
+  html += selDay ? '' : tdTodayCard();
+  html += selDay ? '' : fdTodayCard();
 
   if(n===0){
     html += '<div class="empty"><div style="font-size:40px">🌱</div><p>Your habits will live here.<br>Start with one. Really, just one.</p>'+
@@ -4083,6 +4122,16 @@ document.addEventListener('click', function(e){
     if(!(kg > 30 && kg < 250)){ toast('That doesn’t look like a weight'); return; }
     fdState().weight[today()] = Math.round(kg * 10) / 10; save(); closeSheet(); renderToday(); toast('Saved — ' + kg + ' kg');
   }
+  else if(act==='day-prev'){ selDay = dnPrev(selDay, realToday()); paintHeader(); renderToday(); }
+  else if(act==='day-next'){ selDay = dnNext(selDay, realToday()); paintHeader(); renderToday(); }
+  else if(act==='day-today'){ selDay = null; paintHeader(); renderToday(); }
+  else if(act==='arc-cell'){
+    const id = btn.getAttribute('data-id'), d = btn.getAttribute('data-d');
+    if(!id || !d || !dnCanMark(d, realToday())) return;
+    selDay = d === realToday() ? null : d;
+    toggleHabit(id, null);
+    selDay = null; paintHeader(); renderToday();
+  }
   else if(act==='go-speak'){ state.enView = 'speak'; save(); go('english'); }
   else if(act==='tk-w'){
     const t = TALK && TALK.byId[tk.id], pop = document.querySelector('.tk-pop');
@@ -4917,6 +4966,7 @@ function paintTabDots(){
 
 /* ---------- Navigation and start-up ---------- */
 function go(t){
+  selDay = null;
   tab = t;
   document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected', x.dataset.tab===t ? 'true':'false'));
   window.scrollTo({top:0, behavior:'instant' in document.documentElement.style ? 'instant' : 'auto'});
@@ -4931,8 +4981,8 @@ function render(){
 }
 let paintedDay = '';
 function paintHeader(){
-  paintedDay = today();
-  const d = logicalNow();
+  paintedDay = realToday();
+  const d = toDate(today());
   $('#dateLine').textContent = WDAYS[d.getDay()] + ', ' + MONTHS[d.getMonth()] + ' ' + d.getDate();
   const h = new Date().getHours();
   const part = h<5 ? 'Good night' : h<12 ? 'Good morning' : h<18 ? 'Good afternoon' : 'Good evening';
@@ -4960,9 +5010,9 @@ else {
 }
 
 /* New day — repaint */
-document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && state.skin) { paintHeader(); render(); } });
+document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && state.skin) { selDay = null; paintHeader(); render(); } });
 /* left open across 4 a.m.: move on to the new day by itself */
-setInterval(()=>{ if(!document.hidden && state.skin && paintedDay && paintedDay !== today()){ paintHeader(); render(); } }, 60000);
+setInterval(()=>{ if(!document.hidden && state.skin && paintedDay && paintedDay !== realToday()){ selDay = null; paintHeader(); render(); } }, 60000);
 
 if('serviceWorker' in navigator && location.protocol === 'https:'){
   window.addEventListener('load', ()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
