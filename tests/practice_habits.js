@@ -54,6 +54,14 @@ if(m){
   api.practiceSync(s6, s6.habits[0], '2026-10-05', false);
   check(s6.diction['2026-10-05'] === undefined, 'unticking it unmarks the page');
   check(!api.DICTION_RX.test('Overcome addiction') && !api.DICTION_RX.test('Prediction practice') && !api.DRIVE_RX.test('Practice driving to work') && !api.DRIVE_RX.test('Drive to the gym'), 'the panels do not match words that merely contain "diction" or "driving"');
+  // second round: a habit she edited to several ticks a day, and the diction page never disagreeing with its habit
+  const s7 = {xp:0, habits:[{id:'hp-drive', perDay:2}], log:{}};
+  api.practiceMark(s7, 'hp-drive', '2026-10-05', true);
+  check(s7.xp === 20 && s7.log['hp-drive']['2026-10-05'] === 2, 'a habit of two ticks a day pays what two taps would (20 XP) when the lesson completes it, got ' + s7.xp);
+  api.practiceMark(s7, 'hp-drive', '2026-10-05', false);
+  check(s7.xp === 0, 'and the undo takes back the same, got ' + s7.xp);
+  const s8 = {xp:10, habits:[{id:'hp-diction', perDay:1}], log:{'hp-diction':{'2026-10-05':1}}, diction:{'2026-10-05':true}};   // ticked by hand, so the page shows done
+  check(api.practiceMark(s8, 'hp-diction', '2026-10-05', false, true) === true && s8.log['hp-diction']['2026-10-05'] === undefined && s8.xp === 0, 'Undo on the diction page unticks the diction habit even when she had ticked it by hand (the page and the habit are one thing)');
   // the habits open the right screen
   check(api.DRIVE_RX.test('Driving theory: one lesson') && api.DRIVE_RX.test('Урок ПДД') && !api.DRIVE_RX.test('Yoga') && !api.DRIVE_RX.test('Diction exercises'), 'the driving panel matches its own habit only');
   check(api.DICTION_RX.test('Diction exercises') && api.DICTION_RX.test('Дикция') && !api.DICTION_RX.test('Speaking spin') && !api.DICTION_RX.test('Driving theory: one lesson'), 'the diction panel matches its own habit only');
@@ -65,7 +73,7 @@ check(!!lnDone && /practiceMark\(state, 'hp-drive', today\(\), true\)/.test(lnDo
 check(!!lnUndo && /practiceMark\(state, 'hp-drive', today\(\), false\)/.test(lnUndo[0]) && /some\(/.test(lnUndo[0]), 'undoing a lesson unticks it only when no other lesson was learned today');
 const dcDone = /act==='dc-done'\)\{[^\n]*\n/.exec(html), dcUndo = /act==='dc-undo'\)\{[^\n]*\n/.exec(html);
 check(!!dcDone && /practiceMark\(state, 'hp-diction', today\(\), true\)/.test(dcDone[0]), 'pressing Done on the diction page ticks the diction habit');
-check(!!dcUndo && /practiceMark\(state, 'hp-diction', today\(\), false\)/.test(dcUndo[0]), 'undoing diction unticks the habit');
+check(!!dcUndo && /practiceMark\(state, 'hp-diction', today\(\), false, true\)/.test(dcUndo[0]), 'undoing diction unticks the habit, whoever ticked it');
 check(/practiceEnsure\(state\)/.test(html), 'the habits are added at load (fresh install and the app she already has)');
 check(/act==='import-data'\)\{[\s\S]*?practiceEnsure\(state\)[\s\S]*?\n  \}\n/.test(html), 'restoring a backup runs practiceEnsure before the first render');
 const resetM = /act==='reset'\)\{[\s\S]*?\n  \}\n/.exec(html);
