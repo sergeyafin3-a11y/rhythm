@@ -132,7 +132,7 @@ Afterwards: Settings → Theme, and Settings → Typeface.
 
 ## The habits it starts with
 
-Speak English for a minute · Learn 7 new words · Eight glasses of water (one tick when you have drunk them) ·
+Speak English for a minute · Learn 7 new words (one tick when you have learned them) · Eight glasses of water (one tick when you have drunk them) ·
 Meditate for 5 minutes · Yoga · 20 pages of a book · Face massage · Foot cream · Thigh roller — and, from the Winter Arc,
 Core & strength · Walk · One thing I put off · One honest “no” · Write the worries down · In bed on time
 

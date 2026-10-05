@@ -1596,7 +1596,7 @@ function fireworks(opt){
 const LIBRARY = [
   {cat:'English', items:[
     {t:'Speak English for a minute', e:'🎙', p:1, w:7},
-    {t:'Learn 7 new words', e:'🔤', p:7, w:7},
+    {t:'Learn 7 new words', e:'🔤', p:1, w:7},
     {t:'Revise yesterday&#39;s words', e:'🔁', p:1, w:7},
     {t:'20 pages of a book', e:'📖', p:1, w:7},
     {t:'Ten minutes of watching, no subtitles', e:'🎬', p:1, w:5},
@@ -2930,7 +2930,7 @@ function seed(){
   return {
     v:1, skin:null, font:'auto', sound:true, why:'', name:'', started: today(),
     habits:[
-      {id:'h2', title:'Learn 7 new words',               emoji:'🔤', perDay:7, weekGoal:7, when:'day'},
+      {id:'h2', title:'Learn 7 new words',               emoji:'🔤', perDay:1, weekGoal:7, when:'day'},
       {id:'h3', title:'20 pages of a book',              emoji:'📖', perDay:1, weekGoal:7, when:'evening'},
       {id:'h4', title:'Meditate for 5 minutes',          emoji:'🧘', perDay:1, weekGoal:7, when:'morning'},
       {id:'h5', title:'Yoga',                            emoji:'🤸', perDay:1, weekGoal:7, when:'morning'},
@@ -2939,7 +2939,7 @@ function seed(){
       {id:'h11',title:'Foot cream',                      emoji:'🦶', perDay:1, weekGoal:7, when:'evening'},
       {id:'h12',title:'Thigh roller',                    emoji:'🦵', perDay:1, weekGoal:7, when:'evening'}
     ],
-    log:{}, xp:0, cleanup1:true, cleanWater:true
+    log:{}, xp:0, cleanup1:true, cleanWater:true, cleanWords:true
   };
 }
 
@@ -3033,6 +3033,21 @@ function waterOneTap(habits, log){
 }
 /* water:end */
 if(!state.cleanWater){ waterOneTap(state.habits, state.log); state.cleanWater = true; }
+/* «Learn 7 new words» is one tick too — «I learned my seven» — instead of seven taps; days already logged keep their meaning */
+/* words:pure */
+function isWordsHabit(h){ return !!h && (h.id === 'h2' || /\bnew words\b|^\s*(выучить|учить)\s+\d*\s*слов/i.test(h.title || '')); }
+function wordsOneTap(habits, log){
+  let changed = false;
+  (habits || []).forEach(function(h){
+    if(!isWordsHabit(h) || !(h.perDay > 1)) return;
+    const old = h.perDay, days = (log && log[h.id]) || {};
+    Object.keys(days).forEach(function(k){ if(days[k] >= old) days[k] = 1; else delete days[k]; });
+    h.perDay = 1; changed = true;
+  });
+  return {changed:changed};
+}
+/* words:end */
+if(!state.cleanWords){ wordsOneTap(state.habits, state.log); state.cleanWords = true; }
 if(!state.diction) state.diction = {};
 if(!wkHabit()) state.habits.push({id:'hw', title:'Yoga', emoji:'🧘', perDay:1, weekGoal:7, when:'morning', why:''});
 if(state.why === undefined) state.why = '';
@@ -4312,6 +4327,7 @@ document.addEventListener('click', function(e){
       if(!obj || !Array.isArray(obj.habits)) throw new Error('bad');
       state = obj;
       if(!state.cleanWater){ if(!state.log) state.log = {}; waterOneTap(state.habits, state.log); state.cleanWater = true; }
+      if(!state.cleanWords){ if(!state.log) state.log = {}; wordsOneTap(state.habits, state.log); state.cleanWords = true; }
       arcEnsure(state, today());
       applySkin(state.skin||'peach'); applyFont(state.font||'auto'); save(); closeSheet(); paintHeader(); render(); toast('Data restored');
     }catch(err){ toast('Could not read that — check the text'); }
