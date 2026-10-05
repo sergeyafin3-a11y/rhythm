@@ -48,7 +48,12 @@ check(!!goM && /selDay = null[\s\S]*paintHeader\(\)/.test(goM[0]), 'changing tab
 check(!!cellM && /try\{[\s\S]*toggleHabit\(id, null\)[\s\S]*\}\s*finally\s*\{\s*selDay = null/.test(cellM[0]), 'the tracker square returns to the real today even if the tick throws (try / finally)');
 check(!!cellM && /ygHabitChanged\(hb\)/.test(cellM[0]) && /fcHabitChanged\(hb\)/.test(cellM[0]), 'a several-ticks-a-day yoga or face-massage habit still runs its own hooks when a square is tapped');
 // found in review
-check(/\.arc-cell::before\{[^}]*inset/.test(html), 'a tracker square must have a hit area larger than its 18 px drawing (::before with inset)');
+// the tracker squares are big enough to tap: one row of seven wide buttons under each habit's name, the weekday and the date inside
+const cellCss = /\.arc-cell\{([^}]*)\}/.exec(html), cellsCss = /\.arc-cells\{([^}]*)\}/.exec(html);
+check(!!cellCss && /min-height:\s*(4[4-9]|[5-9]\d)px/.test(cellCss[0]) && !/width:\s*18px/.test(cellCss[0]), 'a tracker square must be at least 44 px tall and as wide as its seventh of the row, not an 18 px dot');
+check(!!cellsCss && /grid-template-columns:\s*repeat\(7,\s*1fr\)/.test(cellsCss[0]), 'the seven squares of a habit share the whole row (grid of 7 equal columns)');
+check(!/\.arc-wrow|\.arc-whead/.test(html), 'the old cramped grid (a name column plus seven 18 px dots) is gone');
+check(/class="arc-cells"/.test(html) && /class="arc-wname"/.test(html) && /<span class="d">/.test(html) && /<span class="n">/.test(html), 'each square shows the weekday letter and the date number');
 check(!!cellM && /per > 1|perDay \|\| 1\) > 1/.test(cellM[0]), 'a habit that needs several ticks a day is set to done / not done by one tap on a square, not one count at a time');
 const tg = /function toggleHabit\(id, el\)\{[\s\S]*?\n\}\n/.exec(html);
 check(!!tg && /if\(!selDay && doneToday\(\) === activeHabits\(\)\.length\)/.test(tg[0]), 'the “every habit is closed” fanfare is only for the real today, not for a day filled in afterwards');

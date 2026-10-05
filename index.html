@@ -964,17 +964,16 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .arc-goal p{ margin:4px 0 0; font-size:13.5px; line-height:1.5; color:var(--ink-soft); }
 .arc-focus{ border-color:var(--accent); background:var(--accent-soft); }
 .arc-note{ margin:10px 2px 0; font-size:14px; font-style:italic; color:var(--ink-soft); }
-.arc-week{ padding:10px 12px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); }
-.arc-wrow{ display:grid; grid-template-columns:1fr repeat(7, 18px); gap:5px; align-items:center; padding:4px 0; }
-.arc-wrow + .arc-wrow{ border-top:1px solid var(--line); }
-.arc-whead span{ text-align:center; font-size:10px; font-weight:700; color:var(--ink-mute); }
-.arc-wname{ font-size:12.5px; line-height:1.3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-.arc-wname small{ font-size:10px; color:var(--ink-mute); }
-.arc-cell{ position:relative; display:block; width:18px; height:18px; padding:0; border:0; border-radius:6px; background:var(--surface-2); cursor:pointer; }
-.arc-cell::before{ content:''; position:absolute; inset:-5px -2px; }
-.arc-cell.on{ background:var(--accent); }
-.arc-cell.today{ box-shadow:0 0 0 2px var(--accent-soft), 0 0 0 3.5px var(--accent); }
-.arc-cell.future{ opacity:.45; cursor:default; }
+.arc-week{ display:flex; flex-direction:column; padding:14px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); }
+.arc-habit + .arc-habit{ margin-top:14px; padding-top:14px; border-top:1px solid var(--line); }
+.arc-wname{ margin:0 0 9px; font-size:14px; font-weight:700; line-height:1.3; }
+.arc-cells{ display:grid; grid-template-columns:repeat(7, 1fr); gap:6px; }
+.arc-cell{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; min-height:48px; padding:4px 0; border:0; border-radius:12px; background:var(--surface-2); color:var(--ink-soft); cursor:pointer; }
+.arc-cell .d{ font-size:10px; font-weight:700; letter-spacing:.06em; opacity:.8; }
+.arc-cell .n{ font-size:15px; font-weight:700; line-height:1; }
+.arc-cell.on{ background:var(--accent); color:var(--accent-ink); }
+.arc-cell.today{ box-shadow:0 0 0 2px var(--surface), 0 0 0 4px var(--accent); }
+.arc-cell.future{ opacity:.4; cursor:default; }
 .daybar{ display:flex; align-items:stretch; gap:8px; margin:0 0 14px; }
 .daybar-btn{ flex:none; width:44px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); color:var(--ink); font-size:22px; line-height:1; }
 .daybar-btn:disabled{ opacity:.35; }
@@ -2300,13 +2299,13 @@ function renderArc(){
     '<div class="pbar" style="margin:10px 0 4px"><i style="width:'+Math.round(n / total * 100)+'%"></i></div>'+
     '<p class="fd-sub" style="margin-top:6px">'+arcFmt(a.start)+' → '+arcFmt(a.end)+'. Yoga stays the base of every day.</p>';
   /* the week */
-  h += '<div class="section-head"><p class="eyebrow">This week</p></div><p class="fd-sub" style="margin-top:-4px">Tap a square to mark or unmark that day.</p><div class="arc-week"><div class="arc-wrow arc-whead"><span></span>'+
-    WSHORT.map(function(d){ return '<span>'+d+'</span>'; }).join('')+'</div>'+
+  h += '<div class="section-head"><p class="eyebrow">This week</p></div><p class="fd-sub" style="margin-top:-4px">Tap a day to mark or unmark it.</p><div class="arc-week">'+
     arcWeek(habits, state.log, key).map(function(r){
-      return '<div class="arc-wrow"><span class="arc-wname">'+esc(r.emoji || '⭐️')+' '+esc(r.title)+(r.weekly ? ' <small>weekly</small>' : '')+'</span>'+
-        r.cells.map(function(c){
-          return '<button type="button" class="arc-cell'+(c.done ? ' on' : '')+(c.today ? ' today' : '')+(c.future ? ' future' : '')+'" data-act="arc-cell" data-id="'+esc(r.id)+'" data-d="'+c.key+'"'+(c.future ? ' disabled' : '')+' aria-label="'+esc(r.title)+', '+esc(arcFmt(c.key))+(c.done ? ', done' : '')+'"></button>';
-        }).join('')+'</div>';
+      return '<div class="arc-habit"><p class="arc-wname">'+esc(r.emoji || '⭐️')+' '+esc(r.title)+'</p><div class="arc-cells">'+
+        r.cells.map(function(c, i){
+          return '<button type="button" class="arc-cell'+(c.done ? ' on' : '')+(c.today ? ' today' : '')+(c.future ? ' future' : '')+'" data-act="arc-cell" data-id="'+esc(r.id)+'" data-d="'+c.key+'"'+(c.future ? ' disabled' : '')+
+            ' aria-label="'+esc(r.title)+', '+esc(arcFmt(c.key))+(c.done ? ', done' : '')+'"><span class="d">'+WSHORT[i]+'</span><span class="n">'+(+c.key.slice(8))+'</span></button>';
+        }).join('')+'</div></div>';
     }).join('')+'</div>';
   /* the whole Arc */
   h += '<div class="section-head"><p class="eyebrow">The whole Arc</p></div><div class="arc-heat">'+
