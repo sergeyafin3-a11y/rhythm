@@ -1228,7 +1228,7 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 /* doodle:css */
 html[data-skin="doodle"]{ font-synthesis:none; background-color:var(--stripe-b); background-image:repeating-linear-gradient(0deg, var(--stripe-a) 0 26px, var(--stripe-b) 26px 52px); background-attachment:fixed; }
 [data-skin="doodle"] body{ background:transparent; font-size-adjust:.54; letter-spacing:.01em; }
-[data-skin="doodle"] .top h1{ font-size:42px; line-height:1; transform:rotate(-1.5deg); transform-origin:left center; text-shadow:2px 2px 0 var(--accent-soft); }
+[data-skin="doodle"] .top h1{ font-size:36px; line-height:1; transform:rotate(-1.5deg); transform-origin:left center; text-shadow:2px 2px 0 var(--accent-soft); }
 [data-skin="doodle"] .eyebrow{ text-transform:none; letter-spacing:.02em; font-size:16px; color:var(--ink-soft); }
 [data-skin="doodle"] .section-head .eyebrow{ padding:0 7px; background:linear-gradient(transparent 52%, var(--accent-soft) 52%); border-radius:5px; color:var(--ink); }
 [data-skin="doodle"] .rec-title{ font-size:38px; line-height:1.05; }
@@ -1241,15 +1241,18 @@ html[data-skin="doodle"]{ font-synthesis:none; background-color:var(--stripe-b);
 [data-skin="doodle"] .habit.done .habit-name{ text-decoration:line-through wavy; text-decoration-color:var(--accent); text-decoration-thickness:1.5px; color:var(--ink-soft); }
 [data-skin="doodle"] .check{ border-color:var(--line); background:var(--surface); }
 [data-skin="doodle"] .habit.done .check{ background:var(--accent); border-color:var(--line); }
-[data-skin="doodle"] .btn{ font-size:16px; border-color:var(--line); box-shadow:0 3px 0 var(--line); }
-[data-skin="doodle"] .btn:active{ transform:translateY(2px); box-shadow:0 1px 0 var(--line); }
-[data-skin="doodle"] .btn-primary{ background:var(--accent); border-color:var(--line); box-shadow:0 3px 0 var(--line); }
+[data-skin="doodle"] .btn:not(.btn-sm){ font-size:16px; }
+[data-skin="doodle"] .btn-sm{ font-size:14px; }
+[data-skin="doodle"] .btn:not(.btn-danger){ border-color:var(--line); box-shadow:0 3px 0 var(--line); }
+[data-skin="doodle"] .btn-danger{ border-color:currentColor; box-shadow:0 3px 0 currentColor; }
+[data-skin="doodle"] .btn:active{ transform:translateY(2px); box-shadow:0 1px 0 currentColor; }
+[data-skin="doodle"] .btn-primary{ background:var(--accent); }
 [data-skin="doodle"] .btn-ghost{ background:var(--surface); }
 [data-skin="doodle"] .iconbtn{ border-color:var(--line); box-shadow:0 2px 0 var(--line); }
 [data-skin="doodle"] .tabs-inner{ border-color:var(--line); box-shadow:0 4px 0 rgba(43,49,88,.25); }
 [data-skin="doodle"] .tab{ font-size:12px; letter-spacing:0; text-transform:none; }
 [data-skin="doodle"] .tab[aria-selected="true"]{ background:var(--accent-soft); color:var(--accent); box-shadow:inset 0 0 0 2px var(--line); }
-[data-skin="doodle"] .arc-card{ background-color:#FFF3F8; background-image:linear-gradient(rgba(246,170,200,.38) 50%, transparent 50%), linear-gradient(90deg, rgba(246,170,200,.38) 50%, transparent 50%); background-size:28px 28px; border-color:var(--line); }
+[data-skin="doodle"] .arc-card{ background-color:#FFF3F8; background-image:linear-gradient(rgba(246,170,200,.16) 50%, transparent 50%), linear-gradient(90deg, rgba(246,170,200,.16) 50%, transparent 50%); background-size:28px 28px; border-color:var(--line); }
 [data-skin="doodle"] .arc-day{ font-size:32px; }
 [data-skin="doodle"] .wq-card{ background-image:repeating-linear-gradient(90deg, rgba(150,200,240,.3) 0 14px, transparent 14px 28px); }
 [data-skin="doodle"] .td-card{ background-image:repeating-linear-gradient(0deg, rgba(255,226,122,.32) 0 14px, transparent 14px 28px); }
@@ -1257,10 +1260,12 @@ html[data-skin="doodle"]{ font-synthesis:none; background-color:var(--stripe-b);
 [data-skin="doodle"] .wq-word{ font-size:42px; }
 [data-skin="doodle"] .pbar{ height:12px; border:2px solid var(--line); background:var(--surface); }
 [data-skin="doodle"] .pbar i{ background:repeating-linear-gradient(45deg, var(--accent) 0 8px, #E5588F 8px 16px); border-radius:99px; }
-[data-skin="doodle"] .daybar-btn, [data-skin="doodle"] .daybar-mid{ border-color:var(--line); box-shadow:0 2px 0 var(--line); }
+[data-skin="doodle"] .daybar-btn, [data-skin="doodle"] .daybar-mid{ box-shadow:0 2px 0 var(--line); }
+[data-skin="doodle"] .daybar-btn, [data-skin="doodle"] .daybar-mid:disabled{ border-color:var(--line); }
 [data-skin="doodle"] .arc-cell{ border:2px solid var(--line); }
 [data-skin="doodle"] .arc-cell.future{ border-style:dashed; }
-[data-skin="doodle"] .arc-week, [data-skin="doodle"] .arc-goal, [data-skin="doodle"] .pd-opt{ border-color:var(--line); }
+[data-skin="doodle"] .arc-week, [data-skin="doodle"] .arc-goal, [data-skin="doodle"] .pd-opt:not(.picked):not(.right):not(.wrong){ border-color:var(--line); }
+[data-skin="doodle"] .decor{ position:absolute; }
 /* doodle:end */
 </style>
 </head>
@@ -1465,17 +1470,15 @@ const DECOR = {
 
   doodle:
     '<svg viewBox="0 0 520 240" preserveAspectRatio="xMidYMin slice" fill="none">'+
-    '<g transform="translate(58 46) scale(1.1)"><path d="M0 -5c-4-9-19-6-15 5 3 8 15 13 15 13s12-5 15-13c4-11-11-14-15-5z" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/></g>'+
-    '<g transform="translate(452 70) scale(0.8)"><path d="M0 -5c-4-9-19-6-15 5 3 8 15 13 15 13s12-5 15-13c4-11-11-14-15-5z" fill="var(--accent)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/></g>'+
+    '<g transform="translate(410 74) scale(0.8)"><path d="M0 -5c-4-9-19-6-15 5 3 8 15 13 15 13s12-5 15-13c4-11-11-14-15-5z" fill="var(--accent)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/></g>'+
+    '<g transform="translate(255 132) scale(0.8)"><path d="M0 -5c-4-9-19-6-15 5 3 8 15 13 15 13s12-5 15-13c4-11-11-14-15-5z" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/></g>'+
     '<g transform="translate(250 26) scale(0.55)"><path d="M0 -5c-4-9-19-6-15 5 3 8 15 13 15 13s12-5 15-13c4-11-11-14-15-5z" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/></g>'+
-    '<g transform="translate(122 30) scale(1.0)"><path d="M0-13 3.5-3.5 13 0 3.5 3.5 0 13-3.5 3.5-13 0-3.5-3.5z" fill="#FFE27A" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/></g>'+
-    '<g transform="translate(392 28) scale(0.8)"><path d="M0-13 3.5-3.5 13 0 3.5 3.5 0 13-3.5 3.5-13 0-3.5-3.5z" fill="#BFE3F7" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/></g>'+
-    '<g transform="translate(490 142) scale(0.7)"><path d="M0-13 3.5-3.5 13 0 3.5 3.5 0 13-3.5 3.5-13 0-3.5-3.5z" fill="#FFE27A" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/></g>'+
-    '<g transform="translate(24 120) scale(0.6)"><path d="M0-13 3.5-3.5 13 0 3.5 3.5 0 13-3.5 3.5-13 0-3.5-3.5z" fill="#BFE3F7" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/></g>'+
-    '<path d="M300 62q7-9 14 0t14 0 14 0 14 0" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" fill="none"/>'+
-    '<path d="M70 150q7-9 14 0t14 0 14 0 14 0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" fill="none"/>'+
-    '<path d="M420 120c-8 0-12 6-12 12s6 12 12 12 12-6 12-12-6-12-12-12z" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="2"/>'+
-    '<circle cx="420" cy="132" r="4" fill="#FFE27A" stroke="var(--ink)" stroke-width="1.6"/></svg>'
+    '<g transform="translate(170 30) scale(1.0)"><path d="M0-13 3.5-3.5 13 0 3.5 3.5 0 13-3.5 3.5-13 0-3.5-3.5z" fill="#FFE27A" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/></g>'+
+    '<g transform="translate(385 28) scale(0.8)"><path d="M0-13 3.5-3.5 13 0 3.5 3.5 0 13-3.5 3.5-13 0-3.5-3.5z" fill="#BFE3F7" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/></g>'+
+    '<g transform="translate(330 130) scale(0.7)"><path d="M0-13 3.5-3.5 13 0 3.5 3.5 0 13-3.5 3.5-13 0-3.5-3.5z" fill="#FFE27A" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/></g>'+
+    '<path d="M290 40q7-9 14 0t14 0 14 0 14 0" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" fill="none"/>'+
+    '<path d="M390 120c-8 0-12 6-12 12s6 12 12 12 12-6 12-12-6-12-12-12z" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="2"/>'+
+    '<circle cx="390" cy="132" r="4" fill="#FFE27A" stroke="var(--ink)" stroke-width="1.6"/></svg>'
 };
 
 /* ---------- Sound: a fanfare built from oscillators, no files needed ---------- */
@@ -3834,6 +3837,7 @@ document.addEventListener('click', function(e){
       state = obj;
       if(!state.cleanWater){ if(!state.log) state.log = {}; waterOneTap(state.habits, state.log); state.cleanWater = true; }
       if(!state.cleanWords){ if(!state.log) state.log = {}; wordsOneTap(state.habits, state.log); state.cleanWords = true; }
+      state.cleanDoodle = true; /* a restored backup keeps the theme she picked */
       arcEnsure(state, today());
       practiceEnsure(state);
       applySkin(state.skin||'peach'); applyFont(state.font||'auto'); save(); closeSheet(); paintHeader(); render(); toast('Data restored');
