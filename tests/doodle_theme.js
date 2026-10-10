@@ -110,5 +110,24 @@ if(dm){
 }
 check(/\[data-skin="doodle"\] \.decor\{[^}]*position:\s*absolute/.test(html), 'the doodle stickers scroll away with the page instead of floating between the cards');
 
+// 8. round two
+if(cssM){
+  const css2 = cssM[1].replace(/\/\*[\s\S]*?\*\//g, '');
+  check(/\.wq-word\{[^}]*overflow-wrap:\s*anywhere/.test(css2) && /\.wq-word\{[^}]*font-size:\s*(3\d|2\d)px/.test(css2), 'a long word in the word test wraps instead of widening the page');
+  check(/\.top h1\{[^}]*overflow-wrap:\s*anywhere/.test(css2) && /\.top > div\{[^}]*min-width:\s*0/.test(css2), 'a very long name in the greeting wraps instead of pushing the gear off screen');
+  const kk = /\.pd-opt \.k\{([^}]*)\}/.exec(css2);
+  check(!!kk, 'the A/B/C badges of quiz answers have their own doodle colours');
+  if(kk && v.ink){
+    const bg = /background:\s*var\(--([a-z-]+)\)/.exec(kk[1]), fg = /color:\s*var\(--([a-z-]+)\)/.exec(kk[1]);
+    check(!!bg && !!fg && ratio(v[fg[1]], v[bg[1]]) >= 4.5, 'the quiz badge letters are readable on the badge');
+  }
+  check(!/\.btn:active\{[^}]*currentColor/.test(css2), 'a pressed primary button keeps its navy edge (not a white one)');
+}
+if(dm){
+  const ys = [], re2 = /translate\((\d+)\s+(\d+)\)/g; let m2;
+  while((m2 = re2.exec(dm[1]))) ys.push([+m2[1], +m2[2]]);
+  check(!ys.some(function(p){ return p[0] >= 385 && p[0] <= 435 && p[1] >= 40 && p[1] <= 90; }), 'no sticker sits under the settings gear');
+}
+
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: the Doodle theme is complete, readable and isolated');
