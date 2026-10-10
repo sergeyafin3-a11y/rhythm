@@ -14,7 +14,7 @@
 <link rel="icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&family=Golos+Text:wght@400;500;600;700&family=Literata:opsz,wght@7..72,600;7..72,700&family=Manrope:wght@400;500;700&family=Nunito:wght@400;600;700;800&family=Oswald:wght@500;600&family=Philosopher:wght@700&family=Prata&family=Unbounded:wght@700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&family=Golos+Text:wght@400;500;600;700&family=Literata:opsz,wght@7..72,600;7..72,700&family=Manrope:wght@400;500;700&family=Nunito:wght@400;600;700;800&family=Oswald:wght@500;600&family=Pangolin&family=Caveat:wght@600;700&family=Philosopher:wght@700&family=Prata&family=Unbounded:wght@700;800&display=swap">
 <style>
 /* ============================================================
    THEMES — each with its own palette and typeface
@@ -98,6 +98,19 @@
   --accent:#17648F; --accent-ink:#F6FBFE; --accent-soft:#CBE2F2;
   --gold:#8A5614; --ok:#2A724F; --shadow: 0 1px 2px rgba(15,36,55,.06), 0 12px 28px -16px rgba(15,36,55,.34);
   --radius:16px; --radius-lg:26px; --border-w:1px;
+}
+[data-skin="doodle"]{
+  color-scheme: light;
+  --font-display: 'Caveat', 'Pangolin', cursive;
+  --font-body: 'Pangolin', 'Caveat', cursive;
+  --display-weight: 700; --display-tracking: 0;
+  --stripe-a:#E1EDC5; --stripe-b:#F6F4E3;
+  --ground:#E1EDC5; --surface:#FFFDF5; --surface-2:#F4EBD0; --line:#4A5185;
+  --ink:#2B3158; --ink-soft:#454C80; --ink-mute:#515888;
+  --accent:#BF2862; --accent-ink:#FFFFFF; --accent-soft:#FCDDE9;
+  --gold:#9C4C04; --ok:#296C44; --bad:#AE2A20;
+  --shadow: 0 3px 0 rgba(43,49,88,.22);
+  --radius:20px; --radius-lg:30px; --border-w:2px;
 }
 [data-skin="aurora"]{
   color-scheme: dark;
@@ -1212,6 +1225,43 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{ animation-duration:.01ms !important; transition-duration:.01ms !important; }
 }
+/* doodle:css */
+html[data-skin="doodle"]{ font-synthesis:none; background-color:var(--stripe-b); background-image:repeating-linear-gradient(0deg, var(--stripe-a) 0 26px, var(--stripe-b) 26px 52px); background-attachment:fixed; }
+[data-skin="doodle"] body{ background:transparent; font-size-adjust:.54; letter-spacing:.01em; }
+[data-skin="doodle"] .top h1{ font-size:42px; line-height:1; transform:rotate(-1.5deg); transform-origin:left center; text-shadow:2px 2px 0 var(--accent-soft); }
+[data-skin="doodle"] .eyebrow{ text-transform:none; letter-spacing:.02em; font-size:16px; color:var(--ink-soft); }
+[data-skin="doodle"] .section-head .eyebrow{ padding:0 7px; background:linear-gradient(transparent 52%, var(--accent-soft) 52%); border-radius:5px; color:var(--ink); }
+[data-skin="doodle"] .rec-title{ font-size:38px; line-height:1.05; }
+[data-skin="doodle"] .sheet h2{ font-size:30px; }
+[data-skin="doodle"] .sheet{ background:var(--surface); }
+[data-skin="doodle"] .habit-name{ font-size:18px; }
+[data-skin="doodle"] .habit-meta, [data-skin="doodle"] .fd-sub{ font-size:15px; }
+[data-skin="doodle"] .habit-emoji{ background:var(--accent-soft); border:2px solid var(--line); border-radius:52% 48% 55% 45%; }
+[data-skin="doodle"] .habit.done{ background:#FFF0F6; border-color:var(--line); }
+[data-skin="doodle"] .habit.done .habit-name{ text-decoration:line-through wavy; text-decoration-color:var(--accent); text-decoration-thickness:1.5px; color:var(--ink-soft); }
+[data-skin="doodle"] .check{ border-color:var(--line); background:var(--surface); }
+[data-skin="doodle"] .habit.done .check{ background:var(--accent); border-color:var(--line); }
+[data-skin="doodle"] .btn{ font-size:16px; border-color:var(--line); box-shadow:0 3px 0 var(--line); }
+[data-skin="doodle"] .btn:active{ transform:translateY(2px); box-shadow:0 1px 0 var(--line); }
+[data-skin="doodle"] .btn-primary{ background:var(--accent); border-color:var(--line); box-shadow:0 3px 0 var(--line); }
+[data-skin="doodle"] .btn-ghost{ background:var(--surface); }
+[data-skin="doodle"] .iconbtn{ border-color:var(--line); box-shadow:0 2px 0 var(--line); }
+[data-skin="doodle"] .tabs-inner{ border-color:var(--line); box-shadow:0 4px 0 rgba(43,49,88,.25); }
+[data-skin="doodle"] .tab{ font-size:12px; letter-spacing:0; text-transform:none; }
+[data-skin="doodle"] .tab[aria-selected="true"]{ background:var(--accent-soft); color:var(--accent); box-shadow:inset 0 0 0 2px var(--line); }
+[data-skin="doodle"] .arc-card{ background-color:#FFF3F8; background-image:linear-gradient(rgba(246,170,200,.38) 50%, transparent 50%), linear-gradient(90deg, rgba(246,170,200,.38) 50%, transparent 50%); background-size:28px 28px; border-color:var(--line); }
+[data-skin="doodle"] .arc-day{ font-size:32px; }
+[data-skin="doodle"] .wq-card{ background-image:repeating-linear-gradient(90deg, rgba(150,200,240,.3) 0 14px, transparent 14px 28px); }
+[data-skin="doodle"] .td-card{ background-image:repeating-linear-gradient(0deg, rgba(255,226,122,.32) 0 14px, transparent 14px 28px); }
+[data-skin="doodle"] .wq-card h3, [data-skin="doodle"] .arc-card h3{ font-size:27px; }
+[data-skin="doodle"] .wq-word{ font-size:42px; }
+[data-skin="doodle"] .pbar{ height:12px; border:2px solid var(--line); background:var(--surface); }
+[data-skin="doodle"] .pbar i{ background:repeating-linear-gradient(45deg, var(--accent) 0 8px, #E5588F 8px 16px); border-radius:99px; }
+[data-skin="doodle"] .daybar-btn, [data-skin="doodle"] .daybar-mid{ border-color:var(--line); box-shadow:0 2px 0 var(--line); }
+[data-skin="doodle"] .arc-cell{ border:2px solid var(--line); }
+[data-skin="doodle"] .arc-cell.future{ border-style:dashed; }
+[data-skin="doodle"] .arc-week, [data-skin="doodle"] .arc-goal, [data-skin="doodle"] .pd-opt{ border-color:var(--line); }
+/* doodle:end */
 </style>
 </head>
 <body>
@@ -1286,7 +1336,8 @@ const SKINS = [
   {id:'dusk',     name:'Dusk',       desc:'Quiet lavender',        font:"'Philosopher',Georgia,serif", fw:700, ground:'#E9E6F1', surface:'#F6F4FA', ink:'#2A2340', accent:'#6B57C7', gold:'#C98A45'},
   {id:'charcoal', name:'Charcoal',   desc:'Dark and minimal',       font:"'Oswald',sans-serif", fw:600, ground:'#121211', surface:'#1C1C1A', ink:'#EDEAE2', accent:'#D9C7A3', gold:'#C98F5A'},
   {id:'frost',    name:'Frost',      desc:'Icy and bright',        font:"'Manrope',sans-serif", fw:700, ground:'#E3EEF7', surface:'#F6FBFE', ink:'#0F2437', accent:'#17648F', gold:'#8A5614'},
-  {id:'aurora',   name:'Aurora',     desc:'Winter night, northern lights', font:"'Literata',Georgia,serif", fw:700, ground:'#08131F', surface:'#102236', ink:'#E7F2F9', accent:'#52D6BA', gold:'#A99CFF'}
+  {id:'aurora',   name:'Aurora',     desc:'Winter night, northern lights', font:"'Literata',Georgia,serif", fw:700, ground:'#08131F', surface:'#102236', ink:'#E7F2F9', accent:'#52D6BA', gold:'#A99CFF'},
+  {id:'doodle',   name:'Doodle',     desc:'Hand-drawn, stripes and stickers', font:"'Pangolin',cursive", fw:400, ground:'#E1EDC5', surface:'#FFFDF5', ink:'#2B3158', accent:'#BF2862', gold:'#9C4C04'}
 ];
 const FONTSETS = [
   {id:'auto', name:'Match the theme', display:'', body:'', w:'', t:''},
@@ -1307,7 +1358,7 @@ function applyFont(id){
   el.style.setProperty('--display-weight', f.w);
   el.style.setProperty('--display-tracking', f.t);
 }
-const THEME_COLOR = {orangery:'#E7EDE4', midnight:'#0D1220', peach:'#FBE9DE', riso:'#F7F3EA', dusk:'#E9E6F1', charcoal:'#121211', frost:'#E3EEF7', aurora:'#08131F'};
+const THEME_COLOR = {orangery:'#E7EDE4', midnight:'#0D1220', peach:'#FBE9DE', riso:'#F7F3EA', dusk:'#E9E6F1', charcoal:'#121211', frost:'#E3EEF7', aurora:'#08131F', doodle:'#E1EDC5'};
 
 const DAYPARTS = [['morning','Morning'],['day','Day'],['evening','Evening']];
 function guessWhen(title){
@@ -1410,7 +1461,21 @@ const DECOR = {
     '<circle cx="204" cy="40" r="1.7" opacity=".7"/><circle cx="278" cy="16" r="1.1" opacity=".5"/>'+
     '<circle cx="352" cy="38" r="1.4" opacity=".75"/><circle cx="430" cy="18" r="1" opacity=".45"/>'+
     '<circle cx="486" cy="52" r="1.5" opacity=".6"/><circle cx="84" cy="88" r="1.1" opacity=".4"/>'+
-    '<circle cx="318" cy="100" r="1.1" opacity=".4"/><circle cx="170" cy="120" r="1" opacity=".35"/></g></svg>'
+    '<circle cx="318" cy="100" r="1.1" opacity=".4"/><circle cx="170" cy="120" r="1" opacity=".35"/></g></svg>',
+
+  doodle:
+    '<svg viewBox="0 0 520 240" preserveAspectRatio="xMidYMin slice" fill="none">'+
+    '<g transform="translate(58 46) scale(1.1)"><path d="M0 -5c-4-9-19-6-15 5 3 8 15 13 15 13s12-5 15-13c4-11-11-14-15-5z" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/></g>'+
+    '<g transform="translate(452 70) scale(0.8)"><path d="M0 -5c-4-9-19-6-15 5 3 8 15 13 15 13s12-5 15-13c4-11-11-14-15-5z" fill="var(--accent)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/></g>'+
+    '<g transform="translate(250 26) scale(0.55)"><path d="M0 -5c-4-9-19-6-15 5 3 8 15 13 15 13s12-5 15-13c4-11-11-14-15-5z" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/></g>'+
+    '<g transform="translate(122 30) scale(1.0)"><path d="M0-13 3.5-3.5 13 0 3.5 3.5 0 13-3.5 3.5-13 0-3.5-3.5z" fill="#FFE27A" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/></g>'+
+    '<g transform="translate(392 28) scale(0.8)"><path d="M0-13 3.5-3.5 13 0 3.5 3.5 0 13-3.5 3.5-13 0-3.5-3.5z" fill="#BFE3F7" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/></g>'+
+    '<g transform="translate(490 142) scale(0.7)"><path d="M0-13 3.5-3.5 13 0 3.5 3.5 0 13-3.5 3.5-13 0-3.5-3.5z" fill="#FFE27A" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/></g>'+
+    '<g transform="translate(24 120) scale(0.6)"><path d="M0-13 3.5-3.5 13 0 3.5 3.5 0 13-3.5 3.5-13 0-3.5-3.5z" fill="#BFE3F7" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/></g>'+
+    '<path d="M300 62q7-9 14 0t14 0 14 0 14 0" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" fill="none"/>'+
+    '<path d="M70 150q7-9 14 0t14 0 14 0 14 0" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" fill="none"/>'+
+    '<path d="M420 120c-8 0-12 6-12 12s6 12 12 12 12-6 12-12-6-12-12-12z" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="2"/>'+
+    '<circle cx="420" cy="132" r="4" fill="#FFE27A" stroke="var(--ink)" stroke-width="1.6"/></svg>'
 };
 
 /* ---------- Sound: a fanfare built from oscillators, no files needed ---------- */
@@ -2377,7 +2442,7 @@ function seed(){
       {id:'h11',title:'Foot cream',                      emoji:'🦶', perDay:1, weekGoal:7, when:'evening'},
       {id:'h12',title:'Thigh roller',                    emoji:'🦵', perDay:1, weekGoal:7, when:'evening'}
     ],
-    log:{}, xp:0, cleanup1:true, cleanWater:true, cleanWords:true
+    log:{}, xp:0, cleanup1:true, cleanWater:true, cleanWords:true, cleanDoodle:true
   };
 }
 
@@ -2507,6 +2572,11 @@ function wordsOneTap(habits, log){
 }
 /* words:end */
 if(!state.cleanWords){ wordsOneTap(state.habits, state.log); state.cleanWords = true; }
+/* the hand-drawn Doodle theme is switched on once; she can pick any other in Settings → Theme */
+if(!state.cleanDoodle){
+  if(state.skin) state.skin = 'doodle';
+  state.cleanDoodle = true;
+}
 if(!state.diction) state.diction = {};
 if(!wkHabit()) state.habits.push({id:'hw', title:'Yoga', emoji:'🧘', perDay:1, weekGoal:7, when:'morning', why:''});
 if(state.why === undefined) state.why = '';
