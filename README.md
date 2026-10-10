@@ -70,7 +70,7 @@ missing an answer in the source PDFs and were left out.
 ## Winter Arc
 
 The plan from **4 October to 31 December**. A card at the top of *Today* shows *Day N of 89* and opens the Arc:
-a **habit tracker** — this week as a grid, and the whole Arc as one square per day, darker when more got done — and the
+a **habit tracker** — this week as a row of seven day buttons for every habit, and the whole Arc as one square per day, darker when more got done — and the
 **Wednesday check-in**.
 
 Two habits are added when the Arc starts: *Walk 15–20 minutes* and *Keep a journal*. Both are daily, one tick each. Delete either
@@ -189,8 +189,8 @@ Settings → Fireworks sound to silence it. It also respects the system
 
 At the top of *Today*, **‹ Today ›** moves between days: press ‹ to go back to yesterday (or further, up to a year) and tick a habit there —
 useful when you did your yoga after midnight and it still belongs to the day before. Only the habits are shown on a past day; tap the
-gold bar, press ›, change the tab or reopen the app to come back to today. In the Winter Arc, **every square of this week's grid is a
-button**: tap one to mark or unmark that habit on that day, and it shows up in the tracker at once.
+gold bar, press ›, change the tab or reopen the app to come back to today. In the Winter Arc, **each habit has a row of seven big day
+buttons** (weekday and date inside): tap one to mark or unmark that habit on that day, and it shows up in the tracker at once.
 
 ## When the day turns over
 
