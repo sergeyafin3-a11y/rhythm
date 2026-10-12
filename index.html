@@ -1231,7 +1231,8 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .en-ru{ margin:0 0 12px; font-size:17px; line-height:1.4; color:var(--ink-soft); }
 .en-ru-big{ margin:4px 0; font-size:23px; line-height:1.3; color:var(--ink); }
 .en-ex{ margin:6px 0 2px; font-size:16px; line-height:1.45; color:var(--ink); }
-.en-exru{ margin:0 0 14px; font-size:14px; line-height:1.4; color:var(--ink-mute); }
+.en-exru{ margin:0 0 14px; font-size:14px; line-height:1.4; color:var(--ink-soft); }
+.en-next{ display:inline-block; flex:none; padding:2px 9px; border-radius:999px; font-size:11px; font-weight:800; letter-spacing:.04em; background:var(--accent-soft); color:var(--ink); }
 .en-voice{ display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
 .en-rate{ display:flex; flex-direction:column; gap:10px; margin-top:6px; }
 .en-hero h3{ font-size:22px; }
@@ -1242,9 +1243,9 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .en-set-e{ flex:none; font-size:26px; line-height:1; }
 .en-set-t{ display:flex; flex-direction:column; min-width:0; }
 .en-set-t b{ font-size:16px; }
-.en-set-t small{ font-size:13px; color:var(--ink-mute); line-height:1.35; }
+.en-set-t small{ font-size:13px; color:var(--ink-soft); line-height:1.35; }
 .en-set-foot{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:8px; }
-.en-set-foot small{ font-size:12.5px; color:var(--ink-mute); }
+.en-set-foot small{ font-size:12.5px; color:var(--ink-soft); }
 /* doodle:css */
 html[data-skin="doodle"]{ font-synthesis:none; background-color:var(--stripe-b); background-image:repeating-linear-gradient(0deg, var(--stripe-a) 0 26px, var(--stripe-b) 26px 52px); background-attachment:fixed; }
 [data-skin="doodle"] body{ background:transparent; font-size-adjust:.54; letter-spacing:.01em; }
@@ -2898,6 +2899,15 @@ function srsPlan(deck, cards, today, newN, revMax, metToday){
   const room = Math.max(0, newN - (metToday || 0));
   return {rev:rev, fresh:deck.filter(function(id){ return !cards[id]; }).slice(0, room)};
 }
+/* her own words are mixed in: one for every `every` phrases of the sets */
+function srsMerge(own, rest, every){
+  const out = []; let i = 0, j = 0;
+  while(i < own.length || j < rest.length){
+    if(i < own.length) out.push(own[i++]);
+    for(let k = 0; k < every && j < rest.length; k++) out.push(rest[j++]);
+  }
+  return out;
+}
 function srsStats(deck, cards, today){
   let learned = 0, learning = 0, due = 0;
   deck.forEach(function(id){
@@ -2957,12 +2967,17 @@ function engOrder(){
   return order;
 }
 function engOwn(){ return wqUsable(state.words); }
-/* her own words first, then the sets in her order */
+/* the sets in her order, with her own words mixed in */
 function engDeck(){
-  const ids = engOwn().map(function(w){ return 'w:' + w.id; });
+  const ids = [];
   engOrder().forEach(function(sid){ PH.sets.find(function(s){ return s.id === sid; }).cards.forEach(function(c){ ids.push(c.id); }); });
-  return ids;
+  return srsMerge(engOwn().map(function(w){ return 'w:' + w.id; }), ids, 2);
 }
+function engUnseen(){
+  const cards = engState().cards;
+  return engDeck().filter(function(id){ return engCard(id) && !cards[id]; }).length;
+}
+function engRuLang(t){ return /[а-яё]/i.test(t) ? 'ru' : 'en'; }
 function engCard(id){
   if(id.indexOf('w:') === 0){
     const w = (state.words || []).find(function(x){ return 'w:' + x.id === id; });
@@ -2980,18 +2995,25 @@ function engPlan(){
 function engVoice(){
   const vs = speechSynthesis.getVoices() || [];
   const en = vs.filter(function(v){ return /^en[-_]/i.test(v.lang); });
-  return en.find(function(v){ return /^en[-_]US/i.test(v.lang) && v.localService; }) || en.find(function(v){ return /^en[-_]US/i.test(v.lang); }) || en[0] || null;
+  const pick = function(rx, local){ return en.find(function(v){ return rx.test(v.lang) && (!local || v.localService); }); };
+  return pick(/^en[-_]GB/i, true) || pick(/^en[-_]GB/i) || pick(/^en[-_]US/i, true) || pick(/^en[-_]US/i) || en[0] || null;
 }
 function engSpeak(text, slow){
   if(!('speechSynthesis' in window)){ toast('No English voice on this phone'); return; }
   const vs = speechSynthesis.getVoices() || [], v = engVoice();
   if(!v && vs.length){ toast('No English voice on this phone'); return; }
-  speechSynthesis.cancel();
+  if(speechSynthesis.speaking) speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   if(v){ u.voice = v; u.lang = v.lang; } else u.lang = 'en-US';
   u.rate = slow ? 0.6 : 0.92;
   speechSynthesis.speak(u);
 }
+/* leaving the screen: the microphone and the voice both stop */
+function engLeave(){
+  enMicReset();
+  try{ if('speechSynthesis' in window) speechSynthesis.cancel(); }catch(e){}
+}
+function enRender(){ if(tab === 'english') renderEnglish(); }
 function engVoiceBtns(id, what){
   return '<span class="en-voice"><button class="btn btn-sm" data-act="en-speak" data-id="'+esc(id)+'" data-w="'+what+'" data-slow="0">🔊 Listen</button>'+
     '<button class="btn btn-ghost btn-sm" data-act="en-speak" data-id="'+esc(id)+'" data-w="'+what+'" data-slow="1">🐢 Slowly</button></span>';
@@ -3008,25 +3030,25 @@ function enMicReset(){
 }
 function enMicStart(){
   enMicReset(); enMic.no = false;
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder){ enMic.no = true; renderEnglish(); return; }
-  enMic.busy = true; renderEnglish();
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder){ enMic.no = true; enRender(); return; }
+  enMic.busy = true; enRender();
   navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
     if(!enMic.busy){ stream.getTracks().forEach(function(x){ x.stop(); }); return; }
     const type = ['audio/mp4', 'audio/webm;codecs=opus', 'audio/webm'].find(function(x){ return MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(x); });
     let rec;
     try{ rec = new MediaRecorder(stream, type ? {mimeType:type} : undefined); }
-    catch(e){ stream.getTracks().forEach(function(x){ x.stop(); }); enMic.no = true; enMic.busy = false; renderEnglish(); return; }
+    catch(e){ stream.getTracks().forEach(function(x){ x.stop(); }); enMic.no = true; enMic.busy = false; enRender(); return; }
     const chunks = [];
     rec.ondataavailable = function(e){ if(e.data && e.data.size) chunks.push(e.data); };
     rec.onstop = function(){
       stream.getTracks().forEach(function(x){ x.stop(); });
       enMic.busy = false; enMic.rec = null;
       if(chunks.length) enMic.url = URL.createObjectURL(new Blob(chunks, {type:rec.mimeType || type || 'audio/mp4'}));
-      if(tab === 'english') renderEnglish();
+      if(tab === 'english') enRender();
     };
-    rec.start(); enMic.rec = rec;
+    rec.start(); enMic.rec = rec; enRender();
     enMic.timer = setTimeout(enMicStop, 10000);
-  }).catch(function(){ enMic.no = true; enMic.busy = false; renderEnglish(); });
+  }).catch(function(){ enMic.no = true; enMic.busy = false; enRender(); });
 }
 function enMicStop(){
   clearTimeout(enMic.timer); enMic.timer = null;
@@ -3040,10 +3062,9 @@ function engStart(){
   const plan = engPlan(), q = [];
   plan.rev.forEach(function(id){ q.push({id:id, mode:'rev'}); });
   plan.fresh.forEach(function(id){ q.push({id:id, mode:'new'}); });
+  if(!q.length){ toast('Nothing left to practise right now'); return; }
   enMicReset();
-  en = {stage:q.length ? 'card' : 'say', q:q, i:0, shown:false, said:[], si:0, right:0, miss:0};
-  if(en.stage === 'say') en.said = engSayPick();
-  if(en.stage === 'say' && !en.said.length) return engFinish();
+  en = {stage:'card', q:q, base:q.length, i:0, shown:false, said:[], si:0, right:0, miss:0};
   window.scrollTo(0, 0); renderEnglish();
 }
 /* up to three phrases to say aloud: new ones first, then the ones she just revised */
@@ -3054,9 +3075,9 @@ function engSayPick(){
   });
   return out;
 }
-function engRate(ok){
+function engRate(ok, id){
   const x = en.q[en.i];
-  if(!x) return;
+  if(!x || x.id !== id) return;
   const e = engState(), d = engDayWrite();
   if(!x.again){
     e.cards[x.id] = srsGrade(e.cards[x.id], ok, today());
@@ -3066,14 +3087,22 @@ function engRate(ok){
     save();
   }
   en.i++; en.shown = false;
-  if(en.i >= en.q.length){ en.stage = 'say'; en.said = engSayPick(); en.si = 0; enMicReset(); if(!en.said.length) return engFinish(); }
+  if(en.i >= en.q.length) return engToSay();
+  window.scrollTo(0, 0); renderEnglish();
+}
+/* the cards are done: the day counts and the speaking habit is ticked; speaking aloud is the bonus that follows */
+function engCardsDone(){
+  const d = engDayWrite();
+  if(en && en.q.length && !d.done){ d.done = true; spTick(); save(); }
+}
+function engToSay(){
+  engCardsDone();
+  en.stage = 'say'; en.said = engSayPick(); en.si = 0; enMicReset();
+  if(!en.said.length) return engFinish();
   window.scrollTo(0, 0); renderEnglish();
 }
 function engFinish(btn){
-  const d = engDayWrite();
-  d.done = true;
-  spTick(); save();
-  enMicReset();
+  engLeave();
   if(!en) en = {right:0, miss:0, q:[], said:[], i:0, si:0};
   en.stage = 'done';
   if(btn) celebrate(btn);
@@ -3097,15 +3126,15 @@ function renderTrain(){
   const e = engState(), deck = engDeck().filter(engCard), st = srsStats(deck, e.cards, today()), d = engDayRead(), plan = engPlan();
   const todo = plan.rev.length + plan.fresh.length;
   h += '<section class="wq-card en-hero"><p class="eyebrow">🎧 15 minutes of English</p>';
-  if(d.done && !todo){
-    h += '<h3>✓ Done for today</h3><p class="fd-sub">'+(d.rev || 0)+' reviewed · '+(d.fresh || 0)+' new. See you tomorrow'+(st.due ? ' — '+st.due+' will be waiting' : '')+'.</p>'+
-      '<button class="btn btn-full" data-act="en-more">5 more new phrases</button>';
+  if(d.done){
+    h += '<h3>✓ Done for today</h3><p class="fd-sub">'+(d.rev || 0)+' reviewed · '+(d.fresh || 0)+' new. '+(todo ? todo+' more waiting.' : 'See you tomorrow'+(st.due ? ' — '+st.due+' will be waiting' : '')+'.')+'</p>'+
+      (todo ? '<button class="btn btn-full" data-act="en-start">Go again</button>' : engUnseen() ? '<button class="btn btn-full" data-act="en-more">5 more new phrases</button>' : '');
   } else if(!todo){
     h += '<h3>Nothing to do right now</h3><p class="fd-sub">Every phrase is learned or waiting for its day.</p>';
   } else {
     h += '<h3>'+plan.rev.length+' to review · '+plan.fresh.length+' new</h3>'+
       '<p class="fd-sub">Say each phrase out loud, then check. At the end you speak three of them and hear yourself.</p>'+
-      '<button class="btn btn-primary btn-full" data-act="en-start">'+(d.done ? 'Go again' : 'Start')+'</button>';
+      '<button class="btn btn-primary btn-full" data-act="en-start">Start</button>';
   }
   h += '</section>';
   if(!e.placed){
@@ -3125,33 +3154,33 @@ function renderTrain(){
       '<span class="en-set-t"><b>'+esc(s.name)+'</b><small>'+esc(s.about)+'</small></span></div>'+
       '<div class="pbar"><i style="width:'+Math.round((l + k * 0.4) / s.cards.length * 100)+'%"></i></div>'+
       '<div class="en-set-foot"><small>'+l+' learned · '+k+' in progress · '+(s.cards.length - l - k)+' new</small>'+
-      (idx === 0 ? '<span class="lv lv-B1">next</span>' : '<button class="btn btn-ghost btn-sm" data-act="en-focus" data-id="'+esc(s.id)+'">Study first</button>')+'</div></article>';
+      (idx === 0 ? '<span class="en-next">next</span>' : '<button class="btn btn-ghost btn-sm" data-act="en-focus" data-id="'+esc(s.id)+'">Study first</button>')+'</div></article>';
   }).join('')+'</div>';
   const own = engOwn().length;
-  h += '<p class="tk-sub" style="margin:14px 2px 0">'+(own ? 'Your '+own+' saved word'+(own === 1 ? '' : 's')+' come first in the queue.' : 'Words you save in the speaking roulette join this queue.')+'</p>';
+  h += '<p class="tk-sub" style="margin:14px 2px 0">'+(own ? 'Your '+own+' saved word'+(own === 1 ? '' : 's')+' with a meaning '+(own === 1 ? 'is' : 'are')+' mixed in with the sets.' : 'Saved words that have a meaning join this queue, mixed in with the sets.')+'</p>';
   view.innerHTML = h;
 }
 function renderEnCard(){
   const x = en.q[en.i], c = engCard(x.id);
-  if(!c){ en.i++; if(en.i >= en.q.length){ return engFinish(); } return renderEnCard(); }
-  let h = engBack()+'<p class="eyebrow" style="margin:14px 2px 8px">'+(x.mode === 'new' ? 'New phrase' : x.again ? 'Once more' : 'Review')+' · '+(en.i + 1)+' of '+en.q.length+'</p>';
+  if(!c){ en.i++; if(en.i >= en.q.length) return engToSay(); return renderEnCard(); }
+  let h = engBack()+'<p class="eyebrow" style="margin:14px 2px 8px">'+(x.again ? 'Once more' : (x.mode === 'new' ? 'New phrase' : 'Review')+' · '+Math.min(en.i + 1, en.base)+' of '+en.base)+'</p>';
   if(x.mode === 'new'){
-    h += '<section class="wq-card en-card"><p class="en-big">'+esc(c.en)+'</p><p class="en-ru" lang="ru">'+esc(c.ru)+'</p>'+
+    h += '<section class="wq-card en-card"><p class="en-big">'+esc(c.en)+'</p><p class="en-ru" lang="'+engRuLang(c.ru)+'">'+esc(c.ru)+'</p>'+
       (c.ex ? '<p class="en-ex">'+esc(c.ex)+'</p>' : '')+(c.exru ? '<p class="en-exru" lang="ru">'+esc(c.exru)+'</p>' : '')+
       engVoiceBtns(x.id, 'en')+'</section>'+
       '<p class="tk-sub">Say it out loud twice. Then tell me how it feels.</p>'+
-      '<div class="en-rate"><button class="btn btn-full" data-act="en-rate" data-v="0">New to me</button>'+
-      '<button class="btn btn-primary btn-full" data-act="en-rate" data-v="1">I already know it</button></div>';
+      '<div class="en-rate"><button class="btn btn-full" data-act="en-rate" data-id="'+esc(x.id)+'" data-v="0">New to me</button>'+
+      '<button class="btn btn-primary btn-full" data-act="en-rate" data-id="'+esc(x.id)+'" data-v="1">I already know it</button></div>';
   } else if(!en.shown){
-    h += '<section class="wq-card en-card"><p class="en-ru en-ru-big" lang="ru">'+esc(c.ru)+'</p></section>'+
+    h += '<section class="wq-card en-card"><p class="en-ru en-ru-big" lang="'+engRuLang(c.ru)+'">'+esc(c.ru)+'</p></section>'+
       '<p class="tk-sub">How would you say it in English? Say it out loud, then check.</p>'+
       '<button class="btn btn-primary btn-full" data-act="en-show">Show the answer</button>';
   } else {
-    h += '<section class="wq-card en-card"><p class="en-ru" lang="ru">'+esc(c.ru)+'</p><p class="en-big">'+esc(c.en)+'</p>'+
+    h += '<section class="wq-card en-card"><p class="en-ru" lang="'+engRuLang(c.ru)+'">'+esc(c.ru)+'</p><p class="en-big">'+esc(c.en)+'</p>'+
       (c.ex ? '<p class="en-ex">'+esc(c.ex)+'</p>' : '')+(c.exru ? '<p class="en-exru" lang="ru">'+esc(c.exru)+'</p>' : '')+
       engVoiceBtns(x.id, 'en')+'</section>'+
-      '<div class="en-rate"><button class="btn btn-full" data-act="en-rate" data-v="0">Didn’t remember</button>'+
-      '<button class="btn btn-primary btn-full" data-act="en-rate" data-v="1">Remembered</button></div>';
+      '<div class="en-rate"><button class="btn btn-full" data-act="en-rate" data-id="'+esc(x.id)+'" data-v="0">Didn’t remember</button>'+
+      '<button class="btn btn-primary btn-full" data-act="en-rate" data-id="'+esc(x.id)+'" data-v="1">Remembered</button></div>';
   }
   view.innerHTML = h;
 }
@@ -3159,7 +3188,7 @@ function renderEnSay(){
   const id = en.said[en.si], c = id && engCard(id);
   if(!c) return engFinish();
   let h = engBack()+'<p class="eyebrow" style="margin:14px 2px 8px">Say it aloud · '+(en.si + 1)+' of '+en.said.length+'</p>'+
-    '<section class="wq-card en-card"><p class="en-ru en-ru-big" lang="ru">'+esc(c.ru)+'</p>'+
+    '<section class="wq-card en-card"><p class="en-ru en-ru-big" lang="'+engRuLang(c.ru)+'">'+esc(c.ru)+'</p>'+
     '<p class="en-big">'+esc(c.en)+'</p>'+engVoiceBtns(id, 'en')+'</section>';
   if(enMic.busy && enMic.rec){
     h += '<p class="tk-sub">Recording… say it naturally.</p><button class="btn btn-primary btn-full" data-act="en-mic-stop">■ Stop</button>';
@@ -4115,9 +4144,9 @@ document.addEventListener('click', function(e){
   }
   else if(act==='en-retry'){ phFailed = false; renderEnglish(); }
   else if(act==='en-start'){ if(PH) engStart(); }
-  else if(act==='en-more'){ engDayWrite().bonus = (engDayRead().bonus || 0) + 5; save(); engStart(); }
+  else if(act==='en-more'){ if(!engUnseen()) return; engDayWrite().bonus = (engDayRead().bonus || 0) + 5; save(); engStart(); }
   else if(act==='en-show'){ if(en){ en.shown = true; renderEnglish(); } }
-  else if(act==='en-rate'){ if(en && en.stage === 'card') engRate(btn.getAttribute('data-v') === '1'); }
+  else if(act==='en-rate'){ if(en && en.stage === 'card') engRate(btn.getAttribute('data-v') === '1', btn.getAttribute('data-id')); }
   else if(act==='en-speak'){
     const c = PH && engCard(btn.getAttribute('data-id'));
     if(c) engSpeak(btn.getAttribute('data-w') === 'ex' ? c.ex : c.en, btn.getAttribute('data-slow') === '1');
@@ -4131,13 +4160,13 @@ document.addEventListener('click', function(e){
   }
   else if(act==='en-skip-say'){ engFinish(btn); }
   else if(act==='en-exit'){
-    enMicReset();
+    engLeave();
     if(en && en.stage === 'card' && en.i > 0) toast('Progress saved');
     en = null; window.scrollTo(0, 0); renderEnglish();
   }
   else if(act==='en-focus'){
     const id = btn.getAttribute('data-id'), e = engState();
-    e.order = [id].concat(engOrder().filter(function(x){ return x !== id; }));
+    e.order = [id].concat(engOrder().filter(function(x){ return x !== id; })); e.focused = true;
     save(); toast('That set comes first now'); renderEnglish();
   }
   else if(act==='en-place-start'){
@@ -4159,7 +4188,7 @@ document.addEventListener('click', function(e){
       const e = engState(), r = placeScore(p.right, p.qs.length);
       e.placed = Object.assign({date:today()}, r);
       e.newPerDay = r.newPerDay;
-      e.order = placeOrder(PH.sets, r.level).map(function(s){ return s.id; });
+      if(!e.focused) e.order = placeOrder(PH.sets, r.level).map(function(s){ return s.id; });
       save(); en = {stage:'placed'};
     }
     window.scrollTo(0, 0); renderEnglish();
@@ -4257,7 +4286,7 @@ document.addEventListener('click', function(e){
     try{
       const obj = JSON.parse($('#dataBox').value);
       if(!obj || !Array.isArray(obj.habits)) throw new Error('bad');
-      state = obj;
+      state = obj; engLeave(); en = null;
       if(!state.cleanWater){ if(!state.log) state.log = {}; waterOneTap(state.habits, state.log); state.cleanWater = true; }
       if(!state.cleanWords){ if(!state.log) state.log = {}; wordsOneTap(state.habits, state.log); state.cleanWords = true; }
       state.cleanDoodle = true; /* a restored backup keeps the theme she picked */
@@ -4268,6 +4297,7 @@ document.addEventListener('click', function(e){
   }
   else if(act==='reset'){
     if(!confirm('Delete every habit and check-in? This cannot be undone.')) return;
+    engLeave(); en = null;
     const skin = state.skin; state = seed(); state.skin = skin; state.habits = []; state.practiceHabits = true;
     if(today() <= ARC_END) state.arc = {start:ARC_START, end:ARC_END, reviews:{}, seeded:true, simple:true};
     save(); closeSheet(); render(); toast('Starting over');
@@ -4552,7 +4582,7 @@ function renderChapter(){
   let h = '<button class="backbtn" data-act="ln-home">'+LN_BACK+'Driving theory</button>'+
     '<p class="eyebrow">Chapter '+(ci + 1)+' of '+LEARN.chapters.length+'</p>'+
     '<h2 class="ln-title">'+esc(c.t)+'</h2>'+
-    '<p class="ln-sub" lang="ru">'+esc(c.ru)+'</p>'+
+    '<p class="ln-sub" lang="'+engRuLang(c.ru)+'">'+esc(c.ru)+'</p>'+
     '<p class="ln-intro" lang="ru">'+lnMd(c.intro)+'</p>'+
     '<div class="ln-ls">'+c.lessons.map(function(l, li){
       const ok = !!L[l.id];
@@ -4842,6 +4872,7 @@ function paintTabDots(){
 
 /* ---------- Navigation and start-up ---------- */
 function go(t){
+  engLeave();
   if(selDay){ selDay = null; paintHeader(); }
   tab = t;
   document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected', x.dataset.tab===t ? 'true':'false'));

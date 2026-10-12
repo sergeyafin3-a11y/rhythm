@@ -92,7 +92,6 @@ check(/act==='en-place-start'/.test(html) && /act==='en-pick'/.test(html), 'the 
 check(/act==='en-focus'/.test(html), 'a set can be moved to the front');
 check(/english\/phrases\.json/.test(html), 'the phrases are loaded from english/phrases.json');
 check(/function engState\(\)\{[^}]*state\.eng/.test(html), 'the trainer keeps its data in state.eng, created lazily');
-check(/spTick\(\)/.test(/function engFinish\([a-z]*\)\{([\s\S]*?)\n\}/.exec(html) ? /function engFinish\([a-z]*\)\{([\s\S]*?)\n\}/.exec(html)[1] : ''), 'finishing a session ticks the speaking habit');
 // voice only inside English, only on a tap
 const ui = /\/\* eng:ui \*\/([\s\S]*?)\/\* eng:end \*\//.exec(html);
 check(!!ui, 'the trainer UI is fenced by /* eng:ui */ … /* eng:end */');
@@ -101,5 +100,34 @@ check(!/speechSynthesis|SpeechSynthesisUtterance/.test(outside), 'the phone must
 check(ui && /speechSynthesis\.speak/.test(ui[1]) && /No English voice/.test(ui[1]), 'the voice says so when the phone has no English voice');
 check(ui && !/speechSynthesis\.speak\([^)]*\)[^;]*;[\s\S]{0,40}setTimeout/.test(ui[1]) && /data-act="en-speak"/.test(ui[1]), 'the voice starts only from a tap on the 🔊 button');
 check(/Spaced|spaced repetition|Train/.test(readme) && /phrases\.json/.test(readme), 'the README mentions the trainer and english/phrases.json');
+// 4. review fixes
+if(P){
+  const ru = {}; P.sets.forEach(function(s){ s.cards.forEach(function(c){ check(!ru[c.ru], 'two cards share the Russian meaning "' + c.ru + '"'); ru[c.ru] = 1; }); });
+  const lv = {1:0, 2:0, 3:0}; P.placement.forEach(function(q){ lv[q.lvl]++; });
+  check(lv[3] >= 6 && lv[1] <= 6, 'the level check has at least 6 hard questions and at most 6 easy ones, got ' + JSON.stringify(lv));
+  check(!/\b(I no can|I am cold|I like winter)\b/.test(JSON.stringify(P.placement)), 'wrong answers in the level check must look plausible, not absurd');
+  check(P.sets.every(function(s){ return s.cards.every(function(c){ return c.ru.indexOf('по этому письмом') < 0; }); }), 'ungrammatical Russian is still in the cards');
+}
+if(m){
+  const B = new Function(m[1] + '; return {srsMerge:srsMerge};')();
+  const own = ['o1', 'o2', 'o3'], rest = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+  check(JSON.stringify(B.srsMerge(own, rest, 2)) === '["o1","a","b","o2","c","d","o3","e","f","g"]', 'her own words are mixed in, one for every two set phrases: ' + JSON.stringify(B.srsMerge(own, rest, 2)));
+  check(JSON.stringify(B.srsMerge([], rest, 2)) === JSON.stringify(rest) && JSON.stringify(B.srsMerge(own, [], 2)) === JSON.stringify(own), 'merging with an empty side keeps the other');
+}
+const fnBody = function(name){ const i = html.indexOf('function ' + name + '('); if(i < 0) return ''; const j = html.indexOf('\nfunction ', i + 10); return html.slice(i, j < 0 ? undefined : j); };
+check(/spTick\(\)/.test(fnBody('engCardsDone')) && /en\.q\.length|q\.length/.test(fnBody('engCardsDone')), 'the speaking habit is ticked when the cards are done, and only if something was studied');
+check(!/spTick\(\)/.test(fnBody('engFinish')), 'finishing the optional speaking step does not tick the habit again');
+check(/engToSay\(\)/.test(fnBody('engRate')) && /engCardsDone\(\)/.test(fnBody('engToSay')), 'grading the last card completes the day');
+check(/function engUnseen\(\)/.test(html) && /engUnseen\(\)/.test(fnBody('renderTrain')) && /!q\.length/.test(fnBody('engStart')), 'the “5 more new phrases” button only shows, and only works, while unseen phrases remain');
+check(/act==='en-rate'[\s\S]{0,200}data-id/.test(html) || /data-act="en-rate" data-id=/.test(html), 'a rating button names its card, so a double tap cannot grade the next one');
+check(/function engLeave\(\)/.test(html) && /function go\(t\)\{[\s\S]{0,400}engLeave\(\)/.test(html), 'leaving the English tab stops the microphone and the voice');
+const mic = (/function enMicStart\(\)\{[\s\S]*?\n\}\nfunction enMicStop/.exec(html) || [''])[0];
+check(mic.length > 50 && !/renderEnglish\(\)/.test(mic) && /enRender\(\)/.test(mic), 'the microphone code redraws only through enRender, which checks the tab');
+check(/function enRender\(\)\{[^}]*tab === 'english'/.test(html), 'enRender checks that English is the open tab');
+check(/e\.focused/.test(html), 'taking the level check again keeps the set she chose to study first');
+check(/act==='import-data'[\s\S]{0,1200}en = null/.test(html) && /act==='reset'[\s\S]{0,600}en = null/.test(html), 'restoring or resetting closes a session left open');
+check(/\.en-exru\{[^}]*color:var\(--ink-soft\)/.test(html), 'small Russian text in the trainer uses the stronger ink colour');
+check(/en\[-_\]GB/.test(fnBody('engVoice')), 'the voice prefers British English, like the phrases');
+
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: English trainer stage 1');

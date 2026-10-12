@@ -173,15 +173,15 @@
           "id": "chat24",
           "en": "It was lovely talking to you.",
           "ru": "Было приятно пообщаться.",
-          "ex": "It was lovely talking to you. Let's stay in touch.",
-          "exru": "Было приятно пообщаться. Давай на связи."
+          "ex": "It was lovely talking to you. Have a good evening.",
+          "exru": "Было приятно пообщаться. Хорошего вечера."
         },
         {
           "id": "chat25",
-          "en": "Let's stay in touch.",
-          "ru": "Давай не терять связь.",
-          "ex": "We live far apart now, but let's stay in touch.",
-          "exru": "Мы теперь далеко друг от друга, но давай не терять связь."
+          "en": "Fancy meeting you here!",
+          "ru": "Вот так встреча!",
+          "ex": "Fancy meeting you here! I thought you were abroad.",
+          "exru": "Вот так встреча! Я думала, ты за границей."
         }
       ]
     },
@@ -251,9 +251,9 @@
         {
           "id": "react09",
           "en": "That's so annoying.",
-          "ru": "Как же это бесит.",
+          "ru": "Как же это раздражает.",
           "ex": "They changed the schedule again. That's so annoying.",
-          "exru": "Они опять поменяли расписание. Как же это бесит."
+          "exru": "Они опять поменяли расписание. Как же это раздражает."
         },
         {
           "id": "react10",
@@ -293,16 +293,16 @@
         {
           "id": "react15",
           "en": "That made my day.",
-          "ru": "Это сделало мой день.",
+          "ru": "Это сделало мой день (мне стало очень приятно).",
           "ex": "Your message made my day. Thank you!",
-          "exru": "Твоё сообщение сделало мой день. Спасибо!"
+          "exru": "Твоё сообщение подняло мне настроение на весь день. Спасибо!"
         },
         {
           "id": "react16",
           "en": "I was blown away.",
-          "ru": "Я была под впечатлением.",
+          "ru": "Я была потрясена.",
           "ex": "I saw her perform live and I was blown away.",
-          "exru": "Я видела её выступление вживую и была под впечатлением."
+          "exru": "Я видела её выступление вживую и была потрясена."
         },
         {
           "id": "react17",
@@ -328,9 +328,9 @@
         {
           "id": "react20",
           "en": "I feel awful about it.",
-          "ru": "Мне ужасно из-за этого.",
+          "ru": "Мне ужасно неловко из-за этого.",
           "ex": "I feel awful about forgetting your birthday.",
-          "exru": "Мне ужасно, что я забыла про твой день рождения."
+          "exru": "Мне ужасно неловко, что я забыла про твой день рождения."
         },
         {
           "id": "react21",
@@ -435,9 +435,9 @@
         {
           "id": "plans09",
           "en": "Something has come up.",
-          "ru": "У меня кое-что случилось (появились дела).",
+          "ru": "У меня возникли срочные дела.",
           "ex": "Sorry, something has come up and I have to cancel.",
-          "exru": "Извини, у меня кое-что случилось, и мне придётся отменить."
+          "exru": "Извини, у меня возникли срочные дела, и мне придётся отменить."
         },
         {
           "id": "plans10",
@@ -525,9 +525,9 @@
         },
         {
           "id": "plans22",
-          "en": "It's a date.",
+          "en": "It's a deal.",
           "ru": "Договорились.",
-          "ex": "Friday at eight, then. It's a date!",
+          "ex": "Friday at eight, then. It's a deal!",
           "exru": "Значит, пятница, восемь. Договорились!"
         },
         {
@@ -641,8 +641,8 @@
           "id": "repair12",
           "en": "Let me put it another way.",
           "ru": "Скажу иначе.",
-          "ex": "Let me put it another way. I'd like more time.",
-          "exru": "Скажу иначе. Мне бы хотелось больше времени."
+          "ex": "That sounded rude. Let me put it another way: I disagree.",
+          "exru": "Это прозвучало грубо. Скажу иначе: я не согласна."
         },
         {
           "id": "repair13",
@@ -730,10 +730,10 @@
         },
         {
           "id": "repair25",
-          "en": "Sorry, I missed the last part.",
-          "ru": "Простите, я не расслышала последнюю часть.",
-          "ex": "Sorry, I missed the last part. Could you repeat it?",
-          "exru": "Простите, я не расслышала конец. Повторите?"
+          "en": "You're breaking up.",
+          "ru": "Вас плохо слышно, связь прерывается.",
+          "ex": "You're breaking up. Can you hear me?",
+          "exru": "Вас плохо слышно. Вы меня слышите?"
         }
       ]
     },
@@ -763,14 +763,14 @@
           "en": "I see what you mean, but",
           "ru": "Я понимаю, о чём ты, но",
           "ex": "I see what you mean, but I'm not convinced.",
-          "exru": "Я понимаю, о чём ты, но меня это не убедило."
+          "exru": "Я понимаю, о чём ты, но я не убеждена."
         },
         {
           "id": "opinion04",
           "en": "I couldn't agree more.",
           "ru": "Полностью согласна.",
-          "ex": "You said it's too loud? I couldn't agree more.",
-          "exru": "Ты сказала, что слишком шумно? Полностью согласна."
+          "ex": "It's far too loud in here. — I couldn't agree more.",
+          "exru": "Здесь слишком шумно. — Полностью согласна."
         },
         {
           "id": "opinion05",
@@ -872,8 +872,8 @@
         },
         {
           "id": "opinion19",
-          "en": "On the one hand, on the other hand",
-          "ru": "С одной стороны, с другой стороны",
+          "en": "On the one hand… on the other hand…",
+          "ru": "С одной стороны… с другой стороны…",
           "ex": "On the one hand it's cheap, on the other hand it's far.",
           "exru": "С одной стороны, это дёшево, с другой — далеко."
         },
@@ -901,9 +901,9 @@
         {
           "id": "opinion23",
           "en": "Honestly, I'd rather not.",
-          "ru": "Если честно, я бы предпочла нет.",
+          "ru": "Если честно, лучше не надо.",
           "ex": "Honestly, I'd rather not go out tonight.",
-          "exru": "Если честно, сегодня вечером я бы лучше никуда не шла."
+          "exru": "Если честно, сегодня вечером лучше никуда не идти."
         },
         {
           "id": "opinion24",
@@ -914,10 +914,10 @@
         },
         {
           "id": "opinion25",
-          "en": "That's a fair point.",
-          "ru": "Справедливое замечание.",
-          "ex": "That's a fair point. Let me think about it.",
-          "exru": "Справедливое замечание. Дай подумаю."
+          "en": "I'll give you that.",
+          "ru": "Тут ты права, этого не отнять.",
+          "ex": "It was a long trip, I'll give you that, but it was worth it.",
+          "exru": "Поездка была долгой, тут ты права, но оно того стоило."
         }
       ]
     },
@@ -1014,10 +1014,10 @@
         },
         {
           "id": "fillers13",
-          "en": "Having said that,",
-          "ru": "С другой стороны, при этом,",
-          "ex": "Having said that, I'd still recommend it.",
-          "exru": "При этом я всё равно бы это посоветовала."
+          "en": "Mind you,",
+          "ru": "Правда, надо сказать,",
+          "ex": "It's cold here. Mind you, the summers are lovely.",
+          "exru": "Здесь холодно. Правда, лето чудесное."
         },
         {
           "id": "fillers14",
@@ -1042,10 +1042,10 @@
         },
         {
           "id": "fillers17",
-          "en": "Kind of",
-          "ru": "Как бы, в некотором роде",
-          "ex": "It's kind of hard to explain.",
-          "exru": "Это как бы сложно объяснить."
+          "en": "More or less",
+          "ru": "Более или менее",
+          "ex": "Are you done? — More or less.",
+          "exru": "Ты закончила? — Более или менее."
         },
         {
           "id": "fillers18",
@@ -1079,8 +1079,8 @@
           "id": "fillers22",
           "en": "Speaking of which,",
           "ru": "Раз уж об этом заговорили,",
-          "ex": "Speaking of which, have you seen the new cafe?",
-          "exru": "Раз уж заговорили, ты видела новое кафе?"
+          "ex": "We talked about food all night. Speaking of which, have you seen the new cafe?",
+          "exru": "Мы весь вечер говорили о еде. Кстати, ты видела новое кафе?"
         },
         {
           "id": "fillers23",
@@ -1135,10 +1135,10 @@
         },
         {
           "id": "phrasal04",
-          "en": "to look forward to",
-          "ru": "ждать с нетерпением",
-          "ex": "I'm looking forward to seeing you.",
-          "exru": "Жду не дождусь встречи с тобой."
+          "en": "to pass on",
+          "ru": "передать",
+          "ex": "Can you pass on my message to Tom?",
+          "exru": "Можешь передать моё сообщение Тому?"
         },
         {
           "id": "phrasal05",
@@ -1178,7 +1178,7 @@
         {
           "id": "phrasal10",
           "en": "to work out",
-          "ru": "получиться, тренироваться",
+          "ru": "получиться, сложиться",
           "ex": "I hope it all works out.",
           "exru": "Надеюсь, всё получится."
         },
@@ -1192,7 +1192,7 @@
         {
           "id": "phrasal12",
           "en": "to bring up",
-          "ru": "поднять тему, вырастить",
+          "ru": "поднять тему",
           "ex": "I didn't want to bring up the money.",
           "exru": "Я не хотела поднимать тему денег."
         },
@@ -1276,7 +1276,7 @@
         {
           "id": "phrasal24",
           "en": "to back up",
-          "ru": "поддержать, сделать копию",
+          "ru": "сделать резервную копию",
           "ex": "Did you back up your files?",
           "exru": "Ты сделала резервную копию файлов?"
         },
@@ -1306,7 +1306,7 @@
         {
           "id": "work02",
           "en": "You're on mute.",
-          "ru": "У тебя выключен звук.",
+          "ru": "У тебя выключен микрофон.",
           "ex": "Sorry, Anna, you're on mute.",
           "exru": "Анна, у вас выключен микрофон."
         },
@@ -1348,7 +1348,7 @@
         {
           "id": "work08",
           "en": "I'll follow up by email.",
-          "ru": "Я напишу по этому письмом.",
+          "ru": "Я напишу вам об этом на почту.",
           "ex": "I'll follow up by email after the call.",
           "exru": "Я напишу письмо после звонка."
         },
@@ -1396,10 +1396,10 @@
         },
         {
           "id": "work15",
-          "en": "Thanks for getting back to me.",
-          "ru": "Спасибо, что ответили.",
-          "ex": "Thanks for getting back to me so quickly.",
-          "exru": "Спасибо, что так быстро ответили."
+          "en": "Thanks for your patience.",
+          "ru": "Спасибо за терпение.",
+          "ex": "Thanks for your patience while we fix this.",
+          "exru": "Спасибо за терпение, пока мы это исправляем."
         },
         {
           "id": "work16",
@@ -1417,17 +1417,17 @@
         },
         {
           "id": "work18",
-          "en": "I'll take care of it.",
-          "ru": "Я этим займусь.",
-          "ex": "Leave it with me, I'll take care of it.",
-          "exru": "Оставь это мне, я займусь."
+          "en": "I'll get right on it.",
+          "ru": "Сейчас же займусь.",
+          "ex": "Thanks for flagging that. I'll get right on it.",
+          "exru": "Спасибо, что сообщила. Сейчас же займусь."
         },
         {
           "id": "work19",
           "en": "Could you walk me through it?",
-          "ru": "Можешь провести меня по шагам?",
+          "ru": "Можешь объяснить по шагам?",
           "ex": "It's new to me. Could you walk me through it?",
-          "exru": "Мне это в новинку. Можешь провести меня по шагам?"
+          "exru": "Мне это в новинку. Можешь объяснить по шагам?"
         },
         {
           "id": "work20",
@@ -1688,7 +1688,7 @@
         {
           "id": "story04",
           "en": "To make matters worse,",
-          "ru": "Как назло,",
+          "ru": "В довершение всего,",
           "ex": "To make matters worse, I'd left my keys inside.",
           "exru": "Как назло, ключи остались внутри."
         },
@@ -1736,17 +1736,17 @@
         },
         {
           "id": "story11",
-          "en": "At first I thought, but then",
-          "ru": "Сначала я думала, но потом",
+          "en": "At first I thought…, but then…",
+          "ru": "Сначала я думала…, но потом…",
           "ex": "At first I thought it was a joke, but then I read the email.",
           "exru": "Сначала я думала, что это шутка, но потом прочитала письмо."
         },
         {
           "id": "story12",
-          "en": "It turned out to be",
-          "ru": "Это оказалось",
-          "ex": "It turned out to be a really useful mistake.",
-          "exru": "Это оказалось очень полезной ошибкой."
+          "en": "Little did I know,",
+          "ru": "Я и не подозревала,",
+          "ex": "Little did I know, that call would change everything.",
+          "exru": "Я и не подозревала, что этот звонок всё изменит."
         },
         {
           "id": "story13",
@@ -1778,10 +1778,10 @@
         },
         {
           "id": "story17",
-          "en": "We ended up talking for hours.",
-          "ru": "В итоге мы проговорили несколько часов.",
-          "ex": "We ended up talking for hours over coffee.",
-          "exru": "В итоге мы проговорили несколько часов за кофе."
+          "en": "We hit it off straight away.",
+          "ru": "Мы сразу нашли общий язык.",
+          "ex": "We hit it off straight away and talked all night.",
+          "exru": "Мы сразу нашли общий язык и проговорили всю ночь."
         },
         {
           "id": "story18",
@@ -1844,221 +1844,221 @@
   ],
   "placement": [
     {
-      "q": "A friend says: I'm running late. What is the most natural reply?",
+      "q": "Your colleague asks: 'Do you mind if I open the window?' Which answer means YES, open it?",
       "o": [
-        "Don't worry, take your time.",
-        "You must to be punctual.",
-        "I am waiting you since one hour.",
-        "Why you are late always?"
+        "Not at all, go ahead.",
+        "Yes, I do mind.",
+        "I'd rather you didn't.",
+        "Sorry, I can't."
       ],
       "a": 0,
       "lvl": 1
     },
     {
-      "q": "What does 'It's on me' mean at a cafe?",
+      "q": "'I'm not really into jazz.' This means:",
       "o": [
-        "I will pay",
-        "I am angry with you",
-        "It is my turn to talk",
-        "I have lost it"
+        "I don't enjoy jazz much.",
+        "I don't know any jazz.",
+        "I'm not inside a jazz club.",
+        "I play jazz badly."
       ],
       "a": 0,
       "lvl": 1
     },
     {
-      "q": "Which sentence sounds natural?",
+      "q": "'Can you give me a hand?' means:",
       "o": [
-        "I'm looking forward to seeing you.",
-        "I'm looking forward to see you.",
-        "I look forward see you.",
-        "I am looking forward for see you."
+        "Can you help me?",
+        "Can you shake my hand?",
+        "Can you pass me my glove?",
+        "Can you clap for me?"
       ],
       "a": 0,
       "lvl": 1
     },
     {
-      "q": "Someone says 'Long time no see!' What are they saying?",
+      "q": "Which sentence is correct?",
       "o": [
-        "We haven't met for ages",
-        "I cannot see you",
-        "See you soon",
-        "I do not like you"
+        "I've lived here since 2019.",
+        "I live here since 2019.",
+        "I'm living here since 2019.",
+        "I have live here since 2019."
       ],
       "a": 0,
       "lvl": 1
     },
     {
-      "q": "You didn't hear what the person said. The best thing to say is:",
+      "q": "'It's up to you' means:",
       "o": [
-        "Sorry, could you say that again?",
-        "What?",
-        "Repeat!",
-        "I don't hear you, speak."
+        "You decide.",
+        "It's above you.",
+        "You must finish it.",
+        "It's your fault."
       ],
       "a": 0,
       "lvl": 1
     },
     {
-      "q": "'I can't complain' usually means:",
+      "q": "'I'm swamped this week' means:",
       "o": [
-        "Things are fine",
-        "I have a problem",
-        "I am not allowed to speak",
-        "I do not like it"
-      ],
-      "a": 0,
-      "lvl": 1
-    },
-    {
-      "q": "Choose the natural way to refuse an invitation:",
-      "o": [
-        "I'm afraid I can't make it.",
-        "I no can come.",
-        "It is impossible for me to coming.",
-        "I refuse your invite."
-      ],
-      "a": 0,
-      "lvl": 1
-    },
-    {
-      "q": "'Let's play it by ear' means:",
-      "o": [
-        "Let's decide as we go",
-        "Let's listen to music",
-        "Let's talk quietly",
-        "Let's not plan anything bad"
+        "I have far too much to do.",
+        "I am standing in a swamp.",
+        "I am tired of the weather.",
+        "I am travelling a lot."
       ],
       "a": 0,
       "lvl": 2
     },
     {
-      "q": "'I'm snowed under' means:",
+      "q": "Which is the most polite way to disagree?",
       "o": [
-        "I have too much work",
-        "I am cold",
-        "I like winter",
-        "I am lost"
+        "I see your point, but I'm not sure that's the whole picture.",
+        "You're wrong about that.",
+        "That's nonsense.",
+        "No, I don't think so at all."
       ],
       "a": 0,
       "lvl": 2
     },
     {
-      "q": "Which phrase softens an opinion?",
+      "q": "'We ran out of time' means:",
       "o": [
-        "I tend to think that it's too expensive.",
-        "It is too expensive, full stop.",
-        "You are wrong about the price.",
-        "Price is bad."
+        "We didn't have enough time left.",
+        "We ran quickly.",
+        "We forgot the time.",
+        "We were late."
       ],
       "a": 0,
       "lvl": 2
     },
     {
-      "q": "'To figure out' is closest to:",
+      "q": "'Sorry, I didn't ___ your name.' Which word fits?",
       "o": [
-        "to understand or solve",
-        "to draw",
-        "to count money",
-        "to run away"
+        "catch",
+        "hold",
+        "take",
+        "grip"
       ],
       "a": 0,
       "lvl": 2
     },
     {
-      "q": "'That's easier said than done' means:",
+      "q": "'He's always on about his new car.' means:",
       "o": [
-        "It sounds simple but is hard",
-        "It is easy to say",
-        "I said it easily",
-        "Say it more easily"
+        "He talks about it all the time.",
+        "He is driving it constantly.",
+        "He is sitting on top of it.",
+        "He wants to sell it."
       ],
       "a": 0,
       "lvl": 2
     },
     {
-      "q": "You want to give yourself time to think. Which works?",
+      "q": "'That rings a bell' means:",
       "o": [
-        "Hmm, let me think for a second.",
-        "Wait, wait, wait, no.",
-        "I don't know it never.",
-        "Give me answer later."
+        "I vaguely remember it.",
+        "It makes a loud noise.",
+        "I need to call someone.",
+        "I'm about to leave."
       ],
       "a": 0,
       "lvl": 2
     },
     {
-      "q": "'We're running behind schedule' means:",
+      "q": "Which reply sounds natural? 'Shall we get a table outside?'",
       "o": [
-        "We are late with the plan",
-        "We are running away",
-        "We are following a train",
-        "We have a new timetable"
+        "Sure, why not?",
+        "Yes, we shall.",
+        "Of course, I shall to.",
+        "Yes, it is possible."
       ],
       "a": 0,
       "lvl": 2
     },
     {
-      "q": "'I'm torn between the two' means:",
+      "q": "'It's not my cup of tea' means:",
       "o": [
-        "I can't decide",
-        "I am angry",
-        "I broke both",
-        "I like neither"
-      ],
-      "a": 0,
-      "lvl": 2
-    },
-    {
-      "q": "Which pair is a natural contrast?",
-      "o": [
-        "It's expensive. That said, it's really good.",
-        "It's expensive. Because of it's good.",
-        "It's expensive, so good.",
-        "It's expensive although but good."
-      ],
-      "a": 0,
-      "lvl": 2
-    },
-    {
-      "q": "'The next thing I knew, I was on the wrong train.' The phrase 'the next thing I knew' shows:",
-      "o": [
-        "things happened suddenly",
-        "I knew the next train",
-        "I forgot the train",
-        "I was planning it"
+        "I don't really like it.",
+        "It's too hot to drink.",
+        "I would like some tea.",
+        "It belongs to someone else."
       ],
       "a": 0,
       "lvl": 3
     },
     {
-      "q": "'Having said that,' is used to:",
+      "q": "'To cut corners' means:",
       "o": [
-        "add a contrasting point",
-        "finish the conversation",
-        "ask a question",
-        "say goodbye"
+        "to do something in a cheaper or less careful way",
+        "to walk around a building",
+        "to reduce your speed",
+        "to draw squares"
       ],
       "a": 0,
       "lvl": 3
     },
     {
-      "q": "'I wouldn't go that far' is a way to:",
+      "q": "'He let the cat out of the bag' means:",
       "o": [
-        "politely disagree with something extreme",
-        "walk less",
-        "agree strongly",
-        "ask about distance"
+        "He revealed a secret.",
+        "He lost his pet.",
+        "He was very lucky.",
+        "He started cooking."
       ],
       "a": 0,
       "lvl": 3
     },
     {
-      "q": "'It was a close call' means:",
+      "q": "'I'll play devil's advocate' means:",
       "o": [
-        "We almost had a problem",
-        "It was a short phone call",
-        "It was a loud call",
-        "It was a cheap call"
+        "I will argue the opposite side to test the idea.",
+        "I will behave badly on purpose.",
+        "I will ask for forgiveness.",
+        "I will join the other team."
+      ],
+      "a": 0,
+      "lvl": 3
+    },
+    {
+      "q": "'It slipped my mind' means:",
+      "o": [
+        "I forgot.",
+        "I lost my grip.",
+        "I changed my opinion.",
+        "I felt dizzy."
+      ],
+      "a": 0,
+      "lvl": 3
+    },
+    {
+      "q": "'We're on the same page' means:",
+      "o": [
+        "We agree and understand each other.",
+        "We're reading the same book.",
+        "We're sitting close together.",
+        "We're in the same office."
+      ],
+      "a": 0,
+      "lvl": 3
+    },
+    {
+      "q": "Which sentence sounds most natural in speech?",
+      "o": [
+        "I'd have called you, but my phone died.",
+        "I would called you, but my phone died.",
+        "I'd call you, but my phone was dying yesterday.",
+        "I had called you, but my phone dies."
+      ],
+      "a": 0,
+      "lvl": 3
+    },
+    {
+      "q": "'To bite the bullet' means:",
+      "o": [
+        "to accept something unpleasant and just do it",
+        "to eat very quickly",
+        "to be very angry",
+        "to give up"
       ],
       "a": 0,
       "lvl": 3
