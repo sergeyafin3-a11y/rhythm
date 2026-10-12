@@ -328,9 +328,9 @@
         {
           "id": "react20",
           "en": "I feel awful about it.",
-          "ru": "Мне ужасно неловко из-за этого.",
+          "ru": "Мне очень стыдно за это.",
           "ex": "I feel awful about forgetting your birthday.",
-          "exru": "Мне ужасно неловко, что я забыла про твой день рождения."
+          "exru": "Мне очень стыдно, что я забыла про твой день рождения."
         },
         {
           "id": "react21",
@@ -716,10 +716,10 @@
         },
         {
           "id": "repair23",
-          "en": "Let me rephrase that.",
-          "ru": "Позволь я перефразирую.",
-          "ex": "That came out wrong. Let me rephrase that.",
-          "exru": "Это прозвучало неправильно. Позволь перефразирую."
+          "en": "Let me back up for a second.",
+          "ru": "Давай вернусь на секунду назад.",
+          "ex": "Let me back up for a second. I skipped the important part.",
+          "exru": "Давай вернусь на секунду назад. Я пропустила главное."
         },
         {
           "id": "repair24",
@@ -915,9 +915,9 @@
         {
           "id": "opinion25",
           "en": "I'll give you that.",
-          "ru": "Тут ты права, этого не отнять.",
-          "ex": "It was a long trip, I'll give you that, but it was worth it.",
-          "exru": "Поездка была долгой, тут ты права, но оно того стоило."
+          "ru": "Тут не поспоришь.",
+          "ex": "It was a long trip. — I'll give you that, but it was worth it.",
+          "exru": "Поездка была долгой. — Тут не поспоришь, но оно того стоило."
         }
       ]
     },
@@ -1043,9 +1043,9 @@
         {
           "id": "fillers17",
           "en": "More or less",
-          "ru": "Более или менее",
-          "ex": "Are you done? — More or less.",
-          "exru": "Ты закончила? — Более или менее."
+          "ru": "Плюс-минус, примерно",
+          "ex": "How long will it take? — Two hours, more or less.",
+          "exru": "Сколько это займёт? — Часа два, плюс-минус."
         },
         {
           "id": "fillers18",
@@ -1115,7 +1115,7 @@
         {
           "id": "phrasal01",
           "en": "to figure out",
-          "ru": "разобраться, понять",
+          "ru": "сообразить, понять",
           "ex": "I'll figure it out on my own.",
           "exru": "Я сама разберусь."
         },
@@ -1206,7 +1206,7 @@
         {
           "id": "phrasal14",
           "en": "to sort out",
-          "ru": "уладить, разобраться",
+          "ru": "уладить, утрясти",
           "ex": "Let me sort this out for you.",
           "exru": "Давайте я это для вас улажу."
         },
@@ -1745,7 +1745,7 @@
           "id": "story12",
           "en": "Little did I know,",
           "ru": "Я и не подозревала,",
-          "ex": "Little did I know, that call would change everything.",
+          "ex": "Little did I know that call would change everything.",
           "exru": "Я и не подозревала, что этот звонок всё изменит."
         },
         {
@@ -1913,9 +1913,9 @@
       "q": "Which is the most polite way to disagree?",
       "o": [
         "I see your point, but I'm not sure that's the whole picture.",
-        "You're wrong about that.",
-        "That's nonsense.",
-        "No, I don't think so at all."
+        "You're wrong about that, and I can explain exactly why.",
+        "That's complete nonsense, I'm afraid, and you know it.",
+        "No, I don't think so at all, sorry, not in any way."
       ],
       "a": 0,
       "lvl": 2
@@ -1924,9 +1924,9 @@
       "q": "'We ran out of time' means:",
       "o": [
         "We didn't have enough time left.",
-        "We ran quickly.",
-        "We forgot the time.",
-        "We were late."
+        "We ran fast to the meeting room.",
+        "We forgot to check the clock.",
+        "We were late for the first session."
       ],
       "a": 0,
       "lvl": 2
@@ -1936,7 +1936,7 @@
       "o": [
         "catch",
         "hold",
-        "take",
+        "carry",
         "grip"
       ],
       "a": 0,
@@ -1946,9 +1946,9 @@
       "q": "'He's always on about his new car.' means:",
       "o": [
         "He talks about it all the time.",
-        "He is driving it constantly.",
-        "He is sitting on top of it.",
-        "He wants to sell it."
+        "He drives it to work every day.",
+        "He wants to swap it for a bike.",
+        "He keeps it parked outside always."
       ],
       "a": 0,
       "lvl": 2
@@ -1965,12 +1965,12 @@
       "lvl": 2
     },
     {
-      "q": "Which reply sounds natural? 'Shall we get a table outside?'",
+      "q": "Someone says, 'I'm thinking of changing jobs.' Which reply is the most natural?",
       "o": [
-        "Sure, why not?",
-        "Yes, we shall.",
-        "Of course, I shall to.",
-        "Yes, it is possible."
+        "Really? What's making you want to leave?",
+        "Really? What do you want leaving?",
+        "Oh, how is your plan of the changing?",
+        "Yes, I too am changing the jobs."
       ],
       "a": 0,
       "lvl": 2
@@ -1989,10 +1989,10 @@
     {
       "q": "'To cut corners' means:",
       "o": [
-        "to do something in a cheaper or less careful way",
-        "to walk around a building",
-        "to reduce your speed",
-        "to draw squares"
+        "to do something in a cheaper, less careful way",
+        "to walk around a building to save time",
+        "to reduce your speed on a bend",
+        "to draw squares on a plan"
       ],
       "a": 0,
       "lvl": 3
@@ -2012,9 +2012,9 @@
       "q": "'I'll play devil's advocate' means:",
       "o": [
         "I will argue the opposite side to test the idea.",
-        "I will behave badly on purpose.",
-        "I will ask for forgiveness.",
-        "I will join the other team."
+        "I will behave badly on purpose, for fun.",
+        "I will ask the others for their forgiveness.",
+        "I will join the other team for a while."
       ],
       "a": 0,
       "lvl": 3
@@ -2034,9 +2034,9 @@
       "q": "'We're on the same page' means:",
       "o": [
         "We agree and understand each other.",
-        "We're reading the same book.",
-        "We're sitting close together.",
-        "We're in the same office."
+        "We're reading the same book right now.",
+        "We're sitting close together at the desk.",
+        "We're working in the same office."
       ],
       "a": 0,
       "lvl": 3
@@ -2056,9 +2056,9 @@
       "q": "'To bite the bullet' means:",
       "o": [
         "to accept something unpleasant and just do it",
-        "to eat very quickly",
-        "to be very angry",
-        "to give up"
+        "to eat very quickly when you are hungry",
+        "to be very angry with someone close",
+        "to give up on a difficult plan"
       ],
       "a": 0,
       "lvl": 3

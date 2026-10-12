@@ -3023,6 +3023,7 @@ function engVoiceBtns(id, what){
 let en = null;
 const enMic = {rec:null, url:null, timer:null, no:false, busy:false};
 function enMicReset(){
+  enMic.tok = (enMic.tok || 0) + 1;
   clearTimeout(enMic.timer); enMic.timer = null;
   if(enMic.rec && enMic.rec.state !== 'inactive'){ enMic.rec.onstop = null; try{ enMic.rec.stop(); enMic.rec.stream.getTracks().forEach(function(x){ x.stop(); }); }catch(e){} }
   enMic.rec = null; enMic.busy = false;
@@ -3032,8 +3033,9 @@ function enMicStart(){
   enMicReset(); enMic.no = false;
   if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder){ enMic.no = true; enRender(); return; }
   enMic.busy = true; enRender();
+  const tok = enMic.tok;
   navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
-    if(!enMic.busy){ stream.getTracks().forEach(function(x){ x.stop(); }); return; }
+    if(!enMic.busy || tok !== enMic.tok){ stream.getTracks().forEach(function(x){ x.stop(); }); return; }
     const type = ['audio/mp4', 'audio/webm;codecs=opus', 'audio/webm'].find(function(x){ return MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(x); });
     let rec;
     try{ rec = new MediaRecorder(stream, type ? {mimeType:type} : undefined); }
@@ -3048,7 +3050,7 @@ function enMicStart(){
     };
     rec.start(); enMic.rec = rec; enRender();
     enMic.timer = setTimeout(enMicStop, 10000);
-  }).catch(function(){ enMic.no = true; enMic.busy = false; enRender(); });
+  }).catch(function(){ if(tok !== enMic.tok) return; enMic.no = true; enMic.busy = false; enRender(); });
 }
 function enMicStop(){
   clearTimeout(enMic.timer); enMic.timer = null;
@@ -3094,6 +3096,11 @@ function engRate(ok, id){
 function engCardsDone(){
   const d = engDayWrite();
   if(en && en.q.length && !d.done){ d.done = true; spTick(); save(); }
+}
+/* every planned card is graded but the day was never completed (she left from the “once more” card, or the level check lowered the daily number) */
+function engSettle(){
+  const d = engDayRead(), p = engPlan();
+  if(!d.done && ((d.rev || 0) + (d.fresh || 0)) > 0 && !p.rev.length && !p.fresh.length){ engDayWrite().done = true; spTick(); save(); }
 }
 function engToSay(){
   engCardsDone();
@@ -3226,10 +3233,11 @@ function renderEnPlace(){
   view.innerHTML = h;
 }
 function renderEnPlaced(){
-  const r = engState().placed;
-  const text = {starter:'Everyday phrases first, gently — 4 new a day.', core:'A steady mix, starting with everyday and opinion phrases — 5 new a day.', stretch:'You will meet the harder sets first — 6 new a day.'}[r.level];
+  const e = engState(), r = e.placed;
+  const text = {starter:'Everyday phrases first, gently — 4 new a day.', core:'A steady mix — 5 new a day.', stretch:'The harder sets come first — 6 new a day.'}[r.level];
+  const names = engOrder().slice(0, 2).map(function(id){ return PH.sets.find(function(x){ return x.id === id; }).name; });
   view.innerHTML = engBack()+'<p class="eyebrow" style="margin:14px 2px 0">Level check · done</p>'+
-    '<h2 class="rec-title">'+r.right+' of '+r.n+'</h2><p class="fd-sub">'+text+' You can change the first set any time.</p>'+
+    '<h2 class="rec-title">'+r.right+' of '+r.n+'</h2><p class="fd-sub">'+text+' First up: '+esc(names.join(' and '))+'. You can change the first set any time.</p>'+
     '<button class="btn btn-primary btn-full" data-act="en-exit" style="margin-top:16px">Start learning</button>';
 }
 /* eng:end */
@@ -4160,13 +4168,13 @@ document.addEventListener('click', function(e){
   }
   else if(act==='en-skip-say'){ engFinish(btn); }
   else if(act==='en-exit'){
-    engLeave();
+    engLeave(); engSettle();
     if(en && en.stage === 'card' && en.i > 0) toast('Progress saved');
     en = null; window.scrollTo(0, 0); renderEnglish();
   }
   else if(act==='en-focus'){
     const id = btn.getAttribute('data-id'), e = engState();
-    e.order = [id].concat(engOrder().filter(function(x){ return x !== id; })); e.focused = true;
+    e.order = [id].concat(engOrder().filter(function(x){ return x !== id; })); e.focused = id;
     save(); toast('That set comes first now'); renderEnglish();
   }
   else if(act==='en-place-start'){
@@ -4188,8 +4196,10 @@ document.addEventListener('click', function(e){
       const e = engState(), r = placeScore(p.right, p.qs.length);
       e.placed = Object.assign({date:today()}, r);
       e.newPerDay = r.newPerDay;
-      if(!e.focused) e.order = placeOrder(PH.sets, r.level).map(function(s){ return s.id; });
-      save(); en = {stage:'placed'};
+      let ord = placeOrder(PH.sets, r.level).map(function(s){ return s.id; });
+      if(e.focused && ord.indexOf(e.focused) >= 0) ord = [e.focused].concat(ord.filter(function(x){ return x !== e.focused; }));
+      e.order = ord;
+      engSettle(); save(); en = {stage:'placed'};
     }
     window.scrollTo(0, 0); renderEnglish();
   }
@@ -4582,7 +4592,7 @@ function renderChapter(){
   let h = '<button class="backbtn" data-act="ln-home">'+LN_BACK+'Driving theory</button>'+
     '<p class="eyebrow">Chapter '+(ci + 1)+' of '+LEARN.chapters.length+'</p>'+
     '<h2 class="ln-title">'+esc(c.t)+'</h2>'+
-    '<p class="ln-sub" lang="'+engRuLang(c.ru)+'">'+esc(c.ru)+'</p>'+
+    '<p class="ln-sub" lang="ru">'+esc(c.ru)+'</p>'+
     '<p class="ln-intro" lang="ru">'+lnMd(c.intro)+'</p>'+
     '<div class="ln-ls">'+c.lessons.map(function(l, li){
       const ok = !!L[l.id];

@@ -129,5 +129,26 @@ check(/act==='import-data'[\s\S]{0,1200}en = null/.test(html) && /act==='reset'[
 check(/\.en-exru\{[^}]*color:var\(--ink-soft\)/.test(html), 'small Russian text in the trainer uses the stronger ink colour');
 check(/en\[-_\]GB/.test(fnBody('engVoice')), 'the voice prefers British English, like the phrases');
 
+// 5. round two
+if(P){
+  let longest = 0;
+  P.placement.forEach(function(q){ const L = q.o.map(function(x){ return x.length; }); if(L[q.a] > Math.max.apply(null, L.filter(function(_, i){ return i !== q.a; }))) longest++; });
+  check(longest <= 8, 'the right answer is the longest option in ' + longest + ' of 20 level-check questions (at most 8, or guessing "the longest" beats chance)');
+  check(P.placement.every(function(q){ return q.q.indexOf("Which reply sounds natural? 'Shall we get a table outside?'") < 0 && q.o.indexOf('take') < 0; }), 'two arguable level-check questions are still there');
+  const byId = {}; P.sets.forEach(function(s){ s.cards.forEach(function(c){ byId[c.id] = c; }); });
+  check(byId.repair23.en !== 'Let me rephrase that.', 'repair23 repeated repair12');
+  check(byId.fillers17.ru !== 'Более или менее' && byId.react20.ru.indexOf('неловко') < 0, 'near-identical Russian cues are still there');
+  check(byId.story12.ex.indexOf('know,') < 0, 'a stray comma in story12');
+  check(byId.opinion25.ex.indexOf('—') > 0, 'opinion25 should be a short dialogue, so the concession makes sense');
+}
+check(/function engSettle\(\)/.test(html) && /engSettle\(\)/.test(fnBody('renderTrain') + html.slice(html.indexOf("act==='en-exit'"), html.indexOf("act==='en-exit'") + 300)), 'leaving after the last planned card (even from the “once more” card) still completes the day');
+check(/engSettle\(\)/.test(html.slice(html.indexOf("act==='en-place-next'"), html.indexOf("act==='en-place-next'") + 900)), 'finishing the level check also settles a day whose planned cards are all graded');
+check(/e\.focused = id/.test(html) && /indexOf\(e\.focused\)/.test(html) && !/if\(!e\.focused\) e\.order/.test(html), 'the level check reorders the sets but keeps the one she chose first');
+check(/First up:/.test(fnBody('renderEnPlaced')), 'the level-check result names the sets that really come first');
+check(/enMic\.tok/.test(fnBody('enMicReset')) && /tok !== enMic\.tok/.test(fnBody('enMicStart')), 'a stale microphone request is discarded, so two recorders never run');
+// the driving course keeps its own lang="ru" (the trainer's helper must not leak into it)
+const outsideUi = html.replace(/\/\* eng:ui \*\/[\s\S]*?\/\* eng:end \*\//, '');
+check(!/engRuLang/.test(outsideUi), 'engRuLang leaked into code outside the trainer');
+
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: English trainer stage 1');
