@@ -91,15 +91,6 @@ if(cssM){
   check(/\.btn-danger\{[^}]*border-color:\s*currentColor/.test(css), 'Delete stays outlined in red');
   const h1 = /\.top h1\{[^}]*font-size:\s*(\d+)px/.exec(css);
   check(!!h1 && +h1[1] <= 38, 'the greeting is at most 38px so it does not eat the screen');
-  // gingham: text must stay readable where the two pink layers overlap
-  const ga = /\.arc-card\{[^}]*rgba\((\d+),\s*(\d+),\s*(\d+),\s*([.\d]+)\)/.exec(css);
-  if(ga && v.accent){
-    const base = [0xFF, 0xF3, 0xF8], a = +ga[4], col = [+ga[1], +ga[2], +ga[3]];
-    const one = base.map(function(b, i){ return b * (1 - a) + col[i] * a; });
-    const two = one.map(function(b, i){ return b * (1 - a) + col[i] * a; });
-    const hex = two.map(function(x){ return ('0' + Math.round(x).toString(16)).slice(-2); }).join('');
-    ['ink-mute', 'ink-soft', 'accent', 'ok', 'gold'].forEach(function(k){ check(ratio(v[k], '#' + hex) >= 4.5, k + ' on the gingham overlap #' + hex + ' ' + ratio(v[k], '#' + hex).toFixed(2) + ' (need 4.5)'); });
-  }
 }
 // c. the header stickers stay inside the narrowest phone (visible x ≈ 72–447) and scroll away with the page
 if(dm){
@@ -127,6 +118,29 @@ if(dm){
   const ys = [], re2 = /translate\((\d+)\s+(\d+)\)/g; let m2;
   while((m2 = re2.exec(dm[1]))) ys.push([+m2[1], +m2[2]]);
   check(!ys.some(function(p){ return p[0] >= 385 && p[0] <= 435 && p[1] >= 40 && p[1] <= 90; }), 'no sticker sits under the settings gear');
+}
+
+// 9. calmer to the eye: quiet stripes, patterns only as a thin band (never under text), stronger small text
+if(v['stripe-a'] && v['stripe-b']){
+  check(ratio(v['stripe-a'], v['stripe-b']) <= 1.1, 'the page stripes are quiet: ratio ' + ratio(v['stripe-a'], v['stripe-b']).toFixed(2) + ' (at most 1.10)');
+  ['ink-soft', 'ink-mute'].forEach(function(k){
+    check(ratio(v[k], v.surface) >= 7, k + ' on the card ' + ratio(v[k], v.surface).toFixed(1) + ' (need 7: the small print must be easy)');
+    check(ratio(v[k], v['stripe-a']) >= 6 && ratio(v[k], v['stripe-b']) >= 6, k + ' on the stripes (need 6)');
+  });
+}
+if(cssM){
+  const css9 = cssM[1].replace(/\/\*[\s\S]*?\*\//g, '');
+  ['arc-card', 'wq-card', 'plans'].forEach(function(c){
+    const r = new RegExp('\\[data-skin="doodle"\\] \\.' + c + '\\{([^}]*)\\}').exec(css9);
+    check(!!r && /background-repeat:\s*no-repeat/.test(r[1]), c + ' keeps its pattern as a band, not behind the text');
+    const sz = r && /background-size:\s*100% (\d+)px/.exec(r[1]);
+    check(!!sz && +sz[1] <= 16, c + ' pattern band is at most 16px high');
+    check(!!r && /padding-top:\s*(2\d|3\d)px/.test(r[1]), c + ' leaves room under the band for its first line');
+  });
+  const h3 = /\.wq-card h3, \[data-skin="doodle"\] \.arc-card h3\{[^}]*font-size:\s*(\d+)px/.exec(css9);
+  check(!!h3 && +h3[1] <= 24, 'card headings are at most 24px, not shouting');
+  check(/\.decor\{[^}]*opacity:\s*0?\.([0-5]\d?)/.test(css9), 'the header stickers are softened (opacity at most .59)');
+  check(!/\.top h1\{[^}]*text-shadow/.test(css9), 'no coloured shadow behind the greeting');
 }
 
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
