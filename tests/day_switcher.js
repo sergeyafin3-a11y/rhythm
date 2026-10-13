@@ -35,7 +35,7 @@ check(/paintedDay !== realToday\(\)/.test(html) && /selDay = null[^\n]*paintHead
 // the screen
 check(/function dayBar\(\)/.test(html) && /dayBar\(\)/.test((/function renderToday\(\)\{[\s\S]*?\n\}\n/.exec(html) || [''])[0]), 'Today shows the day bar');
 const rt = (/function renderToday\(\)\{[\s\S]*?\n\}\n/.exec(html) || [''])[0];
-check(/selDay/.test(rt) && /arcTodayCard\(\)/.test(rt) && /wqTodayCard\(\)/.test(rt) && /tdTodayCard\(\)/.test(rt), 'renderToday knows about the chosen day and still builds the cards');
+check(/selDay/.test(rt) && /arcTodayCard\(\)/.test(rt) && /wqTodayCard\(\)/.test(rt) && /tdPlansCard\(\)/.test(rt), 'renderToday knows about the chosen day and still builds the cards');
 check(/if\(!selDay\)\{?[\s\S]{0,200}arcTodayCard\(\)|selDay \? '' : arcTodayCard\(\)|!selDay && /.test(rt), 'the Arc, word-test and to-do cards are shown only on the real today');
 ['day-prev', 'day-next', 'day-today', 'arc-cell'].forEach(function(a){ check(new RegExp("act==='" + a + "'").test(html), 'the ' + a + ' action is missing'); });
 check(/class="arc-cell/.test(html) && /data-act="arc-cell"/.test(html), 'the tracker cells are buttons');
