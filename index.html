@@ -570,13 +570,17 @@ main{ flex:1; padding-bottom:104px; }
 .plans-day small{ font-size:13px; color:var(--ink-soft); }
 .plans-day.tom b{ font-size:18px; color:var(--ink-soft); }
 .plans-none{ margin:6px 0 4px; font-size:14px; color:var(--ink-soft); }
-.plans-row{ display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center; min-height:46px; padding:5px 0; border-top:1px solid var(--surface-2); }
-.plans-row:first-of-type{ border-top:0; }
-.plans-row .box{ width:28px; height:28px; border-radius:9px; border:2px solid var(--line); display:grid; place-items:center; color:transparent; }
+.plans-row{ display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center; min-height:48px; padding:5px 0 5px 4px; border-top:1px solid var(--surface-2); }
+.plans-day + .plans-row{ border-top:0; }
+.plans-row .box{ position:relative; width:28px; height:28px; border-radius:9px; border:2px solid var(--ink-mute); display:grid; place-items:center; color:transparent; }
+.plans-row .box::before{ content:''; position:absolute; inset:-10px; }
+.plans-row.late .box{ border-color:var(--bad); }
+.plans-row.done .box{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+.plans-row.done .plans-title{ text-decoration:line-through; color:var(--ink-mute); }
 .plans-row .box svg{ width:16px; height:16px; }
 .plans-title{ min-width:0; text-align:left; font-size:16px; line-height:1.3; font-weight:600; overflow-wrap:anywhere; color:var(--ink); }
-.plans-title em{ display:block; font-style:normal; font-size:12px; font-weight:700; color:var(--bad); margin-top:2px; }
-.plans-time{ flex:none; font-size:13px; font-weight:700; color:var(--accent); font-variant-numeric:tabular-nums; padding:5px 9px; border-radius:8px; background:var(--accent-soft); }
+.plans-title em{ display:block; font-style:normal; font-size:12px; font-weight:700; color:var(--ink-soft); margin-top:2px; }
+.plans-time{ flex:none; font-size:13px; font-weight:700; color:var(--ink); font-variant-numeric:tabular-nums; padding:5px 9px; border-radius:8px; background:var(--accent-soft); }
 .plans-more{ display:block; width:100%; text-align:left; padding:8px 0 4px; font-size:13px; font-weight:700; color:var(--accent); }
 
 /* ---- What's New ---- */
@@ -1280,7 +1284,7 @@ html[data-skin="doodle"]{ font-synthesis:none; background-color:var(--stripe-b);
 [data-skin="doodle"] .plans-title{ font-size:18px; }
 [data-skin="doodle"] .plans-row .box{ border-radius:50%; }
 [data-skin="doodle"] .fd-sub{ font-size:15px; color:var(--ink-soft); }
-[data-skin="doodle"] .wq-card.en-card{ background-image:none; }
+[data-skin="doodle"] .wq-card.en-card{ background-image:none; padding-top:20px; }
 [data-skin="doodle"] .en-big{ font-size:34px; }
 [data-skin="doodle"] .en-ru-big{ font-size:26px; }
 [data-skin="doodle"] .en-set{ border-radius:var(--radius); }
@@ -1504,14 +1508,12 @@ const DECOR = {
   doodle:
     '<svg viewBox="0 0 520 240" preserveAspectRatio="xMidYMin slice" fill="none">'+
     '<g transform="translate(415 108) scale(0.8)"><path d="M0 -5c-4-9-19-6-15 5 3 8 15 13 15 13s12-5 15-13c4-11-11-14-15-5z" fill="var(--accent)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/></g>'+
-    '<g transform="translate(290 140) scale(0.8)"><path d="M0 -5c-4-9-19-6-15 5 3 8 15 13 15 13s12-5 15-13c4-11-11-14-15-5z" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/></g>'+
     '<g transform="translate(250 26) scale(0.55)"><path d="M0 -5c-4-9-19-6-15 5 3 8 15 13 15 13s12-5 15-13c4-11-11-14-15-5z" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/></g>'+
     '<g transform="translate(170 30) scale(1.0)"><path d="M0-13 3.5-3.5 13 0 3.5 3.5 0 13-3.5 3.5-13 0-3.5-3.5z" fill="#FFE27A" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/></g>'+
     '<g transform="translate(385 28) scale(0.8)"><path d="M0-13 3.5-3.5 13 0 3.5 3.5 0 13-3.5 3.5-13 0-3.5-3.5z" fill="#BFE3F7" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/></g>'+
-    '<g transform="translate(345 175) scale(0.7)"><path d="M0-13 3.5-3.5 13 0 3.5 3.5 0 13-3.5 3.5-13 0-3.5-3.5z" fill="#FFE27A" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/></g>'+
-    '<path d="M290 40q7-9 14 0t14 0 14 0 14 0" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" fill="none"/>'+
-    '<path d="M390 120c-8 0-12 6-12 12s6 12 12 12 12-6 12-12-6-12-12-12z" fill="var(--accent-soft)" stroke="var(--ink)" stroke-width="2"/>'+
-    '<circle cx="390" cy="132" r="4" fill="#FFE27A" stroke="var(--ink)" stroke-width="1.6"/></svg>'
+    '<g transform="translate(330 54) scale(0.6)"><path d="M0-13 3.5-3.5 13 0 3.5 3.5 0 13-3.5 3.5-13 0-3.5-3.5z" fill="#FFE27A" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/></g>'+
+    '<g transform="translate(300 24) scale(0.5)"><path d="M0 -5c-4-9-19-6-15 5 3 8 15 13 15 13s12-5 15-13c4-11-11-14-15-5z" fill="var(--accent)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/></g>'+
+    '<path d="M262 50q7-9 14 0t14 0 14 0 14 0" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" fill="none"/></svg>'
 };
 
 /* ---------- Sound: a fanfare built from oscillators, no files needed ---------- */
@@ -2709,15 +2711,19 @@ function plansSort(a, b){
   if(at !== bt) return at < bt ? -1 : 1;
   return (a.made || 0) - (b.made || 0);
 }
-/* what the card at the top of Today shows: today's open tasks (overdue ones first, marked late) and tomorrow's */
+/* what the card at the top of Today shows: today's open tasks (overdue ones first, oldest day first, marked late),
+   tomorrow's, and what she has already ticked today (kept, struck through, so a tick can be undone) */
 function plansBuild(list, key, tomorrow){
   const open = list.filter(function(t){ return !t.done && t.date; });
-  const late = open.filter(function(t){ return t.date < key; }).sort(plansSort).map(function(t){ return Object.assign({}, t, {late:true}); });
+  const byDay = function(a, b){ return a.date !== b.date ? (a.date < b.date ? -1 : 1) : plansSort(a, b); };
+  const late = open.filter(function(t){ return t.date < key; }).sort(byDay).map(function(t){ return Object.assign({}, t, {late:true}); });
+  const doneList = list.filter(function(t){ return t.done && (t.date === key || t.doneAt === key); }).sort(plansSort);
   return {
     today: late.concat(open.filter(function(t){ return t.date === key; }).sort(plansSort)),
     tomorrow: open.filter(function(t){ return t.date === tomorrow; }).sort(plansSort),
     overdue: late.length,
-    doneToday: list.filter(function(t){ return t.done && t.date === key; }).length
+    doneList: doneList,
+    doneToday: doneList.length
   };
 }
 /* plans:end */
@@ -2782,23 +2788,27 @@ function renderTodos(){
 
 function tdPlansCard(){
   const key = today(), p = plansBuild(todos(), key, shift(key, 1));
-  if(!p.today.length && !p.tomorrow.length) return '';
-  const row = function(t){
-    return '<article class="plans-row">'+
-      '<button class="box" data-act="td-toggle" data-id="'+t.id+'" aria-pressed="false" aria-label="Done: '+esc(t.t)+'">'+
+  if(!p.today.length && !p.tomorrow.length && !p.doneList.length) return '';
+  const row = function(t, done){
+    return '<article class="plans-row'+(done ? ' done' : '')+(t.late ? ' late' : '')+'">'+
+      '<button class="box" data-act="td-toggle" data-id="'+t.id+'" aria-pressed="'+(done ? 'true' : 'false')+'" aria-label="'+(done ? 'Not done: ' : 'Done: ')+esc(t.t)+'">'+
         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></button>'+
       '<button class="plans-title" data-act="td-edit" data-id="'+t.id+'">'+esc(t.t)+(t.late ? '<em>overdue · '+esc(tdWhen(t))+'</em>' : '')+'</button>'+
       (t.time ? '<span class="plans-time">'+esc(t.time)+'</span>' : '<span></span>')+'</article>';
   };
-  const rows = function(list, max){
-    let h = list.slice(0, max).map(row).join('');
-    if(list.length > max) h += '<button class="plans-more" data-act="go-todo">and '+(list.length - max)+' more →</button>';
-    return h;
-  };
+  /* at most three overdue ones, so today's own tasks are never pushed out of sight */
+  const lateAll = p.today.filter(function(t){ return t.late; }), nowAll = p.today.filter(function(t){ return !t.late; });
+  const shown = lateAll.slice(0, 3).concat(nowAll.slice(0, 5)), hidden = p.today.length - shown.length;
   let h = '<section class="plans"><div class="plans-top"><p class="eyebrow">📋 Plans</p><button class="plans-all" data-act="go-todo">All tasks →</button></div>'+
     '<div class="plans-day"><b>Today</b><small>'+(p.today.length ? p.today.length+' to do' : '')+(p.doneToday ? (p.today.length ? ' · ' : '')+p.doneToday+' done' : '')+'</small></div>'+
-    (p.today.length ? rows(p.today, 6) : '<p class="plans-none">All clear for today ✓</p>');
-  if(p.tomorrow.length) h += '<div class="plans-day tom"><b>Tomorrow</b><small>'+p.tomorrow.length+' planned</small></div>'+rows(p.tomorrow, 4);
+    (p.today.length ? shown.map(function(t){ return row(t, false); }).join('') : '<p class="plans-none">All clear for today ✓</p>')+
+    (hidden > 0 ? '<button class="plans-more" data-act="go-todo">and '+hidden+' more →</button>' : '')+
+    p.doneList.slice(0, 3).map(function(t){ return row(t, true); }).join('');
+  if(p.tomorrow.length){
+    h += '<div class="plans-day tom"><b>Tomorrow</b><small>'+p.tomorrow.length+' planned</small></div>'+
+      p.tomorrow.slice(0, 3).map(function(t){ return row(t, false); }).join('')+
+      (p.tomorrow.length > 3 ? '<button class="plans-more" data-act="go-todo">and '+(p.tomorrow.length - 3)+' more →</button>' : '');
+  }
   return h + '</section>';
 }
 
@@ -4013,12 +4023,12 @@ document.addEventListener('click', function(e){
     if(!v){ toast('Give it a name'); $('#tdT').focus(); return; }
     t.t = v; t.date = $('#tdDate').value || ''; t.time = $('#tdTime').value || '';
     t.note = ($('#tdNote').value || '').trim();
-    save(); closeSheet(); go('todo'); toast('Saved');
+    save(); closeSheet(); render(); toast('Saved');
   }
   else if(act==='td-del'){
     if(!confirm('Delete this task?')) return;
     state.todos = todos().filter(function(x){ return x.id !== id; });
-    save(); closeSheet(); go('todo'); toast('Deleted');
+    save(); closeSheet(); render(); toast('Deleted');
   }
   else if(act==='go-drive'){ skView = 'pdd'; go('practice'); }
   else if(act==='go-diction'){ skView = 'diction'; go('practice'); }
