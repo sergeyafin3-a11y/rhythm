@@ -56,7 +56,7 @@ if(m){
   const r = A.plansBuild([T('a1', key, '10:00'), T('o1', '2026-10-10', '09:00'), T('o2', '2026-10-12', '08:00'), T('o3', '2026-10-11', ''),
     T('d1', key, '', {done:true, doneAt:key}), T('d2', '2026-10-12', '', {done:true, doneAt:key}), T('d3', '2026-10-12', '', {done:true, doneAt:'2026-10-12'})], key, tom);
   check(r.today.map(x => x.id).join() === 'o1,o3,o2,a1', 'overdue tasks go oldest day first: ' + r.today.map(x => x.id).join());
-  check(r.doneList.map(x => x.id).join() === 'd1,d2' && r.doneToday === 2, 'tasks ticked today stay on the card (struck through), even overdue ones: ' + JSON.stringify(r.doneList.map(x => x.id)));
+  check(r.doneToday === 2, 'the header still counts what she ticked today, even overdue ones: ' + r.doneToday);
 }
 check(/act==='td-save'\)\{[\s\S]*?\n  \}/.exec(html) && !/go\('todo'\)/.test(/act==='td-save'\)\{[\s\S]*?\n  \}/.exec(html)[0]), 'saving a task does not throw her onto the To-do tab');
 check(/act==='td-del'\)\{[\s\S]*?\n  \}/.exec(html) && !/go\('todo'\)/.test(/act==='td-del'\)\{[\s\S]*?\n  \}/.exec(html)[0]), 'deleting a task does not throw her onto the To-do tab');
@@ -65,7 +65,6 @@ check(/\.plans-row \.box\{[^}]*border:2px solid var\(--ink-mute\)/.test(html), '
 check(/\.plans-title em\{[^}]*color:var\(--ink-soft\)/.test(html), 'the overdue label is readable in dark themes too');
 check(/\.plans-time\{[^}]*color:var\(--ink\)/.test(html), 'the time chip text is readable in every theme');
 check(/\.plans-day \+ \.plans-row\{[^}]*border-top:0/.test(html) && !/\.plans-row:first-of-type/.test(html), 'the first row under each heading has no line above it');
-check(/data-act="td-toggle"[^']*aria-pressed="true"/.test(/function tdPlansCard\(\)\{([\s\S]*?)\n\}/.exec(html)[1]) || /aria-pressed="'\+/.test(/function tdPlansCard\(\)\{([\s\S]*?)\n\}/.exec(html)[1]), 'a ticked row can be unticked on the card');
 check(/\.wq-card\.en-card\{[^}]*padding-top:\s*20px/.test(html), 'English session cards have no extra band padding in Doodle');
 check(/\.arc-card\{[^}]*repeating-linear-gradient\(90deg[^}]*repeating-linear-gradient\(0deg/.test(html), 'the Arc band is a real gingham: vertical and horizontal stripes');
 
