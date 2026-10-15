@@ -1247,6 +1247,8 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .dlg-bub.you{ align-self:flex-end; background:var(--accent-soft); border-bottom-right-radius:6px; }
 .dlg-bub.now{ font-size:18px; box-shadow:var(--shadow); }
 .dlg-keep{ display:flex; flex-direction:column; gap:8px; }
+.dlg-why{ margin:8px 0 0; font-size:14px; line-height:1.4; color:var(--ink-soft); }
+.dlg-why b{ display:block; font-weight:700; color:var(--ink); }
 .dlg-tr{ margin:10px 2px 0; font-size:14px; color:var(--ink-soft); }
 .dlg-row{ width:100%; text-align:left; }
 .dlg-row .en-set-top{ align-items:center; }
@@ -2161,7 +2163,8 @@ function hbPanel(h){
 const WQ_LEN = 5, WQ_MIN = 4;
 function wqClean(s){ s = String(s == null ? '' : s).trim(); return s === '—' ? '' : s; }
 function wqMeaning(w){ return wqClean(w.ru) || wqClean(w.mean); }
-function wqUsable(words){ return (words || []).filter(function(w){ return wqClean(w.term) && wqMeaning(w); }); }
+/* a saved dialogue reply is a whole sentence with an instruction for a meaning: it joins the cards, not the word test */
+function wqUsable(words){ return (words || []).filter(function(w){ return wqClean(w.term) && wqMeaning(w) && w.src !== 'dialogue'; }); }
 function wqShuffle(a, rnd){
   const b = a.slice();
   for(let i = b.length - 1; i > 0; i--){ const j = Math.floor(rnd() * (i + 1)), t = b[i]; b[i] = b[j]; b[j] = t; }
@@ -3027,7 +3030,7 @@ function placeOrder(sets, level){
 /* eng:ui */
 let PH = null, phLoading = false, phFailed = false;
 function phLoad(){
-  if(PH || phLoading) return;
+  if(PH || phLoading || phFailed) return;
   phLoading = true; phFailed = false;
   fetch('english/phrases.json').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
     .then(function(d){
@@ -3046,7 +3049,7 @@ function engOrder(){
   base.forEach(function(id){ if(order.indexOf(id) < 0) order.push(id); });
   return order;
 }
-function engOwn(){ return wqUsable(state.words); }
+function engOwn(){ return (state.words || []).filter(function(w){ return wqClean(w.term) && wqMeaning(w); }); }
 /* the sets in her order, with her own words mixed in */
 function engDeck(){
   const ids = [];
@@ -3355,10 +3358,12 @@ function dlgBuild(scene, rnd){
 function dlgNext(scenes, done, level){
   return placeOrder(scenes, level).find(function(s){ return !done[s.id]; }) || null;
 }
+/* the best result of a scene is kept: a careless replay never lowers it */
+function dlgBest(prev, cur){ return prev && prev.right >= cur.right ? prev : cur; }
 /* dlg:end */
 let DL = null, dlLoading = false, dlFailed = false;
 function dlLoad(){
-  if(DL || dlLoading) return;
+  if(DL || dlLoading || dlFailed) return;
   dlLoading = true; dlFailed = false;
   fetch('english/dialogues.json').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
     .then(function(d){
@@ -3377,7 +3382,7 @@ function lsLoad(){
     .catch(function(){ lsLoading = false; lsFailed = true; if(tab === 'english') renderEnglish(); });
 }
 function engDlg(){ const e = engState(); if(!e.dlg) e.dlg = {done:{}}; if(!e.dlg.done) e.dlg.done = {}; return e.dlg; }
-function engLevel(){ const p = engState().placed; return p ? p.level : 'core'; }
+function engLevel(){ const p = engState().placed; return p ? p.level : 'starter'; }
 function engSpeakBtns(text){
   return '<span class="en-voice"><button class="btn btn-sm" data-act="en-speak-t" data-t="'+esc(text)+'" data-slow="0">🔊 Listen</button>'+
     '<button class="btn btn-ghost btn-sm" data-act="en-speak-t" data-t="'+esc(text)+'" data-slow="1">🐢 Slowly</button></span>';
@@ -3391,7 +3396,8 @@ function dlgStart(id){
 }
 function dlgFinish(btn){
   const d = en.dlg;
-  engDlg().done[d.sc.id] = {date:today(), right:d.right, n:d.n};
+  const done = engDlg().done;
+  done[d.sc.id] = dlgBest(done[d.sc.id], {date:today(), right:d.right, n:d.n});
   spTick(); save(); enMicReset();
   en.stage = 'dlg-done';
   if(btn) celebrate(btn);
@@ -3432,7 +3438,7 @@ function renderDlgList(){
 function renderDlgPlay(){
   const d = en.dlg, t = d.turns[d.i];
   let h = engBack()+'<p class="eyebrow" style="margin:14px 2px 8px">'+esc(d.sc.name)+' · '+(d.i + 1)+' of '+d.turns.length+'</p><div class="dlg-chat">';
-  for(let k = 0; k < d.i; k++) h += dlgBubble(d.turns[k], d.turns[k].who === 'you');
+  for(let k = Math.max(0, d.i - 2); k < d.i; k++) h += dlgBubble(d.turns[k], d.turns[k].who === 'you');
   if(t.who === 'them'){
     h += '<div class="dlg-bub them now">'+esc(t.en)+'</div></div>'+engSpeakBtns(t.en)+
       '<p class="dlg-tr">'+(d.ruOn ? '<span lang="ru">'+esc(t.ru)+'</span>' : '<button class="linkbtn" data-act="dlg-ru">Show translation</button>')+'</p>'+
@@ -3447,7 +3453,8 @@ function renderDlgPlay(){
     }).join('')+'</div>';
   if(answered){
     const ok = t.options[d.picked].ok;
-    h += '<div class="wq-fb">'+(ok ? '<p class="wq-ok">✓ Right</p>' : '<p class="wq-no">Not quite</p><p class="fd-sub" lang="ru">'+esc(t.options[d.picked].why)+'</p>')+'</div>'+
+    h += '<div class="wq-fb">'+(ok ? '<p class="wq-ok">✓ Right</p>' : '<p class="wq-no">Not quite</p><p class="fd-sub" lang="ru">'+esc(t.options[d.picked].why)+'</p>')+
+      t.options.filter(function(o, i){ return !o.ok && i !== d.picked; }).map(function(o){ return '<p class="dlg-why"><b>'+esc(o.t)+'</b><span lang="ru">'+esc(o.why)+'</span></p>'; }).join('')+'</div>'+
       '<p class="tk-sub" style="margin-top:6px">Now say it out loud:</p><p class="en-big">'+esc(t.right)+'</p>'+engSpeakBtns(t.right);
     if(enMic.busy && enMic.rec) h += '<p class="tk-sub" style="margin-top:10px">Recording…</p><button class="btn btn-primary btn-full" data-act="en-mic-stop">■ Stop</button>';
     else if(enMic.busy) h += '<p class="tk-sub" style="margin-top:10px">Waiting for the microphone…</p>';
@@ -3642,7 +3649,7 @@ let TALK = null, talkLoading = false, talkFailed = false;
 const tk = {id:null, stage:'idle', take:1, takes:{}, rec:null, started:0, timer:null, noMic:false, angle:0, spinning:false, used:{}};
 
 function talkLoad(){
-  if(TALK || talkLoading) return;
+  if(TALK || talkLoading || talkFailed) return;
   talkLoading = true; talkFailed = false;
   fetch('english/talk.json').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
     .then(function(d){
@@ -4590,7 +4597,7 @@ document.addEventListener('click', function(e){
     enMicReset(); renderEnglish();
   }
   else if(act==='dlg-next'){
-    if(!en || !en.dlg) return;
+    if(!en || !en.dlg || en.stage !== 'dlg') return;
     const d = en.dlg;
     if(d.turns[d.i].who === 'you' && d.picked == null) return;
     enMicReset(); d.i++; d.picked = null; d.ruOn = false;

@@ -15,7 +15,7 @@
         },
         {
           "who": "you",
-          "ru": "Подбодри его: все с чего-то начинают.",
+          "ru": "Подбодри его: ты же для этого и пришёл.",
           "en": "Don't worry, that's why you're here. We'll take it slowly.",
           "bad": [
             {
@@ -24,7 +24,7 @@
             },
             {
               "t": "Don't worry, it doesn't matter. I am teacher here, I know all.",
-              "why": "Нет артикля (a teacher) и звучит слишком самоуверенно."
+              "why": "Нужно the teacher, и звучит слишком самоуверенно."
             }
           ]
         },
@@ -36,7 +36,7 @@
         {
           "who": "you",
           "ru": "Скажи, что сначала просто поболтаете, чтобы понять уровень.",
-          "en": "First we'll just have a chat, so I can see your level.",
+          "en": "First we'll just have a chat, so I can get a sense of your level.",
           "bad": [
             {
               "t": "First we will make a talk, so I can know your level.",
@@ -93,7 +93,7 @@
             },
             {
               "t": "Nice! Just one small thing: you should say 'I have went'.",
-              "why": "Такой формы нет: нужно просто went (или have gone)."
+              "why": "Такой формы нет: нужно went (have gone тут тоже нельзя)."
             }
           ]
         },
@@ -125,11 +125,11 @@
         {
           "who": "you",
           "ru": "Поправь bored / boring, успокой: ошибка частая.",
-          "en": "Ah, we say 'boring' for the film. 'Bored' is how you feel.",
+          "en": "Ah, we say 'boring' for the film. 'Bored' is how you feel. Common mistake!",
           "bad": [
             {
-              "t": "Ah, it's not 'bored', it's 'boring'. Remember it, please.",
-              "why": "Звучит как приказ; лучше объяснить разницу."
+              "t": "Ah, it's not 'bored', it's 'bore'. Remember it, please.",
+              "why": "Такой формы нет: нужно boring (о фильме), и звучит как приказ."
             },
             {
               "t": "Ah, almost! Use 'boring' when you feel it, 'bored' for a film.",
@@ -178,7 +178,7 @@
           "bad": [
             {
               "t": "As you want. Just send me it until Friday, please.",
-              "why": "send me it и until — нужно send it to me и by Friday."
+              "why": "As you want и until — нужно Whichever you prefer и by Friday."
             },
             {
               "t": "Whichever you prefer. Just send it to me on Friday.",
@@ -320,7 +320,7 @@
             },
             {
               "t": "I'm afraid six is tricky. Could we make seven instead?",
-              "why": "make seven — калька; говорят do seven / how about seven."
+              "why": "Не хватает it: говорят make it seven или do seven."
             }
           ]
         },
@@ -644,8 +644,8 @@
               "why": "give back — не про магазин, и I want грубовато; нужно return."
             },
             {
-              "t": "I'd like to return this top. It was turned out too small.",
-              "why": "turn out не употребляется в пассиве: it turned out."
+              "t": "I want to return this top, it is small for me.",
+              "why": "I want грубовато; «оказался мал» — it turned out to be too small."
             }
           ]
         },
@@ -671,8 +671,8 @@
         },
         {
           "who": "them",
-          "en": "I can see it here. I can only offer you store credit, though. Is that okay?",
-          "ru": "Вижу вашу покупку. Но могу предложить только кредит магазина. Подойдёт?"
+          "en": "I can see it here. I can only offer you a credit note, though. Is that okay?",
+          "ru": "Вижу вашу покупку. Но могу предложить только кредит-ноту — сумму на будущие покупки. Подойдёт?"
         },
         {
           "who": "you",
@@ -733,8 +733,8 @@
               "why": "materials of — нужно for; educational звучит слишком книжно."
             },
             {
-              "t": "I'll be put together learning materials for the course.",
-              "why": "После I'll be нужна форма -ing: putting together."
+              "t": "I will prepare a materials for the course.",
+              "why": "materials без a; естественнее I'll be putting together…"
             }
           ]
         },
@@ -802,8 +802,8 @@
               "why": "Резко, как приказ; смягчи вопросом: would ... be possible?"
             },
             {
-              "t": "Ten's a bit early to me. Would be half ten possible?",
-              "why": "early for me; порядок слов: Would half ten be possible?"
+              "t": "Ten is too early for me. Please you move it on half past ten.",
+              "why": "Порядок слов и предлог (move it to); смягчи вопросом would ... be possible?"
             }
           ]
         },
@@ -822,8 +822,8 @@
               "why": "Слишком официально и по-книжному для рабочего разговора."
             },
             {
-              "t": "Could we pass through the deadlines and who does what?",
-              "why": "pass through — калька; обсудить по пунктам — go through."
+              "t": "I suggest to discuss deadlines and distribution of tasks.",
+              "why": "suggest to — ошибка; книжно, лучше Could we go through…"
             }
           ]
         }
@@ -1009,8 +1009,8 @@
               "why": "all are — нужно everyone; естественнее lovely и so friendly."
             },
             {
-              "t": "It's lovely and quiet. Everyone is very nice people.",
-              "why": "Everyone — единственное число, а people — множественное."
+              "t": "It is very quiet and calm, all people are very friendly.",
+              "why": "all people are — нужно everyone's been; звучит как перевод."
             }
           ]
         },
@@ -1051,7 +1051,7 @@
         {
           "who": "you",
           "ru": "Скажи, что бронь на фамилию Орлова на три ночи.",
-          "en": "Yes, there's a reservation under Orlova, for three nights.",
+          "en": "Yes, I've got a reservation under Orlova, for three nights.",
           "bad": [
             {
               "t": "Yes, I have booked on the name Orlova for three nights.",
