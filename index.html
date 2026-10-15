@@ -3357,7 +3357,7 @@ function dlLoad(){
     .catch(function(){ dlLoading = false; dlFailed = true; if(tab === 'english') renderEnglish(); });
 }
 function engDlg(){ const e = engState(); if(!e.dlg) e.dlg = {done:{}}; if(!e.dlg.done) e.dlg.done = {}; return e.dlg; }
-function engLevel(){ const p = engState().placed; return p ? p.level : 'core'; }
+function engLevel(){ const p = engState().placed; return p ? p.level : 'starter'; }
 function engSpeakBtns(text){
   return '<span class="en-voice"><button class="btn btn-sm" data-act="en-speak-t" data-t="'+esc(text)+'" data-slow="0">🔊 Listen</button>'+
     '<button class="btn btn-ghost btn-sm" data-act="en-speak-t" data-t="'+esc(text)+'" data-slow="1">🐢 Slowly</button></span>';

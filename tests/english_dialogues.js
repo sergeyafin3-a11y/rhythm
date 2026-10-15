@@ -119,5 +119,6 @@ check(/'w'\+Date\.now\(\)\.toString\(36\)\+i/.test(body('dlgSave')), 'saved phra
 check(/dlg-why/.test(body('renderDlgPlay')), 'after answering she sees why the other wrong option is off too');
 check(/Math\.max\(0, d\.i - 2\)/.test(body('renderDlgPlay')), 'only the last two lines stay above the current turn, so it is in view');
 
+check(/function engLevel\(\)\{[^}]*p \? p\.level : 'starter'/.test(html), 'a user who has not taken the level check starts with the easy scenes');
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: English trainer, mini-dialogues');
