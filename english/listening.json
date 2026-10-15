@@ -634,11 +634,11 @@
           "say": "Neither of them came.",
           "o": [
             "Neither of them came.",
-            "Either of them came.",
+            "Some of them came.",
             "Both of them came."
           ],
           "a": 0,
-          "note": "neither / either / both"
+          "note": "neither / some / both: кто пришёл"
         },
         {
           "id": "p4-11",
@@ -939,10 +939,10 @@
           "o": [
             "Have you got a minute?",
             "Have you got the minutes?",
-            "Have you got a menu?"
+            "Have you got a spare minute?"
           ],
           "a": 0,
-          "note": "a minute / the minutes / a menu"
+          "note": "a minute / the minutes / a spare minute"
         },
         {
           "id": "p6-07",
@@ -1349,7 +1349,7 @@
               "a": 0
             },
             {
-              "q": "How many private students did she have?",
+              "q": "How many private students did the speaker have?",
               "o": [
                 "Two",
                 "Twelve",
@@ -1535,18 +1535,18 @@
             {
               "q": "What happened on Monday?",
               "o": [
-                "Her laptop crashed",
-                "Her lesson was cancelled",
-                "She missed her bus"
+                "The speaker's laptop crashed",
+                "The lesson was cancelled",
+                "The speaker missed a bus"
               ],
               "a": 0
             },
             {
               "q": "What did she do on Wednesday?",
               "o": [
-                "She went to the cinema alone",
-                "She had lunch with Helen",
-                "She drove to her parents"
+                "The speaker went to the cinema alone",
+                "The speaker had lunch with Helen",
+                "The speaker drove to see family"
               ],
               "a": 0
             }
@@ -1567,7 +1567,7 @@
               "a": 0
             },
             {
-              "q": "By when must they confirm the booking?",
+              "q": "By when does the hotel need the confirmation?",
               "o": [
                 "By Friday",
                 "By noon tomorrow",

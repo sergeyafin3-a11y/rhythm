@@ -98,5 +98,38 @@ check(ui && /function lisPlay\(/.test(ui[1]) && !/speechSynthesis/.test(html.rep
 check(!/lisPlay\(/.test(body('renderLisPlay')) && !/lisPlay\(/.test(body('lisStart')) && !/speechSynthesis\.speak/.test(body('lisStart') + body('renderLisPlay')), 'nothing plays by itself: the voice starts only from a tap on Play');
 check(/id="lisIn"/.test(body('renderLisPlay')) && /autocapitalize="none"/.test(body('renderLisPlay')), 'the dictation field does not capitalise or autocorrect for her');
 check(/listening\.json/.test(readme) && /Listening|listening/.test(readme), 'the README mentions listening');
+// review fixes
+if(m && sm){
+  const S2 = new Function(sm[1] + '; return {placeOrder:placeOrder, srsShuffle:srsShuffle, srsDue:srsDue};')();
+  const C = new Function('placeOrder', 'srsShuffle', 'srsDue', m[1] + '; return {lisCheck:lisCheck};')(S2.placeOrder, S2.srsShuffle, S2.srsDue);
+  const ok2 = function(t, said){ return C.lisCheck(t, said).ok; };
+  check(ok2('Dont forget to switch off the lights', "Don't forget to switch off the lights."), 'a missing apostrophe is not a mistake (dont)');
+  check(ok2('Im sorry Im a bit late', "I'm sorry, I'm a bit late."), 'a missing apostrophe is not a mistake (im)');
+  check(ok2('I cant make it on Thursday but any other day suits me', "I can't make it on Thursday, but any other day suits me."), 'cant is accepted for can\'t');
+  check(ok2("'Hello' there", 'Hello there'), 'quote marks around a word do not matter');
+  check(!ok2('She teache English to children', 'She teaches English to children.'), 'a missing final s is a mistake');
+  check(!ok2("I'll call you back in ten minute", "I'll call you back in ten minutes."), 'a missing plural s is a mistake');
+  check(!ok2('Dont forget to switch off the light', "Don't forget to switch off the lights."), 'light for lights is a mistake');
+  check(!ok2('The train leave at half past nine', 'The train leaves at half past nine.'), 'leave for leaves is a mistake');
+  check(!ok2('Where is the three', 'Where is the there'), 'confusable words are not forgiven');
+  check(!ok2('It was quiet good', 'It was quite good'), 'quiet for quite is a mistake');
+  check(ok2('Could you say that agian please', 'Could you say that again, please?'), 'a swapped pair of letters is still forgiven');
+  check(ok2("I'll call you back in 10 minutes", "I'll call you back in ten minutes."), 'digits are accepted for number words');
+  check(ok2('The train leaves at half past 9', 'The train leaves at half past nine.'), 'nine and 9 are the same');
+  check(C.lisCheck('we run out of the milk again', "We've run out of milk again.").extra === 2, 'extra words are counted for the message');
+}
+check(/extra word/.test(body('renderLisPlay')), 'an extra typed word is reported, so a green line never says Not quite without a reason');
+check(/function lsLoad\(\)\{\s*if\(LS \|\| lsLoading \|\| lsFailed\) return;/.test(html), 'lsLoad stops after a failure');
+check(/l\.draft/.test(body('renderLisPlay')), 'what she has typed survives a redraw (coming back to the app)');
+check(/key === 'Enter'/.test(body('renderLisPlay')), 'Enter checks the dictation');
+check(/autocorrect="off"/.test(body('renderLisPlay')), 'the dictation field does not autocorrect');
+check(/days/.test(body('lisGrade')), 'an unfinished round still counts in today’s totals');
+check(/scroll-margin-bottom/.test(html), 'the Next button is not hidden behind the tab bar');
+if(L){
+  const flat = JSON.stringify(L);
+  check(flat.indexOf('Either of them came') < 0 && flat.indexOf('Have you got a menu') < 0, 'two odd distractors are still in pick-4 / pick-6');
+  check(!/Her laptop|she had two private|She went to the cinema alone/.test(flat), 'story questions say “the speaker”, not a gender nobody mentioned');
+}
+
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: English trainer, listening');
