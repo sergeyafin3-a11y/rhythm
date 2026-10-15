@@ -3243,7 +3243,7 @@ function renderTrain(){
   lsLoad();
   const lsDay = engLis().days[today()];
   h += '<section class="wq-card"><p class="eyebrow">👂 Listening</p>'+(LS
-    ? '<h3>A round of up to 8</h3><p class="fd-sub">The phone speaks, you work out what it said: sound-alikes, dictation and a short message. '+(lsDay ? 'Today: '+lsDay.rounds+' round'+(lsDay.rounds === 1 ? '' : 's')+', '+lsDay.right+' of '+lsDay.n+' right.' : 'Pick a speed and press Start.')+'</p>'+
+    ? '<h3>A round of up to 8</h3><p class="fd-sub">The phone speaks, you work out what it said: sound-alikes, dictation and a short message. '+(lsDay ? 'Today: '+(lsDay.rounds ? lsDay.rounds+' round'+(lsDay.rounds === 1 ? '' : 's')+', ' : '')+lsDay.right+' of '+lsDay.n+' right'+(lsDay.rounds ? '.' : ' so far.') : 'Pick a speed and press Start.')+'</p>'+
       lisSpeedChips()+'<button class="btn btn-primary btn-full" data-act="lis-start" style="margin-top:10px">Start</button>'
     : (lsFailed ? '<p class="fd-sub">Could not load the listening tasks. <button class="linkbtn" data-act="en-retry">Try again</button></p>' : '<p class="fd-sub">Loading…</p>'))+'</section>';
   if(!e.placed){
@@ -3495,12 +3495,15 @@ function lisLev(a, b){
   }
   return d[a.length][b.length];
 }
-/* a one-letter slip in a long word is forgiven, but never in the ending (teache / teaches, light / lights): hearing -s is the point; look-alike pairs are never forgiven */
-const LIS_CONFUSED = {three:'there', there:'three', quite:'quiet', quiet:'quite', clothes:'closes', closes:'clothes'};
+/* a one-letter slip in a long word is forgiven when the first letter is right and the ending is right (or just its last two letters swapped);
+   never a changed or dropped ending (teache / teaches, light / lights) and never another real word (could / would, might / night) */
+/* real word pairs that a swap of two letters turns into each other */
+const LIS_LOOKALIKE = {quite:'quiet', quiet:'quite', tried:'tired', tired:'tried', trail:'trial', trial:'trail', angle:'angel', angel:'angle'};
 function lisWordOk(a, b){
   if(a === b) return true;
-  if(a.length < 5 || b.length < 5 || LIS_CONFUSED[a] === b) return false;
-  return a.slice(-1) === b.slice(-1) && lisLev(a, b) <= 1;
+  if(a.length < 5 || b.length < 5 || a[0] !== b[0] || lisLev(a, b) > 1 || LIS_LOOKALIKE[a] === b) return false;
+  if(a.slice(-1) === b.slice(-1)) return true;
+  return a.length === b.length && a.slice(0, -2) === b.slice(0, -2) && a.slice(-2) === b.slice(-2).split('').reverse().join('');
 }
 /* digits and number words are the same thing; apostrophes and quote marks do not matter (the phone's keyboard makes them a chore) */
 const LIS_NUM = {zero:'0', one:'1', two:'2', three:'3', four:'4', five:'5', six:'6', seven:'7', eight:'8', nine:'9', ten:'10', eleven:'11', twelve:'12', thirteen:'13', fourteen:'14', fifteen:'15', sixteen:'16', seventeen:'17', eighteen:'18', nineteen:'19', twenty:'20', thirty:'30', forty:'40', fifty:'50', sixty:'60', seventy:'70', eighty:'80', ninety:'90'};
@@ -3522,7 +3525,7 @@ function lisCheck(typed, said){
     else if(L[i + 1][j] >= L[i][j + 1]) i++; else j++;
   }
   const heard = hit.filter(Boolean).length;
-  return {ok:heard === m && n === m, words:w.map(function(x, k){ return {raw:x.raw, hit:hit[k]}; }), extra:n - heard};
+  return {ok:heard === m && n === m, words:w.map(function(x, k){ return {raw:x.raw, hit:hit[k]}; }), extra:Math.max(0, n - m)};
 }
 /* a round: a few sound-alikes, two dictations, one short message. Phrases that are due come first (about half), then new ones in her level order. */
 function lisRound(sets, cards, today, level, rnd){
@@ -3634,6 +3637,7 @@ function renderLisPlay(){
   }
   view.innerHTML = h;
   const inp = document.getElementById('lisIn');
+  if(inp) inp.addEventListener('input', function(){ l.draft = inp.value; });
   if(inp) inp.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); const b = view.querySelector('[data-act="lis-check"]'); if(b) b.click(); } });
   const nx = view.querySelector('[data-act="lis-next"]');
   if(nx) nx.scrollIntoView({block:'nearest'});

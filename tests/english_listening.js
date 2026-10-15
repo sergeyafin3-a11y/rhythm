@@ -116,7 +116,7 @@ if(m && sm){
   check(ok2('Could you say that agian please', 'Could you say that again, please?'), 'a swapped pair of letters is still forgiven');
   check(ok2("I'll call you back in 10 minutes", "I'll call you back in ten minutes."), 'digits are accepted for number words');
   check(ok2('The train leaves at half past 9', 'The train leaves at half past nine.'), 'nine and 9 are the same');
-  check(C.lisCheck('we run out of the milk again', "We've run out of milk again.").extra === 2, 'extra words are counted for the message');
+  check(C.lisCheck('we run out of the milk again', "We've run out of milk again.").extra === 1, 'a really longer answer counts its extra word');
 }
 check(/extra word/.test(body('renderLisPlay')), 'an extra typed word is reported, so a green line never says Not quite without a reason');
 check(/function lsLoad\(\)\{\s*if\(LS \|\| lsLoading \|\| lsFailed\) return;/.test(html), 'lsLoad stops after a failure');
@@ -130,6 +130,29 @@ if(L){
   check(flat.indexOf('Either of them came') < 0 && flat.indexOf('Have you got a menu') < 0, 'two odd distractors are still in pick-4 / pick-6');
   check(!/Her laptop|she had two private|She went to the cinema alone/.test(flat), 'story questions say “the speaker”, not a gender nobody mentioned');
 }
+
+// round two
+if(m && sm){
+  const S3 = new Function(sm[1] + '; return {placeOrder:placeOrder, srsShuffle:srsShuffle, srsDue:srsDue};')();
+  const C3 = new Function('placeOrder', 'srsShuffle', 'srsDue', m[1] + '; return {lisCheck:lisCheck};')(S3.placeOrder, S3.srsShuffle, S3.srsDue);
+  const ok3 = function(t, said){ return C3.lisCheck(t, said).ok; };
+  check(!ok3('Would you say that again please', 'Could you say that again, please?'), 'would is not a slip of could');
+  check(!ok3('There is the nearest bus stop', 'Where is the nearest bus stop?'), 'there is not a slip of where');
+  check(!ok3('We night as well wait here', 'We might as well wait here.'), 'night is not a slip of might');
+  check(!ok3('any mother day suits me', 'any other day suits me'), 'mother is not a slip of other');
+  check(ok3('Could you say that again pleaes', 'Could you say that again, please?'), 'swapping the last two letters is forgiven');
+  check(C3.lisCheck('We have a test on Tuesday', 'We have a test on Monday.').extra === 0, 'a wrong word is not an extra word');
+  check(C3.lisCheck('She teach English to children', 'She teaches English to children.').extra === 0, 'a wrong ending is not an extra word');
+  check(C3.lisCheck('a b c', 'a b').extra === 1, 'a really extra word still counts');
+}
+check(/LIS_LOOKALIKE\[a\] === b/.test(html) && /quite:'quiet'/.test(html), 'look-alike real words (quite / quiet, tried / tired) are never forgiven for each other');
+check(/addEventListener\('input'/.test(body('renderLisPlay')) && /l\.draft = inp\.value/.test(body('renderLisPlay')), 'the draft is saved as she types, so a tab switch does not lose it');
+check((html.match(/l\.draft = ''/g) || []).length >= 2, 'the draft is cleared after Check and on Next');
+check(/r\.n\+\+; if\(ok\) r\.right\+\+;/.test(body('lisGrade')), 'every graded item updates today’s totals');
+check(/if\(l\.q \+ 1 >= it\.qs\.length\) lisGrade\(l\.qok\)/.test(html), 'a story is graded once, after its last question');
+const retry = /act==='en-retry'\)\{([^}]*)\}/.exec(html);
+check(!!retry && /phFailed = false/.test(retry[1]) && /dlFailed = false/.test(retry[1]) && /lsFailed = false/.test(retry[1]), 'Try again resets all three loaders (phrases, dialogues, listening)');
+check(!/Today: '\+lsDay\.rounds\+' round/.test(body('renderTrain')) || /lsDay\.rounds \?/.test(body('renderTrain')), 'no “0 rounds” wording after a round that was left half way');
 
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: English trainer, listening');
