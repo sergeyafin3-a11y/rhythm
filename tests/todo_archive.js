@@ -39,5 +39,12 @@ check(/if\(archive\.length\)|archive\.length \?/.test(rt), 'no Archive button wh
 const drops = (html.match(/state\.todos = todos\(\)\.filter\(/g) || []);
 check(drops.length === 1 && /act==='td-del'\)\{[^}]*state\.todos = todos\(\)\.filter/.test(html), 'only the Delete button may drop a task (found ' + drops.length + ' places that filter the list)');
 check(/archive/i.test(readme), 'the README mentions the archive');
+// review fixes
+check(/function toastUndo\(/.test(html) && /\.toast\.show\{[^}]*pointer-events:\s*auto/.test(html), 'a toast can carry an Undo button she can actually press');
+check(!!tg && /toastUndo\(/.test(tg[1]), 'ticking a task offers Undo right there');
+check(/act==='td-undo'\)\{[\s\S]*?done = false/.test(html), 'Undo puts the task back on the list');
+check(/if\(!archive\.length\) tdArch = false/.test(rt), 'an emptied archive closes itself');
+check(/Showing the latest 50 of/.test(rt), 'with more than 50 archived tasks the list says it shows only the latest 50');
+
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: the to-do archive');

@@ -1219,7 +1219,8 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
   max-width:min(88vw, 420px); text-align:center;
   transition:opacity .25s ease, transform .25s ease;
 }
-.toast.show{ opacity:1; transform:translate(-50%, 0); }
+.toast.show{ opacity:1; transform:translate(-50%, 0); pointer-events:auto; }
+.toast-undo{ font:inherit; font-weight:800; color:var(--accent-soft); text-decoration:underline; padding:6px 4px 6px 10px; margin:-6px 0; }
 
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{ animation-duration:.01ms !important; transition-duration:.01ms !important; }
@@ -2647,6 +2648,11 @@ const view=$('#view'), sheet=$('#sheet'), scrim=$('#scrim'), toastEl=$('#toast')
 function esc(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 let toastT;
+/* a toast with a way back: pressing Undo runs the td-undo action for that task */
+function toastUndo(msg, id){
+  toastEl.innerHTML = esc(msg)+' <button class="toast-undo" data-act="td-undo" data-id="'+esc(id)+'">Undo</button>'; toastEl.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(()=>toastEl.classList.remove('show'), 5000);
+}
 function toast(msg){
   toastEl.textContent = msg; toastEl.classList.add('show');
   clearTimeout(toastT); toastT = setTimeout(()=>toastEl.classList.remove('show'), 2200);
@@ -2795,9 +2801,11 @@ function renderTodos(){
   } else {
     html += '<p class="sub" style="text-align:center;margin-top:6px">Tap a task to set a time, a day or a note.</p>';
   }
+  if(!archive.length) tdArch = false;
   if(archive.length){
     html += '<button class="td-arch-btn" data-act="td-archive" aria-expanded="'+tdArch+'">Archive · '+archive.length+(tdArch ? ' ▴' : ' ▾')+'</button>';
-    if(tdArch) html += '<div class="td-list td-arch-list">'+archive.slice(0, 50).map(function(t){ return tdRow(t, true); }).join('')+'</div>';
+    if(tdArch) html += '<div class="td-list td-arch-list">'+archive.slice(0, 50).map(function(t){ return tdRow(t, true); }).join('')+'</div>'+
+      (archive.length > 50 ? '<p class="sub" style="text-align:center;margin-top:8px">Showing the latest 50 of '+archive.length+'.</p>' : '');
   }
   view.innerHTML = html;
 }
@@ -4024,9 +4032,15 @@ document.addEventListener('click', function(e){
     t.done = !t.done; t.doneAt = t.done ? today() : '';
     if(t.done){ state.xp += 5; celebrate(btn.closest('.td') || btn.closest('.plans-row')); }
     save(); render();
-    toast(t.done ? 'Done — moved to the archive' : 'Back on your list');
+    if(t.done) toastUndo('Done — moved to the archive', t.id); else toast('Back on your list');
   }
   else if(act==='td-edit') sheetTodo(id);
+  else if(act==='td-undo'){
+    const t = todos().find(function(x){ return x.id === id; });
+    if(!t || !t.done) return;
+    t.done = false; t.doneAt = '';
+    save(); render(); toast('Back on your list');
+  }
   else if(act==='td-archive'){ tdArch = !tdArch; renderTodos(); }
   else if(act==='td-day'){
     const f = $('#tdDate'); if(f) f.value = btn.getAttribute('data-d');
