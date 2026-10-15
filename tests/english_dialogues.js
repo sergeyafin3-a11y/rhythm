@@ -84,5 +84,40 @@ check(!/speechSynthesis/.test(html.replace(ui ? ui[0] : '', '')), 'the phone sti
 check(/dlg-ru/.test(body('renderDlgPlay')) && /Show translation/.test(body('renderDlgPlay')), 'the other person’s line has a Show translation toggle');
 check(/en-mic/.test(body('renderDlgPlay')) && /engSpeakBtns\(t\.right\)/.test(body('renderDlgPlay')), 'after a reply she can hear it and record herself');
 check(/dialogues\.json/.test(readme) && /Mini-dialogues|mini-dialogues/.test(readme), 'the README mentions the dialogues');
+// review fixes
+// the whole replies she saves must not spoil the word test (a sentence is no "word" to guess)
+const wm = /\/\* wq:pure \*\/([\s\S]*?)\/\* wq:end \*\//.exec(html);
+check(!!wm, 'word-test logic not found');
+if(wm){
+  const W = new Function(wm[1] + '; return {wqUsable:wqUsable, wqBuild:wqBuild};')();
+  const mk = function(id, term, ru, src){ return {id:id, term:term, ru:ru, mean:'', ctx:'', box:0, seen:0, right:0, last:'', src:src}; };
+  const words = [mk('a', 'spill the tea', 'выдать сплетню'), mk('b', 'hangry', 'злой от голода'), mk('c', 'to flex', 'хвастаться'), mk('d', 'lowkey', 'втайне'),
+    mk('x', "Nice! Just one small thing: we say 'I went', not 'I go'.", 'Мягко поправь: нужно прошедшее время.', 'dialogue'),
+    mk('y', 'Yes, spot on! So, what did you see? Was it any good?', 'Похвали и спроси.', 'dialogue')];
+  check(W.wqUsable(words).length === 4 && W.wqUsable(words).every(function(w){ return w.src !== 'dialogue'; }), 'saved dialogue replies stay out of the word test');
+  let seed = 9; const rnd = function(){ seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+  const qs = W.wqBuild(words, 5, '2026-10-16', rnd);
+  check(qs.length > 0 && qs.every(function(q){ return q.options.every(function(o){ return o.t.length < 40; }); }), 'no dialogue sentence shows up as a question or as an answer option');
+}
+// they still reach the card queue, which has its own filter
+check(/function engOwn\(\)\{[^}]*src/.test(html) === false && !/function engOwn\(\)\{\s*return wqUsable/.test(html), 'the card queue does not rely on the word-test filter, so saved replies still come back as cards');
+// loading must not retry forever when a file cannot be fetched
+['phLoad', 'dlLoad', 'talkLoad'].forEach(function(n){ check(new RegExp('function ' + n + '\\(\\)\\{\\s*if\\([A-Za-z]+ \\|\\| [A-Za-z]+ \\|\\| [A-Za-z]+\\) return;').test(html), n + ' must stop after a failure, only the Try again button retries'); });
+check(/act==='tk-retry'\)\{[^}]*talkFailed = false/.test(html), 'Try again resets the roulette loader');
+// the score never drops, and a finished scene cannot be advanced again
+check(/function dlgBest\(/.test(html) && /dlgBest\(/.test(body('dlgFinish')), 'a replay never lowers the best score of a scene');
+const dm = /\/\* dlg:pure \*\/([\s\S]*?)\/\* dlg:end \*\//.exec(html);
+if(dm){
+  const B = new Function(dm[1] + '; return {dlgBest:dlgBest};')();
+  check(B.dlgBest(undefined, {right:1, n:3, date:'d2'}).right === 1, 'the first result is kept');
+  check(B.dlgBest({right:3, n:3, date:'d1'}, {right:1, n:3, date:'d2'}).right === 3, 'a worse replay does not replace a better result');
+  check(B.dlgBest({right:1, n:3, date:'d1'}, {right:2, n:3, date:'d2'}).right === 2, 'a better replay does');
+}
+check(/act==='dlg-next'\)\{[\s\S]{0,200}en\.stage !== 'dlg'/.test(html), 'Next does nothing once the scene is over');
+check(/act==='dlg-pick'\)\{[\s\S]{0,300}picked != null/.test(html) && /act==='dlg-save'\)\{[^}]*!en\.dlg\.saved/.test(html), 'a second tap on an option or on Save does nothing');
+check(/'w'\+Date\.now\(\)\.toString\(36\)\+i/.test(body('dlgSave')), 'saved phrases get distinct ids');
+check(/dlg-why/.test(body('renderDlgPlay')), 'after answering she sees why the other wrong option is off too');
+check(/Math\.max\(0, d\.i - 2\)/.test(body('renderDlgPlay')), 'only the last two lines stay above the current turn, so it is in view');
+
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: English trainer, mini-dialogues');
