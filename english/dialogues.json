@@ -1,0 +1,1109 @@
+{
+  "version": 1,
+  "scenes": [
+    {
+      "id": "teach-first",
+      "name": "First lesson with a new student",
+      "emoji": "🧑‍🏫",
+      "lvl": 1,
+      "about": "You meet a nervous new student and explain how the first lesson will go.",
+      "turns": [
+        {
+          "who": "them",
+          "en": "Hello! I'm Max. Sorry, my English isn't very good.",
+          "ru": "Здравствуйте! Я Макс. Извините, мой английский не очень хороший."
+        },
+        {
+          "who": "you",
+          "ru": "Подбодри его: все с чего-то начинают.",
+          "en": "Don't worry, that's why you're here. We'll take it slowly.",
+          "bad": [
+            {
+              "t": "Don't worry, your English is bad, but I will help you.",
+              "why": "Грубо: ученику не говорят, что его английский плохой."
+            },
+            {
+              "t": "Don't worry, it doesn't matter. I am teacher here, I know all.",
+              "why": "Нет артикля (a teacher) и звучит слишком самоуверенно."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Thanks. So what are we going to do today?",
+          "ru": "Спасибо. Так что мы сегодня будем делать?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи, что сначала просто поболтаете, чтобы понять уровень.",
+          "en": "First we'll just have a chat, so I can see your level.",
+          "bad": [
+            {
+              "t": "First we will make a talk, so I can know your level.",
+              "why": "Make a talk — калька; по-английски have a chat."
+            },
+            {
+              "t": "First I'm going to give you a test, and then we'll see.",
+              "why": "Пугает новичка и не то, что нужно: просто болтаем."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Okay. Can I ask you things in Russian if I don't understand?",
+          "ru": "Хорошо. Можно я буду спрашивать по-русски, если не пойму?"
+        },
+        {
+          "who": "you",
+          "ru": "Разреши, но попроси сначала пробовать по-английски.",
+          "en": "Sure, but try English first. I'll help if you get stuck.",
+          "bad": [
+            {
+              "t": "Of course. Speak Russian every time you don't understand.",
+              "why": "Так не будет практики: сначала нужно пробовать по-английски."
+            },
+            {
+              "t": "Yes, but you must to try in English at first, please.",
+              "why": "must to — ошибка; at first здесь звучит неестественно."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "teach-correct",
+      "name": "Correcting a mistake kindly",
+      "emoji": "✏️",
+      "lvl": 2,
+      "about": "A student makes typical mistakes and you correct them without killing their confidence.",
+      "turns": [
+        {
+          "who": "them",
+          "en": "Yesterday I go to the cinema with my friends.",
+          "ru": "Вчера я идти в кино с друзьями."
+        },
+        {
+          "who": "you",
+          "ru": "Мягко поправь: нужно прошедшее время.",
+          "en": "Nice! Just one small thing: we say 'I went', not 'I go'.",
+          "bad": [
+            {
+              "t": "No, that's wrong. It's the past, so you must say 'went'.",
+              "why": "Резко: «No, that's wrong» отбивает желание говорить."
+            },
+            {
+              "t": "Nice! Just one small thing: you should say 'I have went'.",
+              "why": "Такой формы нет: нужно просто went (или have gone)."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Oh, sorry! Yesterday I went to the cinema. Is it correct now?",
+          "ru": "Ой, простите! Вчера я ходил в кино. Теперь правильно?"
+        },
+        {
+          "who": "you",
+          "ru": "Похвали и спроси, какой фильм он смотрел.",
+          "en": "Yes, spot on! So, what did you see? Was it any good?",
+          "bad": [
+            {
+              "t": "Yes, it is correct. Which film did you watched there?",
+              "why": "После did глагол в начальной форме: did you watch."
+            },
+            {
+              "t": "Yes, spot on! And what film have you seen yesterday?",
+              "why": "С yesterday нельзя Present Perfect: нужно did you see."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "It was an action film. It was very bored.",
+          "ru": "Это был боевик. Было очень скучно."
+        },
+        {
+          "who": "you",
+          "ru": "Поправь bored / boring, успокой: ошибка частая.",
+          "en": "Ah, we say 'boring' for the film. 'Bored' is how you feel.",
+          "bad": [
+            {
+              "t": "Ah, it's not 'bored', it's 'boring'. Remember it, please.",
+              "why": "Звучит как приказ; лучше объяснить разницу."
+            },
+            {
+              "t": "Ah, almost! Use 'boring' when you feel it, 'bored' for a film.",
+              "why": "Наоборот: boring — о фильме, bored — о чувстве человека."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "teach-homework",
+      "name": "Explaining the homework",
+      "emoji": "📝",
+      "lvl": 2,
+      "about": "At the end of the lesson you set homework and answer the student's questions.",
+      "turns": [
+        {
+          "who": "them",
+          "en": "Before we finish, what's my homework for this week?",
+          "ru": "Прежде чем закончим, что мне задано на эту неделю?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи: написать пять предложений с новыми словами.",
+          "en": "Write five sentences using the new words from today.",
+          "bad": [
+            {
+              "t": "Write me five sentences with using new words of today.",
+              "why": "with using и of today — лишнее; нужно using / from today."
+            },
+            {
+              "t": "You have to do five sentences with the new words.",
+              "why": "do sentences — калька; предложения пишут: write sentences."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Okay. Do I have to do it by hand, or can I type it?",
+          "ru": "Хорошо. Мне надо писать от руки или можно набрать на компьютере?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи: как удобнее, главное прислать до пятницы.",
+          "en": "Whichever you prefer. Just send it to me by Friday.",
+          "bad": [
+            {
+              "t": "As you want. Just send me it until Friday, please.",
+              "why": "send me it и until — нужно send it to me и by Friday."
+            },
+            {
+              "t": "Whichever you prefer. Just send it to me on Friday.",
+              "why": "On Friday — именно в пятницу; срок «до пятницы» — by Friday."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "And what if I don't understand one of the exercises?",
+          "ru": "А если я не пойму одно из упражнений?"
+        },
+        {
+          "who": "you",
+          "ru": "Предложи пропустить его и написать тебе.",
+          "en": "Skip it and message me. We'll go through it next time.",
+          "bad": [
+            {
+              "t": "Skip it and write me. We will pass it in next lesson.",
+              "why": "pass it — калька; разобрать упражнение — go through it."
+            },
+            {
+              "t": "Skip it and message me. We'll make it together next time.",
+              "why": "make it — калька; упражнение делают (do) или разбирают."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "teach-parent",
+      "name": "Talking to a parent about progress",
+      "emoji": "👨‍👩‍👦",
+      "lvl": 3,
+      "about": "A parent asks how their son is doing, and you give honest but kind feedback.",
+      "turns": [
+        {
+          "who": "them",
+          "en": "Hello, thanks for seeing me. How is Dima getting on?",
+          "ru": "Здравствуйте, спасибо, что нашли время. Как у Димы дела?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи: делает хорошие успехи, особенно в аудировании.",
+          "en": "He's making good progress, especially with his listening.",
+          "bad": [
+            {
+              "t": "He does good progress, especially with his listening.",
+              "why": "do progress — калька; по-английски make progress."
+            },
+            {
+              "t": "He's very good, he has no problems at all, especially in listening.",
+              "why": "Нереалистично; родителю нужны конкретика и честность."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "That's good to hear. Is there anything he needs to work on?",
+          "ru": "Приятно слышать. А над чем ему нужно поработать?"
+        },
+        {
+          "who": "you",
+          "ru": "Мягко: ему нужно быть смелее в речи, ошибки нормальны.",
+          "en": "He could be a bit braver when speaking. Mistakes are normal.",
+          "bad": [
+            {
+              "t": "His speaking is weak, he is afraid of mistakes all the time.",
+              "why": "Слишком прямо и негативно для разговора с родителем."
+            },
+            {
+              "t": "He should to be braver when speak. Mistakes are normal.",
+              "why": "should to и when speak — грамматические ошибки."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Should we do extra lessons, or is once a week enough?",
+          "ru": "Нам нужны дополнительные уроки или раза в неделю достаточно?"
+        },
+        {
+          "who": "you",
+          "ru": "Посоветуй: раз в неделю и по десять минут практики в день.",
+          "en": "I'd stick to once a week and add ten minutes of daily practice.",
+          "bad": [
+            {
+              "t": "I think you must pay for extra lessons, then he will be faster.",
+              "why": "Давление на родителя вместо мягкого совета."
+            },
+            {
+              "t": "I would stay on one lesson per week and make ten minutes practice every day.",
+              "why": "Калька: stay on, make practice; лучше stick to, add practice."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "teach-resched",
+      "name": "Rescheduling a lesson",
+      "emoji": "📅",
+      "lvl": 2,
+      "about": "A student cannot make tomorrow's lesson and you agree on a new time.",
+      "turns": [
+        {
+          "who": "them",
+          "en": "Hi Natali, I'm really sorry, but I can't make tomorrow's lesson.",
+          "ru": "Привет, Натали, мне очень жаль, но я не смогу прийти завтра на урок."
+        },
+        {
+          "who": "you",
+          "ru": "Скажи, что ничего страшного, и предложи другое время.",
+          "en": "No worries! Shall we find another time this week?",
+          "bad": [
+            {
+              "t": "No problem. Then you will lose the lesson, it's the rule.",
+              "why": "Слишком жёстко и без предложения нового времени."
+            },
+            {
+              "t": "No worries! Do we find another time on this week?",
+              "why": "Нужно Shall we, и this week без предлога on."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Thanks. Would Thursday at six work for you?",
+          "ru": "Спасибо. Вам подойдёт четверг в шесть?"
+        },
+        {
+          "who": "you",
+          "ru": "Мягко откажись от шести, предложи семь.",
+          "en": "I'm afraid six is tricky. Could we do seven instead?",
+          "bad": [
+            {
+              "t": "No, I can't. I have other student at six, only seven.",
+              "why": "Резко и с ошибкой (another student); смягчай: I'm afraid..."
+            },
+            {
+              "t": "I'm afraid six is tricky. Could we make seven instead?",
+              "why": "make seven — калька; говорят do seven / how about seven."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Seven is fine. Shall I put it in my calendar?",
+          "ru": "Семь подойдёт. Мне записать это в календарь?"
+        },
+        {
+          "who": "you",
+          "ru": "Подтверди и скажи, что заранее пришлёшь ссылку.",
+          "en": "Yes, please. That works for me. I'll send the link beforehand.",
+          "bad": [
+            {
+              "t": "Yes, please. That works me. I'll send the link beforehand.",
+              "why": "Пропущен предлог: works for me."
+            },
+            {
+              "t": "Yes, write it. I send you the link in advance before.",
+              "why": "write it — калька; I'll send (решение сейчас); in advance before — повтор."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "daily-cafe",
+      "name": "Ordering in a cafe",
+      "emoji": "☕",
+      "lvl": 1,
+      "about": "You order a coffee and a pastry at a busy British cafe.",
+      "turns": [
+        {
+          "who": "them",
+          "en": "Hi there! What can I get you?",
+          "ru": "Здравствуйте! Что вам предложить?"
+        },
+        {
+          "who": "you",
+          "ru": "Закажи капучино с собой.",
+          "en": "Could I have a cappuccino to take away, please?",
+          "bad": [
+            {
+              "t": "I want a cappuccino with me, please.",
+              "why": "I want грубовато; with me — калька, по-британски take away."
+            },
+            {
+              "t": "Could I have a cappuccino for go, please?",
+              "why": "for go — неверно; нужно to take away."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Sure. Would you like anything to eat with that?",
+          "ru": "Конечно. Что-нибудь к кофе из еды?"
+        },
+        {
+          "who": "you",
+          "ru": "Спроси, остались ли круассаны.",
+          "en": "Have you got any croissants left, or are they all gone?",
+          "bad": [
+            {
+              "t": "Is there croissants left? Or they are finished already?",
+              "why": "Нужно Are there / Have you got any; finished не подходит."
+            },
+            {
+              "t": "Do you have some croissants? I want to eat one now.",
+              "why": "В вопросе any, а не some; I want звучит грубо."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "We've got one left. That'll be five pounds ten, please.",
+          "ru": "Остался один. С вас пять фунтов десять."
+        },
+        {
+          "who": "you",
+          "ru": "Скажи, что возьмёшь его, и спроси про оплату картой.",
+          "en": "Lovely, I'll take it. Can I pay by card?",
+          "bad": [
+            {
+              "t": "Lovely, I take it. Can I pay with the card?",
+              "why": "Решение в момент речи — I'll take it; by card без артикля."
+            },
+            {
+              "t": "Lovely, I'll take it. Can I pay on card?",
+              "why": "Предлог: pay by card, а не on card."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "daily-shop",
+      "name": "Asking for help in a shop",
+      "emoji": "🛍️",
+      "lvl": 1,
+      "about": "You look for a jacket and ask the shop assistant for the right size and colour.",
+      "turns": [
+        {
+          "who": "them",
+          "en": "Hi, can I help you at all?",
+          "ru": "Здравствуйте, вам чем-нибудь помочь?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи, что ищешь тёплую куртку.",
+          "en": "Yes, please. I'm looking for a warm jacket.",
+          "bad": [
+            {
+              "t": "Yes, I search a warm jacket. Where I can find it?",
+              "why": "Нужно I'm looking for; порядок слов: Where can I find it?"
+            },
+            {
+              "t": "Yes. I want to buy a warm jacket, show me please.",
+              "why": "Show me звучит как приказ; вежливее: I'm looking for..."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Of course. What size are you?",
+          "ru": "Конечно. Какой у вас размер?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи: размер M, но хочешь примерить и L.",
+          "en": "I'm a medium, but could I try on a large as well?",
+          "bad": [
+            {
+              "t": "My size is medium, but I want try the large too.",
+              "why": "После want нужен to; I want звучит грубо."
+            },
+            {
+              "t": "I'm a medium, but could I measure a large as well?",
+              "why": "measure — измерять; примерить — try on."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "The changing rooms are just over there. Let me know if you need anything.",
+          "ru": "Примерочные вон там. Скажите, если что-то понадобится."
+        },
+        {
+          "who": "you",
+          "ru": "Поблагодари и спроси, есть ли такая в чёрном.",
+          "en": "Thanks. Do you have this in black, by any chance?",
+          "bad": [
+            {
+              "t": "Thanks. Have you this jacket with the black colour?",
+              "why": "Калька: «in black», а не with the black colour."
+            },
+            {
+              "t": "Thank you. Is it exist in black colour too?",
+              "why": "Is it exist — ошибка; нужно Do you have this in black?"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "daily-directions",
+      "name": "Asking for directions",
+      "emoji": "🧭",
+      "lvl": 1,
+      "about": "You are lost in London and ask a stranger how to get to the tube.",
+      "turns": [
+        {
+          "who": "them",
+          "en": "Hi, you look a bit lost. Can I help?",
+          "ru": "Здравствуйте, вы, кажется, заблудились. Помочь?"
+        },
+        {
+          "who": "you",
+          "ru": "Спроси, как дойти до ближайшей станции метро.",
+          "en": "Yes, please. How do I get to the nearest tube station?",
+          "bad": [
+            {
+              "t": "Yes. Where is going the nearest tube station?",
+              "why": "Порядок слов: Where is..., а is going здесь не нужно."
+            },
+            {
+              "t": "Yes, please. Can you say me where tube station is?",
+              "why": "say me — нужно tell me; и порядок слов в косвенном вопросе."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Go straight on, then take the second left. It's about five minutes' walk.",
+          "ru": "Идите прямо, потом второй поворот налево. Минут пять пешком."
+        },
+        {
+          "who": "you",
+          "ru": "Попроси повторить чуть медленнее.",
+          "en": "Sorry, could you say that again a bit slower?",
+          "bad": [
+            {
+              "t": "Sorry, what? Repeat again, please, slowly.",
+              "why": "Repeat again — тавтология; слишком резко."
+            },
+            {
+              "t": "Sorry, could you tell that again more slowly?",
+              "why": "tell that again — нужно say; tell требует объекта-человека."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Of course. Straight on, second left, and you'll see it on your right.",
+          "ru": "Конечно. Прямо, второй налево, и увидите её справа."
+        },
+        {
+          "who": "you",
+          "ru": "Проверь, правильно ли понял маршрут.",
+          "en": "So, straight on, then second left, and it's on the right?",
+          "bad": [
+            {
+              "t": "So, I go straight, after I turn to second left, and right?",
+              "why": "Путаница времён и предлогов; говорят take the second left."
+            },
+            {
+              "t": "So, straight on, then the second left, and it's in the right?",
+              "why": "«Справа» — on the right, предлог on, а не in."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "daily-doctor",
+      "name": "Booking a dentist appointment",
+      "emoji": "🦷",
+      "lvl": 2,
+      "about": "You phone a dental clinic to book a check-up as a new patient.",
+      "turns": [
+        {
+          "who": "them",
+          "en": "Good morning, Riverside Dental. How can I help?",
+          "ru": "Доброе утро, стоматология «Риверсайд». Чем могу помочь?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи, что хочешь записаться на осмотр.",
+          "en": "Hi, I'd like to book a check-up, please.",
+          "bad": [
+            {
+              "t": "Hello, I want to make a record for the check-up.",
+              "why": "make a record — калька с «записаться»; нужно book."
+            },
+            {
+              "t": "Hi, I'd like to book me for a check-up, please.",
+              "why": "Book me — неверно; book a check-up / an appointment."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Of course. Are you already registered with us?",
+          "ru": "Конечно. Вы уже у нас зарегистрированы?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи, что ты новый пациент, и спроси, что взять с собой.",
+          "en": "No, I'm new. Is there anything I need to bring?",
+          "bad": [
+            {
+              "t": "No, I'm a new patient. What I must bring with me?",
+              "why": "Порядок слов в вопросе: What do I need to bring?"
+            },
+            {
+              "t": "No, I'm new. Is there something what I need to take?",
+              "why": "something what — нужно anything (that); take → bring."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Just some ID. We have Tuesday at ten past two, or Friday at nine.",
+          "ru": "Только документ. Есть вторник в 14:10 или пятница в девять."
+        },
+        {
+          "who": "you",
+          "ru": "Выбери вторник и подтверди время.",
+          "en": "Tuesday works for me. Could you put me down for ten past two?",
+          "bad": [
+            {
+              "t": "Tuesday is suiting me. Please, write me on ten past two.",
+              "why": "is suiting — неверно; works for me; write me — калька."
+            },
+            {
+              "t": "Tuesday would be fine. Can you note me on ten past two?",
+              "why": "note me — калька; нужно put me down / book me in for..."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "daily-return",
+      "name": "Returning an item",
+      "emoji": "🔁",
+      "lvl": 3,
+      "about": "You return a top that is too small, without a receipt, and ask for your money back.",
+      "turns": [
+        {
+          "who": "them",
+          "en": "Hi there. How can I help you today?",
+          "ru": "Здравствуйте. Чем могу помочь?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи, что хочешь вернуть топ: он оказался мал.",
+          "en": "I'd like to return this top. It turned out to be too small.",
+          "bad": [
+            {
+              "t": "I want to give back this top. It is not my size.",
+              "why": "give back — не про магазин, и I want грубовато; нужно return."
+            },
+            {
+              "t": "I'd like to return this top. It was turned out too small.",
+              "why": "turn out не употребляется в пассиве: it turned out."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "No problem. Do you have the receipt with you?",
+          "ru": "Без проблем. Чек у вас с собой?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи, что чек потерян, но платила картой.",
+          "en": "I'm afraid I've lost it, but I paid by card. Can you look it up?",
+          "bad": [
+            {
+              "t": "I have lost it, but I paid with card. It's not problem for you?",
+              "why": "Пропущены артикли (a problem) и звучит неуверенно."
+            },
+            {
+              "t": "I'm afraid I lost it yesterday, but I pay by card. Can you check?",
+              "why": "Время: paid (прошедшее), а не pay; нужно look it up."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "I can see it here. I can only offer you store credit, though. Is that okay?",
+          "ru": "Вижу вашу покупку. Но могу предложить только кредит магазина. Подойдёт?"
+        },
+        {
+          "who": "you",
+          "ru": "Вежливо откажись: хочешь деньги на карту.",
+          "en": "I'd prefer a refund on my card, if that's possible.",
+          "bad": [
+            {
+              "t": "No, I want money back. Credit is not for me, thank you.",
+              "why": "Слишком резко; смягчи: I'd prefer ... if that's possible."
+            },
+            {
+              "t": "I'd rather to have a refund on my card, if possible.",
+              "why": "После I'd rather идёт глагол без to: I'd rather have."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "work-intro",
+      "name": "Introducing yourself on a call",
+      "emoji": "💼",
+      "lvl": 2,
+      "about": "It is your first team call at a new job and everyone introduces themselves.",
+      "turns": [
+        {
+          "who": "them",
+          "en": "Morning, all. Let's do quick intros. Natali, would you like to start?",
+          "ru": "Всем доброе утро. Давайте коротко представимся. Натали, начнёте?"
+        },
+        {
+          "who": "you",
+          "ru": "Представься: ты репетитор английского, работаешь удалённо.",
+          "en": "Sure. I'm Natali, I'm an English tutor, and I work remotely.",
+          "bad": [
+            {
+              "t": "Sure. I am Natali, I am working as a English teacher remote.",
+              "why": "a English → an English; remote → remotely; нужно Present Simple."
+            },
+            {
+              "t": "Sure. My name is Natali, I'm English tutor, I work remotely.",
+              "why": "Пропущен артикль: I'm an English tutor."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Great. And what will you be working on with us?",
+          "ru": "Отлично. А над чем вы будете у нас работать?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи, что будешь готовить материалы для курса.",
+          "en": "I'll be putting together the course materials.",
+          "bad": [
+            {
+              "t": "I will prepare the educational materials of the course.",
+              "why": "materials of — нужно for; educational звучит слишком книжно."
+            },
+            {
+              "t": "I'll be put together learning materials for the course.",
+              "why": "После I'll be нужна форма -ing: putting together."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Brilliant. We're glad to have you on board.",
+          "ru": "Здорово. Мы рады, что вы с нами."
+        },
+        {
+          "who": "you",
+          "ru": "Поблагодари и скажи, что с нетерпением ждёшь работы.",
+          "en": "Thanks, I'm really looking forward to working with you all.",
+          "bad": [
+            {
+              "t": "Thanks, I'm really looking forward to work with you all.",
+              "why": "После looking forward to — форма -ing: working."
+            },
+            {
+              "t": "Thanks, I'm really waiting for working with you all.",
+              "why": "waiting for — калька «жду»; нужно looking forward to."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "work-meeting",
+      "name": "Agreeing a meeting time",
+      "emoji": "🗓️",
+      "lvl": 3,
+      "about": "A colleague wants to meet this week and you find a time that works.",
+      "turns": [
+        {
+          "who": "them",
+          "en": "Hi Natali. Could we find a time this week to go over the new plan?",
+          "ru": "Привет, Натали. Найдём время на этой неделе, чтобы пройтись по новому плану?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи: в среду утром свободна, после обеда занята.",
+          "en": "Wednesday morning's good, but I'm tied up in the afternoon.",
+          "bad": [
+            {
+              "t": "On Wednesday in the morning I am free, but in afternoon I am busy.",
+              "why": "Пропущен артикль (in the afternoon); звучит как перевод."
+            },
+            {
+              "t": "Wednesday morning's good for me, but I'm tied up on afternoon.",
+              "why": "Предлог: in the afternoon."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Perfect. How about ten o'clock? It should only take half an hour.",
+          "ru": "Отлично. Как насчёт десяти? Это займёт всего полчаса."
+        },
+        {
+          "who": "you",
+          "ru": "Вежливо попроси сдвинуть на 10:30.",
+          "en": "Ten's a bit early for me. Would half ten be possible?",
+          "bad": [
+            {
+              "t": "Ten is too early for me. Please move it to half past ten.",
+              "why": "Резко, как приказ; смягчи вопросом: would ... be possible?"
+            },
+            {
+              "t": "Ten's a bit early to me. Would be half ten possible?",
+              "why": "early for me; порядок слов: Would half ten be possible?"
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Half ten works. I'll send you an invite. Anything you'd like to cover?",
+          "ru": "Половина одиннадцатого подходит. Пришлю приглашение. Что хотите обсудить?"
+        },
+        {
+          "who": "you",
+          "ru": "Предложи пройтись по срокам и распределению задач.",
+          "en": "Could we go through the deadlines and who's doing what?",
+          "bad": [
+            {
+              "t": "I propose to discuss deadlines and distribution of tasks.",
+              "why": "Слишком официально и по-книжному для рабочего разговора."
+            },
+            {
+              "t": "Could we pass through the deadlines and who does what?",
+              "why": "pass through — калька; обсудить по пунктам — go through."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "work-tech",
+      "name": "Fixing a tech problem on a call",
+      "emoji": "💻",
+      "lvl": 3,
+      "about": "Your sound and picture glitch during a video call and you sort it out.",
+      "turns": [
+        {
+          "who": "them",
+          "en": "Natali, sorry, you're frozen on my screen. I can't hear you.",
+          "ru": "Натали, простите, у меня вы зависли. Я вас не слышу."
+        },
+        {
+          "who": "you",
+          "ru": "Скажи, что связь барахлит, и ты выключишь камеру.",
+          "en": "Sorry, my connection's dodgy. I'll turn my camera off and try again.",
+          "bad": [
+            {
+              "t": "Sorry, my internet is bad. I will off the camera and try again.",
+              "why": "off the camera — нужно turn the camera off."
+            },
+            {
+              "t": "Sorry, my connection's dodgy. I'll turn my camera down and try again.",
+              "why": "turn down — убавить; камеру выключают: turn off."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "That's better, I can hear you now, but you're really quiet.",
+          "ru": "Так лучше, теперь слышу, но вы очень тихо говорите."
+        },
+        {
+          "who": "you",
+          "ru": "Попроси секунду подождать: проверишь настройки микрофона.",
+          "en": "Bear with me a sec, I'll check my mic settings.",
+          "bad": [
+            {
+              "t": "Wait me one second, I will look my mic settings.",
+              "why": "wait me — калька; look → look at; лучше Bear with me."
+            },
+            {
+              "t": "Bear to me a sec, I'll check the settings of my mic.",
+              "why": "Устойчивое выражение bear with me, а не bear to me."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Much better! Can you share your screen so we can see the slides?",
+          "ru": "Намного лучше! Покажете экран, чтобы мы увидели слайды?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи, что делишься экраном, и спроси, видно ли слайды.",
+          "en": "Sharing it now. Can you see the slides okay, or shall I zoom in?",
+          "bad": [
+            {
+              "t": "I share it now. Do you see the slides okay, or I zoom?",
+              "why": "Нужны Sharing it now / Can you see; shall I zoom in?"
+            },
+            {
+              "t": "Sharing it now. Do you see the slides good, or must I zoom in?",
+              "why": "see good — нужно okay/clearly; must I звучит как обязанность."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "social-party",
+      "name": "Small talk at a party",
+      "emoji": "🥂",
+      "lvl": 2,
+      "about": "You chat with a stranger at a friend's party about how you know the host and what you do.",
+      "turns": [
+        {
+          "who": "them",
+          "en": "Hi, I don't think we've met. I'm Tom. How do you know Sarah?",
+          "ru": "Привет, кажется, мы не знакомы. Я Том. Откуда вы знаете Сару?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи, что вы с Сарой вместе учились, и верни вопрос.",
+          "en": "We were at uni together, years ago. How about you?",
+          "bad": [
+            {
+              "t": "We were learning at the university together. And you?",
+              "why": "Учиться в вузе — were at uni / studied, а не learning."
+            },
+            {
+              "t": "We are at uni together, years ago. How about you?",
+              "why": "Про прошлое нужно прошедшее время: we were at uni."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Oh nice. I work with her brother. What do you do?",
+          "ru": "О, здорово. Я работаю с её братом. А вы чем занимаетесь?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи, что ты репетитор, учишь взрослых английскому.",
+          "en": "I'm an English tutor. I mostly teach adults.",
+          "bad": [
+            {
+              "t": "I work as English tutor. I mostly teach to adults.",
+              "why": "Нужен артикль an; teach adults без предлога to."
+            },
+            {
+              "t": "I'm an English tutor. I mostly learn adults.",
+              "why": "learn — учиться; учить кого-то — teach."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "That's cool! Is it hard to keep people motivated?",
+          "ru": "Круто! Трудно поддерживать мотивацию у людей?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи: иногда да, главное сделать уроки интересными.",
+          "en": "Sometimes, yeah, but the trick is to make lessons fun.",
+          "bad": [
+            {
+              "t": "Sometimes yes, but the main trick is do the lessons funny.",
+              "why": "Нужно is to make; funny — смешной, а fun — интересный."
+            },
+            {
+              "t": "Sometimes, yeah, but the point is to do lessons fun.",
+              "why": "do lessons fun — калька; нужно make lessons fun."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "social-neighbour",
+      "name": "Meeting a neighbour",
+      "emoji": "🏡",
+      "lvl": 1,
+      "about": "You have just moved house and meet the friendly woman next door.",
+      "turns": [
+        {
+          "who": "them",
+          "en": "Oh, hello! Are you the new neighbour? I'm Jean, from number twelve.",
+          "ru": "О, здравствуйте! Вы наша новая соседка? Я Джин, из двенадцатого дома."
+        },
+        {
+          "who": "you",
+          "ru": "Представься и скажи, что переехала на прошлой неделе.",
+          "en": "Hi Jean, I'm Natali. I moved in last week.",
+          "bad": [
+            {
+              "t": "Hi Jean, I'm Natali. I have moved here last week.",
+              "why": "С last week нельзя Present Perfect: нужно I moved in."
+            },
+            {
+              "t": "Hello Jean, my name is Natali. I live here from last week.",
+              "why": "from last week — калька; нужно I moved in last week."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Welcome to the street! How are you finding it so far?",
+          "ru": "Добро пожаловать на нашу улицу! Как вам тут пока?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи, что тихо и приятно, соседи дружелюбные.",
+          "en": "It's lovely and quiet, and everyone's been so friendly.",
+          "bad": [
+            {
+              "t": "It's very quiet and calm, and all are very friendly.",
+              "why": "all are — нужно everyone; естественнее lovely и so friendly."
+            },
+            {
+              "t": "It's lovely and quiet. Everyone is very nice people.",
+              "why": "Everyone — единственное число, а people — множественное."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Good. Listen, if you ever need anything, just knock. We're always in.",
+          "ru": "Отлично. Если что-то понадобится, просто стучите. Мы всегда дома."
+        },
+        {
+          "who": "you",
+          "ru": "Поблагодари и предложи как-нибудь выпить чаю.",
+          "en": "That's kind of you. We should have a cuppa sometime!",
+          "bad": [
+            {
+              "t": "That's kind of you. We should drink a tea sometime!",
+              "why": "drink a tea — калька; по-британски have a cuppa / cup of tea."
+            },
+            {
+              "t": "That's kind for you. We should have a cuppa sometime!",
+              "why": "Устойчиво: kind of you, а не kind for you."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "travel-hotel",
+      "name": "Hotel check-in",
+      "emoji": "🏨",
+      "lvl": 3,
+      "about": "You arrive at a London hotel in the evening, check in and ask about breakfast and a wake-up call.",
+      "turns": [
+        {
+          "who": "them",
+          "en": "Good evening. Welcome to the Kensington Hotel. Do you have a booking?",
+          "ru": "Добрый вечер. Добро пожаловать в отель «Кенсингтон». У вас есть бронь?"
+        },
+        {
+          "who": "you",
+          "ru": "Скажи, что бронь на фамилию Орлова на три ночи.",
+          "en": "Yes, there's a reservation under Orlova, for three nights.",
+          "bad": [
+            {
+              "t": "Yes, I have booked on the name Orlova for three nights.",
+              "why": "Нужно under the name / under Orlova; booked a room."
+            },
+            {
+              "t": "Yes, it should be a reservation by Orlova, for three nights.",
+              "why": "reservation by — нужно under (the name of)."
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Let me see. Yes, a double room. Could I take a card for the deposit, please?",
+          "ru": "Сейчас посмотрю. Да, двухместный номер. Можно карту для залога?"
+        },
+        {
+          "who": "you",
+          "ru": "Дай карту и спроси, включён ли завтрак и до скольки.",
+          "en": "Of course. Is breakfast included, and what time does it finish?",
+          "bad": [
+            {
+              "t": "Of course. Breakfast is included, and until what hour it is?",
+              "why": "Порядок слов вопроса: what time does it finish?"
+            },
+            {
+              "t": "Of course. Is the breakfast included, and when it ends in the morning?",
+              "why": "Вопрос требует порядка слов: when does it end?"
+            }
+          ]
+        },
+        {
+          "who": "them",
+          "en": "Breakfast is seven to ten. Your room is 304, the lift's on the left. Anything else?",
+          "ru": "Завтрак с семи до десяти. Ваш номер 304, лифт слева. Что-нибудь ещё?"
+        },
+        {
+          "who": "you",
+          "ru": "Попроси разбудить тебя завтра в семь утра.",
+          "en": "Yes, could I have a wake-up call at seven tomorrow, please?",
+          "bad": [
+            {
+              "t": "Yes, can you wake up me tomorrow at seven o'clock, please?",
+              "why": "Местоимение между частями: wake me up; лучше wake-up call."
+            },
+            {
+              "t": "Yes, could I have a wake-up call on seven tomorrow, please?",
+              "why": "Предлог времени: at seven, а не on seven."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

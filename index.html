@@ -1232,6 +1232,16 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .en-ru-big{ margin:4px 0; font-size:23px; line-height:1.3; color:var(--ink); }
 .en-ex{ margin:6px 0 2px; font-size:16px; line-height:1.45; color:var(--ink); }
 .en-exru{ margin:0 0 14px; font-size:14px; line-height:1.4; color:var(--ink-soft); }
+.dlg-chat{ display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+.dlg-bub{ max-width:86%; padding:10px 14px; border-radius:18px; font-size:16px; line-height:1.4; border:var(--border-w) solid var(--line); overflow-wrap:anywhere; }
+.dlg-bub.them{ align-self:flex-start; background:var(--surface); border-bottom-left-radius:6px; }
+.dlg-bub.you{ align-self:flex-end; background:var(--accent-soft); border-bottom-right-radius:6px; }
+.dlg-bub.now{ font-size:18px; box-shadow:var(--shadow); }
+.dlg-keep{ display:flex; flex-direction:column; gap:8px; }
+.dlg-tr{ margin:10px 2px 0; font-size:14px; color:var(--ink-soft); }
+.dlg-row{ width:100%; text-align:left; }
+.dlg-row .en-set-top{ align-items:center; }
+.en-lvl{ margin-left:auto; flex:none; font-size:11px; font-weight:800; letter-spacing:.04em; color:var(--ink-soft); }
 .en-next{ display:inline-block; flex:none; padding:2px 9px; border-radius:999px; font-size:11px; font-weight:800; letter-spacing:.04em; background:var(--accent-soft); color:var(--ink); }
 .en-voice{ display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
 .en-rate{ display:flex; flex-direction:column; gap:10px; margin-top:6px; }
@@ -3189,6 +3199,9 @@ function renderTrain(){
   if(en && en.stage === 'card') return renderEnCard();
   if(en && en.stage === 'say') return renderEnSay();
   if(en && en.stage === 'done') return renderEnDone();
+  if(en && en.stage === 'dlg-list') return renderDlgList();
+  if(en && en.stage === 'dlg') return renderDlgPlay();
+  if(en && en.stage === 'dlg-done') return renderDlgDone();
   if(en && en.stage === 'place') return renderEnPlace();
   if(en && en.stage === 'placed') return renderEnPlaced();
   const e = engState(), deck = engDeck().filter(engCard), st = srsStats(deck, e.cards, today()), d = engDayRead(), plan = engPlan();
@@ -3205,6 +3218,13 @@ function renderTrain(){
       '<button class="btn btn-primary btn-full" data-act="en-start">Start</button>';
   }
   h += '</section>';
+  dlLoad();
+  const dlNext = DL ? dlgNext(DL.scenes, engDlg().done, engLevel()) : null, dlDone = DL ? DL.scenes.filter(function(s){ return engDlg().done[s.id]; }).length : 0;
+  h += '<section class="wq-card"><p class="eyebrow">💬 Mini-dialogues</p>'+(DL
+    ? '<h3>'+(dlNext ? esc(dlNext.name) : 'Every scene done')+'</h3><p class="fd-sub">Someone speaks, you answer: pick the natural reply, then say it aloud. '+dlDone+' of '+DL.scenes.length+' done.</p>'+
+      (dlNext ? '<button class="btn btn-primary btn-full" data-act="dlg-start" data-id="'+esc(dlNext.id)+'">Start</button>' : '')+
+      '<button class="btn btn-full" data-act="dlg-open"'+(dlNext ? ' style="margin-top:8px"' : '')+'>All scenes</button>'
+    : (dlFailed ? '<p class="fd-sub">Could not load the scenes. <button class="linkbtn" data-act="en-retry">Try again</button></p>' : '<p class="fd-sub">Loading the scenes…</p>'))+'</section>';
   if(!e.placed){
     h += '<section class="wq-card"><p class="eyebrow">📝 Level check</p><h3>Which phrases are right for you?</h3>'+
       '<p class="fd-sub">20 quick questions, about 3 minutes. It sets where you start and how many new phrases a day.</p>'+
@@ -3300,6 +3320,129 @@ function renderEnPlaced(){
   view.innerHTML = engBack()+'<p class="eyebrow" style="margin:14px 2px 0">Level check · done</p>'+
     '<h2 class="rec-title">'+r.right+' of '+r.n+'</h2><p class="fd-sub">'+text+' First up: '+esc(names.join(' and '))+'. You can change the first set any time.</p>'+
     '<button class="btn btn-primary btn-full" data-act="en-exit" style="margin-top:16px">Start learning</button>';
+}
+
+/* ---- Mini-dialogues: someone speaks, she answers (pick the natural reply, then say it aloud) ---- */
+/* dlg:pure */
+const DLG_GROUPS = {teach:'Your lessons', daily:'Everyday', work:'Work', social:'People', travel:'Travel'};
+function dlgGroup(id){ return DLG_GROUPS[String(id).split('-')[0]] || 'More'; }
+/* a scene ready to play: their lines as they are, her turns with the three options shuffled and the reasons kept */
+function dlgBuild(scene, rnd){
+  return scene.turns.map(function(t){
+    if(t.who === 'them') return {who:'them', en:t.en, ru:t.ru};
+    const opts = [{t:t.en, ok:true}].concat(t.bad.map(function(b){ return {t:b.t, ok:false, why:b.why}; }));
+    return {who:'you', ru:t.ru, right:t.en, options:srsShuffle(opts, rnd)};
+  });
+}
+/* the next scene she has not done, nearest her level first; null when everything is done */
+function dlgNext(scenes, done, level){
+  return placeOrder(scenes, level).find(function(s){ return !done[s.id]; }) || null;
+}
+/* dlg:end */
+let DL = null, dlLoading = false, dlFailed = false;
+function dlLoad(){
+  if(DL || dlLoading) return;
+  dlLoading = true; dlFailed = false;
+  fetch('english/dialogues.json').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(d){
+      d.byId = {}; d.scenes.forEach(function(s){ d.byId[s.id] = s; });
+      DL = d; dlLoading = false;
+      if(tab === 'english') renderEnglish();
+    })
+    .catch(function(){ dlLoading = false; dlFailed = true; if(tab === 'english') renderEnglish(); });
+}
+function engDlg(){ const e = engState(); if(!e.dlg) e.dlg = {done:{}}; if(!e.dlg.done) e.dlg.done = {}; return e.dlg; }
+function engLevel(){ const p = engState().placed; return p ? p.level : 'core'; }
+function engSpeakBtns(text){
+  return '<span class="en-voice"><button class="btn btn-sm" data-act="en-speak-t" data-t="'+esc(text)+'" data-slow="0">🔊 Listen</button>'+
+    '<button class="btn btn-ghost btn-sm" data-act="en-speak-t" data-t="'+esc(text)+'" data-slow="1">🐢 Slowly</button></span>';
+}
+function dlgStart(id){
+  const sc = DL && DL.byId[id];
+  if(!sc) return;
+  enMicReset();
+  en = {stage:'dlg', dlg:{sc:sc, turns:dlgBuild(sc, Math.random), i:0, picked:null, right:0, n:0, ruOn:false, saved:false}};
+  window.scrollTo(0, 0); renderEnglish();
+}
+function dlgFinish(btn){
+  const d = en.dlg;
+  engDlg().done[d.sc.id] = {date:today(), right:d.right, n:d.n};
+  spTick(); save(); enMicReset();
+  en.stage = 'dlg-done';
+  if(btn) celebrate(btn);
+  window.scrollTo(0, 0); renderEnglish();
+}
+/* the phrases she chose in this scene join her saved words (and so the card queue and the word test); known ones are skipped */
+function dlgSave(){
+  const d = en.dlg; let added = 0;
+  if(!state.words) state.words = [];
+  d.turns.forEach(function(t, i){
+    if(t.who !== 'you') return;
+    if(state.words.some(function(w){ return String(w.term).toLowerCase() === t.right.toLowerCase(); })) return;
+    const prev = d.turns[i - 1];
+    state.words.push({id:'w'+Date.now().toString(36)+i, term:t.right, ctx:(prev ? prev.en+' — ' : '')+t.right, mean:'', ru:t.ru, src:'dialogue', box:0, seen:0, right:0, last:''});
+    added++;
+  });
+  d.saved = true; save();
+  toast(added ? 'Saved '+added+' phrase'+(added === 1 ? '' : 's')+' to your words' : 'Already in your words');
+}
+function dlgBubble(t, you){
+  return '<div class="dlg-bub '+(you ? 'you' : 'them')+'">'+esc(you ? t.right : t.en)+'</div>';
+}
+function renderDlgList(){
+  const done = engDlg().done;
+  let h = engBack()+'<p class="eyebrow" style="margin:14px 2px 8px">Mini-dialogues</p>';
+  ['teach', 'daily', 'work', 'social', 'travel'].forEach(function(g){
+    const list = DL.scenes.filter(function(s){ return s.id.split('-')[0] === g; });
+    if(!list.length) return;
+    h += '<div class="section-head"><p class="eyebrow">'+dlgGroup(list[0].id)+'</p></div><div class="en-sets">'+list.map(function(s){
+      const r = done[s.id];
+      return '<button class="en-set dlg-row" data-act="dlg-start" data-id="'+esc(s.id)+'"><div class="en-set-top"><span class="en-set-e">'+s.emoji+'</span>'+
+        '<span class="en-set-t"><b>'+esc(s.name)+'</b><small>'+esc(s.about)+'</small></span>'+
+        (r ? '<span class="en-next">✓ '+r.right+'/'+r.n+'</span>' : '<span class="en-lvl">'+['easy', 'medium', 'harder'][s.lvl - 1]+'</span>')+'</div></button>';
+    }).join('')+'</div>';
+  });
+  view.innerHTML = h;
+}
+function renderDlgPlay(){
+  const d = en.dlg, t = d.turns[d.i];
+  let h = engBack()+'<p class="eyebrow" style="margin:14px 2px 8px">'+esc(d.sc.name)+' · '+(d.i + 1)+' of '+d.turns.length+'</p><div class="dlg-chat">';
+  for(let k = 0; k < d.i; k++) h += dlgBubble(d.turns[k], d.turns[k].who === 'you');
+  if(t.who === 'them'){
+    h += '<div class="dlg-bub them now">'+esc(t.en)+'</div></div>'+engSpeakBtns(t.en)+
+      '<p class="dlg-tr">'+(d.ruOn ? '<span lang="ru">'+esc(t.ru)+'</span>' : '<button class="linkbtn" data-act="dlg-ru">Show translation</button>')+'</p>'+
+      '<button class="btn btn-primary btn-full" data-act="dlg-next" style="margin-top:12px">Your turn →</button>';
+    view.innerHTML = h; return;
+  }
+  const answered = d.picked != null;
+  h += '</div><section class="wq-card en-card"><p class="en-ru en-ru-big" lang="ru">'+esc(t.ru)+'</p></section>'+
+    '<div class="pd-opts">'+t.options.map(function(o, i){
+      const cls = !answered ? '' : o.ok ? ' right' : i === d.picked ? ' wrong' : ' dim';
+      return '<button class="pd-opt'+cls+'" data-act="dlg-pick" data-i="'+i+'"'+(answered ? ' disabled' : '')+'><span class="k">'+'ABC'[i]+'</span><span>'+esc(o.t)+'</span></button>';
+    }).join('')+'</div>';
+  if(answered){
+    const ok = t.options[d.picked].ok;
+    h += '<div class="wq-fb">'+(ok ? '<p class="wq-ok">✓ Right</p>' : '<p class="wq-no">Not quite</p><p class="fd-sub" lang="ru">'+esc(t.options[d.picked].why)+'</p>')+'</div>'+
+      '<p class="tk-sub" style="margin-top:6px">Now say it out loud:</p><p class="en-big">'+esc(t.right)+'</p>'+engSpeakBtns(t.right);
+    if(enMic.busy && enMic.rec) h += '<p class="tk-sub" style="margin-top:10px">Recording…</p><button class="btn btn-primary btn-full" data-act="en-mic-stop">■ Stop</button>';
+    else if(enMic.busy) h += '<p class="tk-sub" style="margin-top:10px">Waiting for the microphone…</p>';
+    else if(enMic.url) h += '<audio controls preload="metadata" src="'+enMic.url+'" style="width:100%;margin-top:10px"></audio><button class="btn btn-full" data-act="en-mic" style="margin-top:8px">Try again</button>';
+    else if(!enMic.no) h += '<button class="btn btn-full" data-act="en-mic" style="margin-top:10px">● Record yourself (optional)</button>';
+    h += '<button class="btn btn-primary btn-full" data-act="dlg-next" style="margin-top:12px">'+(d.i + 1 < d.turns.length ? 'Next' : 'Finish')+'</button>';
+  }
+  view.innerHTML = h;
+}
+function renderDlgDone(){
+  const d = en.dlg, you = d.turns.filter(function(t){ return t.who === 'you'; });
+  const nx = dlgNext(DL.scenes, engDlg().done, engLevel());
+  view.innerHTML = engBack()+'<p class="eyebrow" style="margin:14px 2px 0">'+esc(d.sc.name)+' · done</p>'+
+    '<h2 class="rec-title">'+d.right+' of '+d.n+'</h2><p class="fd-sub">Your replies — worth keeping:</p>'+
+    '<div class="dlg-keep">'+you.map(function(t){ return '<div class="dlg-bub you">'+esc(t.right)+'</div>'; }).join('')+'</div>'+
+    '<div class="en-rate" style="margin-top:12px">'+
+    '<button class="btn'+(d.saved ? '' : ' btn-primary')+' btn-full" data-act="dlg-save"'+(d.saved ? ' disabled' : '')+'>'+(d.saved ? '✓ Saved to your words' : 'Save these phrases')+'</button>'+
+    (nx ? '<button class="btn btn-full" data-act="dlg-start" data-id="'+esc(nx.id)+'">Next: '+esc(nx.name)+'</button>' : '')+
+    '<button class="btn btn-full" data-act="dlg-open">All scenes</button>'+
+    '<button class="btn btn-ghost btn-full" data-act="en-exit">Done</button></div>';
 }
 /* eng:end */
 
@@ -4219,7 +4362,26 @@ document.addEventListener('click', function(e){
     state.why = ($('#whyIn').value || '').trim();
     save(); closeSheet(); render(); toast(state.why ? 'Saved — you will see it every day' : 'Cleared');
   }
-  else if(act==='en-retry'){ phFailed = false; renderEnglish(); }
+  else if(act==='en-retry'){ phFailed = false; dlFailed = false; renderEnglish(); }
+  else if(act==='en-speak-t'){ engSpeak(btn.getAttribute('data-t') || '', btn.getAttribute('data-slow') === '1'); }
+  else if(act==='dlg-open'){ if(DL){ enMicReset(); en = {stage:'dlg-list'}; window.scrollTo(0, 0); renderEnglish(); } }
+  else if(act==='dlg-start'){ dlgStart(btn.getAttribute('data-id')); }
+  else if(act==='dlg-ru'){ if(en && en.dlg){ en.dlg.ruOn = true; renderEnglish(); } }
+  else if(act==='dlg-pick'){
+    if(!en || !en.dlg || en.dlg.picked != null) return;
+    const d = en.dlg, t = d.turns[d.i], i = +btn.getAttribute('data-i');
+    if(t.who !== 'you' || !t.options[i]) return;
+    d.picked = i; d.n++; if(t.options[i].ok) d.right++;
+    enMicReset(); renderEnglish();
+  }
+  else if(act==='dlg-next'){
+    if(!en || !en.dlg) return;
+    const d = en.dlg;
+    if(d.turns[d.i].who === 'you' && d.picked == null) return;
+    enMicReset(); d.i++; d.picked = null; d.ruOn = false;
+    if(d.i >= d.turns.length) dlgFinish(btn); else { window.scrollTo(0, 0); renderEnglish(); }
+  }
+  else if(act==='dlg-save'){ if(en && en.dlg && !en.dlg.saved){ dlgSave(); renderEnglish(); } }
   else if(act==='en-start'){ if(PH) engStart(); }
   else if(act==='en-more'){ if(!engUnseen()) return; engDayWrite().bonus = (engDayRead().bonus || 0) + 5; save(); engStart(); }
   else if(act==='en-show'){ if(en){ en.shown = true; renderEnglish(); } }
