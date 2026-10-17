@@ -27,7 +27,7 @@ file in, **Commit changes**. The site updates in about a minute.
 |---|---|
 | Today | The **plans card** at the very top — today’s and tomorrow’s tasks, tick them right there; then the Winter Arc, the **word test** and the habits — grouped into **Morning · Day · Evening**. Every tick sets off a full-screen firework |
 | To-do | Finished tasks drop into a quiet **Archive** (a small button at the bottom; untick one there to bring it back). Tasks that are not habits — a call, an appointment, a bill. Quick-add at the top, optional day and time, grouped into Overdue · Today · Tomorrow · Later · No date |
-| English | **Train** — *15 minutes of English*: 250 spoken phrases in 10 sets, brought back after 1, 3, 7, 14, 30 and 60 days (a forgotten one returns tomorrow); say each aloud, hear it with 🔊 (the phone’s own voice, only here), then record three and hear yourself. **Mini-dialogues** — 16 short scenes (your lessons, everyday, work, people, travel): someone speaks, you pick the natural reply, then say it aloud and save the phrases. A 20-question level check sets where you start; your saved words join the queue; finishing the cards ticks the speaking habit. **Speak** — the speaking roulette: a topic, a minute, a recording, then the language you could have used. **Saved words** — the phrases you kept from it |
+| English | **Train** — *15 minutes of English*: 250 spoken phrases in 10 sets, brought back after 1, 3, 7, 14, 30 and 60 days (a forgotten one returns tomorrow); say each aloud, hear it with 🔊 (the phone’s own voice, only here), then record three and hear yourself. **Mini-dialogues** — 16 short scenes (your lessons, everyday, work, people, travel): someone speaks, you pick the natural reply, then say it aloud and save the phrases. **Listening** — rounds of 8 (sound-alikes, dictation, a short message) read by the phone at a speed you choose; what you miss comes back sooner. A 20-question level check sets where you start; your saved words join the queue; finishing the cards ticks the speaking habit. **Speak** — the speaking roulette: a topic, a minute, a recording, then the language you could have used. **Saved words** — the phrases you kept from it |
 | Practice | **Driving theory** — the interactive textbook and the official Armenian question bank. **Diction** — six minutes of Russian speech practice a day (warm-up and tongue twisters) |
 | 🧘 Yoga | Tap the *Yoga* habit: four choices open under it — 🌿 15–25, 🌤 26–35, 🔥 36–45 minutes, or 🏊 the pool on any day. They change the moment you mark one done |
 
@@ -39,6 +39,7 @@ file in, **Commit changes**. The site updates in about a minute.
 - `pdd/img/` — 662 pictures from the official tickets
 - `english/talk.json` — 200 speaking topics with a model answer and nine phrases each
 - `english/dialogues.json` — the mini-dialogues: 16 scenes of six turns, with plausible wrong replies and the reason in Russian
+- `english/listening.json` — the listening tasks: 90 sound-alike items, 36 dictation sentences, 12 short messages with questions
 - `english/phrases.json` — the trainer: 10 sets of 25 spoken phrases (meaning, example, translation) and the level-check questions
 - `manifest.json` — name and icon on the home screen
 - `sw.js` — works without internet
