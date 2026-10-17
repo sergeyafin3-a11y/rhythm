@@ -522,6 +522,26 @@ main{ flex:1; padding-bottom:104px; }
 .rd-hint{ margin:12px 0 0; font-size:12.5px; color:var(--ink-mute); text-align:center; }
 
 /* ---- To-do ---- */
+.cal{ background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius-lg); box-shadow:var(--shadow); padding:8px 4px 8px; margin-bottom:16px; }
+.td-day .eyebrow{ scroll-margin-bottom:210px; }
+.cal-top{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:4px; padding:0 6px; }
+.cal-mid{ display:flex; flex-direction:column; align-items:center; min-width:0; }
+.cal-title{ font-family:var(--font-display); font-weight:var(--display-weight); font-size:22px; line-height:1.2; }
+.cal-nav{ width:44px; height:44px; flex:none; border-radius:50%; font-size:26px; line-height:1; color:var(--ink); background:var(--surface-2); display:grid; place-items:center; padding-bottom:3px; }
+.cal-head{ display:grid; grid-template-columns:repeat(7, 1fr); text-align:center; font-size:11.5px; font-weight:700; letter-spacing:.04em; color:var(--ink-soft); margin-bottom:2px; }
+.cal-grid{ display:grid; grid-template-columns:repeat(7, 1fr); gap:2px; touch-action:pan-y; }
+.cal-day{ min-height:46px; border-radius:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:var(--ink); position:relative; padding:0; }
+.cal-day b{ font-size:16px; font-weight:600; font-variant-numeric:tabular-nums; line-height:1; }
+.cal-day i{ display:flex; gap:3px; height:6px; align-items:center; }
+.cal-day u{ width:5px; height:5px; border-radius:50%; background:var(--accent); display:block; }
+.cal-day.late u{ background:var(--bad); border-radius:1px; }
+.cal-day.out{ color:var(--ink-mute); opacity:.8; }
+.cal-day.today{ box-shadow:inset 0 0 0 2px var(--accent); }
+.cal-day.sel{ background:var(--accent); color:var(--accent-ink); opacity:1; }
+.cal-day.today.sel{ box-shadow:0 0 0 2px var(--surface), 0 0 0 4px var(--accent); }
+.cal-day.sel u{ background:var(--accent-ink); }
+.cal-today{ font-size:12.5px; font-weight:700; color:var(--accent); padding:0 8px; line-height:16px; min-height:16px; }
+.td-none{ margin:4px 2px 0; font-size:14px; color:var(--ink-soft); }
 .td-arch-btn{ display:block; margin:20px auto 0; font-size:13.5px; font-weight:700; color:var(--ink-soft); padding:12px 16px; }
 .td-arch-list{ margin-top:6px; opacity:.9; }
 .td-add{ display:flex; gap:8px; margin-bottom:18px; }
@@ -2794,36 +2814,99 @@ function tdRow(t, showWhen){
     '</article>';
 }
 
+/* cal:pure */
+const CAL_HEAD = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+function calKey(y, m, d){ return y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0'); }
+/* the weeks of a month, Monday first: whole weeks only (four to six), the days around the month are marked outside it */
+function calMonth(y, m){
+  const lead = (new Date(y, m, 1).getDay() + 6) % 7, days = new Date(y, m + 1, 0).getDate(), n = Math.ceil((lead + days) / 7) * 7, out = [];
+  for(let i = 0; i < n; i++){
+    const d = new Date(y, m, 1 - lead + i);
+    out.push({key:calKey(d.getFullYear(), d.getMonth(), d.getDate()), day:d.getDate(), inMonth:d.getMonth() === m});
+  }
+  return out;
+}
+function calShift(y, m, n){ const d = new Date(y, m + n, 1); return {y:d.getFullYear(), m:d.getMonth()}; }
+/* open tasks per day: how many, and whether the day is already behind us */
+function calDots(list, today){
+  const r = {};
+  list.forEach(function(t){
+    if(t.done || !t.date) return;
+    const c = r[t.date] || (r[t.date] = {n:0, late:t.date < today});
+    c.n++;
+  });
+  return r;
+}
+/* cal:end */
+/* the calendar shows a month and a chosen day; opening the tab always starts on today */
+let tdSel = null, tdMon = null;
+let tdDay = '';
+/* a new day (after 4 a.m.) starts the calendar on today again */
+function tdSelKey(){
+  if(tdDay !== today()){ tdDay = today(); tdSel = null; tdMon = null; }
+  return tdSel || today();
+}
+function tdMonth(){
+  tdSelKey();
+  if(!tdMon){ const d = toDate(tdSelKey()); tdMon = {y:d.getFullYear(), m:d.getMonth()}; }
+  return tdMon;
+}
+function tdDayLabel(k){
+  const t = today();
+  if(k === t) return 'Today';
+  if(k === shift(t, 1)) return 'Tomorrow';
+  if(k === shift(t, -1)) return 'Yesterday';
+  const d = toDate(k);
+  return WDAYS[d.getDay()].slice(0, 3) + ', ' + MONTHS[d.getMonth()].slice(0, 3) + ' ' + d.getDate() + (d.getFullYear() !== toDate(t).getFullYear() ? ', ' + d.getFullYear() : '');
+}
+/* a sideways swipe on the grid turns the month */
+function tdCalSwipe(){
+  const el = view.querySelector('.cal-grid');
+  if(!el) return;
+  let x0 = 0, y0 = 0;
+  el.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, {passive:true});
+  el.addEventListener('touchend', function(e){
+    const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+    if(Math.abs(dx) < 50 || Math.abs(dx) < Math.abs(dy) * 2) return;
+    const n = dx < 0 ? 1 : -1, mo = tdMonth();
+    tdMon = calShift(mo.y, mo.m, n); renderTodos();
+  }, {passive:true});
+}
+function tdCalendar(){
+  const key = today(), sel = tdSelKey(), mo = tdMonth(), dots = calDots(todos(), key);
+  const cur = toDate(key), here = mo.y === cur.getFullYear() && mo.m === cur.getMonth();
+  let h = '<section class="cal"><div class="cal-top"><button class="cal-nav" data-act="cal-prev" aria-label="Previous month">‹</button>'+
+    '<span class="cal-mid"><b class="cal-title">'+MONTHS[mo.m]+' '+mo.y+'</b>'+
+    '<button class="cal-today" data-act="cal-today"'+(here && sel === key ? ' tabindex="-1" aria-hidden="true" style="visibility:hidden"' : '')+'>Back to today</button></span>'+
+    '<button class="cal-nav" data-act="cal-next" aria-label="Next month">›</button></div>'+
+    '<div class="cal-head">'+CAL_HEAD.map(function(x){ return '<span>'+x+'</span>'; }).join('')+'</div><div class="cal-grid">';
+  calMonth(mo.y, mo.m).forEach(function(c){
+    const o = dots[c.key], n = o ? Math.min(o.n, 3) : 0;
+    h += '<button class="cal-day'+(c.inMonth ? '' : ' out')+(c.key === key ? ' today' : '')+(c.key === sel ? ' sel' : '')+(o && o.late ? ' late' : '')+'" data-act="cal-pick" data-d="'+c.key+'" aria-pressed="'+(c.key === sel)+'" aria-label="'+esc(tdDayLabel(c.key))+(o ? ', '+o.n+' to do' : '')+'">'+
+      '<b>'+c.day+'</b><i>'+(n ? '<u></u>'.repeat(n) : '')+'</i></button>';
+  });
+  return h + '</div></section>';
+}
+
 function renderTodos(){
-  const g = tdGroups(), archive = tdSplit(todos()).archive;
-  const left = tdOpenToday().length;
+  const sel = tdSelKey(), g = tdGroups(), archive = tdSplit(todos()).archive;
+  g.late = g.late.filter(function(t){ return t.date !== sel; });
+  const dayList = tdSort(tdSplit(todos()).open.filter(function(t){ return t.date === sel; }));
 
   let html = '<div class="td-add">'+
-    '<input type="text" id="tdQuick" placeholder="What needs doing?" value="'+esc(todoDraft)+'" autocomplete="off" enterkeyhint="done">'+
+    '<input type="text" id="tdQuick" placeholder="Add a task for '+esc(/^(Today|Tomorrow|Yesterday)$/.test(tdDayLabel(sel)) ? tdDayLabel(sel).toLowerCase() : tdDayLabel(sel))+'" value="'+esc(todoDraft)+'" autocomplete="off" enterkeyhint="done">'+
     '<button data-act="td-quick" aria-label="Add">+</button></div>';
 
-  const blocks = [
-    ['late', 'Overdue', true],
-    ['today', left ? 'Today · ' + left + ' left' : 'Today', false],
-    ['tomorrow', 'Tomorrow', false],
-    ['later', 'Later', true],
-    ['someday', 'No date yet', false]
-  ];
-  let any = false;
-  blocks.forEach(function(b){
-    const list = g[b[0]];
-    if(!list.length) return;
-    any = true;
-    html += '<section class="td-group'+(b[0] === 'late' ? ' late' : '')+'"><p class="eyebrow">'+b[1]+'</p>'+
-      '<div class="td-list">'+list.map(function(t){ return tdRow(t, b[2]); }).join('')+'</div></section>';
-  });
+  html += tdCalendar();
+  html += '<section class="td-group td-day"><p class="eyebrow">'+esc(tdDayLabel(sel))+(dayList.length ? ' · '+dayList.length : '')+'</p>'+
+    (dayList.length ? '<div class="td-list">'+dayList.map(function(t){ return tdRow(t, false); }).join('')+'</div>'
+      : '<p class="td-none">'+(todos().length ? 'Nothing planned for this day.' : 'Nothing written down. Type it above — a phone call, an appointment, anything that is not a habit.')+'</p>')+'</section>';
+  if(g.late.length) html += '<section class="td-group late"><p class="eyebrow">Overdue</p>'+
+    '<div class="td-list">'+g.late.map(function(t){ return tdRow(t, true); }).join('')+'</div></section>';
+  if(g.someday.length) html += '<section class="td-group"><p class="eyebrow">No date yet</p>'+
+    '<div class="td-list">'+g.someday.map(function(t){ return tdRow(t, false); }).join('')+'</div></section>';
 
-  if(!any){
-    html += '<div class="empty" style="padding:44px 16px"><div style="font-size:42px">📋</div>'+
-      (archive.length ? '<p>All clear.<br>Type the next one above.</p>' : '<p>Nothing written down.<br>Type it above — a phone call, an appointment, anything that is not a habit.</p>')+'</div>';
-  } else {
-    html += '<p class="sub" style="text-align:center;margin-top:6px">Tap a task to set a time, a day or a note.</p>';
-  }
+  if(dayList.length || g.late.length || g.someday.length) html += '<p class="sub" style="text-align:center;margin-top:6px">Tap a task to set a time, a day or a note.</p>';
   if(!archive.length) tdArch = false;
   if(archive.length){
     html += '<button class="td-arch-btn" data-act="td-archive" aria-expanded="'+tdArch+'">Archive · '+archive.length+(tdArch ? ' ▴' : ' ▾')+'</button>';
@@ -2831,6 +2914,7 @@ function renderTodos(){
       (archive.length > 50 ? '<p class="sub" style="text-align:center;margin-top:8px">Showing the latest 50 of '+archive.length+'.</p>' : '');
   }
   view.innerHTML = html;
+  tdCalSwipe();
 }
 
 function tdPlansCard(){
@@ -2853,7 +2937,7 @@ function tdPlansCard(){
   if(p.tomorrow.length){
     h += '<div class="plans-day tom"><b>Tomorrow</b><small>'+p.tomorrow.length+' planned</small></div>'+
       p.tomorrow.slice(0, 3).map(row).join('')+
-      (p.tomorrow.length > 3 ? '<button class="plans-more" data-act="go-todo">and '+(p.tomorrow.length - 3)+' more →</button>' : '');
+      (p.tomorrow.length > 3 ? '<button class="plans-more" data-act="go-todo" data-d="'+shift(key, 1)+'">and '+(p.tomorrow.length - 3)+' more →</button>' : '');
   }
   return h + '</section>';
 }
@@ -4280,7 +4364,7 @@ document.addEventListener('click', function(e){
     state.habits = state.habits.filter(x=>x.id!==id); delete state.log[id];
     save(); closeSheet(); render(); toast('Deleted');
   }
-  else if(act==='go-todo'){ go('todo'); }
+  else if(act==='go-todo'){ go('todo'); const d = btn.getAttribute('data-d'); if(d){ tdSel = d; tdMon = null; renderTodos(); } }
   else if(act==='sk-view'){ skView = btn.getAttribute('data-v'); window.scrollTo(0,0); renderSkills(); }
   else if(act==='pd-retry'){ pddFailed = false; renderSkills(); }
   else if(act==='pd-start'){
@@ -4375,7 +4459,7 @@ document.addEventListener('click', function(e){
   else if(act==='td-quick'){
     const f = $('#tdQuick'); const v = (f ? f.value : '').trim();
     if(!v){ if(f) f.focus(); return; }
-    todos().push({id:'t'+Date.now().toString(36), t:v, date:today(), time:'', note:'', done:false, made:Date.now()});
+    todos().push({id:'t'+Date.now().toString(36), t:v, date:tdSelKey(), time:'', note:'', done:false, made:Date.now()});
     todoDraft = ''; save(); renderTodos();
     const f2 = $('#tdQuick'); if(f2) f2.focus();
   }
@@ -4394,6 +4478,12 @@ document.addEventListener('click', function(e){
     t.done = false; t.doneAt = '';
     save(); render(); toast('Back on your list');
   }
+  else if(act==='cal-pick'){
+    const d = btn.getAttribute('data-d');
+    if(d){ tdSel = d; const x = toDate(d); tdMon = {y:x.getFullYear(), m:x.getMonth()}; renderTodos(); const hd = view.querySelector('.td-day .eyebrow'); if(hd) hd.scrollIntoView({block:'nearest'}); }
+  }
+  else if(act==='cal-prev' || act==='cal-next'){ const mo = tdMonth(); tdMon = calShift(mo.y, mo.m, act === 'cal-next' ? 1 : -1); renderTodos(); }
+  else if(act==='cal-today'){ tdSel = null; tdMon = null; renderTodos(); }
   else if(act==='td-archive'){ tdArch = !tdArch; renderTodos(); }
   else if(act==='td-day'){
     const f = $('#tdDate'); if(f) f.value = btn.getAttribute('data-d');
@@ -4407,6 +4497,7 @@ document.addEventListener('click', function(e){
     if(!v){ toast('Give it a name'); $('#tdT').focus(); return; }
     t.t = v; t.date = $('#tdDate').value || ''; t.time = $('#tdTime').value || '';
     t.note = ($('#tdNote').value || '').trim();
+    if(tab === 'todo' && t.date){ tdSel = t.date; const x = toDate(t.date); tdMon = {y:x.getFullYear(), m:x.getMonth()}; }
     save(); closeSheet(); render(); toast('Saved');
   }
   else if(act==='td-del'){
@@ -5358,6 +5449,7 @@ function paintTabDots(){
 /* ---------- Navigation and start-up ---------- */
 function go(t){
   engLeave();
+  if(t === 'todo'){ tdSel = null; tdMon = null; }
   if(selDay){ selDay = null; paintHeader(); }
   tab = t;
   document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected', x.dataset.tab===t ? 'true':'false'));
