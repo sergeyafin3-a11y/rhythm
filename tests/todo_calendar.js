@@ -52,7 +52,20 @@ check(/function go\(t\)\{[\s\S]{0,300}tdSel = null/.test(html), 'opening the To-
 check(/touchstart/.test(html) && /touchend/.test(html) && /Math\.abs\(dx\)/.test(body('tdCalSwipe')) && /tdCalSwipe\(\)/.test(rt), 'swiping the calendar sideways turns the month');
 check(/\.cal-day\.sel\{/.test(html) && /\.cal-day\.today\{/.test(html) && /\.cal-day\.out\{/.test(html), 'chosen day, today and days of other months look different');
 check(/\.cal-day\{[^}]*min-height:\s*(4[4-9]|5\d)px/.test(html), 'a day is at least 44px high to tap');
-check(/prefers-reduced-motion/.test(html) || true, '');
 check(/calendar/i.test(readme), 'the README mentions the calendar');
+// review fixes
+check(/const n = dx < 0 \? 1 : -1/.test(body('tdCalSwipe')) && /Math\.abs\(dx\) < 50/.test(body('tdCalSwipe')) && /Math\.abs\(dy\) \* 2/.test(body('tdCalSwipe')), 'swipe left is the next month, 50px at least and clearly sideways');
+check(/tdMon = \{y:x\.getFullYear\(\), m:x\.getMonth\(\)\}/.test(html.slice(html.indexOf("act==='cal-pick'"), html.indexOf("act==='cal-pick'") + 300)), 'picking a day makes the month follow it');
+check(/\(c\.inMonth \? '' : ' out'\)/.test(body('tdCalendar')) && /Math\.min\(o\.n, 3\)/.test(body('tdCalendar')) && /here && sel === key/.test(body("tdCalendar")), 'days of other months are marked, at most three dots, Back to today when away');
+check(/filter\(function\(t\)\{ return t\.date !== sel; \}\)/.test(body('renderTodos')), 'the chosen day is not listed twice (once more under Overdue)');
+check(/act==='go-todo'\)\{[^}]*data-d/.test(html) && /data-act="go-todo" data-d="'\+shift\(key, 1\)/.test(body('tdPlansCard')), 'the Tomorrow “more” button opens the calendar on tomorrow');
+check(/scrollIntoView\(\{block:'nearest'\}\)/.test(html.slice(html.indexOf("act==='cal-pick'"), html.indexOf("act==='cal-pick'") + 500)) && /\.td-day \.eyebrow\{[^}]*scroll-margin-bottom/.test(html), 'after picking a day its list is scrolled into view above the tab bar');
+check(/cal-mid/.test(body('tdCalendar')) && /visibility:hidden/.test(body('tdCalendar')), 'Back to today never changes the height of the calendar');
+check(/tdDay !== today\(\)/.test(body('tdSelKey') + body('tdMonth')), 'the calendar returns to today when the day changes (after 4 a.m.)');
+check(/\.cal-day\.out\{[^}]*color:var\(--ink-mute\)/.test(html) && /\.cal-day\.late u\{[^}]*border-radius:\s*\d/.test(html) && /\.cal-day\.today\.sel\{/.test(html), 'out days stay readable, late dots differ by shape, today is visible even when chosen');
+check(/getFullYear\(\) !== /.test(body('tdDayLabel')), 'a day in another year shows its year');
+check(/act==='td-save'\)\{[\s\S]{0,700}tdSel = t\.date/.test(html), 'after saving a task the calendar follows its day');
+check(/Nothing written down/.test(rt), 'a completely empty list still explains itself');
+
 if(fails.length) throw new Error('FAIL:\n  ' + fails.filter(Boolean).join('\n  '));
 console.log('OK: the to-do calendar');
