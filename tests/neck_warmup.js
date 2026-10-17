@@ -38,5 +38,20 @@ const np = body('neckPanel');
 check(/vidCard\(/.test(np) && /NECK_STEPS/.test(np) && /NECK_NOTE/.test(np), 'the panel shows the videos, the written routine and the note');
 check(/Neck warm-up/.test(readme) || /neck warm-up/i.test(readme), 'the README mentions the neck warm-up');
 check(/\.nk-steps\{[^}]*display:block/.test(html), 'the written routine uses the full width of the card');
+// the panel match and the two calls, each protected on its own
+const pm = /\{match:(\/[^\n]*?\/i), hint:[^\n]*panel:neckPanel\}/.exec(html);
+check(!!pm, 'the neck panel entry has a match pattern');
+if(pm){
+  const rx = new Function('return ' + pm[1])();
+  ['Neck warm-up', 'Шея', 'Разминка шеи', 'Neck'].forEach(function(t){ check(rx.test(t), '"' + t + '" opens the neck panel'); });
+  ['Keep a journal', 'Face massage', 'Yoga', 'Meditate for 5 minutes', 'Learn 7 new words', 'Eight glasses of water', 'Walk 15–20 minutes', 'Driving theory: one lesson', 'Diction exercises', 'Speaking spin', 'Necklace', 'Сенека'].forEach(function(t){ check(!rx.test(t), '"' + t + '" must not open the neck panel'); });
+}
+const order = html.indexOf('panel:ygPanel'), neckAt = html.indexOf('panel:neckPanel'), drive = html.indexOf('panel:drivePanel');
+check(order > 0 && order < neckAt && neckAt < drive, 'the neck entry keeps yoga and face massage first');
+check(/practiceEnsure\(state\);\nneckEnsure\(state\);\nif\(!state\.started\)/.test(html), 'the habit is added when the app starts');
+const imp = /act==='import-data'\)\{([\s\S]*?)\n  else if\(act==='reset'\)/.exec(html);
+check(!!imp && /neckEnsure\(state\)/.test(imp[1]), 'a restored backup gets the habit too');
+check(/Shrug and drop/.test(html) && /one hand rests on the head, no pulling/.test(html) && /Eyes level/.test(html), 'the routine says which hand, keeps the eyes level and names the first step honestly');
+
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: the neck warm-up');
