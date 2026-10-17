@@ -1262,6 +1262,13 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .lis-script{ margin:10px 0 0; padding:12px 14px; background:var(--surface-2); border-radius:var(--radius); font-size:15px; line-height:1.5; }
 .en-chips{ display:flex; gap:8px; }
 .en-chips .chip.on{ background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+.nk-steps{ display:block; }
+.nk-steps .vid-body{ width:100%; }
+.nk-steps ol{ margin:6px 0 0; padding:0; list-style:none; counter-reset:nk; display:flex; flex-direction:column; gap:10px; }
+.nk-steps li{ counter-increment:nk; display:grid; grid-template-columns:26px 1fr; gap:4px 10px; align-items:start; font-size:15px; line-height:1.4; }
+.nk-steps li::before{ content:counter(nk); grid-row:1 / span 2; width:24px; height:24px; border-radius:50%; background:var(--accent-soft); color:var(--ink); font-size:13px; font-weight:700; display:grid; place-items:center; }
+.nk-steps li b{ font-weight:700; color:var(--ink); }
+.nk-steps li span{ color:var(--ink-soft); }
 .dlg-chat{ display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
 .dlg-bub{ max-width:86%; padding:10px 14px; border-radius:18px; font-size:16px; line-height:1.4; border:var(--border-w) solid var(--line); overflow-wrap:anywhere; }
 .dlg-bub.them{ align-self:flex-start; background:var(--surface); border-bottom-left-radius:6px; }
@@ -2105,6 +2112,37 @@ function facePanel(h){
     '</p><div class="vid-list">'+fcBatch().map(function(x){ return vidCard(x, false); }).join('')+'</div></div>';
 }
 
+/* ---------- Neck warm-up: a gentle daily habit for tension in the neck (not posture) ----------
+   Two short videos in Russian and a three-minute routine in writing for when there is no time to watch. */
+/* neck:pure */
+const NECK_HABIT = {id:'hp-neck', title:'Neck warm-up', emoji:'🦒', perDay:1, weekGoal:7, when:'day', why:''};
+const NECK_VIDEOS = [
+  {v:'xqtsMTjiDoc', t:'Neck and shoulders at your desk, in about five minutes', min:5, by:'Mari Stretching', lang:'ru'},
+  {v:'yM4FFY0u0JY', t:'Self-massage of the neck to relax and warm up the muscles', min:5, by:'Клиника реабилитации в Хамовниках', lang:'ru'}
+];
+const NECK_STEPS = [
+  {t:'Drop the shoulders', how:'Lift them to the ears for 3 seconds, then let them fall. 5 times.'},
+  {t:'Chin tucks', how:'Slide the chin straight back, as if making a double chin. Hold 3 seconds, 8 times.'},
+  {t:'Ear towards the shoulder', how:'Tilt the head, keep the other shoulder low, the hand only rests. 20 seconds each side.'},
+  {t:'Look over the shoulder', how:'Turn the head slowly until you feel a light pull. 5 seconds each side, 3 times.'},
+  {t:'Small nods', how:'Chin down towards the chest, then back to level. Slow, 5 times.'},
+  {t:'Finish with breathing', how:'3 slow breaths, shoulders heavy, jaw loose.'}
+];
+const NECK_NOTE = 'Gentle only — a pull is fine, pain is not. Never force or jerk. Stop at once if you feel sharp pain, tingling, numbness or dizziness, and see a doctor if the neck pain or headaches keep coming back or get worse.';
+/* added once; a habit she deletes stays deleted */
+function neckEnsure(st){
+  if(st.neckHabit) return false;
+  if(!st.habits.some(function(x){ return x.id === NECK_HABIT.id; })) st.habits.push(Object.assign({}, NECK_HABIT));
+  st.neckHabit = true;
+  return true;
+}
+/* neck:end */
+function neckPanel(h){
+  return '<div class="hb-vids"><p class="hb-tip">'+esc(NECK_NOTE)+'</p>'+
+    '<div class="vid-list">'+NECK_VIDEOS.map(function(x){ return vidCard(x, false); }).join('')+'</div>'+
+    '<article class="vid nk-steps"><div class="vid-body"><p class="yg-no">📝 No time to watch? About 3 minutes</p>'+
+    '<ol>'+NECK_STEPS.map(function(x){ return '<li><b>'+esc(x.t)+'</b><span>'+esc(x.how)+'</span></li>'; }).join('')+'</ol></div></article></div>';
+}
 /* the speaking habit: ticked by finishing a topic, and it opens straight into the roulette */
 function spHabit(){ return state.habits.find(function(h){ return /speak|говор|спикинг/i.test(h.title); }); }
 function spTick(){
@@ -2166,6 +2204,7 @@ const HABIT_PANELS = [
   {match:/speak|говор|спикинг/i, hint:function(h){ return isDone(h, today()) ? '✓ Spoken today' : 'Spin a topic'; }, panel:spPanel},
   {match:/^\s*yoga\b|йога/i, hint:ygHint, panel:ygPanel},
   {match:/face massage|массаж лица|gua ?sha|гуаша/i, hint:fcHint, panel:facePanel},
+  {match:/\bneck\b|шея|шеи/i, hint:function(h){ return isDone(h, today()) ? '✓ Warmed up' : 'Gentle · 5 min'; }, panel:neckPanel},
   {match:DRIVE_RX, hint:function(h){ return isDone(h, today()) ? '✓ Lesson done' : 'One lesson'; }, panel:drivePanel},
   {match:DICTION_RX, hint:function(h){ return isDone(h, today()) ? '✓ Diction done' : 'A few minutes'; }, panel:dictionPanel}
 ];
@@ -2665,6 +2704,7 @@ if(!wkHabit()) state.habits.push({id:'hw', title:'Yoga', emoji:'🧘', perDay:1,
 if(state.why === undefined) state.why = '';
 arcEnsure(state, today());
 practiceEnsure(state);
+neckEnsure(state);
 if(!state.started) state.started = today();
 let openPack = null;
 let tab = 'today';
@@ -4868,13 +4908,14 @@ document.addEventListener('click', function(e){
       state.cleanDoodle = true; /* a restored backup keeps the theme she picked */
       arcEnsure(state, today());
       practiceEnsure(state);
+      neckEnsure(state);
       applySkin(state.skin||'peach'); applyFont(state.font||'auto'); save(); closeSheet(); paintHeader(); render(); toast('Data restored');
     }catch(err){ toast('Could not read that — check the text'); }
   }
   else if(act==='reset'){
     if(!confirm('Delete every habit and check-in? This cannot be undone.')) return;
     engLeave(); en = null;
-    const skin = state.skin; state = seed(); state.skin = skin; state.habits = []; state.practiceHabits = true;
+    const skin = state.skin; state = seed(); state.skin = skin; state.habits = []; state.practiceHabits = true; state.neckHabit = true;
     if(today() <= ARC_END) state.arc = {start:ARC_START, end:ARC_END, reviews:{}, seeded:true, simple:true};
     save(); closeSheet(); render(); toast('Starting over');
   }
