@@ -1,0 +1,1583 @@
+{
+  "version": 1,
+  "sets": [
+    {
+      "id": "pick-1",
+      "kind": "pick",
+      "name": "Sound-alikes: basics",
+      "lvl": 1,
+      "about": "Choose the sentence you heard. Watch can and can't, 13 and 30, he and she.",
+      "items": [
+        {
+          "id": "p1-01",
+          "say": "I can't come on Friday.",
+          "o": [
+            "I can't come on Friday.",
+            "I can come on Friday.",
+            "I can't come on Fridays."
+          ],
+          "a": 0,
+          "note": "can't vs can: конечное t почти не слышно"
+        },
+        {
+          "id": "p1-02",
+          "say": "The lesson starts at 3:15.",
+          "o": [
+            "The lesson starts at 3:15.",
+            "The lesson starts at 3:50.",
+            "The lesson started at 3:15."
+          ],
+          "a": 0,
+          "note": "15 и 50: ударение на -teen или на первом слоге"
+        },
+        {
+          "id": "p1-03",
+          "say": "She has two brothers.",
+          "o": [
+            "She has two brothers.",
+            "He has two brothers.",
+            "She has three brothers."
+          ],
+          "a": 0,
+          "note": "she/he и two/three"
+        },
+        {
+          "id": "p1-04",
+          "say": "It costs 13 pounds.",
+          "o": [
+            "It costs 13 pounds.",
+            "It costs 30 pounds.",
+            "It cost 13 pounds."
+          ],
+          "a": 0,
+          "note": "13: ударение на -teen; 30: на первом слоге"
+        },
+        {
+          "id": "p1-05",
+          "say": "Is he at home?",
+          "o": [
+            "Is he at home?",
+            "Was he at home?",
+            "Is she at home?"
+          ],
+          "a": 0,
+          "note": "is/was и he/she"
+        },
+        {
+          "id": "p1-06",
+          "say": "I want to go too.",
+          "o": [
+            "I want to go too.",
+            "I wanted to go too.",
+            "I want you to go too."
+          ],
+          "a": 0,
+          "note": "want/wanted; to go и you to go"
+        },
+        {
+          "id": "p1-07",
+          "say": "They live in a small flat.",
+          "o": [
+            "They live in a small flat.",
+            "They live in the small flat.",
+            "They lived in a small flat."
+          ],
+          "a": 0,
+          "note": "a или the; live или lived"
+        },
+        {
+          "id": "p1-08",
+          "say": "My sister works on Saturdays.",
+          "o": [
+            "My sister works on Saturdays.",
+            "My sister works on Saturday.",
+            "My sisters work on Saturdays."
+          ],
+          "a": 0,
+          "note": "окончание -s: sister/sisters, works/work"
+        },
+        {
+          "id": "p1-09",
+          "say": "He doesn't like coffee.",
+          "o": [
+            "He doesn't like coffee.",
+            "He does like coffee.",
+            "She doesn't like coffee."
+          ],
+          "a": 0,
+          "note": "doesn't или does; he/she"
+        },
+        {
+          "id": "p1-10",
+          "say": "We met at 7 o'clock.",
+          "o": [
+            "We met at 7 o'clock.",
+            "We meet at 7 o'clock.",
+            "We met at 11 o'clock."
+          ],
+          "a": 0,
+          "note": "met/meet; seven/eleven"
+        },
+        {
+          "id": "p1-11",
+          "say": "Can you open the window?",
+          "o": [
+            "Can you open the window?",
+            "Can I open the window?",
+            "Can you close the window?"
+          ],
+          "a": 0,
+          "note": "you/I и open/close"
+        },
+        {
+          "id": "p1-12",
+          "say": "I'm sixteen years old.",
+          "o": [
+            "I'm sixteen years old.",
+            "I'm sixty years old.",
+            "I was sixteen years old."
+          ],
+          "a": 0,
+          "note": "16 и 60: -teen в конце, -ty слабое"
+        },
+        {
+          "id": "p1-13",
+          "say": "She was late for work.",
+          "o": [
+            "She was late for work.",
+            "She is late for work.",
+            "He was late for work."
+          ],
+          "a": 0,
+          "note": "was/is и she/he"
+        },
+        {
+          "id": "p1-14",
+          "say": "There's a bus at 8:40.",
+          "o": [
+            "There's a bus at 8:40.",
+            "There's a bus at 8:14.",
+            "There was a bus at 8:40."
+          ],
+          "a": 0,
+          "note": "40 и 14: где ударение?"
+        },
+        {
+          "id": "p1-15",
+          "say": "I don't know his name.",
+          "o": [
+            "I don't know his name.",
+            "I don't know her name.",
+            "I didn't know his name."
+          ],
+          "a": 0,
+          "note": "his/her; don't/didn't"
+        }
+      ]
+    },
+    {
+      "id": "pick-2",
+      "kind": "pick",
+      "name": "Sound-alikes: daily life",
+      "lvl": 1,
+      "about": "Shops, lessons and journeys. Listen for tiny endings and numbers.",
+      "items": [
+        {
+          "id": "p2-01",
+          "say": "The shop closes at 9.",
+          "o": [
+            "The shop closes at 9.",
+            "The shop closed at 9.",
+            "The shops close at 9."
+          ],
+          "a": 0,
+          "note": "closes/closed; shop/shops"
+        },
+        {
+          "id": "p2-02",
+          "say": "Her lessons are on Tuesdays.",
+          "o": [
+            "Her lessons are on Tuesdays.",
+            "Her lesson is on Tuesdays.",
+            "Her lessons are on Thursdays."
+          ],
+          "a": 0,
+          "note": "Tuesday и Thursday; lessons are / lesson is"
+        },
+        {
+          "id": "p2-03",
+          "say": "I've got a meeting at 2:30.",
+          "o": [
+            "I've got a meeting at 2:30.",
+            "I've got a meeting at 2:13.",
+            "I had a meeting at 2:30."
+          ],
+          "a": 0,
+          "note": "30 и 13; I've got и I had"
+        },
+        {
+          "id": "p2-04",
+          "say": "She didn't call me.",
+          "o": [
+            "She didn't call me.",
+            "She did call me.",
+            "She doesn't call me."
+          ],
+          "a": 0,
+          "note": "didn't / did / doesn't"
+        },
+        {
+          "id": "p2-05",
+          "say": "I'll pay for the tickets.",
+          "o": [
+            "I'll pay for the tickets.",
+            "I paid for the tickets.",
+            "I'll pay for the ticket."
+          ],
+          "a": 0,
+          "note": "I'll pay и I paid; tickets и ticket"
+        },
+        {
+          "id": "p2-06",
+          "say": "Where is the station?",
+          "o": [
+            "Where is the station?",
+            "Where was the station?",
+            "Where is the nearest station?"
+          ],
+          "a": 0,
+          "note": "is/was; есть ли слово nearest"
+        },
+        {
+          "id": "p2-07",
+          "say": "He's got a new job.",
+          "o": [
+            "He's got a new job.",
+            "He had a new job.",
+            "She's got a new job."
+          ],
+          "a": 0,
+          "note": "'s = has; had; he/she"
+        },
+        {
+          "id": "p2-08",
+          "say": "It's 50 pounds a month.",
+          "o": [
+            "It's 50 pounds a month.",
+            "It's 15 pounds a month.",
+            "It's 50 pounds a week."
+          ],
+          "a": 0,
+          "note": "50 и 15; month и week"
+        },
+        {
+          "id": "p2-09",
+          "say": "I can hear you.",
+          "o": [
+            "I can hear you.",
+            "I can't hear you.",
+            "I could hear you."
+          ],
+          "a": 0,
+          "note": "can / can't / could"
+        },
+        {
+          "id": "p2-10",
+          "say": "My mum phones every day.",
+          "o": [
+            "My mum phones every day.",
+            "My mum phoned every day.",
+            "My mum phones every week."
+          ],
+          "a": 0,
+          "note": "phones/phoned; day/week"
+        },
+        {
+          "id": "p2-11",
+          "say": "They're waiting outside.",
+          "o": [
+            "They're waiting outside.",
+            "They were waiting outside.",
+            "He's waiting outside."
+          ],
+          "a": 0,
+          "note": "they're / they were; they/he"
+        },
+        {
+          "id": "p2-12",
+          "say": "The test is on the 13th.",
+          "o": [
+            "The test is on the 13th.",
+            "The test is on the 30th.",
+            "The test was on the 13th."
+          ],
+          "a": 0,
+          "note": "13th и 30th; is/was"
+        },
+        {
+          "id": "p2-13",
+          "say": "Do you want tea or coffee?",
+          "o": [
+            "Do you want tea or coffee?",
+            "Did you want tea or coffee?",
+            "Do you want tea and coffee?"
+          ],
+          "a": 0,
+          "note": "do/did; or/and"
+        },
+        {
+          "id": "p2-14",
+          "say": "Turn left at the bank.",
+          "o": [
+            "Turn left at the bank.",
+            "Turn left after the bank.",
+            "Turn right at the bank."
+          ],
+          "a": 0,
+          "note": "at или after; left или right"
+        },
+        {
+          "id": "p2-15",
+          "say": "He's been here since Monday.",
+          "o": [
+            "He's been here since Monday.",
+            "He's been here on Monday.",
+            "He's been here every Monday."
+          ],
+          "a": 0,
+          "note": "since / on / every"
+        }
+      ]
+    },
+    {
+      "id": "pick-3",
+      "kind": "pick",
+      "name": "Tenses and small words",
+      "lvl": 2,
+      "about": "Has, have, had, 'd, since and for: small words that change the meaning.",
+      "items": [
+        {
+          "id": "p3-01",
+          "say": "She has already left.",
+          "o": [
+            "She has already left.",
+            "She had already left.",
+            "They have already left."
+          ],
+          "a": 0,
+          "note": "has/had; she/they"
+        },
+        {
+          "id": "p3-02",
+          "say": "I'd finished by six.",
+          "o": [
+            "I'd finished by six.",
+            "I'd finish by six.",
+            "I finished by six."
+          ],
+          "a": 0,
+          "note": "'d = had или would: finished или finish"
+        },
+        {
+          "id": "p3-03",
+          "say": "We've lived here for ten years.",
+          "o": [
+            "We've lived here for ten years.",
+            "We lived here for ten years.",
+            "We've lived here since 2010."
+          ],
+          "a": 0,
+          "note": "for + период; present perfect или past"
+        },
+        {
+          "id": "p3-04",
+          "say": "Does she work on Sundays?",
+          "o": [
+            "Does she work on Sundays?",
+            "Do they work on Sundays?",
+            "Does she work on Saturdays?"
+          ],
+          "a": 0,
+          "note": "does she / do they; Sunday/Saturday"
+        },
+        {
+          "id": "p3-05",
+          "say": "Have you seen my keys?",
+          "o": [
+            "Have you seen my keys?",
+            "Had you seen my keys?",
+            "Did you see my keys?"
+          ],
+          "a": 0,
+          "note": "Have / Had / Did: время вопроса"
+        },
+        {
+          "id": "p3-06",
+          "say": "He said he'd call me back.",
+          "o": [
+            "He said he'd call me back.",
+            "He said he'll call me back.",
+            "He said he'd called me back."
+          ],
+          "a": 0,
+          "note": "he'd = would или had"
+        },
+        {
+          "id": "p3-07",
+          "say": "I used to take the bus.",
+          "o": [
+            "I used to take the bus.",
+            "I'm used to taking the bus.",
+            "I used to take the train."
+          ],
+          "a": 0,
+          "note": "used to + глагол или be used to + -ing"
+        },
+        {
+          "id": "p3-08",
+          "say": "Where did you put the book?",
+          "o": [
+            "Where did you put the book?",
+            "Where do you put the book?",
+            "Where did he put the book?"
+          ],
+          "a": 0,
+          "note": "did/do; you/he"
+        },
+        {
+          "id": "p3-09",
+          "say": "They'd been waiting for an hour.",
+          "o": [
+            "They'd been waiting for an hour.",
+            "They've been waiting for an hour.",
+            "They'd be waiting for an hour."
+          ],
+          "a": 0,
+          "note": "'d been / 've been / 'd be"
+        },
+        {
+          "id": "p3-10",
+          "say": "It takes about 15 minutes.",
+          "o": [
+            "It takes about 15 minutes.",
+            "It takes about 50 minutes.",
+            "It took about 15 minutes."
+          ],
+          "a": 0,
+          "note": "15 и 50; takes и took"
+        },
+        {
+          "id": "p3-11",
+          "say": "Is she coming to the party?",
+          "o": [
+            "Is she coming to the party?",
+            "She's coming to the party.",
+            "Is he coming to the party?"
+          ],
+          "a": 0,
+          "note": "вопрос или утверждение; she/he"
+        },
+        {
+          "id": "p3-12",
+          "say": "The cheapest ticket was 14 pounds.",
+          "o": [
+            "The cheapest ticket was 14 pounds.",
+            "The cheapest ticket was 40 pounds.",
+            "The cheapest tickets were 14 pounds."
+          ],
+          "a": 0,
+          "note": "14 и 40; ticket was / tickets were"
+        },
+        {
+          "id": "p3-13",
+          "say": "I haven't seen him since March.",
+          "o": [
+            "I haven't seen him since March.",
+            "I haven't seen him since May.",
+            "I haven't seen him for months."
+          ],
+          "a": 0,
+          "note": "since + момент / for + период; March/May"
+        },
+        {
+          "id": "p3-14",
+          "say": "She wouldn't have come.",
+          "o": [
+            "She wouldn't have come.",
+            "She wouldn't come.",
+            "She wouldn't have gone."
+          ],
+          "a": 0,
+          "note": "have звучит слабо: wouldn't've"
+        },
+        {
+          "id": "p3-15",
+          "say": "Do you know where he lives?",
+          "o": [
+            "Do you know where he lives?",
+            "Do you know where she lives?",
+            "Do you know where he lived?"
+          ],
+          "a": 0,
+          "note": "he/she; lives/lived"
+        }
+      ]
+    },
+    {
+      "id": "pick-4",
+      "kind": "pick",
+      "name": "Tricky small details",
+      "lvl": 2,
+      "about": "Reported speech, modal verbs and plurals. One small word changes everything.",
+      "items": [
+        {
+          "id": "p4-01",
+          "say": "I can't afford it.",
+          "o": [
+            "I can't afford it.",
+            "I can afford it.",
+            "I couldn't afford it."
+          ],
+          "a": 0,
+          "note": "can't / can / couldn't"
+        },
+        {
+          "id": "p4-02",
+          "say": "She's been working here for 15 years.",
+          "o": [
+            "She's been working here for 15 years.",
+            "She's been working here for 50 years.",
+            "She's been working here since 2015."
+          ],
+          "a": 0,
+          "note": "15 и 50; for и since"
+        },
+        {
+          "id": "p4-03",
+          "say": "He asked me to stay.",
+          "o": [
+            "He asked me to stay.",
+            "He asked if I'd stay.",
+            "He told me to stay."
+          ],
+          "a": 0,
+          "note": "asked me to / asked if / told me to"
+        },
+        {
+          "id": "p4-04",
+          "say": "We should have booked earlier.",
+          "o": [
+            "We should have booked earlier.",
+            "We shouldn't have booked earlier.",
+            "We should book earlier."
+          ],
+          "a": 0,
+          "note": "should have / shouldn't have / should"
+        },
+        {
+          "id": "p4-05",
+          "say": "There are two trains an hour.",
+          "o": [
+            "There are two trains an hour.",
+            "There are ten trains an hour.",
+            "There were two trains an hour."
+          ],
+          "a": 0,
+          "note": "two и ten; are и were"
+        },
+        {
+          "id": "p4-06",
+          "say": "The meeting has been moved to Thursday.",
+          "o": [
+            "The meeting has been moved to Thursday.",
+            "The meeting had been moved to Thursday.",
+            "The meeting has been moved to Tuesday."
+          ],
+          "a": 0,
+          "note": "has/had been; Tuesday/Thursday"
+        },
+        {
+          "id": "p4-07",
+          "say": "I'd have called you.",
+          "o": [
+            "I'd have called you.",
+            "I'd called you.",
+            "I'll call you."
+          ],
+          "a": 0,
+          "note": "I'd have / I'd / I'll"
+        },
+        {
+          "id": "p4-08",
+          "say": "What time does the shop open?",
+          "o": [
+            "What time does the shop open?",
+            "What time did the shop open?",
+            "What time does the shop close?"
+          ],
+          "a": 0,
+          "note": "does/did; open/close"
+        },
+        {
+          "id": "p4-09",
+          "say": "She told him she was busy.",
+          "o": [
+            "She told him she was busy.",
+            "She told him she'd be busy.",
+            "She told her she was busy."
+          ],
+          "a": 0,
+          "note": "was / 'd be; him/her"
+        },
+        {
+          "id": "p4-10",
+          "say": "Neither of them came.",
+          "o": [
+            "Neither of them came.",
+            "Some of them came.",
+            "Both of them came."
+          ],
+          "a": 0,
+          "note": "neither / some / both: кто пришёл"
+        },
+        {
+          "id": "p4-11",
+          "say": "I didn't think he'd come.",
+          "o": [
+            "I didn't think he'd come.",
+            "I don't think he'd come.",
+            "I didn't think he came."
+          ],
+          "a": 0,
+          "note": "didn't/don't; he'd come / he came"
+        },
+        {
+          "id": "p4-12",
+          "say": "It's about 60 miles from here.",
+          "o": [
+            "It's about 60 miles from here.",
+            "It's about 16 miles from here.",
+            "It was about 60 miles from here."
+          ],
+          "a": 0,
+          "note": "60 и 16; 's и was"
+        },
+        {
+          "id": "p4-13",
+          "say": "Has anybody seen my phone?",
+          "o": [
+            "Has anybody seen my phone?",
+            "Had anybody seen my phone?",
+            "Has anybody seen my coat?"
+          ],
+          "a": 0,
+          "note": "has/had; phone/coat"
+        },
+        {
+          "id": "p4-14",
+          "say": "The kids are at their grandma's.",
+          "o": [
+            "The kids are at their grandma's.",
+            "The kid is at his grandma's.",
+            "The kids were at their grandma's."
+          ],
+          "a": 0,
+          "note": "множественное число; are/were"
+        },
+        {
+          "id": "p4-15",
+          "say": "She doesn't mind waiting.",
+          "o": [
+            "She doesn't mind waiting.",
+            "She didn't mind waiting.",
+            "They don't mind waiting."
+          ],
+          "a": 0,
+          "note": "doesn't/didn't; she/they"
+        }
+      ]
+    },
+    {
+      "id": "pick-5",
+      "kind": "pick",
+      "name": "Natural speech",
+      "lvl": 3,
+      "about": "Contractions, hypotheticals and fast, reduced forms.",
+      "items": [
+        {
+          "id": "p5-01",
+          "say": "I'd have thought it was closed.",
+          "o": [
+            "I'd have thought it was closed.",
+            "I'd thought it was closed.",
+            "I thought it was closed."
+          ],
+          "a": 0,
+          "note": "'d have thought / 'd thought / thought"
+        },
+        {
+          "id": "p5-02",
+          "say": "He must have forgotten.",
+          "o": [
+            "He must have forgotten.",
+            "He can't have forgotten.",
+            "He might have forgotten."
+          ],
+          "a": 0,
+          "note": "must / can't / might have: уверенность"
+        },
+        {
+          "id": "p5-03",
+          "say": "We were supposed to meet at 7:15.",
+          "o": [
+            "We were supposed to meet at 7:15.",
+            "We were supposed to meet at 7:50.",
+            "We're supposed to meet at 7:15."
+          ],
+          "a": 0,
+          "note": "15 и 50; were и are"
+        },
+        {
+          "id": "p5-04",
+          "say": "If I'd known, I'd have told you.",
+          "o": [
+            "If I'd known, I'd have told you.",
+            "If I knew, I'd tell you.",
+            "If I'd known, I'd tell you."
+          ],
+          "a": 0,
+          "note": "3-е и 2-е условное: 'd known / knew"
+        },
+        {
+          "id": "p5-05",
+          "say": "She hardly ever goes out.",
+          "o": [
+            "She hardly ever goes out.",
+            "She hardly ever went out.",
+            "She nearly always goes out."
+          ],
+          "a": 0,
+          "note": "hardly ever = почти никогда"
+        },
+        {
+          "id": "p5-06",
+          "say": "I'm not used to it.",
+          "o": [
+            "I'm not used to it.",
+            "I'm not using it.",
+            "I wasn't used to it."
+          ],
+          "a": 0,
+          "note": "used to it / using it; 'm not / wasn't"
+        },
+        {
+          "id": "p5-07",
+          "say": "The train was delayed by 40 minutes.",
+          "o": [
+            "The train was delayed by 40 minutes.",
+            "The train was delayed by 14 minutes.",
+            "The trains were delayed by 40 minutes."
+          ],
+          "a": 0,
+          "note": "40 и 14; train was / trains were"
+        },
+        {
+          "id": "p5-08",
+          "say": "You needn't have come.",
+          "o": [
+            "You needn't have come.",
+            "You needn't come.",
+            "You shouldn't have come."
+          ],
+          "a": 0,
+          "note": "needn't have = зря пришёл"
+        },
+        {
+          "id": "p5-09",
+          "say": "I'd rather you didn't smoke.",
+          "o": [
+            "I'd rather you didn't smoke.",
+            "I'd rather not smoke.",
+            "I'd rather you hadn't smoked."
+          ],
+          "a": 0,
+          "note": "you didn't / not / you hadn't"
+        },
+        {
+          "id": "p5-10",
+          "say": "Twenty people turned up.",
+          "o": [
+            "Twenty people turned up.",
+            "Twelve people turned up.",
+            "Twenty-two people turned up."
+          ],
+          "a": 0,
+          "note": "20 / 12 / 22"
+        },
+        {
+          "id": "p5-11",
+          "say": "I've been meaning to call you.",
+          "o": [
+            "I've been meaning to call you.",
+            "I was meaning to call you.",
+            "I've been meaning to call her."
+          ],
+          "a": 0,
+          "note": "I've been / I was; you/her"
+        },
+        {
+          "id": "p5-12",
+          "say": "She's not as tall as her sister.",
+          "o": [
+            "She's not as tall as her sister.",
+            "She's not as tall as her brother.",
+            "She's not as short as her sister."
+          ],
+          "a": 0,
+          "note": "tall/short; sister/brother"
+        },
+        {
+          "id": "p5-13",
+          "say": "It would have been cheaper by train.",
+          "o": [
+            "It would have been cheaper by train.",
+            "It would be cheaper by train.",
+            "It was cheaper by train."
+          ],
+          "a": 0,
+          "note": "would have been / would be / was"
+        },
+        {
+          "id": "p5-14",
+          "say": "Who did you give it to?",
+          "o": [
+            "Who did you give it to?",
+            "Who gave it to you?",
+            "Who did you get it from?"
+          ],
+          "a": 0,
+          "note": "порядок слов: кому отдал / кто дал / от кого"
+        },
+        {
+          "id": "p5-15",
+          "say": "They've just got back from Spain.",
+          "o": [
+            "They've just got back from Spain.",
+            "They'd just got back from Spain.",
+            "They just got back from Spain."
+          ],
+          "a": 0,
+          "note": "they've / they'd / просто past simple"
+        }
+      ]
+    },
+    {
+      "id": "pick-6",
+      "kind": "pick",
+      "name": "Fast and reduced",
+      "lvl": 3,
+      "about": "Longer sentences where small words disappear when people talk quickly.",
+      "items": [
+        {
+          "id": "p6-01",
+          "say": "I wasn't expecting you till 4:30.",
+          "o": [
+            "I wasn't expecting you till 4:30.",
+            "I wasn't expecting you till 4:13.",
+            "I'm not expecting you till 4:30."
+          ],
+          "a": 0,
+          "note": "30 и 13; wasn't и 'm not"
+        },
+        {
+          "id": "p6-02",
+          "say": "She might not have heard you.",
+          "o": [
+            "She might not have heard you.",
+            "She might not hear you.",
+            "She might not have heard me."
+          ],
+          "a": 0,
+          "note": "might not have heard / hear; you/me"
+        },
+        {
+          "id": "p6-03",
+          "say": "We've got to leave by 6:15.",
+          "o": [
+            "We've got to leave by 6:15.",
+            "We've got to leave by 6:50.",
+            "We had to leave by 6:15."
+          ],
+          "a": 0,
+          "note": "15 и 50; 've got to и had to"
+        },
+        {
+          "id": "p6-04",
+          "say": "Mind you, it's not cheap.",
+          "o": [
+            "Mind you, it's not cheap.",
+            "Mind you, it wasn't cheap.",
+            "Never mind, it's not cheap."
+          ],
+          "a": 0,
+          "note": "mind you / never mind; it's not / wasn't"
+        },
+        {
+          "id": "p6-05",
+          "say": "I'd better go now.",
+          "o": [
+            "I'd better go now.",
+            "I'd better not go now.",
+            "I'd better go soon."
+          ],
+          "a": 0,
+          "note": "'d better / 'd better not; now/soon"
+        },
+        {
+          "id": "p6-06",
+          "say": "Have you got a minute?",
+          "o": [
+            "Have you got a minute?",
+            "Have you got the minutes?",
+            "Have you got a spare minute?"
+          ],
+          "a": 0,
+          "note": "a minute / the minutes / a spare minute"
+        },
+        {
+          "id": "p6-07",
+          "say": "He can't have been there.",
+          "o": [
+            "He can't have been there.",
+            "He can't be there.",
+            "He couldn't have been there."
+          ],
+          "a": 0,
+          "note": "can't have been / can't be / couldn't have"
+        },
+        {
+          "id": "p6-08",
+          "say": "I'm afraid she's out of the office until 3.",
+          "o": [
+            "I'm afraid she's out of the office until 3.",
+            "I'm afraid she was out of the office until 3.",
+            "I'm afraid he's out of the office until 3."
+          ],
+          "a": 0,
+          "note": "she's / she was; she/he"
+        },
+        {
+          "id": "p6-09",
+          "say": "We'd have gone if it hadn't rained.",
+          "o": [
+            "We'd have gone if it hadn't rained.",
+            "We'd go if it didn't rain.",
+            "We'd have gone if it had rained."
+          ],
+          "a": 0,
+          "note": "hadn't rained / didn't rain / had rained"
+        },
+        {
+          "id": "p6-10",
+          "say": "The flight lands at 6:40 in the morning.",
+          "o": [
+            "The flight lands at 6:40 in the morning.",
+            "The flight lands at 6:14 in the morning.",
+            "The flight landed at 6:40 in the morning."
+          ],
+          "a": 0,
+          "note": "40 и 14; lands и landed"
+        },
+        {
+          "id": "p6-11",
+          "say": "Whose coat is this?",
+          "o": [
+            "Whose coat is this?",
+            "Whose coat was this?",
+            "Whose coats are these?"
+          ],
+          "a": 0,
+          "note": "is/was; coat/coats"
+        },
+        {
+          "id": "p6-12",
+          "say": "She asked whether I'd been there.",
+          "o": [
+            "She asked whether I'd been there.",
+            "She asked whether I'd be there.",
+            "She asked whether I was there."
+          ],
+          "a": 0,
+          "note": "I'd been / I'd be / I was"
+        },
+        {
+          "id": "p6-13",
+          "say": "It's the third time he's called.",
+          "o": [
+            "It's the third time he's called.",
+            "It's the first time he's called.",
+            "It was the third time he'd called."
+          ],
+          "a": 0,
+          "note": "third / first; 's и was"
+        },
+        {
+          "id": "p6-14",
+          "say": "I'll be there in 13 minutes.",
+          "o": [
+            "I'll be there in 13 minutes.",
+            "I'll be there in 30 minutes.",
+            "I was there in 13 minutes."
+          ],
+          "a": 0,
+          "note": "13 и 30; I'll be и I was"
+        },
+        {
+          "id": "p6-15",
+          "say": "You don't have to pay.",
+          "o": [
+            "You don't have to pay.",
+            "You didn't have to pay.",
+            "You don't have to stay."
+          ],
+          "a": 0,
+          "note": "don't / didn't have to; pay/stay"
+        }
+      ]
+    },
+    {
+      "id": "type-1",
+      "kind": "type",
+      "name": "Dictation: simple",
+      "lvl": 1,
+      "about": "Listen and type the sentence you hear.",
+      "items": [
+        {
+          "id": "t1-01",
+          "say": "Could you say that again, please?",
+          "ru": "Не могли бы вы повторить, пожалуйста?"
+        },
+        {
+          "id": "t1-02",
+          "say": "What time does the lesson start?",
+          "ru": "Во сколько начинается урок?"
+        },
+        {
+          "id": "t1-03",
+          "say": "I'm sorry, I'm a bit late.",
+          "ru": "Простите, я немного опаздываю."
+        },
+        {
+          "id": "t1-04",
+          "say": "My phone is on the table.",
+          "ru": "Мой телефон на столе."
+        },
+        {
+          "id": "t1-05",
+          "say": "Where is the nearest bus stop?",
+          "ru": "Где ближайшая автобусная остановка?"
+        },
+        {
+          "id": "t1-06",
+          "say": "She teaches English to children.",
+          "ru": "Она преподаёт английский детям."
+        },
+        {
+          "id": "t1-07",
+          "say": "We have a test on Monday.",
+          "ru": "В понедельник у нас контрольная."
+        },
+        {
+          "id": "t1-08",
+          "say": "Can I pay by card?",
+          "ru": "Можно оплатить картой?"
+        },
+        {
+          "id": "t1-09",
+          "say": "I need to buy some milk.",
+          "ru": "Мне нужно купить молока."
+        },
+        {
+          "id": "t1-10",
+          "say": "The train leaves at half past nine.",
+          "ru": "Поезд отправляется в половине десятого."
+        },
+        {
+          "id": "t1-11",
+          "say": "How much is this book?",
+          "ru": "Сколько стоит эта книга?"
+        },
+        {
+          "id": "t1-12",
+          "say": "He is waiting for you outside.",
+          "ru": "Он ждёт тебя снаружи."
+        }
+      ]
+    },
+    {
+      "id": "type-2",
+      "kind": "type",
+      "name": "Dictation: contractions",
+      "lvl": 2,
+      "about": "Contractions and phrasal verbs. Type exactly what you hear.",
+      "items": [
+        {
+          "id": "t2-01",
+          "say": "I'll call you back in ten minutes.",
+          "ru": "Я перезвоню тебе через десять минут."
+        },
+        {
+          "id": "t2-02",
+          "say": "Can you pick me up from the station?",
+          "ru": "Можешь забрать меня со станции?"
+        },
+        {
+          "id": "t2-03",
+          "say": "We've run out of milk again.",
+          "ru": "У нас опять закончилось молоко."
+        },
+        {
+          "id": "t2-04",
+          "say": "She didn't turn up to the lesson.",
+          "ru": "Она не пришла на урок."
+        },
+        {
+          "id": "t2-05",
+          "say": "I'm looking forward to the weekend.",
+          "ru": "Жду не дождусь выходных."
+        },
+        {
+          "id": "t2-06",
+          "say": "They've put the meeting off until Friday.",
+          "ru": "Они перенесли встречу на пятницу."
+        },
+        {
+          "id": "t2-07",
+          "say": "Don't forget to switch off the lights.",
+          "ru": "Не забудь выключить свет."
+        },
+        {
+          "id": "t2-08",
+          "say": "I haven't had time to check my emails.",
+          "ru": "У меня не было времени проверить почту."
+        },
+        {
+          "id": "t2-09",
+          "say": "Could you fill in this form, please?",
+          "ru": "Не могли бы вы заполнить эту анкету?"
+        },
+        {
+          "id": "t2-10",
+          "say": "He's gone to see his parents.",
+          "ru": "Он поехал навестить родителей."
+        },
+        {
+          "id": "t2-11",
+          "say": "We should get going or we'll miss the bus.",
+          "ru": "Нам пора идти, а то опоздаем на автобус."
+        },
+        {
+          "id": "t2-12",
+          "say": "My student wants to cancel tomorrow's lesson.",
+          "ru": "Мой ученик хочет отменить завтрашний урок."
+        }
+      ]
+    },
+    {
+      "id": "type-3",
+      "kind": "type",
+      "name": "Dictation: natural chunks",
+      "lvl": 3,
+      "about": "Longer, linked speech with everyday chunks like mind you and do you fancy.",
+      "items": [
+        {
+          "id": "t3-01",
+          "say": "I'd have thought you'd have finished by now.",
+          "ru": "Я бы подумал, что ты уже закончила."
+        },
+        {
+          "id": "t3-02",
+          "say": "Do you fancy going for a coffee after work?",
+          "ru": "Хочешь сходить выпить кофе после работы?"
+        },
+        {
+          "id": "t3-03",
+          "say": "Mind you, it was a lot cheaper last year.",
+          "ru": "Правда, в прошлом году было гораздо дешевле."
+        },
+        {
+          "id": "t3-04",
+          "say": "I was going to ring you, but I got held up.",
+          "ru": "Я собиралась тебе позвонить, но меня задержали."
+        },
+        {
+          "id": "t3-05",
+          "say": "If you'd told me earlier, I could have rearranged things.",
+          "ru": "Если бы ты сказал мне раньше, я бы могла всё перенести."
+        },
+        {
+          "id": "t3-06",
+          "say": "It turned out the parents hadn't got the message at all.",
+          "ru": "Оказалось, родители вообще не получили сообщение."
+        },
+        {
+          "id": "t3-07",
+          "say": "She's not as keen on grammar as she used to be.",
+          "ru": "Она уже не так увлечена грамматикой, как раньше."
+        },
+        {
+          "id": "t3-08",
+          "say": "I'll let you know as soon as I've heard back from them.",
+          "ru": "Я дам тебе знать, как только получу от них ответ."
+        },
+        {
+          "id": "t3-09",
+          "say": "We might as well wait here until it stops raining.",
+          "ru": "Можно и подождать здесь, пока не кончится дождь."
+        },
+        {
+          "id": "t3-10",
+          "say": "Sorry to keep you waiting, I got tied up with a client.",
+          "ru": "Простите, что заставила вас ждать, меня задержал клиент."
+        },
+        {
+          "id": "t3-11",
+          "say": "I can't make it on Thursday, but any other day suits me.",
+          "ru": "В четверг я не смогу, но любой другой день мне подходит."
+        },
+        {
+          "id": "t3-12",
+          "say": "To be honest, I'd rather not go over it again.",
+          "ru": "Честно говоря, мне бы не хотелось снова это разбирать."
+        }
+      ]
+    },
+    {
+      "id": "story-1",
+      "kind": "story",
+      "name": "Short messages",
+      "lvl": 1,
+      "about": "Short, clear messages with times, numbers and places.",
+      "items": [
+        {
+          "id": "s1-01",
+          "title": "A voicemail",
+          "say": "Hi Anna, it's Tom. I'm calling about tomorrow's lesson. Sorry, but I can't come at ten o'clock. I have a meeting at the bank. Could we move the lesson to two o'clock in the afternoon? Please text me back. I'll be at home all day. Also, I'll bring the book you lent me last week. Thanks a lot. Bye!",
+          "qs": [
+            {
+              "q": "What time can't Tom come?",
+              "o": [
+                "At ten o'clock",
+                "At two o'clock",
+                "At twelve o'clock"
+              ],
+              "a": 0
+            },
+            {
+              "q": "Where is his meeting?",
+              "o": [
+                "At the bank",
+                "At the school",
+                "At the office"
+              ],
+              "a": 0
+            }
+          ]
+        },
+        {
+          "id": "s1-02",
+          "title": "A station announcement",
+          "say": "Attention please. The train to Manchester, platform four, is delayed by twenty minutes. It will now leave at five fifty. Passengers for Leeds, please go to platform nine. That train leaves at six o'clock. Please remember to take all your bags with you. The cafe on platform two is open until eight. Thank you for waiting.",
+          "qs": [
+            {
+              "q": "How late is the Manchester train?",
+              "o": [
+                "Twenty minutes",
+                "Fifty minutes",
+                "Two minutes"
+              ],
+              "a": 0
+            },
+            {
+              "q": "Which platform is the Leeds train?",
+              "o": [
+                "Platform nine",
+                "Platform four",
+                "Platform two"
+              ],
+              "a": 0
+            }
+          ]
+        },
+        {
+          "id": "s1-03",
+          "title": "In the supermarket",
+          "say": "Good morning, everyone. Welcome to Green's Supermarket. Today we have a special offer on apples and oranges: two kilos for three pounds. The bakery is on your left, and it closes at four o'clock today. Please don't forget that the shop will be closed on Sunday because of the holiday. Thank you, and have a nice day.",
+          "qs": [
+            {
+              "q": "How much are two kilos of fruit?",
+              "o": [
+                "Three pounds",
+                "Two pounds",
+                "Thirteen pounds"
+              ],
+              "a": 0
+            },
+            {
+              "q": "Why will the shop be closed on Sunday?",
+              "o": [
+                "Because of a holiday",
+                "Because of a repair",
+                "Because of a sale"
+              ],
+              "a": 0
+            }
+          ]
+        },
+        {
+          "id": "s1-04",
+          "title": "My busy day",
+          "say": "Today was a busy day. I got up at half past six and took the bus to school. My first lesson was at eight fifteen, with a group of teenagers. At one o'clock I had lunch with my friend Kate. In the afternoon I had two private students. Now I'm tired, so I'm going to cook pasta and watch a film.",
+          "qs": [
+            {
+              "q": "What time was the first lesson?",
+              "o": [
+                "At eight fifteen",
+                "At eight fifty",
+                "At half past six"
+              ],
+              "a": 0
+            },
+            {
+              "q": "How many private students did the speaker have?",
+              "o": [
+                "Two",
+                "Twelve",
+                "Four"
+              ],
+              "a": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story-2",
+      "kind": "story",
+      "name": "Everyday situations",
+      "lvl": 2,
+      "about": "Longer messages from parents, schools and landlords, with more numbers.",
+      "items": [
+        {
+          "id": "s2-01",
+          "title": "A parent's voicemail",
+          "say": "Hello, this is Mrs Brown, Lucy's mum. I'm afraid Lucy won't be able to come on Thursday because she's got a dentist appointment at four thirty. Would it be possible to have the lesson on Friday instead, maybe around five? If not, we can skip this week. Oh, and could you remind me how much I owe you for last month? I think it was a hundred and twenty pounds. Thanks very much.",
+          "qs": [
+            {
+              "q": "Why can't Lucy come on Thursday?",
+              "o": [
+                "She has a dentist appointment",
+                "She is ill",
+                "She has an exam"
+              ],
+              "a": 0
+            },
+            {
+              "q": "How much does Mrs Brown think she owes?",
+              "o": [
+                "A hundred and twenty pounds",
+                "A hundred and twelve pounds",
+                "Two hundred and twenty pounds"
+              ],
+              "a": 0
+            }
+          ]
+        },
+        {
+          "id": "s2-02",
+          "title": "A school announcement",
+          "say": "Good afternoon, parents. A reminder that the school trip to the science museum is next Wednesday, the 14th. The coach leaves at eight forty-five sharp, so please bring your child to the main gate by half past eight. Children should wear comfortable shoes and bring a packed lunch, but no sweets, please. The trip costs eleven pounds, and you can pay at the school office until Monday.",
+          "qs": [
+            {
+              "q": "When should children be at the main gate?",
+              "o": [
+                "By half past eight",
+                "At a quarter to nine",
+                "At eight o'clock"
+              ],
+              "a": 0
+            },
+            {
+              "q": "How much does the trip cost?",
+              "o": [
+                "Eleven pounds",
+                "Fourteen pounds",
+                "Forty pounds"
+              ],
+              "a": 0
+            }
+          ]
+        },
+        {
+          "id": "s2-03",
+          "title": "About a flat",
+          "say": "Hi, I'm calling about the flat on Park Road. Yes, it's still available. It's got two bedrooms and a small balcony, and it's about ten minutes' walk from the station. The rent is nine hundred pounds a month, and the bills are not included. If you'd like to see it, I could show you on Saturday morning. Shall we say eleven o'clock?",
+          "qs": [
+            {
+              "q": "How much is the rent?",
+              "o": [
+                "900 pounds, and bills are extra",
+                "900 pounds, and bills are included",
+                "90 pounds, and bills are extra"
+              ],
+              "a": 0
+            },
+            {
+              "q": "When can the caller see the flat?",
+              "o": [
+                "On Saturday at eleven",
+                "On Sunday at eleven",
+                "On Saturday at seven"
+              ],
+              "a": 0
+            }
+          ]
+        },
+        {
+          "id": "s2-04",
+          "title": "Exam instructions",
+          "say": "Right, here's what you need to do before the exam. First, bring your passport or ID card; without it they won't let you in. Arrive at least thirty minutes early, because the doors close at nine fifteen. You can't take your phone into the room, so leave it in your bag. The writing part lasts ninety minutes, and then there's a short break before the speaking test.",
+          "qs": [
+            {
+              "q": "When do the doors close?",
+              "o": [
+                "At nine fifteen",
+                "At nine fifty",
+                "At nine thirty"
+              ],
+              "a": 0
+            },
+            {
+              "q": "How long does the writing part last?",
+              "o": [
+                "Ninety minutes",
+                "Nineteen minutes",
+                "Sixty minutes"
+              ],
+              "a": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "story-3",
+      "kind": "story",
+      "name": "Real-life listening",
+      "lvl": 3,
+      "about": "Natural, faster speech with changes of plan and distracting numbers.",
+      "items": [
+        {
+          "id": "s3-01",
+          "title": "A message from a colleague",
+          "say": "Hi, it's Dan from the language centre. Listen, I've just heard that Mr Clarke's workshop has been moved. It was supposed to be on the twelfth, but it's now on the twenty-first, which, to be honest, suits me better. It'll still be in room three-oh-four, though, so no change there. Could you let your students know? And if you wouldn't mind, bring about thirty copies of the handout. Cheers.",
+          "qs": [
+            {
+              "q": "When is the workshop now?",
+              "o": [
+                "On the 21st",
+                "On the 12th",
+                "On the 2nd"
+              ],
+              "a": 0
+            },
+            {
+              "q": "How many handouts should the listener bring?",
+              "o": [
+                "About thirty",
+                "About thirteen",
+                "About fifty"
+              ],
+              "a": 0
+            }
+          ]
+        },
+        {
+          "id": "s3-02",
+          "title": "A train cancellation",
+          "say": "Ladies and gentlemen, this is an update for passengers on the seven forty service to Bristol. Due to a signal failure near Reading, this train has been cancelled. The next train will depart from platform six at eight twenty-five, and your tickets will be valid on that service. If you're connecting to Cardiff, please speak to a member of staff, as you may miss your connection. We apologise for any inconvenience.",
+          "qs": [
+            {
+              "q": "Why has the train been cancelled?",
+              "o": [
+                "A signal failure",
+                "A staff strike",
+                "Bad weather"
+              ],
+              "a": 0
+            },
+            {
+              "q": "When will the next train depart?",
+              "o": [
+                "At eight twenty-five",
+                "At eight fifteen",
+                "At seven twenty-five"
+              ],
+              "a": 0
+            }
+          ]
+        },
+        {
+          "id": "s3-03",
+          "title": "A hectic week",
+          "say": "It's been a hectic week, to be honest. On Monday my laptop crashed in the middle of a lesson, so I had to carry on with a book. Then on Wednesday, I'd arranged to meet Helen for lunch, but she cancelled at the last minute. I ended up going to the cinema on my own, which was actually quite nice. Anyway, I'm hoping things calm down by the weekend, because we're driving up to my parents' on Saturday.",
+          "qs": [
+            {
+              "q": "What happened on Monday?",
+              "o": [
+                "The speaker's laptop crashed",
+                "The lesson was cancelled",
+                "The speaker missed a bus"
+              ],
+              "a": 0
+            },
+            {
+              "q": "What did she do on Wednesday?",
+              "o": [
+                "The speaker went to the cinema alone",
+                "The speaker had lunch with Helen",
+                "The speaker drove to see family"
+              ],
+              "a": 0
+            }
+          ]
+        },
+        {
+          "id": "s3-04",
+          "title": "A hotel booking call",
+          "say": "Right, so, I've spoken to the hotel and they can offer us a room for the nineteenth to the twenty-second, but only if we confirm by Friday. It's a hundred and ninety pounds a night, including breakfast. Mind you, that's about twenty pounds more than last year. The conference centre is a fifteen-minute walk away, so we won't need a taxi. Could you let me know by noon tomorrow?",
+          "qs": [
+            {
+              "q": "How much is the room per night?",
+              "o": [
+                "190 pounds, with breakfast",
+                "109 pounds, with breakfast",
+                "190 pounds, without breakfast"
+              ],
+              "a": 0
+            },
+            {
+              "q": "By when does the hotel need the confirmation?",
+              "o": [
+                "By Friday",
+                "By noon tomorrow",
+                "By the nineteenth"
+              ],
+              "a": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
