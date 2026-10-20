@@ -56,15 +56,20 @@ Steps (each is one short screen; progress dots at the top; Back and Continue; th
 
 **Quick speaking check**: a separate card on the Lessons page: four prompts (everyday, a short story, a feeling, an opinion), each recorded for about a minute, transcript, rough analysis, and "Copy for my tutor" with all four. The real assessment (vocabulary range, grammar accuracy, collocations, estimate of B2/C1, three priorities) is done by Claude in chat when she pastes it; pronunciation cannot be assessed from text.
 
-## The first six lessons (my call; she can reorder)
-1. **Taxi and getting around** (everyday): requests and short instructions; grammar: polite requests and indirect questions.
-2. **Why does heartbreak hurt so much?** (BBC 6 Minute English, 1 Oct 2026): feelings and relationships; grammar: present perfect vs past simple for life events.
-3. **At home: things and chores** (everyday): naming objects, phrasal verbs for housework; grammar: separable phrasal verbs. → **Unit test 1**
-4. **Is rejection good for us?** (BBC, 17 Sep 2026): asking for favours, rejection, resilience; grammar: second and third conditionals.
-5. **Comparisons as predictable as the sunrise** (The Pudding, similes): similes and idioms of comparison; grammar: comparatives, *as … as*, *like* vs *as*.
-6. **How advertisers make us spend money** (BBC, 11 Jun 2026; her "retail therapy" theme): persuasion, shopping, money and mood; grammar: passive voice and causatives. → **Unit test 2**
+## The first six lessons (my call, revised on 20 Oct after Natali said the taxi and chores topics were only examples)
+Her instruction: judge the request as a professional tutor, do not force every word she said into lessons, and build on **living material in a real context**, not invented topics. So every lesson is built on an **authentic spoken source with a transcript**, and the conversational vocabulary is taken **from that real speech**. Each lesson pairs a longer source with a short *The English We Speak* episode (a colloquial expression native speakers really use), and the pairs connect by theme:
 
-Lessons 2, 4 and 6 are built from the BBC page (audio, transcript and vocabulary list, all read by the builder); 5 from The Pudding story (summary and structure read); 1 and 3 are original.
+**Unit 1: People and feelings**
+1. Why does heartbreak hurt so much? (BBC 6 Minute English, 1 Oct 2026) + *Go through a rough patch*. Grammar: present perfect vs past simple.
+2. Is rejection good for us? (6 Minute English, 17 Sep 2026) + *A big ask*. Grammar: polite requests, indirect questions, refusing politely.
+3. What English phrases really mean (6 Minute English, 15 Jan 2026) + *Think on your feet*. Grammar: hedging, understatement, modals of deduction. → **Unit test 1**
+
+**Unit 2: Everyday life, money and how we describe it**
+4. Who does the housework? (6 Minute English, 13 Aug 2026) + *Cut corners*. Grammar: used to / would, be used to. Includes the everyday home phrases she says she lacks, in a real context.
+5. How advertisers make us spend money (6 Minute English, 11 Jun 2026; her "retail therapy" theme) + *Try it on*. Grammar: passive and causatives.
+6. Comparisons as predictable as the sunrise (The Pudding, similes) + *Like a moth to a flame*. Grammar: comparatives, *as … as*, *like* vs *as*. → **Unit test 2**
+
+All sources are linked from the lesson. The builder has read the transcripts (BBC) and the story summary (Pudding) and writes original vocabulary, questions and exercises. **YouTube** videos and interviews are not used in this release: their subtitles could not be read reliably. When Natali sends a link plus the video's transcript (copy from YouTube's "Show transcript"), a lesson can be written from it. The three named articles and two magazines wait for her text or links.
 
 ## The page
 The English tab gets a first segment **Lessons** (the default), then Train, Speak, Words. The Lessons page shows: the current lesson card (title, part 1/2 state, one button "Continue" with the step it will resume at), a plain course map (ticked lessons with their scores, the open one, the locked ones, unit tests between), numbers for words added, and the quick speaking check card.
