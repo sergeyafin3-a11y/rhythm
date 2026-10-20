@@ -1,0 +1,1942 @@
+{
+  "version": 1,
+  "units": [
+    {
+      "id": "u1",
+      "name": "People and feelings",
+      "lessons": [
+        "l01",
+        "l02",
+        "l03"
+      ]
+    },
+    {
+      "id": "u2",
+      "name": "Everyday life, money and how we describe it",
+      "lessons": [
+        "l04",
+        "l05",
+        "l06"
+      ]
+    }
+  ],
+  "lessons": [
+    {
+      "id": "l01",
+      "n": 1,
+      "unit": "u1",
+      "title": "Heartbreak and rough patches",
+      "tag": "Feelings",
+      "goal": "By the end you can talk about a difficult time in a relationship or friendship: what happened, when it happened and how long it lasted.",
+      "sources": [
+        {
+          "kind": "6ME",
+          "title": "Why does heartbreak hurt so much?",
+          "by": "BBC Learning English",
+          "url": "https://www.bbc.co.uk/learningenglish/english/features/6-minute-english_2026/ep-261001",
+          "min": 6
+        },
+        {
+          "kind": "TEWS",
+          "title": "Go through a rough patch",
+          "by": "BBC Learning English",
+          "url": "https://www.bbc.co.uk/learningenglish/english/features/the-english-we-speak_2026/ep-260223",
+          "min": 3
+        }
+      ],
+      "parts": [
+        {
+          "steps": [
+            {
+              "t": "intro",
+              "title": "Today",
+              "text": "Today we talk about love, friendship and the hard times in between. You will listen to two presenters discuss why a broken heart really hurts, and pick up natural phrases for talking about feelings. These are the words you need when a friend asks, 'So, how are things with you two?'",
+              "ru": "Сегодня говорим об отношениях, дружбе и трудных периодах. Вы послушаете, почему разбитое сердце болит по-настоящему, и возьмёте живые фразы для разговора о чувствах."
+            },
+            {
+              "t": "words",
+              "title": "Phrases for today",
+              "items": [
+                {
+                  "w": "go through a rough patch",
+                  "ru": "переживать трудный период",
+                  "ex": "We went through a rough patch last year, but we talked it out and things are much better now.",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "fall in love",
+                  "ru": "влюбиться",
+                  "ex": "I fell in love with Lisbon the minute I stepped off the plane.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "have your heart broken",
+                  "ru": "пережить разбитое сердце, быть брошенным",
+                  "ex": "He had his heart broken at nineteen, and he still doesn't like to talk about it.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "think back to",
+                  "ru": "вспоминать, мысленно возвращаться к",
+                  "ex": "When I think back to my first job, I can't believe how nervous I was.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "cheer someone up",
+                  "ru": "поднять кому-то настроение",
+                  "ex": "I bought her a cake to cheer her up after the exam.",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "feel down",
+                  "ru": "хандрить, быть в упадке",
+                  "ex": "I've been feeling a bit down since the clocks changed, to be honest.",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "make up",
+                  "ru": "помириться",
+                  "ex": "We had a stupid argument on Friday, but we made up before the weekend.",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "ring someone for a chat",
+                  "ru": "позвонить, чтобы поболтать",
+                  "ex": "I'll ring my sister for a chat on the way home; I haven't spoken to her all week.",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "be addicted to",
+                  "ru": "быть зависимым от, «подсесть» на",
+                  "ex": "I'm completely addicted to this series; I watched four episodes last night.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "an ex",
+                  "ru": "бывший, бывшая (партнёр)",
+                  "ex": "Funnily enough, I'm still good friends with my ex.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "come out the other side",
+                  "ru": "пережить трудное время и выбраться из него",
+                  "ex": "It was a tough year, but we came out the other side stronger.",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "it's all about",
+                  "ru": "всё дело в, главное — это",
+                  "ex": "In a long relationship, it's all about listening to each other.",
+                  "src": "6ME"
+                }
+              ]
+            },
+            {
+              "t": "read",
+              "title": "Listen and read",
+              "source": 0,
+              "how": "First listen once without the text and try to catch the main idea. Then read the transcript and underline the phrases from the list. Do not look up every word; focus on how the speakers sound natural.",
+              "minutes": 8
+            },
+            {
+              "t": "quiz",
+              "title": "Did you get it?",
+              "qs": [
+                {
+                  "q": "What did scientists find when people looked at a photo of their romantic partner?",
+                  "o": [
+                    "A part of the brain linked to eating and drinking became active.",
+                    "The part of the brain that controls sleep switched off.",
+                    "The brain area that stores childhood memories grew bigger."
+                  ],
+                  "a": 0,
+                  "why": "Neil says looking at someone you love activates a part of the brain that also reminds us to eat and drink."
+                },
+                {
+                  "q": "In the 2013 study, what happened when people read statements about their partner?",
+                  "o": [
+                    "The brain area used for thinking about yourself was active.",
+                    "The brain area used for thinking about strangers was active.",
+                    "No part of the brain reacted to the statements."
+                  ],
+                  "a": 0,
+                  "why": "The same self-related part lit up, not the part we normally use to think about other people."
+                },
+                {
+                  "q": "According to Professor Zoe Donaldson, being lonely raises the risk of dying about as much as what?",
+                  "o": [
+                    "Being obese or smoking.",
+                    "Working long hours every week.",
+                    "Eating too much sugar."
+                  ],
+                  "a": 0,
+                  "why": "She compares the mortality risk of loneliness to being obese or smoking."
+                },
+                {
+                  "q": "What does the programme say about heartbreak and the brain?",
+                  "o": [
+                    "It uses brain areas that also react to physical pain.",
+                    "It only affects the brain areas that control memory.",
+                    "It has no connection with physical feelings at all."
+                  ],
+                  "a": 0,
+                  "why": "Zoe Donaldson says the regions overlap with those that light up when you feel physical pain, like a burn."
+                },
+                {
+                  "q": "What is the answer to the quiz question about the 1950s theory?",
+                  "o": [
+                    "Attachment theory.",
+                    "Contraction theory.",
+                    "Superstition theory."
+                  ],
+                  "a": 0,
+                  "why": "Georgie answers 'attachment theory' and Neil confirms she is correct."
+                },
+                {
+                  "q": "In the programme, what does 'longevity' mean?",
+                  "o": [
+                    "How long a person lives.",
+                    "How long a relationship lasts.",
+                    "How strong a person's memory is."
+                  ],
+                  "a": 0,
+                  "why": "Neil explains that longevity means how long we live."
+                }
+              ]
+            },
+            {
+              "t": "task",
+              "title": "Notice it",
+              "items": [
+                "Find where Georgie says when her heart was last broken. Underline the time expression and the verb form she uses.",
+                "Find one place where Neil says what scientists 'have been' doing. Underline it and notice the tense.",
+                "Copy three phrases from today's list into your notebook, each with a short sentence about your own life."
+              ]
+            },
+            {
+              "t": "write",
+              "title": "Write it down",
+              "prompt": "Write 4 to 6 sentences about a difficult time in a friendship or relationship, yours or someone else's. Say what happened and how you or they felt. Use at least four phrases from today's list.",
+              "hint": "Start with 'A few years ago, a close friend of mine went through a rough patch...'.",
+              "min": 5
+            }
+          ]
+        },
+        {
+          "steps": [
+            {
+              "t": "intro",
+              "title": "Today",
+              "text": "In Part 2 we warm up, check what you remember, and listen to a short episode about one very useful expression. Then we refresh the tenses we need to talk about a relationship over time, and you finish by telling your own story out loud.",
+              "ru": "Во второй части: разминка, повторение фраз, короткий эпизод про одно полезное выражение, повторение времён для рассказа об отношениях и, наконец, ваш собственный рассказ вслух."
+            },
+            {
+              "t": "roulette",
+              "title": "Warm-up"
+            },
+            {
+              "t": "recall",
+              "title": "Do you remember?"
+            },
+            {
+              "t": "read",
+              "title": "Listen and read",
+              "source": 1,
+              "how": "Listen first without the text and notice which situations Phil and Feifei mention. Then read the transcript and underline every example of the expression.",
+              "minutes": 4
+            },
+            {
+              "t": "grammar",
+              "title": "Grammar refresh: present perfect or past simple",
+              "text": "Use the past simple for finished events with a time: 'We met in 2015.' Use the present perfect for states or events that still matter now, and with 'for' and 'since': 'We've known each other for ten years.' For something still going on, with a focus on the activity, use the present perfect continuous: 'We've been talking more lately.' Ask 'How long have you...?' for situations that continue now, and 'When did you...?' for finished events.",
+              "ru": "Past simple: законченное событие с указанием времени. Present perfect: связь с настоящим, for и since. Present perfect continuous: действие ещё продолжается. How long have you...? про продолжающееся, When did you...? про законченное.",
+              "ex": [
+                "We split up in 2019, and I haven't seen him since.",
+                "She's been going through a rough patch since she lost her job.",
+                "How long have you known each other? And when did you first meet?"
+              ]
+            },
+            {
+              "t": "gap",
+              "title": "Practise it",
+              "items": [
+                {
+                  "s": "We ___ (know) each other since school, so I can always tell when something's wrong.",
+                  "a": [
+                    "have known",
+                    "'ve known",
+                    "have all known"
+                  ],
+                  "hint": "present perfect with since"
+                },
+                {
+                  "s": "I ___ (meet) Anna at university in 2009.",
+                  "a": [
+                    "met"
+                  ],
+                  "hint": "past simple, finished time"
+                },
+                {
+                  "s": "How long ___ (you / learn) English?",
+                  "a": [
+                    "have you been learning",
+                    "have you learned"
+                  ],
+                  "hint": "how long, present perfect continuous"
+                },
+                {
+                  "s": "She ___ (go) through a rough patch last spring, but she's fine now.",
+                  "a": [
+                    "went"
+                  ],
+                  "hint": "past simple"
+                },
+                {
+                  "s": "They ___ (just / break up), so please don't mention his ex.",
+                  "a": [
+                    "have just broken up",
+                    "'ve just broken up"
+                  ],
+                  "hint": "present perfect with just"
+                },
+                {
+                  "s": "I ___ (wait) here for forty minutes, and he still hasn't turned up!",
+                  "a": [
+                    "have been waiting",
+                    "'ve been waiting"
+                  ],
+                  "hint": "present perfect continuous, for"
+                },
+                {
+                  "s": "When ___ (you / fall) in love for the first time?",
+                  "a": [
+                    "did you fall"
+                  ],
+                  "hint": "past simple question"
+                },
+                {
+                  "s": "I'm exhausted. I ___ (work) on this report all morning.",
+                  "a": [
+                    "have been working",
+                    "'ve been working"
+                  ],
+                  "hint": "present perfect continuous"
+                }
+              ]
+            },
+            {
+              "t": "speak",
+              "title": "Say it",
+              "prompt": "Tell me about a friendship or relationship, yours or a friend's, that went through a hard time. What happened, how long did it last, and how did it end?",
+              "targets": [
+                "go through a rough patch",
+                "feel down",
+                "make up",
+                "cheer someone up",
+                "come out the other side",
+                "for a while"
+              ],
+              "model": "One of my closest friends and I went through a rough patch a few years ago. We've known each other for about fifteen years, but she moved abroad, and for a while we hardly spoke. I felt down, to be honest. Then she rang me one evening, and we talked for hours. We made up, and she managed to cheer me up straight away. We've been in touch every week since then. I think every friendship can go through a rough patch, but if you both make an effort, you come out the other side stronger.",
+              "secs": 90
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l02",
+      "n": 2,
+      "unit": "u1",
+      "title": "Asking and saying no",
+      "tag": "Asking and refusing",
+      "goal": "By the end you can ask for a favour without sounding pushy, say no politely, and talk about how it feels to be turned down.",
+      "sources": [
+        {
+          "kind": "6ME",
+          "title": "Is rejection good for us?",
+          "by": "BBC Learning English",
+          "url": "https://www.bbc.co.uk/learningenglish/english/features/6-minute-english_2026/ep-260917",
+          "min": 6
+        },
+        {
+          "kind": "TEWS",
+          "title": "A big ask",
+          "by": "BBC Learning English",
+          "url": "https://www.bbc.co.uk/learningenglish/english/features/the-english-we-speak_2026/ep-260209",
+          "min": 3
+        }
+      ],
+      "parts": [
+        {
+          "steps": [
+            {
+              "t": "intro",
+              "title": "Today",
+              "text": "Most of us find it harder to ask for something than to answer a question, and harder still to hear 'no'. Today you will listen to two short BBC programmes about asking strangers for favours and about requests that are just too much. You will collect phrases you can use at work, with friends and when you travel.",
+              "ru": "Просить и отказывать на живом английском сложнее, чем кажется. Сегодня берём фразы из двух настоящих передач BBC и учимся просить мягко и отказывать вежливо."
+            },
+            {
+              "t": "words",
+              "title": "Phrases for today",
+              "items": [
+                {
+                  "w": "a big ask",
+                  "ru": "непростая просьба, требование (то, о чём трудно просить)",
+                  "ex": "Finishing the report by tonight is a big ask, to be honest.",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "ask a (cheeky) favour",
+                  "ru": "попросить об одолжении (слегка нахальном)",
+                  "ex": "Can I ask you a cheeky favour? Could I borrow your charger for an hour?",
+                  "src": "6ME"
+                },
+                {
+                  "w": "get used to something",
+                  "ru": "привыкнуть к чему-то",
+                  "ex": "I never thought I'd enjoy the cold, but you get used to it.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "have a go at something",
+                  "ru": "попробовать, взяться за что-то",
+                  "ex": "I'd never cooked fish before, but I had a go at it last night.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "see how someone got on",
+                  "ru": "узнать, как у кого-то всё прошло",
+                  "ex": "Let's ring Anna later and see how she got on at the interview.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "face your fears",
+                  "ru": "посмотреть своим страхам в лицо",
+                  "ex": "I hate heights, so going up that tower was my way of facing my fears.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "come easier",
+                  "ru": "даваться легче",
+                  "ex": "Speaking is scary at first, but it comes easier every time you do it.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "I was wondering if...",
+                  "ru": "мне было интересно, не могли бы вы... (мягкая просьба)",
+                  "ex": "I was wondering if you could look at my presentation before Friday.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "try something out",
+                  "ru": "попробовать на практике, опробовать",
+                  "ex": "Can I try this chair out before I buy it?",
+                  "src": "6ME"
+                },
+                {
+                  "w": "go with (an option)",
+                  "ru": "выбрать, остановиться на варианте",
+                  "ex": "I've no idea which is better, so I'll go with the blue one.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "I get it",
+                  "ru": "понятно, я понимаю (и не обижаюсь)",
+                  "ex": "You're busy tonight? No problem, I get it.",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "mix up the dates",
+                  "ru": "перепутать даты",
+                  "ex": "Sorry, I mixed up the dates and turned up a day early.",
+                  "src": "TEWS"
+                }
+              ]
+            },
+            {
+              "t": "read",
+              "title": "Listen and read",
+              "source": 0,
+              "how": "First listen to the programme without the text and try to catch what rejection therapy is. Then read the transcript, underline the phrases from your list and any new chunks you like. Do not look up every word.",
+              "minutes": 8
+            },
+            {
+              "t": "quiz",
+              "title": "Did you get it?",
+              "qs": [
+                {
+                  "q": "What is 'rejection therapy', according to the programme?",
+                  "o": [
+                    "A social media trend where people film themselves talking to strangers",
+                    "A medical treatment that doctors use to help shy patients",
+                    "A university course that teaches people how to apply for jobs"
+                  ],
+                  "a": 0,
+                  "why": "The presenters say it is a trend, not a proper form of therapy, and that it has not been tested."
+                },
+                {
+                  "q": "How did Hannah feel before speaking to the first stranger?",
+                  "o": [
+                    "Her adrenaline spiked, although she is not usually anxious",
+                    "Completely calm, because she had done it many times",
+                    "So nervous that she decided not to take part at all"
+                  ],
+                  "a": 0,
+                  "why": "She says her adrenaline was spiking, even though she thinks of herself as a confident person."
+                },
+                {
+                  "q": "What did Hannah find when she asked strangers for things?",
+                  "o": [
+                    "Most of them were friendly, so she was hardly rejected",
+                    "Most of them refused, which made her more confident",
+                    "Most of them ignored her and walked away quickly"
+                  ],
+                  "a": 0,
+                  "why": "The presenters say most strangers were friendly and happy to help, so she did not really experience rejection."
+                },
+                {
+                  "q": "What idea does Claudia Hammond suggest about why people try this?",
+                  "o": [
+                    "Perfectionism is growing, and young people worry about being judged",
+                    "Young people have more free time, so they look for new hobbies",
+                    "Strangers are friendlier now than they used to be in the past"
+                  ],
+                  "a": 0,
+                  "why": "She talks about an increase in perfectionism and young people worrying about how others judge them."
+                },
+                {
+                  "q": "What does the programme say about Walt Disney's first full-length film?",
+                  "o": [
+                    "It was a huge success, not a failure",
+                    "It failed badly and almost ended his career",
+                    "It was turned down by every studio he asked"
+                  ],
+                  "a": 0,
+                  "why": "The quiz answer is that Snow White and the Seven Dwarfs was not a failure; it was a huge success."
+                },
+                {
+                  "q": "If your adrenaline 'spikes', what does it do?",
+                  "o": [
+                    "It increases suddenly",
+                    "It slowly goes away",
+                    "It stays exactly the same"
+                  ],
+                  "a": 0,
+                  "why": "In the vocabulary section, to spike means to increase suddenly or sharply."
+                }
+              ]
+            },
+            {
+              "t": "task",
+              "title": "Notice it",
+              "items": [
+                "Find the places where Hannah asks a stranger for something. Underline the different ways she starts the question (for example, one begins with 'I was wondering').",
+                "Find what Neil says about how we feel about rejection as we get older. Is it the same for you?",
+                "Copy three phrases from today's list into your notebook, each in a sentence about your own life."
+              ]
+            },
+            {
+              "t": "write",
+              "title": "Write it down",
+              "prompt": "Write 4 to 6 sentences about a time you asked someone for a favour, or tried something that scared you. Say what you asked, what the answer was and how you felt afterwards. Use at least four phrases from today's list.",
+              "hint": "Start with 'Last year I had to ask...' and say whether it came easier the second time.",
+              "min": 5
+            }
+          ]
+        },
+        {
+          "steps": [
+            {
+              "t": "intro",
+              "title": "Today",
+              "text": "In Part 2 you will warm up with the phrases from Part 1, listen to a short episode about a request that is just too much, and then refresh how to ask politely and say no. At the end you will speak for about a minute.",
+              "ru": "Во второй части повторим фразы, послушаем короткий выпуск про слишком трудную просьбу, освежим вежливые формы просьбы и отказа и в конце поговорим вслух."
+            },
+            {
+              "t": "roulette",
+              "title": "Warm-up"
+            },
+            {
+              "t": "recall",
+              "title": "Do you remember?"
+            },
+            {
+              "t": "read",
+              "title": "Listen and read",
+              "source": 1,
+              "how": "Listen once without the text and notice how the speakers ask and how the other person says no. Then read the transcript and underline the polite phrases the speakers use.",
+              "minutes": 5
+            },
+            {
+              "t": "grammar",
+              "title": "Grammar refresh: polite requests and refusals",
+              "text": "To ask for something, soften the question: use 'could' and 'would' instead of 'can', or start with 'I was wondering if you could...', 'Would you mind helping me?' (with the -ing form) and 'It'd be great if you could...'. After phrases like 'Do you know...' or 'Could you tell me...', use normal statement word order, with no inversion. To say no politely, give a short reason and soften the answer: 'I'm afraid I can't', 'I'd love to, but...'.",
+              "ru": "Просьбу смягчают через could / would, фразы I was wondering if..., would you mind + -ing, it'd be great if... В косвенных вопросах порядок слов прямой (Could you tell me where the station is?). Отказ смягчают словами I'm afraid и коротким объяснением.",
+              "ex": [
+                "I was wondering if you could swap shifts with me next week.",
+                "Would you mind keeping an eye on my bag for a minute?",
+                "Could you tell me where the meeting room is?",
+                "I'd love to, but I'm afraid I've already made plans."
+              ]
+            },
+            {
+              "t": "gap",
+              "title": "Practise it",
+              "items": [
+                {
+                  "s": "I was wondering if you ___ (can) give me a lift to the station.",
+                  "a": [
+                    "could"
+                  ],
+                  "hint": "softening: past form"
+                },
+                {
+                  "s": "Would you mind ___ (turn) the music down a little?",
+                  "a": [
+                    "turning"
+                  ],
+                  "hint": "would you mind + -ing"
+                },
+                {
+                  "s": "Do you know what time the shop ___ (close)?",
+                  "a": [
+                    "closes"
+                  ],
+                  "hint": "indirect question: no inversion"
+                },
+                {
+                  "s": "Could you tell me where the nearest chemist ___ (be)?",
+                  "a": [
+                    "is"
+                  ],
+                  "hint": "indirect question: statement order"
+                },
+                {
+                  "s": "It ___ (be) great if you could send me the file today.",
+                  "a": [
+                    "would be",
+                    "'d be"
+                  ],
+                  "hint": "it'd be great if + past"
+                },
+                {
+                  "s": "I'd love to help, but I'm ___ I can't this week.",
+                  "a": [
+                    "afraid"
+                  ],
+                  "hint": "refusing politely"
+                },
+                {
+                  "s": "I know it's a big ask, but ___ you possibly cover my shift on Saturday?",
+                  "a": [
+                    "could",
+                    "would"
+                  ],
+                  "hint": "polite request"
+                }
+              ]
+            },
+            {
+              "t": "speak",
+              "title": "Say it",
+              "prompt": "Tell me about a time you had to ask someone for something difficult, or had to say no to someone. What did you say, how did the other person react, and how did you feel afterwards?",
+              "targets": [
+                "a big ask",
+                "I was wondering if",
+                "I get it",
+                "get used to",
+                "have a go at",
+                "come easier"
+              ],
+              "model": "Last month I had to ask my boss for a week off in the middle of a really busy period. I knew it was a big ask, so I practised first. I said, 'I was wondering if I could move my holiday to September.' She said no, politely, and explained why. Honestly, I get it, because we were short-staffed. Nobody likes hearing no, but you do get used to it. Next time I'll just have a go at asking sooner, and I'm sure it will come easier.",
+              "secs": 90
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l03",
+      "n": 3,
+      "unit": "u1",
+      "title": "Reading between the lines",
+      "tag": "Say what you mean",
+      "goal": "By the end you can soften what you say, guess what people really mean, and answer an unexpected question without freezing.",
+      "sources": [
+        {
+          "kind": "6ME",
+          "title": "What English phrases really mean",
+          "by": "BBC Learning English",
+          "url": "https://www.bbc.co.uk/learningenglish/english/features/6-minute-english_2026/ep-260115",
+          "min": 6
+        },
+        {
+          "kind": "TEWS",
+          "title": "Think on your feet",
+          "by": "BBC Learning English",
+          "url": "https://www.bbc.co.uk/learningenglish/english/features/the-english-we-speak_2026/ep-260427",
+          "min": 3
+        }
+      ],
+      "parts": [
+        {
+          "steps": [
+            {
+              "t": "intro",
+              "title": "Today",
+              "text": "British people often say one thing and mean another. Today you will hear two presenters explain how exaggeration, understatement and polite little phrases work, and you will collect the chunks you need to do the same. It is the last lesson of Unit 1, so everything you have practised so far (feelings, asking, refusing) comes together.",
+              "ru": "Британцы часто говорят одно, а имеют в виду другое. Сегодня вы послушаете, как это работает, и соберёте фразы, чтобы читать между строк и самой смягчать слова."
+            },
+            {
+              "t": "words",
+              "title": "Phrases for today",
+              "items": [
+                {
+                  "w": "think on your feet",
+                  "ru": "быстро соображать, думать на ходу",
+                  "ex": "Our teacher asked me a question I hadn't prepared for, so I had to think on my feet.",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "think on the spot",
+                  "ru": "сообразить прямо на месте, без подготовки",
+                  "ex": "She asked me for a new slogan and I had to think on the spot.",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "take yourself too seriously",
+                  "ru": "слишком серьёзно к себе относиться",
+                  "ex": "He is great fun because he never takes himself too seriously.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "it's not the done thing",
+                  "ru": "так не принято",
+                  "ex": "In my office it's not the done thing to send emails after nine at night.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "a no-no",
+                  "ru": "табу, строго нельзя",
+                  "ex": "Checking your phone during dinner is a total no-no in our family.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "miffed",
+                  "ru": "слегка задетый, раздосадованный",
+                  "ex": "I was a bit miffed that nobody had asked for my opinion.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "get into a barney",
+                  "ru": "ввязаться в громкую ссору (брит.)",
+                  "ex": "I didn't want to get into a barney over who had forgotten the tickets.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "it's all good",
+                  "ru": "всё нормально (а на деле, возможно, не очень)",
+                  "ex": "She said it's all good when I turned up late, but her face said something else.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "no worries",
+                  "ru": "без проблем, ничего страшного",
+                  "ex": "Sorry I'm late! - No worries, we've only just started.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "have a mare",
+                  "ru": "пережить кошмарный день (шутливо, брит.)",
+                  "ex": "I've had a mare of a morning: the bus never came and my phone died.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "get into a whole thing",
+                  "ru": "затевать долгие разборки или объяснения",
+                  "ex": "I'd love to explain, but I don't want to get into a whole thing right now.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "less than perfect",
+                  "ru": "далеко не идеально (преуменьшение)",
+                  "ex": "The hotel was, let's say, less than perfect: there was no hot water for two days.",
+                  "src": "6ME"
+                }
+              ]
+            },
+            {
+              "t": "read",
+              "title": "Listen and read",
+              "source": 0,
+              "how": "First listen to the episode once without the text and try to catch the main idea. Then read the transcript, underline the chunks from your list and any new ones, and do not look up every word.",
+              "minutes": 8
+            },
+            {
+              "t": "quiz",
+              "title": "Did you get it?",
+              "qs": [
+                {
+                  "q": "Why does Derek Bousfield's daughter say she has had a mare today?",
+                  "o": [
+                    "She is exaggerating about a mildly annoying day",
+                    "She is seriously complaining about her boss",
+                    "She is describing a bad dream from last night"
+                  ],
+                  "a": 0,
+                  "why": "Derek says 'mare' (from nightmare) describes something mild and slightly humorous, so it is exaggeration."
+                },
+                {
+                  "q": "According to Derek Bousfield, why do British people love understatement?",
+                  "o": [
+                    "Not taking yourself too seriously is the expected thing",
+                    "It helps them avoid answering personal questions",
+                    "It makes them sound more important than others"
+                  ],
+                  "a": 0,
+                  "why": "He links understatement to not taking yourself too seriously, which is the done thing in British culture."
+                },
+                {
+                  "q": "In Michael Rosen's example, what might 'It's all good' really mean?",
+                  "o": [
+                    "He is slightly annoyed but wants to avoid a quarrel",
+                    "He is delighted and wants a longer chat with Derek",
+                    "He is badly hurt and wants Derek to apologise again"
+                  ],
+                  "a": 0,
+                  "why": "Michael says he is a bit miffed but does not want a barney with a stranger."
+                },
+                {
+                  "q": "What do the presenters say about 'Hi, y'alright?'",
+                  "o": [
+                    "It often just means hello, and no answer is expected",
+                    "It is a serious question about the other person's health",
+                    "It is only used between friends who have not met for years"
+                  ],
+                  "a": 0,
+                  "why": "Beth and Pippa say people usually do not want to hear about your day; it simply means hello."
+                },
+                {
+                  "q": "What does the Greek word root in 'hyperbole' actually mean, according to the answer in the programme?",
+                  "o": [
+                    "To overthrow",
+                    "To over speak",
+                    "To overthink"
+                  ],
+                  "a": 0,
+                  "why": "Pippa explains that huper means beyond and ballo means I throw; Beth's guess, 'to over speak', was wrong."
+                },
+                {
+                  "q": "What is a 'barney'?",
+                  "o": [
+                    "A loud argument or quarrel",
+                    "A small, polite complaint",
+                    "An embarrassing mistake at work"
+                  ],
+                  "a": 0,
+                  "why": "The vocabulary recap defines a barney as a loud argument or quarrel."
+                }
+              ]
+            },
+            {
+              "t": "task",
+              "title": "Notice it",
+              "items": [
+                "Find three phrases that Pippa or Beth explain straight after they use them (for example mare, no-no, miffed) and underline each explanation.",
+                "Find two softening or guessing words in the extracts from Derek and Michael, such as 'kind of' or 'probably', and underline them.",
+                "Copy three chunks you want to use this week into your notebook, each with your own example sentence."
+              ]
+            },
+            {
+              "t": "write",
+              "title": "Write it down",
+              "prompt": "Think of a time when someone said 'it's all good' or 'no worries' but you suspected they felt differently. Write 4-6 sentences: what they said, what you think they really felt, and what you did.",
+              "hint": "Try to use at least three phrases from the list, for example miffed, the done thing or get into a whole thing.",
+              "min": 5
+            }
+          ]
+        },
+        {
+          "steps": [
+            {
+              "t": "intro",
+              "title": "Today",
+              "text": "Now you will warm up, check which phrases stuck, and listen to a short episode about thinking on your feet. Then you will refresh the language of guessing and softening, and finish with a short story told out loud. This is the end of Unit 1, so use feelings, asking and refusing, and reading between the lines all together.",
+              "ru": "Разминка, проверка фраз, короткий выпуск про умение быстро соображать, повторение грамматики догадок и смягчения и рассказ вслух. Это конец первого блока: используйте всё, что уже прошли."
+            },
+            {
+              "t": "roulette",
+              "title": "Warm-up"
+            },
+            {
+              "t": "recall",
+              "title": "Do you remember?"
+            },
+            {
+              "t": "read",
+              "title": "Listen and read",
+              "source": 1,
+              "how": "Listen to the short episode once without the text. Then read the transcript and notice how the presenters explain 'think on your feet' and how they use hedges such as 'I'm not sure' and 'maybe'.",
+              "minutes": 5
+            },
+            {
+              "t": "grammar",
+              "title": "Grammar refresh: guessing and softening",
+              "text": "We use must have + past participle when we are almost sure something happened, might have when it is possible, and can't have when we are almost sure it did not happen. For the present we say must be, might be and can't be. To soften what we say, we add hedges such as a bit, quite, rather or I'm not sure that..., and British speakers often use them to understate a strong feeling.",
+              "ru": "Must have + V3: почти уверена, что было; might have: возможно; can't have: почти уверена, что не было. Для настоящего: must be, might be, can't be. Смягчаем речь словами a bit, quite, rather, I'm not sure that... Британцы так преуменьшают сильные чувства.",
+              "ex": [
+                "He said it was all good, but he must have been a bit miffed.",
+                "She can't have meant it literally; she was clearly exaggerating.",
+                "They might have taken it the wrong way, so I'll send a friendly message.",
+                "I'm not sure that it's the done thing to ring so late, to be honest."
+              ]
+            },
+            {
+              "t": "gap",
+              "title": "Practise it",
+              "items": [
+                {
+                  "s": "He went completely silent after I spoke, so he ___ (must / hear) what I said.",
+                  "a": [
+                    "must have heard"
+                  ],
+                  "hint": "strong deduction, past"
+                },
+                {
+                  "s": "He says he ate the whole pizza, but it was enormous. He ___ (can't / eat) all of it.",
+                  "a": [
+                    "can't have eaten",
+                    "cannot have eaten"
+                  ],
+                  "hint": "negative deduction, past"
+                },
+                {
+                  "s": "She hasn't replied. She ___ (might / take) my joke the wrong way.",
+                  "a": [
+                    "might have taken",
+                    "may have taken",
+                    "could have taken"
+                  ],
+                  "hint": "possibility, past"
+                },
+                {
+                  "s": "That was ___ a long meeting, wasn't it?",
+                  "a": [
+                    "quite",
+                    "rather"
+                  ],
+                  "hint": "hedge: one word"
+                },
+                {
+                  "s": "I was ___ miffed, to be honest, but I didn't say anything.",
+                  "a": [
+                    "a bit",
+                    "a little",
+                    "slightly"
+                  ],
+                  "hint": "understatement"
+                },
+                {
+                  "s": "The lights are off, so they ___ (can't / be) at home.",
+                  "a": [
+                    "can't be",
+                    "cannot be"
+                  ],
+                  "hint": "negative deduction, present"
+                },
+                {
+                  "s": "I ___ (might / not / notice) her message; I was driving all morning.",
+                  "a": [
+                    "might not have noticed",
+                    "may not have noticed"
+                  ],
+                  "hint": "possibility, past, negative"
+                },
+                {
+                  "s": "I'm not sure ___ it's a good idea to say that in front of everyone.",
+                  "a": [
+                    "that"
+                  ],
+                  "hint": "softening an opinion"
+                }
+              ]
+            },
+            {
+              "t": "speak",
+              "title": "Say it",
+              "prompt": "Tell a short story about a time when someone said one thing but you think they meant another, or when you had to say no politely or answer on the spot. What did they say, how did you feel, what do you think they really meant, and what did you do?",
+              "targets": [
+                "a bit miffed",
+                "it's all good",
+                "must have been",
+                "think on my feet",
+                "the done thing",
+                "I'm not sure that"
+              ],
+              "model": "Last month a colleague asked if I could cover her shift for the third time. I was a bit miffed, but it's not the done thing to argue at work, so I had to think on my feet. I said, \"I'm not sure that I can manage it this week.\" She smiled and said, \"It's all good,\" but she must have been disappointed, because she hardly spoke to me afterwards. Looking back, I might have explained myself better. Still, I think saying no politely was right. I'd rather have a small awkward moment than a big barney with someone I see every day.",
+              "secs": 90
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l04",
+      "n": 4,
+      "unit": "u2",
+      "title": "Chores and cutting corners",
+      "tag": "Home life",
+      "goal": "By the end you can talk about who does what at home, describe everyday jobs with natural phrasal verbs, and say how things used to be.",
+      "sources": [
+        {
+          "kind": "6ME",
+          "title": "Who does the housework?",
+          "by": "BBC Learning English",
+          "url": "https://www.bbc.co.uk/learningenglish/english/features/6-minute-english_2026/ep-260813",
+          "min": 6
+        },
+        {
+          "kind": "TEWS",
+          "title": "Cut corners",
+          "by": "BBC Learning English",
+          "url": "https://www.bbc.co.uk/learningenglish/english/features/the-english-we-speak_2026/ep-260309",
+          "min": 3
+        }
+      ],
+      "parts": [
+        {
+          "steps": [
+            {
+              "t": "intro",
+              "title": "Today",
+              "text": "Today we talk about the least glamorous topic in English: housework. You will hear two presenters discuss who does the chores at home, and you will collect the small, practical phrases you need to describe a normal day in your own flat or house. These are exactly the words that are easy to miss when you only read books.",
+              "ru": "Сегодня говорим про быт: кто что делает дома. Собираем простые живые фразы (убрать, вытереть, закончилось, вынести мусор), которых так не хватает в разговоре."
+            },
+            {
+              "t": "words",
+              "title": "Phrases for today",
+              "items": [
+                {
+                  "w": "pull your weight",
+                  "ru": "делать свою часть работы, не отлынивать",
+                  "ex": "Everyone in this flat has to pull their weight, even when they're tired.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "do your fair share",
+                  "ru": "делать свою справедливую долю (дел)",
+                  "ex": "I'm happy to cook as long as you do your fair share of the washing-up.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "take a breather",
+                  "ru": "перевести дух, ненадолго передохнуть",
+                  "ex": "Let's take a breather and do the windows after lunch.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "help out around the house",
+                  "ru": "помогать по дому",
+                  "ex": "My nephew helps out around the house on Saturdays and gets pocket money for it.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "take out the bins",
+                  "ru": "выносить мусор",
+                  "ex": "Can you take out the bins on your way out? They're overflowing.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "cut corners",
+                  "ru": "халтурить, делать тяп-ляп, экономить на качестве",
+                  "ex": "The builders cut corners, and now the bathroom ceiling leaks.",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "clear up",
+                  "ru": "прибрать, убрать за собой (после еды, гостей)",
+                  "ex": "Let's clear up quickly before the guests arrive.",
+                  "src": "own"
+                },
+                {
+                  "w": "wipe down",
+                  "ru": "протереть (поверхности, плиту, стол)",
+                  "ex": "I always wipe down the worktops after cooking, otherwise it gets sticky.",
+                  "src": "own"
+                },
+                {
+                  "w": "sort out",
+                  "ru": "разобрать, привести в порядок, уладить",
+                  "ex": "I really need to sort out the cupboard under the sink.",
+                  "src": "own"
+                },
+                {
+                  "w": "put away",
+                  "ru": "убрать на место",
+                  "ex": "Could you put away the shopping while I make some tea?",
+                  "src": "own"
+                },
+                {
+                  "w": "run out of",
+                  "ru": "закончиться (у кого-то), кончились",
+                  "ex": "We've run out of washing-up liquid again, so I'll pop to the shop.",
+                  "src": "own"
+                },
+                {
+                  "w": "hang out the washing",
+                  "ru": "развесить бельё сушиться",
+                  "ex": "It's sunny, so I'll hang out the washing on the balcony.",
+                  "src": "own"
+                }
+              ]
+            },
+            {
+              "t": "read",
+              "title": "Listen and read",
+              "source": 0,
+              "how": "Listen once without the text, just to get who is talking about what. Then listen again with the transcript and underline the chunks you could use at home. Do not look up every word.",
+              "minutes": 8
+            },
+            {
+              "t": "quiz",
+              "title": "Did you get it?",
+              "qs": [
+                {
+                  "q": "According to the Good Housekeeping survey, which chore do people in Britain hate most?",
+                  "o": [
+                    "Cleaning the windows",
+                    "Deep cleaning the oven",
+                    "Scrubbing the toilet"
+                  ],
+                  "a": 0,
+                  "why": "Neil says the windows beat the oven, with 23 percent of people choosing them; Pippa guessed the oven and was wrong."
+                },
+                {
+                  "q": "What do the UN Women figures suggest about women and men every day?",
+                  "o": [
+                    "Women spend about three more hours on unpaid care and domestic work",
+                    "Men spend about three more hours on cleaning and cooking",
+                    "Women and men spend about the same time on housework"
+                  ],
+                  "a": 0,
+                  "why": "Pippa quotes figures showing women worldwide do around three hours more unpaid care and domestic work than men."
+                },
+                {
+                  "q": "Why do women on the island of Rote often work even harder than men?",
+                  "o": [
+                    "They do the housework and also help with the farming and fishing",
+                    "They farm and fish while the men look after the children",
+                    "They have to walk a long way to the market every day"
+                  ],
+                  "a": 0,
+                  "why": "Home chores take a long time there, and women also help in the fields and with fishing, so the labour is not really fair."
+                },
+                {
+                  "q": "What does the Superdads project in Croatia do?",
+                  "o": [
+                    "It runs workshops encouraging dads and sons to take pressure off mums",
+                    "It teaches mothers how to organise their time better",
+                    "It pays husbands for doing the housework"
+                  ],
+                  "a": 0,
+                  "why": "Anamarija Sočo leads workshops where dads and sons are encouraged to share the load at home."
+                },
+                {
+                  "q": "What do women jokingly say when their partners start pulling their weight?",
+                  "o": [
+                    "That women tend to nag less",
+                    "That the house has never been cleaner",
+                    "That they finally have time to cook"
+                  ],
+                  "a": 0,
+                  "why": "Anamarija says women then jokingly say that they tend to nag less."
+                },
+                {
+                  "q": "What does 'take a breather' mean?",
+                  "o": [
+                    "Stop what you're doing for a short time to rest",
+                    "Open a window to let fresh air in",
+                    "Do a job slowly and carefully"
+                  ],
+                  "a": 0,
+                  "why": "Pippa explains it is an informal way of saying stop and rest for a while."
+                }
+              ]
+            },
+            {
+              "t": "task",
+              "title": "Notice it",
+              "items": [
+                "Find the moment where Neil describes how he and his wife share the jobs. Underline the two short sentences and say them aloud in your own words.",
+                "In your notebook, write the verb that goes with each: ___ the bins, ___ the washing, ___ the floor, ___ the dishwasher. Check the transcript and the lesson words.",
+                "Copy three chores from the transcript and three more you do at home, for example do the washing-up, change the sheets, water the plants."
+              ]
+            },
+            {
+              "t": "write",
+              "title": "Write it down",
+              "prompt": "Write 4 to 6 sentences about who does what at home. Say who really pulls their weight, what you hate doing, and one thing that you always have to sort out.",
+              "hint": "Try at least four chunks from the list, and add jobs you know, like unload the dishwasher, mop the floor or do the washing-up.",
+              "min": 5
+            }
+          ]
+        },
+        {
+          "steps": [
+            {
+              "t": "intro",
+              "title": "Today",
+              "text": "Now we revise yesterday's phrases, listen to a short episode about doing a job badly on purpose, and refresh the grammar of past habits and getting used to things. At the end you speak about your own home, then and now.",
+              "ru": "Повторяем фразы, слушаем короткий выпуск про халтуру, освежаем used to / would и be/get used to. В конце рассказываем про свой дом: как было раньше и как сейчас."
+            },
+            {
+              "t": "roulette",
+              "title": "Warm-up"
+            },
+            {
+              "t": "recall",
+              "title": "Do you remember?"
+            },
+            {
+              "t": "read",
+              "title": "Listen and read",
+              "source": 1,
+              "how": "Listen to the short episode first without reading. Then read the transcript and notice how the two presenters explain the phrase and give examples.",
+              "minutes": 4
+            },
+            {
+              "t": "grammar",
+              "title": "Grammar refresh: past habits and getting used to",
+              "text": "For past habits we use used to + infinitive, or would + infinitive for repeated actions only. For past states (have, be, live, like) use only used to, not would. Be used to and get used to mean 'familiar with' and 'becoming familiar with'. Here to is a preposition, so a verb after it ends in -ing.",
+              "ru": "Used to и would — привычки в прошлом (would только для повторяющихся действий, не для состояний). Be used to / get used to + -ing — «привык» и «привыкаю»: здесь to предлог, поэтому глагол с -ing.",
+              "ex": [
+                "When I was little, my dad would do the ironing every Sunday evening while he listened to the radio.",
+                "We never used to have a dishwasher, so everyone dried the plates by hand.",
+                "I'm used to cooking for one, so big pans still feel strange.",
+                "It took me weeks to get used to hanging out the washing on a balcony."
+              ]
+            },
+            {
+              "t": "gap",
+              "title": "Practise it",
+              "items": [
+                {
+                  "s": "When I was a kid, my dad ___ (do) the ironing every Sunday evening.",
+                  "a": [
+                    "used to do",
+                    "would do"
+                  ],
+                  "hint": "past habit"
+                },
+                {
+                  "s": "We ___ (not have) a dishwasher when I was little, so we washed up by hand.",
+                  "a": [
+                    "didn't use to have",
+                    "did not use to have",
+                    "never used to have"
+                  ],
+                  "hint": "past state"
+                },
+                {
+                  "s": "It took me months to get used to ___ (hang) out the washing on a tiny balcony.",
+                  "a": [
+                    "hanging"
+                  ],
+                  "hint": "get used to + -ing"
+                },
+                {
+                  "s": "Don't worry about the mess; I'm used to ___ (live) with two teenagers.",
+                  "a": [
+                    "living"
+                  ],
+                  "hint": "be used to + -ing"
+                },
+                {
+                  "s": "When we were students, we ___ (sit) on the floor and eat takeaway every Friday.",
+                  "a": [
+                    "used to sit",
+                    "would sit"
+                  ],
+                  "hint": "past habit"
+                },
+                {
+                  "s": "After a month in the new flat, we finally got ___ (use) to the noise of the lift.",
+                  "a": [
+                    "used"
+                  ],
+                  "hint": "get used to"
+                },
+                {
+                  "s": "Did your family ___ (use) to share the chores equally?",
+                  "a": [
+                    "use"
+                  ],
+                  "hint": "question with did"
+                },
+                {
+                  "s": "He's lived alone for years, so he is used to ___ (cook) for one.",
+                  "a": [
+                    "cooking"
+                  ],
+                  "hint": "be used to + -ing"
+                }
+              ]
+            },
+            {
+              "t": "speak",
+              "title": "Say it",
+              "prompt": "Talk about chores in your home. Say who does what now, and how it was different when you were growing up. Do you think everyone does a fair share?",
+              "targets": [
+                "used to",
+                "fair share",
+                "pull your weight",
+                "sort out",
+                "run out of",
+                "take a breather"
+              ],
+              "model": "In my house we try to be fair, but it isn't always easy. When I was a kid, my mum used to do almost everything, and my dad would only help out at the weekend. Now I think everyone should do their fair share. I always say, you have to pull your weight. I usually sort out the washing, and somebody else takes out the bins. What drives me mad is when we run out of milk or washing powder and nobody says anything. When the flat is a mess, I clear up fast, then I take a breather with a cup of tea.",
+              "secs": 90
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l05",
+      "n": 5,
+      "unit": "u2",
+      "title": "Retail therapy and clever ads",
+      "tag": "Money and mood",
+      "goal": "By the end you can tell a short, natural story about shopping to feel better, and say how ads and other people nudge your choices.",
+      "sources": [
+        {
+          "kind": "6ME",
+          "title": "How advertisers make us spend money",
+          "by": "BBC Learning English",
+          "url": "https://www.bbc.co.uk/learningenglish/english/features/6-minute-english_2026/ep-260611",
+          "min": 6
+        },
+        {
+          "kind": "TEWS",
+          "title": "Try it on",
+          "by": "BBC Learning English",
+          "url": "https://www.bbc.co.uk/learningenglish/english/features/the-english-we-speak_2026/ep-260907",
+          "min": 3
+        }
+      ],
+      "parts": [
+        {
+          "steps": [
+            {
+              "t": "intro",
+              "title": "Today",
+              "text": "Why did you buy the last thing you bought? Today you will listen to two BBC presenters talk about how adverts, shop assistants and even screens quietly push us to spend. You will collect phrases you can use tomorrow when you talk about your own shopping and your moods.",
+              "ru": "Сегодня разберём, как реклама и магазины незаметно подталкивают нас к покупкам, и соберём живые фразы, чтобы рассказывать о своём шопинге и настроении."
+            },
+            {
+              "t": "words",
+              "title": "Phrases for today",
+              "items": [
+                {
+                  "w": "try it on",
+                  "ru": "пытаться обмануть, нагло проверять границы (в разговоре: «не наглей!»)",
+                  "ex": "You say you can't come because of a headache, but I can see you're trying it on.",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "get away with",
+                  "ru": "выйти сухим из воды, чтобы это сошло с рук",
+                  "ex": "He leaves work at three every Friday and somehow gets away with it.",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "get in trouble",
+                  "ru": "нажить неприятности, получить нагоняй",
+                  "ex": "I'll get in trouble if I spend the whole month's budget on one coat.",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "wait a minute",
+                  "ru": "постой-ка, минуточку (когда что-то не сходится)",
+                  "ex": "Wait a minute, you said this bag was on sale, but the price is the same!",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "follow the lead of",
+                  "ru": "брать пример с кого-то, идти за кем-то",
+                  "ex": "When I'm unsure what to order, I just follow the lead of my friends.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "draw on",
+                  "ru": "опираться на, использовать (опыт, знания)",
+                  "ex": "For this job you can draw on everything you learned in your last company.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "feel judged",
+                  "ru": "чувствовать, что тебя осуждают",
+                  "ex": "I never go to that shop because I always feel judged by the assistants.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "be inclined to",
+                  "ru": "быть склонным, скорее всего сделать что-то",
+                  "ex": "When I'm stressed I'm inclined to buy things I don't really need.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "think outside the box",
+                  "ru": "мыслить нестандартно",
+                  "ex": "We have no money for a party, so we'll have to think outside the box.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "come up with",
+                  "ru": "придумать (идею, оправдание, решение)",
+                  "ex": "She came up with a brilliant way to save money on gifts.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "go large",
+                  "ru": "взять побольше, заказать большую порцию",
+                  "ex": "It's been a long day, so let's go large and share a big pizza.",
+                  "src": "6ME"
+                },
+                {
+                  "w": "retail therapy",
+                  "ru": "шопинг-терапия, «лечение» покупками",
+                  "ex": "After the argument with my boss I needed some serious retail therapy.",
+                  "src": "own"
+                }
+              ]
+            },
+            {
+              "t": "read",
+              "title": "Listen and read",
+              "source": 0,
+              "how": "Listen once without the text and note down what the last purchase of each presenter was. Then read the transcript, underline the chunks from your list and any new ones that look useful, but do not look up every word.",
+              "minutes": 8
+            },
+            {
+              "t": "quiz",
+              "title": "Did you get it?",
+              "qs": [
+                {
+                  "q": "Why does Phil think he bought his soft drink this morning?",
+                  "o": [
+                    "He saw a person he likes promoting it in an advert.",
+                    "A colleague told him it was the best one.",
+                    "It was cheaper than the other drinks."
+                  ],
+                  "a": 0,
+                  "why": "He says it might be because he saw someone he likes promoting it, which is a celebrity endorsement."
+                },
+                {
+                  "q": "According to Ben Jones, why do endorsements work?",
+                  "o": [
+                    "They give us a quick way to decide when we are unsure.",
+                    "They make products look cheaper than they are.",
+                    "They give us more time to compare different brands."
+                  ],
+                  "a": 0,
+                  "why": "He calls following credible people a mental shortcut that helps us make quick choices."
+                },
+                {
+                  "q": "Why might people spend more on a touchscreen than at the counter?",
+                  "o": [
+                    "They have more time to look and do not feel judged.",
+                    "The machine gives them a discount on large portions.",
+                    "The screen is faster than a person, so they order more."
+                  ],
+                  "a": 0,
+                  "why": "Dean Ward says people can look at everything for longer and nobody judges them when they say yes."
+                },
+                {
+                  "q": "By how much did the basket spend typically go up with these machines?",
+                  "o": [
+                    "About 25 to 30 per cent",
+                    "About 10 to 15 per cent",
+                    "About 50 per cent"
+                  ],
+                  "a": 0,
+                  "why": "Dean Ward gives 25 to 30 per cent as the typical increase."
+                },
+                {
+                  "q": "What did the World Food Programme do in Tunisia?",
+                  "o": [
+                    "It made a TV series set in a restaurant.",
+                    "It opened free restaurants in several cities.",
+                    "It ran adverts for local fast-food chains."
+                  ],
+                  "a": 0,
+                  "why": "They wanted people to eat together more often, so they made a TV show set in a restaurant."
+                },
+                {
+                  "q": "If a waiter upsells you something, what does he do?",
+                  "o": [
+                    "He persuades you to buy something extra or bigger.",
+                    "He gives you the same dish at a lower price.",
+                    "He asks you to pay before you eat."
+                  ],
+                  "a": 0,
+                  "why": "To upsell means to get a customer to spend more, for example on a dessert or a larger portion."
+                }
+              ]
+            },
+            {
+              "t": "task",
+              "title": "Notice it",
+              "items": [
+                "Underline two questions a server or shop assistant asks in the transcript that could make a customer feel judged.",
+                "Copy three chunks from your list into your notebook, each with a short example about your own shopping.",
+                "Find the sentence where Pippa explains why she bought her last thing and write a true sentence of your own with the same pattern."
+              ]
+            },
+            {
+              "t": "write",
+              "title": "Write it down",
+              "prompt": "Write 4 to 6 sentences about the last thing you bought. Why did you buy it? Were you influenced by an advert, a friend or a shop assistant? Use at least three phrases from the list.",
+              "hint": "Start with 'The last thing I bought was...' and give one honest reason, even if it was just a bad mood.",
+              "min": 5
+            }
+          ]
+        },
+        {
+          "steps": [
+            {
+              "t": "intro",
+              "title": "Today",
+              "text": "Now we go from listening to speaking. You will refresh your phrases, hear a short episode about the expression 'try it on', and revise passive and causative sentences. At the end you will tell your own story about shopping to feel better.",
+              "ru": "Теперь переходим к разговору: повторим фразы, послушаем эпизод про try it on, освежим пассив и каузатив и в конце расскажем про шопинг для хорошего настроения."
+            },
+            {
+              "t": "roulette",
+              "title": "Warm-up"
+            },
+            {
+              "t": "recall",
+              "title": "Do you remember?"
+            },
+            {
+              "t": "read",
+              "title": "Listen and read",
+              "source": 1,
+              "how": "Listen to the episode first without the text and try to catch the two meanings of 'try it on'. Then read the transcript and notice the three short examples with the speakers' own stories.",
+              "minutes": 5
+            },
+            {
+              "t": "grammar",
+              "title": "Grammar refresh: passive and causatives",
+              "text": "We use the passive when the action matters more than the doer: be + past participle, in any tense, with 'by' only if the doer is important. Causatives show that someone else does the action: make / let somebody do, get somebody to do, have somebody do, and have something done when a professional does a job for us.",
+              "ru": "Пассив: be + третья форма глагола, в любом времени; by добавляем, только если важно, кто делает. Каузатив: make/let кого-то + инфинитив без to, get кого-то + to + инфинитив, have something done, когда нам что-то делают.",
+              "ex": [
+                "Millions of pounds are spent on adverts every year (by big brands).",
+                "The new shop was being redecorated when I walked past, and it will be opened by a famous actor next week.",
+                "Adverts make us feel that we need things, but my sister lets me spend my money my own way.",
+                "I got the shop assistant to find my size, and then I had my new coat shortened."
+              ]
+            },
+            {
+              "t": "gap",
+              "title": "Practise it",
+              "items": [
+                {
+                  "s": "Millions of pounds ___ (spend) on adverts by big brands every year.",
+                  "a": [
+                    "are spent"
+                  ],
+                  "hint": "present simple passive"
+                },
+                {
+                  "s": "When I went past yesterday, the shop ___ (redecorate).",
+                  "a": [
+                    "was being redecorated"
+                  ],
+                  "hint": "past continuous passive"
+                },
+                {
+                  "s": "The new collection ___ (announce) tomorrow morning.",
+                  "a": [
+                    "will be announced",
+                    "is going to be announced"
+                  ],
+                  "hint": "future passive"
+                },
+                {
+                  "s": "I took my phone in last week, but it ___ (not repair) yet.",
+                  "a": [
+                    "hasn't been repaired",
+                    "has not been repaired"
+                  ],
+                  "hint": "present perfect passive"
+                },
+                {
+                  "s": "My sister always makes me ___ (try) on a bigger size.",
+                  "a": [
+                    "try"
+                  ],
+                  "hint": "make + infinitive"
+                },
+                {
+                  "s": "I had my winter coat ___ (shorten) at the tailor's yesterday.",
+                  "a": [
+                    "shortened"
+                  ],
+                  "hint": "have something done"
+                },
+                {
+                  "s": "She got her brother ___ (carry) all the shopping bags.",
+                  "a": [
+                    "to carry"
+                  ],
+                  "hint": "get + to-infinitive"
+                },
+                {
+                  "s": "That shop doesn't let customers ___ (return) items from the sale.",
+                  "a": [
+                    "return"
+                  ],
+                  "hint": "let + infinitive"
+                }
+              ]
+            },
+            {
+              "t": "speak",
+              "title": "Say it",
+              "prompt": "Tell me about a time you used shopping to cheer yourself up, your own retail therapy. What did you buy, how did you feel afterwards, and were you pushed by an advert, a friend or a shop assistant? Would you do it again?",
+              "targets": [
+                "retail therapy",
+                "be inclined to",
+                "wait a minute",
+                "follow the lead of",
+                "come up with",
+                "get away with"
+              ],
+              "model": "Honestly, when I'm fed up I'm inclined to go shopping, so yes, I believe in retail therapy. Last month, after a terrible week, I bought a green jumper I didn't need. Wait a minute, I thought in the shop, do I really want this? But the assistant said it suited me, and I simply followed the lead of the assistant and bought it. Later I tried to come up with excuses, like the sale, but I can't really get away with that, because my wardrobe is already full. The thing is, it cheered me up for exactly one evening.",
+              "secs": 90
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "l06",
+      "n": 6,
+      "unit": "u2",
+      "title": "Similes you can actually say",
+      "tag": "Figures of speech",
+      "goal": "By the end you can use spoken similes and compare things naturally when you talk about home, money and mood.",
+      "sources": [
+        {
+          "kind": "Pudding",
+          "title": "Comparisons as Predictable as the Sunrise",
+          "by": "The Pudding",
+          "url": "https://pudding.cool/2026/05/similes",
+          "min": 12
+        },
+        {
+          "kind": "TEWS",
+          "title": "Like a moth to a flame",
+          "by": "BBC Learning English",
+          "url": "https://www.bbc.co.uk/learningenglish/english/features/the-english-we-speak_2026/ep-260601",
+          "min": 3
+        }
+      ],
+      "parts": [
+        {
+          "steps": [
+            {
+              "t": "intro",
+              "title": "Today",
+              "text": "Native speakers love comparisons: someone is as cool as a cucumber, a problem is as clear as mud, a child sleeps like a log. Today you will meet twelve of these in a visual story about similes, and then use them to talk about home, money and mood. They make your English sound much more natural and alive.",
+              "ru": "Носители языка постоянно сравнивают: «спокойный как огурец», «ясно как грязь», «спит как бревно». Сегодня выучим 12 таких выражений и применим их, чтобы говорить о доме, деньгах и настроении."
+            },
+            {
+              "t": "words",
+              "title": "Phrases for today",
+              "items": [
+                {
+                  "w": "like a moth to a flame",
+                  "ru": "тянет как магнитом (к тому, что вредно или опасно)",
+                  "ex": "I'm trying to save money, but I'm like a moth to a flame in any shoe sale.",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "like bees to honey",
+                  "ru": "слетаются как мухи на мёд (тянутся, без плохих последствий)",
+                  "ex": "The kids turn up like bees to honey whenever my mum bakes.",
+                  "src": "TEWS"
+                },
+                {
+                  "w": "as cool as a cucumber",
+                  "ru": "спокоен как удав, невозмутим",
+                  "ex": "The boiler broke at midnight, but my husband was as cool as a cucumber.",
+                  "src": "own"
+                },
+                {
+                  "w": "as dry as a bone",
+                  "ru": "совершенно сухой, сухой как кость",
+                  "ex": "Leave the washing out for an hour and it'll be as dry as a bone.",
+                  "src": "own"
+                },
+                {
+                  "w": "as clear as mud",
+                  "ru": "ясно как день (ирония: совершенно непонятно)",
+                  "ex": "The instructions for the new washing machine are as clear as mud.",
+                  "src": "own"
+                },
+                {
+                  "w": "as right as rain",
+                  "ru": "как огурчик, в полном порядке",
+                  "ex": "I had an awful cold on Monday, but by Friday I was as right as rain.",
+                  "src": "own"
+                },
+                {
+                  "w": "sleep like a log",
+                  "ru": "спать как убитый",
+                  "ex": "After the long drive we slept like logs and missed breakfast.",
+                  "src": "own"
+                },
+                {
+                  "w": "like a bull in a china shop",
+                  "ru": "как слон в посудной лавке",
+                  "ex": "He's lovely, but in a small kitchen he's like a bull in a china shop.",
+                  "src": "own"
+                },
+                {
+                  "w": "as cheap as chips",
+                  "ru": "дешевле некуда, копейки (британское)",
+                  "ex": "We found a sofa on a marketplace app that was as cheap as chips.",
+                  "src": "own"
+                },
+                {
+                  "w": "get on like a house on fire",
+                  "ru": "прекрасно ладить, сразу подружиться",
+                  "ex": "My sister and my flatmate get on like a house on fire.",
+                  "src": "own"
+                },
+                {
+                  "w": "as busy as a bee",
+                  "ru": "хлопочет как пчёлка, очень занят",
+                  "ex": "I've been as busy as a bee since we moved house.",
+                  "src": "own"
+                },
+                {
+                  "w": "like a cat on hot bricks",
+                  "ru": "как на иголках, на нервах",
+                  "ex": "I was like a cat on hot bricks until the bank confirmed the payment.",
+                  "src": "own"
+                }
+              ]
+            },
+            {
+              "t": "read",
+              "title": "Scroll the story",
+              "source": 0,
+              "how": "This is a visual essay, so do not read it in full. Spend about seven minutes scrolling: look at the charts, find the examples with 'dry', 'cool' and 'clear', and notice which nouns go with which adjectives. Do not look up every word; a general idea is enough.",
+              "minutes": 7
+            },
+            {
+              "t": "quiz",
+              "title": "Did you get it?",
+              "qs": [
+                {
+                  "q": "What kind of comparison does the story study?",
+                  "o": [
+                    "'as ___ as ___' similes in popular fiction",
+                    "'as ___ as ___' similes in song lyrics",
+                    "'as ___ as ___' similes in news headlines"
+                  ],
+                  "a": 0,
+                  "why": "The story analyses about 200,000 similes of the 'as ... as' kind found in popular fiction."
+                },
+                {
+                  "q": "Which three nouns are the top comparisons for 'dry'?",
+                  "o": [
+                    "Bone, desert and dust",
+                    "Bone, toast and paper",
+                    "Desert, sand and wood"
+                  ],
+                  "a": 0,
+                  "why": "For 'dry', bone, desert and dust together make up 43% of uses."
+                },
+                {
+                  "q": "Which word is used almost only with the adjective 'cool'?",
+                  "o": [
+                    "Cucumber",
+                    "Hell",
+                    "Cat"
+                  ],
+                  "a": 0,
+                  "why": "'Hell' pairs with 17 different adjectives, and 'cat' is the top noun for several, but cucumber is almost only about being cool."
+                },
+                {
+                  "q": "What does 'as clear as mud' do, according to the story?",
+                  "o": [
+                    "It reverses expectations to be funny",
+                    "It is a go-to comparison for 'dry'",
+                    "It is an intensifier that pairs with 17 adjectives"
+                  ],
+                  "a": 0,
+                  "why": "The story calls it an ironic simile: it inverts expectations for humour."
+                },
+                {
+                  "q": "What does the story say about 'as rich as Croesus'?",
+                  "o": [
+                    "It has faded over time",
+                    "It is still very common today",
+                    "It is mostly used like an intensifier"
+                  ],
+                  "a": 0,
+                  "why": "Some old idioms lasted, but 'as rich as Croesus' is one that has faded."
+                },
+                {
+                  "q": "If your friend is 'as cool as a cucumber' before an interview, she is...",
+                  "o": [
+                    "calm and not nervous at all",
+                    "dressed in a very stylish way",
+                    "feeling cold and a bit ill"
+                  ],
+                  "a": 0,
+                  "why": "'Cool' here means calm and relaxed, not fashionable or cold."
+                }
+              ]
+            },
+            {
+              "t": "task",
+              "title": "Notice it",
+              "items": [
+                "Go back to the story and find one simile you did not know. Copy it into your notebook with its adjective.",
+                "Choose three phrases from the word list that you want to use this week and copy each with a new example about your own home.",
+                "Say the three phrases out loud, with the same rhythm as a native speaker: 'as COOL as a CUcumber'."
+              ]
+            },
+            {
+              "t": "write",
+              "title": "Write it down",
+              "prompt": "Write 4-6 sentences about your home and your week. Use at least four phrases from the list (for example, how you sleep, how busy you are, a bargain you found or someone you get on well with).",
+              "hint": "Start with a real detail, such as 'Last week I was as busy as a bee ...' and add one comparison in each sentence.",
+              "min": 5
+            }
+          ]
+        },
+        {
+          "steps": [
+            {
+              "t": "intro",
+              "title": "Today",
+              "text": "First we warm up with the twelve phrases from Part 1 and check what you remember. Then you will listen to a short episode of The English We Speak about 'like a moth to a flame' and refresh how we compare things: more than, the most, as ... as, and like or as. At the end you will speak about home, money and mood.",
+              "ru": "Сначала повторим фразы из первой части, потом послушаем короткий эпизод про «как мотылёк на огонь», освежим сравнения (comparative, superlative, as ... as, like и as) и поговорим о доме, деньгах и настроении."
+            },
+            {
+              "t": "roulette",
+              "title": "Warm-up"
+            },
+            {
+              "t": "recall",
+              "title": "Do you remember?"
+            },
+            {
+              "t": "read",
+              "title": "Listen and read",
+              "source": 1,
+              "how": "Listen first without the text and try to catch what is dangerous about a moth and a flame. Then read the transcript and notice how 'like a moth to a flame' and 'like bees to honey' are different. Do not look up every word.",
+              "minutes": 5
+            },
+            {
+              "t": "grammar",
+              "title": "Grammar refresh: comparing things",
+              "text": "Short adjectives take -er and -est (cosier, the cosiest), longer ones take more and most (more expensive, the most stressful); good and bad are irregular (better, the best, worse, the worst). Use as + adjective + as for equal things, and not as ... as for less. Like is a preposition meaning 'similar to' and comes before a noun (like a log); as describes a role or job (as a waiter), or begins a clause.",
+              "ru": "Короткие прилагательные: -er/-est; длинные: more/most; good и bad неправильные. as ... as значит «такой же», not as ... as значит «не такой». Like значит «похожий на» (перед существительным), as значит «в роли» (as a waiter).",
+              "ex": [
+                "Our new flat is smaller than the old one, but it's the cosiest place I've ever lived in.",
+                "Eating out is twice as expensive as cooking at home.",
+                "The more I save, the less I worry about money.",
+                "She works like a machine, but she only works as a part-time cashier."
+              ]
+            },
+            {
+              "t": "gap",
+              "title": "Practise it",
+              "items": [
+                {
+                  "s": "Our energy bill this month was far ___ (expensive) than last month.",
+                  "a": [
+                    "more expensive"
+                  ],
+                  "hint": "comparative, long adjective"
+                },
+                {
+                  "s": "Last Tuesday was the ___ (bad) day of my year: the boiler broke and I lost my keys.",
+                  "a": [
+                    "worst"
+                  ],
+                  "hint": "superlative, irregular"
+                },
+                {
+                  "s": "My new flat is not as big ___ the old one.",
+                  "a": [
+                    "as"
+                  ],
+                  "hint": "not as ... as"
+                },
+                {
+                  "s": "She worked ___ a waiter for two years to save money for a deposit.",
+                  "a": [
+                    "as"
+                  ],
+                  "hint": "like or as: job or role"
+                },
+                {
+                  "s": "After the argument he looked ___ a ghost; he was completely white.",
+                  "a": [
+                    "like"
+                  ],
+                  "hint": "like or as: similar to"
+                },
+                {
+                  "s": "The ___ (late) I stay up, the grumpier I am the next day.",
+                  "a": [
+                    "later"
+                  ],
+                  "hint": "the + comparative"
+                },
+                {
+                  "s": "Being broke is ___ (stressful) thing for me; it ruins my whole mood.",
+                  "a": [
+                    "the most stressful",
+                    "most stressful"
+                  ],
+                  "hint": "superlative, long adjective"
+                },
+                {
+                  "s": "Rent in this city is getting ___ (high) and higher every year.",
+                  "a": [
+                    "higher"
+                  ],
+                  "hint": "repeated comparative"
+                }
+              ]
+            },
+            {
+              "t": "speak",
+              "title": "Say it",
+              "prompt": "Talk about your home life, your money and your mood this year. What makes you calm, what makes you nervous, who or what do you get on well with? Use at least four comparisons from the lesson and one comparative or superlative.",
+              "targets": [
+                "as cool as a cucumber",
+                "like a cat on hot bricks",
+                "like a moth to a flame",
+                "get on like a house on fire",
+                "as cheap as chips",
+                "sleep like a log"
+              ],
+              "model": "My flat is small, but it is the cosiest place I know. Last winter I was as cool as a cucumber about money, until the heating bill arrived, and then I was like a cat on hot bricks for a week. Normally I'm like a moth to a flame in any shop with a sale, so now I check prices first. Luckily, my flatmate and I get on like a house on fire, and her cooking is as cheap as chips. After a good dinner I sleep like a log, and my mood is much better than it was in January.",
+              "secs": 90
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

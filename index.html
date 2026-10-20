@@ -1262,6 +1262,60 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .lis-script{ margin:10px 0 0; padding:12px 14px; background:var(--surface-2); border-radius:var(--radius); font-size:15px; line-height:1.5; }
 .en-chips{ display:flex; gap:8px; }
 .en-chips .chip.on{ background:var(--accent); color:var(--accent-ink); border-color:var(--accent); }
+/* English course */
+.crs-prog{ margin:0; }
+.crs-parts{ display:flex; gap:8px; margin:8px 0 12px; }
+.crs-parts span{ font-size:12.5px; font-weight:700; padding:3px 10px; border-radius:99px; background:var(--surface-2); color:var(--ink-soft); }
+.crs-parts span.on{ background:var(--accent); color:var(--accent-ink); }
+.crs-parts span.done{ background:var(--accent-soft); color:var(--ink); }
+.crs-map{ display:flex; flex-direction:column; gap:8px; }
+.crs-row{ width:100%; display:flex; align-items:center; gap:12px; padding:11px 13px; text-align:left; background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); }
+.crs-row.locked{ opacity:.6; box-shadow:none; }
+.crs-row.now{ border-color:var(--accent); }
+.crs-n{ flex:none; width:30px; height:30px; border-radius:50%; background:var(--surface-2); display:grid; place-items:center; font-weight:700; font-size:14px; }
+.crs-row.done .crs-n{ background:var(--accent); color:var(--accent-ink); }
+.crs-t{ display:flex; flex-direction:column; min-width:0; flex:1; }
+.crs-t b{ font-size:15.5px; line-height:1.25; }
+.crs-t small{ font-size:12.5px; color:var(--ink-soft); }
+.crs-chip{ flex:none; font-size:12px; font-weight:700; color:var(--ink-soft); }
+.crs-dots{ display:flex; gap:5px; margin:0 2px 8px; }
+.crs-dots i{ flex:1; height:5px; border-radius:99px; background:var(--surface-2); }
+.crs-dots i.done{ background:var(--accent); }
+.crs-dots i.on{ background:var(--accent-soft); box-shadow:inset 0 0 0 1.5px var(--accent); }
+.crs-step-title{ margin:4px 2px 12px; font-family:var(--font-display); font-weight:var(--display-weight); font-size:26px; line-height:1.15; }
+.crs-nav{ display:flex; justify-content:space-between; gap:10px; margin-top:20px; }
+.crs-nav .btn{ flex:1; }
+.crs-nav .btn[disabled]{ opacity:.45; }
+.crs-words{ display:flex; flex-direction:column; gap:10px; }
+.crs-w{ background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius); padding:12px 14px; }
+.crs-w-top{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.crs-w-top b{ font-family:var(--font-display); font-weight:var(--display-weight); font-size:21px; line-height:1.2; }
+.crs-snd{ flex:none; width:44px; height:44px; font-size:20px; display:grid; place-items:center; border-radius:50%; background:var(--surface-2); }
+.crs-ru{ margin:2px 0 6px; font-size:15.5px; color:var(--ink-soft); }
+.crs-ex{ margin:0 0 10px; font-size:15.5px; line-height:1.45; }
+.crs-ex li{ margin:4px 0; }
+ul.crs-ex{ padding-left:20px; margin:10px 0 0; }
+.crs-tasks{ display:flex; flex-direction:column; gap:8px; }
+.crs-task{ display:flex; gap:12px; align-items:flex-start; width:100%; text-align:left; padding:12px 13px; background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius); font-size:15.5px; line-height:1.4; }
+.crs-task.on{ background:var(--accent-soft); }
+.crs-box{ flex:none; width:24px; height:24px; border-radius:7px; border:2px solid var(--ink-mute); display:grid; place-items:center; font-weight:800; color:var(--accent-ink); }
+.crs-task.on .crs-box{ background:var(--accent); border-color:var(--accent); }
+.crs-ta, .qz-in{ width:100%; padding:12px 14px; font:inherit; font-size:16.5px; line-height:1.45; color:var(--ink); background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius); }
+.crs-ta:focus, .qz-in:focus{ outline:2px solid var(--accent); outline-offset:-1px; }
+.qz-in{ display:inline-block; width:9em; max-width:100%; padding:6px 10px; margin:0 4px; }
+.qz-ans{ margin:0 4px; text-decoration:underline; }
+.qz-ans.ok{ color:var(--ok); }
+.qz-ans.no{ color:var(--bad); }
+.qz-sum{ display:flex; flex-direction:column; gap:6px; margin:8px 0 4px; }
+.qz-row{ display:flex; gap:10px; margin:0; font-size:15px; line-height:1.4; }
+.qz-row span{ flex:none; font-weight:800; }
+.qz-row.ok span{ color:var(--ok); }
+.qz-row.no span{ color:var(--bad); }
+.crs-tg{ display:flex; flex-wrap:wrap; gap:6px; margin:10px 0 0; }
+.crs-tg span{ font-size:13.5px; font-weight:700; padding:4px 10px; border-radius:99px; background:var(--surface-2); color:var(--ink); }
+.crs-tg span.hit{ background:var(--accent-soft); }
+.crs-tg span.miss{ background:transparent; box-shadow:inset 0 0 0 1.5px var(--ink-mute); }
+.crs-stats{ margin:6px 0 8px; font-size:15.5px; }
 .nk-steps{ display:block; }
 .nk-steps .vid-body{ width:100%; }
 .nk-steps ol{ margin:6px 0 0; padding:0; list-style:none; counter-reset:nk; display:flex; flex-direction:column; gap:10px; }
@@ -2695,6 +2749,7 @@ function wordsOneTap(habits, log){
 if(!state.cleanWords){ wordsOneTap(state.habits, state.log); state.cleanWords = true; }
 /* the hand-drawn Doodle theme is switched on once; she can pick any other in Settings → Theme */
 if(!state.engTrain){ state.enView = 'train'; state.engTrain = true; }
+if(!state.engCourse){ state.enView = 'lessons'; state.engCourse = true; }
 if(!state.cleanDoodle){
   if(state.skin) state.skin = 'doodle';
   state.cleanDoodle = true;
@@ -3064,17 +3119,19 @@ function plural(n,a,b){ return n === 1 ? a : b; }
 
 /* ---------- English tab: speaking roulette and saved words ---------- */
 function renderEnglish(){
-  const v = state.enView || 'train';
+  const v = state.enView || 'lessons';
   if(v === 'words') return renderSavedWords();
   if(v === 'speak') return renderTalk();
-  renderTrain();
+  if(v === 'train') return renderTrain();
+  renderCourse();
 }
 function enSeg(){
-  const v = state.enView || 'train', n = (state.words || []).length;
+  const v = state.enView || 'lessons', n = (state.words || []).length;
   return '<div class="seg" role="tablist">'+
+    '<button role="tab" data-act="en-view" data-v="lessons" aria-selected="'+(v === 'lessons')+'">Lessons</button>'+
     '<button role="tab" data-act="en-view" data-v="train" aria-selected="'+(v === 'train')+'">Train</button>'+
     '<button role="tab" data-act="en-view" data-v="speak" aria-selected="'+(v === 'speak')+'">Speak</button>'+
-    '<button role="tab" data-act="en-view" data-v="words" aria-selected="'+(v === 'words')+'">Saved words'+(n ? ' <small>'+n+'</small>' : '')+'</button></div>';
+    '<button role="tab" data-act="en-view" data-v="words" aria-selected="'+(v === 'words')+'">Words'+(n ? ' <small>'+n+'</small>' : '')+'</button></div>';
 }
 
 /* ---------- English trainer: spoken phrases that stick (spaced repetition) ----------
@@ -3218,7 +3275,7 @@ function engSpeak(text, slow){
 }
 /* leaving the screen: the microphone and the voice both stop */
 function engLeave(){
-  enMicReset();
+  enMicReset(); crsStopListen();
   try{ if('speechSynthesis' in window) speechSynthesis.cancel(); }catch(e){}
 }
 function enRender(){ if(tab === 'english') renderEnglish(); }
@@ -3871,11 +3928,11 @@ function crsForms(w){
 }
 function speakAnalyze(text, targets, secs){
   const tokens = String(text || '').toLowerCase().replace(/[’‘]/g, "'").match(/[a-z']+/g) || [], joined = ' ' + tokens.join(' ') + ' ';
-  const seen = {}; tokens.forEach(function(t){ seen[t] = true; });
+  const seen = {}, plain = {}; tokens.forEach(function(t){ seen[t] = true; plain[t.replace(/'/g, '')] = true; });
   const used = [], missed = [];
   targets.forEach(function(t){
     const ws = crsNorm(t).split(' ').filter(function(w){ return w && CRS_SKIP.indexOf(w) < 0; });
-    const hit = ws.length && ws.every(function(w){ return crsForms(w).some(function(f){ return seen[f]; }); });
+    const hit = ws.length && ws.every(function(w){ return crsForms(w).some(function(f){ return plain[f]; }); });
     (hit ? used : missed).push(t);
   });
   let fillers = tokens.filter(function(t){ return /^(um+|uh+|er+|erm+|ehm)$/.test(t); }).length;
@@ -3887,6 +3944,448 @@ function speakAnalyze(text, targets, secs){
   };
 }
 /* course:end */
+/* course:ui */
+let CRS = null, crsLoading = false, crsFailed = false;
+function crsLoad(){
+  if(CRS || crsLoading || crsFailed) return;
+  crsLoading = true;
+  fetch('english/lessons.json').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(d){
+      d.byId = {}; d.lessons.forEach(function(l){ d.byId[l.id] = l; });
+      d.order = crsOrder(d);
+      CRS = d; crsLoading = false;
+      if(tab === 'english') renderEnglish();
+    })
+    .catch(function(){ crsLoading = false; crsFailed = true; if(tab === 'english') renderEnglish(); });
+}
+function crsState(){
+  const e = engState();
+  if(!e.course) e.course = {pos:null, parts:{}, done:{}, ans:{}, tests:{}};
+  ['parts', 'done', 'ans', 'tests'].forEach(function(k){ if(!e.course[k]) e.course[k] = {}; });
+  return e.course;
+}
+function crsAns(lid, part, step){
+  const a = crsState().ans[lid] || (crsState().ans[lid] = {}), p = a[part] || (a[part] = {});
+  return p[step] || (p[step] = {});
+}
+function crsLesson(id){ return CRS ? CRS.byId[id] : null; }
+function crsCur(){
+  const cr = en && en.crs, l = cr && crsLesson(cr.lid);
+  if(!l) return null;
+  const steps = l.parts[cr.part - 1].steps;
+  return {cr:cr, l:l, steps:steps, st:steps[cr.step]};
+}
+function crsWordsOf(l){
+  const out = [];
+  l.parts.forEach(function(p){ p.steps.forEach(function(s){ if(s.t === 'words') s.items.forEach(function(w){ out.push(w); }); }); });
+  return out;
+}
+function crsHasWord(term){ return (state.words || []).some(function(x){ return String(x.term).toLowerCase() === String(term).toLowerCase(); }); }
+/* + My words: joins her saved words (the card queue and the word test), never twice */
+function crsAddWord(w){
+  if(!state.words) state.words = [];
+  if(state.words.some(function(x){ return String(x.term).toLowerCase() === w.w.toLowerCase(); })) return false;
+  state.words.push({id:'w'+Date.now().toString(36)+Math.floor(Math.random() * 1000), term:w.w, ctx:w.ex, mean:'', ru:w.ru, src:'lesson', box:0, seen:0, right:0, last:''});
+  return true;
+}
+/* moving: the position is saved at every move, so closing the app returns her to the same step */
+function crsGo(lid, part, step, review){
+  en = {stage:'crs', crs:{lid:lid, part:part, step:step, review:!!review}};
+  if(!review){ crsState().pos = {l:lid, part:part, step:step}; save(); }
+  enMicReset(); crsStopListen();
+  window.scrollTo(0, 0); renderEnglish();
+}
+function crsOpen(force){
+  if(!CRS) return;
+  const c = crsState(), s = crsStatus(c, CRS.order, today());
+  if(!s.cur) return;
+  if(s.cur.kind === 'test') return crsTestStart(s.cur.id);
+  if(s.part === 2 && !s.part2Open && !force) return;
+  const p = c.pos, n = CRS.byId[s.cur.id].parts[s.part - 1].steps.length;
+  crsGo(s.cur.id, s.part, p && p.l === s.cur.id && p.part === s.part ? Math.min(p.step, n) : 0, false);
+}
+function crsCanNext(st, a){
+  if(st.t === 'read' || st.t === 'write' || st.t === 'roulette') return !!a.done;
+  if(st.t === 'task') return st.items.every(function(_, i){ return a.ticks && a.ticks[i]; });
+  if(st.t === 'quiz' || st.t === 'gap' || st.t === 'recall') return !!a.checked;
+  if(st.t === 'speak') return !!a.an;
+  return true;
+}
+/* a part is finished: the day is stamped, part 2 closes the lesson with its score and counts as speaking for the habit */
+function crsPartDone(btn){
+  const cr = en.crs, l = crsLesson(cr.lid), c = crsState();
+  if(cr.review) return;
+  crsFinishPart(c, cr.lid, cr.part, today(), cr.part === 2 ? crsScore(l, c.ans[cr.lid]) : undefined);
+  if(cr.part === 2) spTick();
+  save();
+  if(btn) celebrate(btn);
+}
+function crsBack(act, label){
+  return '<button class="backbtn" data-act="'+act+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>'+label+'</button>';
+}
+function crsMicBlock(){
+  if(enMic.busy && enMic.rec) return '<p class="tk-sub">Recording… talk naturally.</p><button class="btn btn-primary btn-full" data-act="crs-rec-stop">■ Stop</button>';
+  if(enMic.busy) return '<p class="tk-sub">Waiting for the microphone…</p>';
+  if(enMic.url) return '<audio controls preload="metadata" src="'+enMic.url+'" style="width:100%"></audio><button class="btn btn-full" data-act="crs-rec" style="margin-top:8px">Record again</button>';
+  if(enMic.no) return '<p class="tk-sub">The microphone is not available here. Use the keyboard microphone below.</p>';
+  return '<button class="btn btn-full" data-act="crs-rec">● Record yourself (optional, to hear it back)</button>';
+}
+/* speech recognition, when the browser has it, types the transcript for her */
+let crsSR = null;
+function crsAppend(txt){
+  const ta = document.getElementById('crsSpeak');
+  const cur = ((ta ? ta.value : '') + ' ' + txt).trim();
+  if(ta) ta.value = cur;
+  if(en && en.stage === 'crs'){ const k = crsCur(); if(k) crsAns(k.cr.lid, k.cr.part, k.cr.step).text = cur; }
+  else if(en && en.stage === 'crs-check') en.check.texts[en.check.i] = cur;
+}
+function crsListen(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR) return;
+  try{
+    const r = new SR(); r.lang = 'en-US'; r.continuous = true; r.interimResults = false;
+    r.onresult = function(e){
+      let add = '';
+      for(let i = e.resultIndex; i < e.results.length; i++) if(e.results[i].isFinal) add += e.results[i][0].transcript.trim() + ' ';
+      if(add) crsAppend(add);
+    };
+    r.onerror = function(){};
+    r.onend = function(){ if(crsSR === r && enMic.busy){ try{ r.start(); }catch(e){} } };
+    r.start(); crsSR = r;
+  }catch(e){}
+}
+function crsStopListen(){ if(crsSR){ const r = crsSR; crsSR = null; r.onend = null; try{ r.stop(); }catch(e){} } }
+
+/* ---- the question runner: quiz, gap, recall and unit tests; the first attempt of each question is what counts ---- */
+function qzInit(a, make){ if(!a.qs){ a.qs = make(); a.i = 0; a.res = []; } }
+function qzAns(){
+  if(en && en.stage === 'crs-test') return en.test.ans;
+  const k = crsCur();
+  return k ? crsAns(k.cr.lid, k.cr.part, k.cr.step) : {};
+}
+function qzRender(a){
+  const qs = a.qs;
+  if(a.checked){
+    const right = a.res.filter(Boolean).length;
+    return '<h2 class="rec-title">'+right+' of '+qs.length+'</h2><div class="qz-sum">'+qs.map(function(q, i){
+      return '<p class="qz-row '+(a.res[i] ? 'ok' : 'no')+'"><span>'+(a.res[i] ? '✓' : '✗')+'</span>'+esc(q.kind === 'gap' ? q.s.replace('___', q.answers[0]) : q.q)+'</p>';
+    }).join('')+'</div>';
+  }
+  const q = qs[a.i], ok = a.shown && a.res[a.i];
+  let h = '<p class="eyebrow" style="margin:0 2px 8px">Question '+(a.i + 1)+' of '+qs.length+'</p>';
+  if(q.kind === 'gap'){
+    const parts = q.s.split('___');
+    h += '<p class="pd-q">'+esc(parts[0])+(a.shown
+      ? '<b class="qz-ans '+(ok ? 'ok' : 'no')+'">'+esc(a.pick || '…')+'</b>'
+      : '<input type="text" id="qzIn" class="qz-in" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="done">')+esc(parts[1] || '')+'</p>'+
+      (q.hint ? '<p class="tk-sub">Hint: '+esc(q.hint)+'</p>' : '');
+    if(!a.shown) h += '<button class="btn btn-primary btn-full" data-act="qz-check">Check</button>';
+    else h += '<div class="wq-fb">'+(ok ? '<p class="wq-ok">✓ Right</p>' : '<p class="wq-no">Not quite</p><p class="fd-sub">Better: <b>'+esc(q.answers[0])+'</b></p>')+'</div>';
+  } else {
+    h += '<p class="pd-q">'+esc(q.q)+'</p><div class="pd-opts">'+q.options.map(function(o, i){
+      const cls = !a.shown ? '' : o.ok ? ' right' : i === a.pick ? ' wrong' : ' dim';
+      return '<button class="pd-opt'+cls+'" data-act="qz-pick" data-i="'+i+'"'+(a.shown ? ' disabled' : '')+'><span class="k">'+'ABC'[i]+'</span><span>'+esc(o.t)+'</span></button>';
+    }).join('')+'</div>';
+    if(a.shown) h += '<div class="wq-fb">'+(ok ? '<p class="wq-ok">✓ Right</p>' : '<p class="wq-no">Not quite</p>')+(q.why ? '<p class="fd-sub">'+esc(q.why)+'</p>' : '')+'</div>';
+  }
+  if(a.shown) h += '<button class="btn btn-primary btn-full" data-act="qz-next" style="margin-top:12px">'+(a.i + 1 < qs.length ? 'Next question' : 'See the result')+'</button>';
+  return h;
+}
+function qzFinish(a){
+  a.shown = false; delete a.pick;
+  a.i++;
+  if(a.i >= a.qs.length) a.checked = true;
+}
+
+/* ---- the Lessons page ---- */
+function renderCourse(){
+  crsLoad();
+  if(!CRS){
+    view.innerHTML = enSeg()+(crsFailed
+      ? '<div class="empty" style="padding:40px 14px"><p>Could not load the lessons. They load once and then work offline.</p><button class="btn" data-act="en-retry">Try again</button></div>'
+      : '<div class="empty" style="padding:40px 14px"><p>Loading the lessons…</p></div>');
+    return;
+  }
+  if(en && en.stage === 'crs') return renderCrs();
+  if(en && en.stage === 'crs-test') return renderCrsTest();
+  if(en && en.stage === 'crs-testdone') return renderCrsTestDone();
+  if(en && en.stage === 'crs-check') return renderCrsCheck();
+  if(en && en.stage === 'crs-checkdone') return renderCrsCheckDone();
+  const c = crsState(), s = crsStatus(c, CRS.order, today()), cur = s.cur;
+  const mine = (state.words || []).filter(function(w){ return w.src === 'lesson'; }).length;
+  let h = enSeg()+'<div class="section-head" style="margin-top:4px"><p class="eyebrow">Your course · '+s.doneCount+' of '+s.total+' lessons done</p></div>'+
+    '<div class="pbar" style="margin:0 2px 14px"><i style="width:'+Math.round(s.doneCount / s.total * 100)+'%"></i></div>';
+  if(!cur){
+    h += '<section class="wq-card"><p class="eyebrow">✓ All lessons so far</p><h3>You finished the course</h3><p class="fd-sub">More lessons are on the way. Send me the next articles or videos you like.</p></section>';
+  } else if(cur.kind === 'test'){
+    const u = CRS.units.find(function(x){ return x.id === cur.id; });
+    h += '<section class="wq-card"><p class="eyebrow">📝 Unit test</p><h3>'+esc(u.name)+'</h3><p class="fd-sub">12 questions from the lessons of this unit: phrases, quiz questions and gap exercises. About 10 minutes.</p>'+
+      '<button class="btn btn-primary btn-full" data-act="crs-test-start" data-id="'+esc(cur.id)+'">Start the test</button></section>';
+  } else {
+    const l = CRS.byId[cur.id], p = c.pos, resume = p && p.l === cur.id && p.part === s.part && p.step > 0;
+    h += '<section class="wq-card crs-now"><p class="eyebrow">Lesson '+l.n+' · '+esc(l.tag)+'</p><h3>'+esc(l.title)+'</h3><p class="fd-sub">'+esc(l.goal)+'</p>'+
+      '<p class="crs-parts"><span class="'+(s.part === 1 ? 'on' : 'done')+'">Part 1'+(s.part === 2 ? ' ✓' : '')+'</span><span class="'+(s.part === 2 ? 'on' : '')+'">Part 2</span></p>';
+    if(s.part === 2 && !s.part2Open){
+      h += '<p class="tk-sub">Part 2 opens tomorrow, so the words can settle.</p><button class="btn btn-primary btn-full" data-act="crs-do2">Do it now</button>';
+    } else {
+      h += '<button class="btn btn-primary btn-full" data-act="crs-open">'+(resume ? 'Continue' : 'Start part '+s.part)+'</button>';
+    }
+    h += '</section>';
+  }
+  h += '<p class="tk-sub" style="margin:0 2px 14px">'+mine+' word'+(mine === 1 ? '' : 's')+' added to My words from lessons.</p>';
+  h += '<div class="crs-map">';
+  CRS.units.forEach(function(u, ui){
+    h += '<div class="section-head"><p class="eyebrow">Unit '+(ui + 1)+' · '+esc(u.name)+'</p></div>';
+    u.lessons.forEach(function(id){
+      const l = CRS.byId[id], d = c.done[id], isCur = cur && cur.kind === 'lesson' && cur.id === id;
+      const rev = c.tests[u.id] && (c.tests[u.id].revisit || []).indexOf(id) >= 0;
+      if(!l) return;
+      h += '<button class="crs-row'+(d ? ' done' : isCur ? ' now' : ' locked')+'"'+(d ? ' data-act="crs-review" data-id="'+esc(id)+'"' : isCur ? ' data-act="crs-open"' : ' disabled')+'>'+
+        '<span class="crs-n">'+(d ? '✓' : l.n)+'</span><span class="crs-t"><b>'+esc(l.title)+'</b><small>'+esc(l.tag)+'</small></span>'+
+        '<span class="crs-chip">'+(d ? d.score.right+'/'+d.score.n : isCur ? 'now' : 'locked')+(rev ? ' · revisit' : '')+'</span></button>';
+    });
+    const t = c.tests[u.id], tCur = cur && cur.kind === 'test' && cur.id === u.id;
+    h += '<button class="crs-row crs-test'+(t ? ' done' : tCur ? ' now' : ' locked')+'"'+(tCur ? ' data-act="crs-test-start" data-id="'+esc(u.id)+'"' : ' disabled')+'>'+
+      '<span class="crs-n">'+(t ? '✓' : '📝')+'</span><span class="crs-t"><b>Unit test '+(ui + 1)+'</b><small>12 questions</small></span>'+
+      '<span class="crs-chip">'+(t ? t.right+'/'+t.n : tCur ? 'next' : 'locked')+'</span></button>';
+  });
+  h += '</div>';
+  const last = engState().speakCheck;
+  h += '<section class="wq-card" style="margin-top:18px"><p class="eyebrow">🎤 Quick speaking check</p><h3>How is your speaking today?</h3>'+
+    '<p class="fd-sub">Four short prompts, about a minute each. You get a rough analysis, and you can copy your answers and send them to me for a real assessment.'+(last ? ' Last time: '+esc(last.date)+'.' : '')+'</p>'+
+    '<button class="btn btn-full" data-act="crs-check-start">Start the check</button></section>';
+  view.innerHTML = h;
+}
+
+/* ---- inside a lesson ---- */
+function renderCrs(){
+  const k = crsCur();
+  if(!k){ en = null; return renderEnglish(); }
+  const cr = k.cr, l = k.l;
+  if(cr.step >= k.steps.length) return renderCrsFinish(k);
+  const a = crsAns(cr.lid, cr.part, cr.step);
+  const dots = k.steps.map(function(_, i){ return '<i class="'+(i < cr.step ? 'done' : i === cr.step ? 'on' : '')+'"></i>'; }).join('');
+  const can = cr.review || crsCanNext(k.st, a);
+  view.innerHTML = crsBack('crs-home', 'Lessons')+
+    '<p class="eyebrow" style="margin:4px 2px 6px">Lesson '+l.n+' · Part '+cr.part+(cr.review ? ' · review' : '')+'</p>'+
+    '<div class="crs-dots" aria-hidden="true">'+dots+'</div>'+
+    '<h2 class="crs-step-title">'+esc(k.st.title || '')+'</h2>'+
+    renderCrsStep(l, cr, k.st, a)+
+    '<div class="crs-nav">'+(cr.step > 0 ? '<button class="btn" data-act="crs-prev">Back</button>' : '<span></span>')+
+    '<button class="btn btn-primary" data-act="crs-next"'+(can ? '' : ' disabled')+'>'+(cr.step + 1 >= k.steps.length ? 'Finish' : 'Continue')+'</button></div>';
+}
+function crsMark(k, label, done){
+  return '<button class="btn '+(done ? '' : 'btn-primary ')+'btn-full" data-act="crs-mark" data-k="done" style="margin-top:12px">'+(done ? '✓ '+label : label)+'</button>';
+}
+function renderCrsStep(l, cr, st, a){
+  if(st.t === 'intro'){
+    return '<section class="wq-card en-card"><p class="en-ex">'+esc(st.text)+'</p>'+(st.ru ? '<p class="en-exru" lang="ru">'+esc(st.ru)+'</p>' : '')+
+      (cr.part === 1 ? '<p class="tk-sub" style="margin:8px 0 0"><b>Goal.</b> '+esc(l.goal)+'</p>' : '')+'</section>';
+  }
+  if(st.t === 'words'){
+    return '<button class="btn btn-sm" data-act="crs-word" data-i="all" style="margin-bottom:10px">+ Add all to My words</button>'+
+      '<div class="crs-words">'+st.items.map(function(w, i){
+        const has = crsHasWord(w.w);
+        return '<article class="crs-w"><div class="crs-w-top"><b>'+esc(w.w)+'</b><button class="crs-snd" data-act="en-speak-t" data-t="'+esc(w.w)+'" data-slow="0" aria-label="Listen">🔊</button></div>'+
+          '<p class="crs-ru" lang="ru">'+esc(w.ru)+'</p><p class="crs-ex">'+esc(w.ex)+'</p>'+
+          '<button class="btn btn-sm'+(has ? '' : ' btn-ghost')+'" data-act="crs-word" data-i="'+i+'"'+(has ? ' disabled' : '')+'>'+(has ? '✓ In My words' : '+ My words')+'</button></article>';
+      }).join('')+'</div>';
+  }
+  if(st.t === 'read'){
+    const src = l.sources[st.source] || l.sources[0];
+    return '<section class="wq-card en-card"><p class="eyebrow">'+(src.kind === '6ME' ? '6 Minute English' : src.kind === 'TEWS' ? 'The English We Speak' : src.kind === 'Pudding' ? 'The Pudding' : esc(src.kind))+'</p>'+
+      '<p class="en-big" style="font-size:24px">'+esc(src.title)+'</p><p class="tk-sub">'+esc(src.by)+' · about '+(st.minutes || src.min)+' min</p>'+
+      '<a class="btn btn-primary btn-full" href="'+esc(src.url)+'" target="_blank" rel="noopener">Open the original ↗</a></section>'+
+      '<p class="en-ex" style="margin:12px 2px">'+esc(st.how)+'</p>'+crsMark('done', "I've done this", a.done);
+  }
+  if(st.t === 'quiz'){
+    qzInit(a, function(){ return st.qs.map(function(q){ return {kind:'mc', q:q.q, options:srsShuffle(q.o.map(function(t, i){ return {t:t, ok:i === q.a}; }), Math.random), why:q.why || ''}; }); });
+    return qzRender(a);
+  }
+  if(st.t === 'gap'){
+    qzInit(a, function(){ return st.items.map(function(g){ return {kind:'gap', s:g.s, answers:g.a, hint:g.hint || ''}; }); });
+    return qzRender(a);
+  }
+  if(st.t === 'recall'){
+    qzInit(a, function(){ return crsRecall(crsWordsOf(l), Math.random, 6); });
+    return a.qs.length ? qzRender(a) : '<p class="fd-sub">Nothing to recall yet.</p>';
+  }
+  if(st.t === 'grammar'){
+    return '<section class="wq-card en-card"><p class="en-ex">'+esc(st.text)+'</p>'+(st.ru ? '<p class="en-exru" lang="ru">'+esc(st.ru)+'</p>' : '')+
+      '<ul class="crs-ex">'+(st.ex || []).map(function(x){ return '<li>'+esc(x)+'</li>'; }).join('')+'</ul></section>';
+  }
+  if(st.t === 'task'){
+    return '<div class="crs-tasks">'+st.items.map(function(x, i){
+      const on = a.ticks && a.ticks[i];
+      return '<button class="crs-task'+(on ? ' on' : '')+'" data-act="crs-mark" data-k="tick" data-i="'+i+'" aria-pressed="'+(!!on)+'"><span class="crs-box">'+(on ? '✓' : '')+'</span><span>'+esc(x)+'</span></button>';
+    }).join('')+'</div>';
+  }
+  if(st.t === 'write'){
+    return '<section class="wq-card en-card"><p class="en-ex">'+esc(st.prompt)+'</p>'+(st.hint ? '<p class="tk-sub" style="margin:8px 0 0">'+esc(st.hint)+'</p>' : '')+'</section>'+
+      '<p class="tk-sub">Write it <b>by hand</b> in your notebook, or type it here (saved on your phone, optional).</p>'+
+      '<textarea class="crs-ta" rows="5" data-crs-text placeholder="Optional: type it here">'+esc(a.text || '')+'</textarea>'+
+      crsMark('done', "I've written it", a.done);
+  }
+  if(st.t === 'roulette'){
+    return '<section class="wq-card en-card"><p class="en-ex">Warm up your mouth: spin the roulette, get a topic and talk for one minute without stopping. Then come back here.</p></section>'+
+      '<button class="btn btn-primary btn-full" data-act="crs-roulette">Open the roulette ↗</button>'+crsMark('done', "I did a spin", a.done);
+  }
+  if(st.t === 'speak') return crsSpeakStep(l, cr, st, a);
+  return '';
+}
+function crsAnalysisHtml(an, targets){
+  return '<section class="wq-card en-card crs-an"><p class="eyebrow">A rough look — counts, not a grade</p>'+
+    '<p class="crs-stats"><b>'+an.words+'</b> words · <b>'+an.unique+'</b> different · <b>'+an.fillers+'</b> fillers · <b>'+an.connectors.length+'</b> linking words</p>'+
+    (targets.length ? '<p class="crs-tg">'+targets.map(function(t){ return '<span class="'+(an.used.indexOf(t) >= 0 ? 'hit' : 'miss')+'">'+(an.used.indexOf(t) >= 0 ? '✓ ' : '○ ')+esc(t)+'</span>'; }).join('')+'</p>' : '')+
+    (an.connectors.length ? '<p class="tk-sub">Linking words you used: '+esc(an.connectors.join(', '))+'.</p>' : '<p class="tk-sub">No linking words yet (because, however, so, although). Try a few.</p>')+
+    (an.fillers > 2 ? '<p class="tk-sub">Quite a few fillers (um, I mean, you know). A short pause sounds more confident.</p>' : '')+
+    (an.words < 60 ? '<p class="tk-sub">Aim for at least 90 words, one full minute of talking.</p>' : '')+
+    (an.missed.length ? '<p class="tk-sub">Try to fit in: '+esc(an.missed.join(' · '))+'.</p>' : '<p class="tk-sub">You used every target phrase. Well done.</p>')+'</section>';
+}
+function crsSpeakStep(l, cr, st, a){
+  let h = '<section class="wq-card en-card"><p class="en-ru en-ru-big">'+esc(st.prompt)+'</p>'+
+    '<p class="crs-tg">'+st.targets.map(function(t){ return '<span>'+esc(t)+'</span>'; }).join('')+'</p></section>'+crsMicBlock()+
+    '<label class="tk-sub" for="crsSpeak" style="display:block;margin-top:12px">Your answer in words. With no automatic transcript, tap the microphone key on the phone keyboard and talk, and the phone types it for you.</label>'+
+    '<textarea id="crsSpeak" class="crs-ta" rows="7" data-crs-text placeholder="Your answer…">'+esc(a.text || '')+'</textarea>'+
+    '<button class="btn btn-primary btn-full" data-act="crs-analyse" style="margin-top:10px">Analyse my answer</button>';
+  if(a.an){
+    h += crsAnalysisHtml(a.an, st.targets);
+    h += a.model ? '<section class="wq-card en-card"><p class="eyebrow">A model answer, to compare by eye</p><p class="en-ex">'+esc(st.model)+'</p></section>'
+      : '<button class="btn btn-full" data-act="crs-model" style="margin-top:10px">Show a model answer</button>';
+    h += '<button class="btn btn-full" data-act="crs-copy" style="margin-top:10px">Copy for my tutor</button>';
+  }
+  return h;
+}
+function crsAnalyse(){
+  const k = crsCur();
+  if(!k) return;
+  const a = crsAns(k.cr.lid, k.cr.part, k.cr.step), ta = document.getElementById('crsSpeak');
+  if(ta) a.text = ta.value;
+  if(!(a.text || '').trim()){ toast('Say or type your answer first'); return; }
+  a.an = speakAnalyze(a.text, k.st.targets, 0);
+  save(); renderEnglish();
+}
+function crsCopy(){
+  let text = '';
+  if(en && en.stage === 'crs-checkdone'){
+    text = 'Natali’s speaking check (B2, wants C1). Please assess it as my English tutor: vocabulary range, grammar accuracy, collocations, whether it sounds B2 or C1, and my three main priorities. Pronunciation cannot be judged from text.\n\n'+
+      CRS_CHECK.map(function(q, i){ return (i + 1)+'. '+q.p+'\nMy answer: '+(en.check.texts[i] || '(no answer)'); }).join('\n\n');
+  } else {
+    const k = crsCur();
+    if(!k) return;
+    const a = crsAns(k.cr.lid, k.cr.part, k.cr.step);
+    text = 'Natali’s speaking task, lesson '+k.l.n+' ('+k.l.title+'). Please assess it as my English tutor: vocabulary range, grammar accuracy, collocations, whether it sounds B2 or C1, my use of the target phrases and my three main priorities.\n\nPrompt: '+k.st.prompt+'\nTarget phrases: '+k.st.targets.join('; ')+'\n\nMy answer: '+(a.text || '(no answer)');
+  }
+  const done = function(){ toast('Copied. Paste it to your tutor in the chat.'); };
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done).catch(function(){ toast('Could not copy: select and copy the text yourself'); });
+  else toast('Could not copy: select and copy the text yourself');
+}
+function renderCrsFinish(k){
+  const cr = k.cr, l = k.l, c = crsState();
+  const mine = crsWordsOf(l).filter(function(w){ return crsHasWord(w.w); }).length;
+  if(cr.review){
+    view.innerHTML = crsBack('crs-home', 'Lessons')+'<h2 class="rec-title">Lesson '+l.n+' · review</h2><p class="fd-sub">That was the whole of Part '+cr.part+'.</p>'+
+      '<button class="btn btn-primary btn-full" data-act="crs-home" style="margin-top:12px">Back to lessons</button>';
+    return;
+  }
+  if(cr.part === 1){
+    const q = crsScore(l, {1:c.ans[cr.lid] ? c.ans[cr.lid][1] : {}});
+    view.innerHTML = '<p class="eyebrow" style="margin:4px 2px 0">Lesson '+l.n+' · Part 1 done</p><h2 class="rec-title">Well done</h2>'+
+      '<p class="fd-sub">'+(q.n ? 'Quiz: '+q.right+' of '+q.n+'. ' : '')+mine+' of '+crsWordsOf(l).length+' phrases are in My words.</p>'+
+      '<p class="fd-sub">Part 2 opens tomorrow: a spin of the roulette, a recall of the phrases, grammar and a speaking task. Sleep on it and the words stick better.</p>'+
+      '<div class="en-rate" style="margin-top:14px"><button class="btn btn-full" data-act="crs-do2">Do Part 2 now</button><button class="btn btn-primary btn-full" data-act="crs-home">Back to lessons</button></div>';
+    return;
+  }
+  const d = c.done[cr.lid] || {score:{right:0, n:0}};
+  const s = crsStatus(c, CRS.order, today()), nx = s.cur;
+  const nxTitle = nx ? (nx.kind === 'lesson' ? 'Lesson '+CRS.byId[nx.id].n+': '+CRS.byId[nx.id].title : 'Unit test') : '';
+  view.innerHTML = '<p class="eyebrow" style="margin:4px 2px 0">Lesson '+l.n+' · complete</p><h2 class="rec-title">Lesson done ✓</h2>'+
+    '<p class="fd-sub">'+(d.score.n ? 'Quiz and gap exercises: '+d.score.right+' of '+d.score.n+' on the first try. ' : '')+mine+' of '+crsWordsOf(l).length+' phrases are in My words and come back as cards.</p>'+
+    '<p class="fd-sub">The speaking habit is ticked.</p>'+
+    '<div class="en-rate" style="margin-top:14px">'+(nx ? '<button class="btn btn-primary btn-full" data-act="crs-open">Next: '+esc(nxTitle)+'</button>' : '')+
+    '<button class="btn btn-full" data-act="crs-home">Back to lessons</button></div>';
+}
+
+/* ---- unit tests ---- */
+function crsTestStart(uid){
+  const u = CRS && CRS.units.find(function(x){ return x.id === uid; });
+  if(!u) return;
+  en = {stage:'crs-test', test:{uid:uid, ans:{}}};
+  qzInit(en.test.ans, function(){ return crsTest(CRS.lessons, u, Math.random); });
+  window.scrollTo(0, 0); renderEnglish();
+}
+function renderCrsTest(){
+  const t = en.test, u = CRS.units.find(function(x){ return x.id === t.uid; });
+  view.innerHTML = crsBack('crs-home', 'Lessons')+'<p class="eyebrow" style="margin:4px 2px 6px">Unit test · '+esc(u.name)+'</p>'+qzRender(t.ans);
+}
+/* the result is stored; under 60% the lessons she missed most are marked to revisit */
+function crsTestDone(){
+  const t = en.test, a = t.ans, right = a.res.filter(Boolean).length, n = a.qs.length, miss = {};
+  a.qs.forEach(function(q, i){ if(!a.res[i] && q.from) miss[q.from] = (miss[q.from] || 0) + 1; });
+  const pct = Math.round(right / n * 100);
+  const revisit = pct < 60 ? Object.keys(miss).sort(function(x, y){ return miss[y] - miss[x]; }) : [];
+  crsState().tests[t.uid] = {date:today(), right:right, n:n, revisit:revisit};
+  save();
+  en = {stage:'crs-testdone', result:{uid:t.uid, right:right, n:n, revisit:revisit}};
+  window.scrollTo(0, 0); renderEnglish();
+}
+function renderCrsTestDone(){
+  const r = en.result;
+  view.innerHTML = '<p class="eyebrow" style="margin:4px 2px 0">Unit test · done</p><h2 class="rec-title">'+r.right+' of '+r.n+'</h2>'+
+    (r.revisit.length
+      ? '<p class="fd-sub">Worth another look before you go on:</p><div class="en-rate">'+r.revisit.map(function(id){ const l = CRS.byId[id]; return l ? '<button class="btn btn-full" data-act="crs-review" data-id="'+esc(id)+'">Lesson '+l.n+': '+esc(l.title)+'</button>' : ''; }).join('')+'</div>'
+      : '<p class="fd-sub">'+(r.right / r.n >= 0.8 ? 'Strong. These phrases are yours now.' : 'A solid result. The phrases will keep coming back as cards.')+'</p>')+
+    '<button class="btn btn-primary btn-full" data-act="crs-home" style="margin-top:14px">Back to lessons</button>';
+}
+
+/* ---- the quick speaking check ---- */
+const CRS_CHECK = [
+  {p:'Tell me what you did at home today, from the moment you got up. Use as many everyday details as you can.'},
+  {p:'Tell me about a time something went wrong in your day, what you did about it and how you felt afterwards.'},
+  {p:'Describe a time you kept putting something off and then felt stressed. What happened and what helped?'},
+  {p:'Is shopping a good way to cheer yourself up? Give your opinion and an example.'}
+];
+function crsCheckStart(){
+  en = {stage:'crs-check', check:{i:0, texts:['', '', '', '']}};
+  enMicReset(); crsStopListen(); window.scrollTo(0, 0); renderEnglish();
+}
+function renderCrsCheck(){
+  const c = en.check, last = c.i === CRS_CHECK.length - 1;
+  view.innerHTML = crsBack('crs-home', 'Lessons')+'<p class="eyebrow" style="margin:4px 2px 8px">Speaking check · '+(c.i + 1)+' of '+CRS_CHECK.length+'</p>'+
+    '<section class="wq-card en-card"><p class="en-ru en-ru-big">'+esc(CRS_CHECK[c.i].p)+'</p><p class="tk-sub">Talk for about a minute, without preparing.</p></section>'+crsMicBlock()+
+    '<label class="tk-sub" for="crsSpeak" style="display:block;margin-top:12px">Your answer in words. Tap the microphone key on the phone keyboard and talk, or type.</label>'+
+    '<textarea id="crsSpeak" class="crs-ta" rows="7" data-crs-text placeholder="Your answer…">'+esc(c.texts[c.i] || '')+'</textarea>'+
+    '<button class="btn btn-primary btn-full" data-act="crs-check-next" style="margin-top:12px">'+(last ? 'Finish' : 'Next prompt')+'</button>';
+}
+function crsCheckDone(){
+  engState().speakCheck = {date:today()};
+  save(); enMicReset(); crsStopListen();
+  en = {stage:'crs-checkdone', check:en.check};
+  window.scrollTo(0, 0); renderEnglish();
+}
+function renderCrsCheckDone(){
+  const c = en.check;
+  view.innerHTML = '<p class="eyebrow" style="margin:4px 2px 0">Speaking check · done</p><h2 class="rec-title">Thank you</h2>'+
+    '<p class="fd-sub">Here is a rough look at each answer. For a real assessment (vocabulary, grammar, B2 or C1, your priorities) copy your answers and paste them to me in the chat.</p>'+
+    CRS_CHECK.map(function(q, i){
+      const an = speakAnalyze(c.texts[i], [], 0);
+      return '<section class="wq-card en-card"><p class="eyebrow">Prompt '+(i + 1)+'</p><p class="tk-sub">'+esc(q.p)+'</p><p class="crs-stats"><b>'+an.words+'</b> words · <b>'+an.unique+'</b> different · <b>'+an.fillers+'</b> fillers · <b>'+an.connectors.length+'</b> linking words</p></section>';
+    }).join('')+
+    '<button class="btn btn-primary btn-full" data-act="crs-copy">Copy for my tutor</button>'+
+    '<button class="btn btn-full" data-act="crs-home" style="margin-top:10px">Back to lessons</button>';
+}
+document.addEventListener('input', function(e){
+  const t = e.target;
+  if(!t || !t.matches || !t.matches('[data-crs-text]')) return;
+  if(en && en.stage === 'crs'){ const k = crsCur(); if(k) crsAns(k.cr.lid, k.cr.part, k.cr.step).text = t.value; }
+  else if(en && en.stage === 'crs-check') en.check.texts[en.check.i] = t.value;
+  clearTimeout(crsAns.t); crsAns.t = setTimeout(save, 700);
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Enter' && e.target && e.target.id === 'qzIn'){ e.preventDefault(); const b = document.querySelector('[data-act="qz-check"]'); if(b) b.click(); }
+});
+/* course:ui-end */
+
 /* eng:end */
 
 /* ---- Speaking roulette: spin, talk for a minute unaided, see the phrases, talk again ---- */
@@ -3938,7 +4437,7 @@ function tkWheel(){
 
 function renderTalk(){
   talkLoad();
-  let h = enSeg();
+  let h = (en && en.stage === 'crs' ? crsBack('crs-resume', 'Back to my lesson') : '')+enSeg();
   if(!TALK){
     h += talkFailed
       ? '<div class="empty" style="padding:40px 14px"><p>Could not load the topics. They load once and then work offline.</p><button class="btn" data-act="tk-retry">Try again</button></div>'
@@ -4812,7 +5311,7 @@ document.addEventListener('click', function(e){
     state.why = ($('#whyIn').value || '').trim();
     save(); closeSheet(); render(); toast(state.why ? 'Saved — you will see it every day' : 'Cleared');
   }
-  else if(act==='en-retry'){ phFailed = false; dlFailed = false; lsFailed = false; renderEnglish(); }
+  else if(act==='en-retry'){ phFailed = false; dlFailed = false; lsFailed = false; crsFailed = false; renderEnglish(); }
   else if(act==='lis-start'){ lisStart(); }
   else if(act==='lis-speed'){ const v = btn.getAttribute('data-v'); if(LIS_SPEEDS[v]){ engLis().speed = v; save(); renderEnglish(); } }
   else if(act==='lis-play'){
@@ -4917,6 +5416,76 @@ document.addEventListener('click', function(e){
       engSettle(); save(); en = {stage:'placed'};
     }
     window.scrollTo(0, 0); renderEnglish();
+  }
+  else if(act==='crs-open'){ crsOpen(false); }
+  else if(act==='crs-do2'){ crsOpen(true); }
+  else if(act==='crs-home'){ enMicReset(); crsStopListen(); en = null; window.scrollTo(0, 0); renderEnglish(); }
+  else if(act==='crs-next'){
+    const k = crsCur();
+    if(!k) return;
+    if(!k.cr.review && !crsCanNext(k.st, crsAns(k.cr.lid, k.cr.part, k.cr.step))) return;
+    const n = k.cr.step + 1;
+    if(n >= k.steps.length && !k.cr.review) crsPartDone(btn);
+    crsGo(k.cr.lid, k.cr.part, n, k.cr.review);
+  }
+  else if(act==='crs-prev'){ const k = crsCur(); if(k && k.cr.step > 0) crsGo(k.cr.lid, k.cr.part, k.cr.step - 1, k.cr.review); }
+  else if(act==='crs-review'){ const id = btn.getAttribute('data-id'); if(crsLesson(id)) crsGo(id, 1, 0, true); }
+  else if(act==='crs-mark'){
+    const k = crsCur();
+    if(!k) return;
+    const a = crsAns(k.cr.lid, k.cr.part, k.cr.step);
+    if(btn.getAttribute('data-k') === 'tick'){ const i = btn.getAttribute('data-i'); a.ticks = a.ticks || {}; a.ticks[i] = !a.ticks[i]; }
+    else { const ta = document.querySelector('[data-crs-text]'); if(ta) a.text = ta.value; a.done = true; }
+    save(); renderEnglish();
+  }
+  else if(act==='crs-word'){
+    const k = crsCur();
+    if(!k || k.st.t !== 'words') return;
+    const i = btn.getAttribute('data-i');
+    let added = 0;
+    if(i === 'all') k.st.items.forEach(function(w){ if(crsAddWord(w)) added++; });
+    else if(k.st.items[+i] && crsAddWord(k.st.items[+i])) added = 1;
+    save(); toast(added ? 'Added '+added+' to My words' : 'Already in My words'); renderEnglish();
+  }
+  else if(act==='qz-pick'){
+    const a = qzAns();
+    if(!a.qs || a.shown) return;
+    const q = a.qs[a.i], i = +btn.getAttribute('data-i');
+    if(!q || !q.options || !q.options[i]) return;
+    a.pick = i; a.shown = true; a.res.push(!!q.options[i].ok);
+    save(); renderEnglish();
+  }
+  else if(act==='qz-check'){
+    const a = qzAns();
+    if(!a.qs || a.shown) return;
+    const q = a.qs[a.i], f = document.getElementById('qzIn'), typed = f ? f.value : '';
+    if(!typed.trim()){ toast('Type your answer first'); return; }
+    a.pick = typed.trim(); a.shown = true; a.res.push(crsGapOk(typed, q.answers));
+    save(); renderEnglish();
+  }
+  else if(act==='qz-next'){
+    const a = qzAns();
+    if(!a.qs || !a.shown) return;
+    qzFinish(a); save();
+    if(a.checked && en.stage === 'crs-test') return crsTestDone();
+    renderEnglish();
+  }
+  else if(act==='crs-rec'){ enMicStart(); crsListen(); }
+  else if(act==='crs-rec-stop'){ crsStopListen(); enMicStop(); }
+  else if(act==='crs-analyse'){ crsAnalyse(); }
+  else if(act==='crs-model'){ const k = crsCur(); if(k){ crsAns(k.cr.lid, k.cr.part, k.cr.step).model = true; save(); renderEnglish(); } }
+  else if(act==='crs-copy'){ crsCopy(); }
+  else if(act==='crs-roulette'){ state.enView = 'speak'; save(); window.scrollTo(0, 0); renderEnglish(); }
+  else if(act==='crs-resume'){ state.enView = 'lessons'; save(); window.scrollTo(0, 0); renderEnglish(); }
+  else if(act==='crs-test-start'){ crsTestStart(btn.getAttribute('data-id')); }
+  else if(act==='crs-check-start'){ crsCheckStart(); }
+  else if(act==='crs-check-next'){
+    if(!en || !en.check) return;
+    const ta = document.getElementById('crsSpeak');
+    if(ta) en.check.texts[en.check.i] = ta.value;
+    enMicReset(); crsStopListen();
+    if(en.check.i + 1 >= CRS_CHECK.length) return crsCheckDone();
+    en.check.i++; window.scrollTo(0, 0); renderEnglish();
   }
   else if(act==='en-view'){ state.enView = btn.getAttribute('data-v'); if(state.enView !== 'phrases') openPack = null; save(); window.scrollTo(0,0); renderEnglish(); }
   else if(act==='tk-retry'){ talkFailed = false; renderEnglish(); }

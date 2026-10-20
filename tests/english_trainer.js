@@ -86,7 +86,7 @@ if(m && P){
 
 // 3. wired into the app
 check(/data-act="en-view" data-v="train"/.test(html), 'the English tab has a Train segment');
-check(/state\.enView \|\| 'train'/.test(html) && !/state\.enView \|\| 'speak'/.test(html), 'Train is the default view of the English tab');
+check(/state\.enView \|\| 'lessons'/.test(html) && !/state\.enView \|\| 'speak'/.test(html), 'Lessons is the default view of the English tab');
 check(/act==='en-start'/.test(html) && /act==='en-rate'/.test(html) && /act==='en-say-next'/.test(html), 'the session has start / rate / say actions');
 check(/act==='en-place-start'/.test(html) && /act==='en-pick'/.test(html), 'the level check has start / pick actions');
 check(/act==='en-focus'/.test(html), 'a set can be moved to the front');
