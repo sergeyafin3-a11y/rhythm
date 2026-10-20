@@ -150,7 +150,7 @@
                     "The brain area that stores childhood memories grew bigger."
                   ],
                   "a": 0,
-                  "why": "Neil says looking at someone you love activates a part of the brain that also reminds us to eat and drink."
+                  "why": "In the brain scans, looking at a loved one lit up an area that also handles eating and drinking, so love works like a basic need."
                 },
                 {
                   "q": "In the 2013 study, what happened when people read statements about their partner?",
@@ -295,7 +295,8 @@
                   "s": "They ___ (just / break up), so please don't mention his ex.",
                   "a": [
                     "have just broken up",
-                    "'ve just broken up"
+                    "'ve just broken up",
+                    "just broke up"
                   ],
                   "hint": "present perfect with just"
                 },
@@ -303,7 +304,9 @@
                   "s": "I ___ (wait) here for forty minutes, and he still hasn't turned up!",
                   "a": [
                     "have been waiting",
-                    "'ve been waiting"
+                    "'ve been waiting",
+                    "have waited",
+                    "'ve waited"
                   ],
                   "hint": "present perfect continuous, for"
                 },
@@ -386,10 +389,10 @@
                   "src": "TEWS"
                 },
                 {
-                  "w": "ask a (cheeky) favour",
+                  "w": "ask a favour",
                   "ru": "попросить об одолжении (слегка нахальном)",
                   "ex": "Can I ask you a cheeky favour? Could I borrow your charger for an hour?",
-                  "src": "6ME"
+                  "src": "own"
                 },
                 {
                   "w": "get used to something",
@@ -407,7 +410,7 @@
                   "w": "see how someone got on",
                   "ru": "узнать, как у кого-то всё прошло",
                   "ex": "Let's ring Anna later and see how she got on at the interview.",
-                  "src": "6ME"
+                  "src": "own"
                 },
                 {
                   "w": "face your fears",
@@ -422,7 +425,7 @@
                   "src": "6ME"
                 },
                 {
-                  "w": "I was wondering if...",
+                  "w": "I was wondering if",
                   "ru": "мне было интересно, не могли бы вы... (мягкая просьба)",
                   "ex": "I was wondering if you could look at my presentation before Friday.",
                   "src": "6ME"
@@ -434,7 +437,7 @@
                   "src": "6ME"
                 },
                 {
-                  "w": "go with (an option)",
+                  "w": "go with",
                   "ru": "выбрать, остановиться на варианте",
                   "ex": "I've no idea which is better, so I'll go with the blue one.",
                   "src": "6ME"
@@ -492,7 +495,7 @@
                     "Most of them ignored her and walked away quickly"
                   ],
                   "a": 0,
-                  "why": "The presenters say most strangers were friendly and happy to help, so she did not really experience rejection."
+                  "why": "Hannah's experiment turned out kinder than she feared: the strangers mostly helped, so she felt little real rejection."
                 },
                 {
                   "q": "What idea does Claudia Hammond suggest about why people try this?",
@@ -512,7 +515,7 @@
                     "It was turned down by every studio he asked"
                   ],
                   "a": 0,
-                  "why": "The quiz answer is that Snow White and the Seven Dwarfs was not a failure; it was a huge success."
+                  "why": "The programme's quiz answer is that Disney's first full-length film was a big hit, not a flop."
                 },
                 {
                   "q": "If your adrenaline 'spikes', what does it do?",
@@ -622,7 +625,8 @@
                 {
                   "s": "I'd love to help, but I'm ___ I can't this week.",
                   "a": [
-                    "afraid"
+                    "afraid",
+                    "sorry"
                   ],
                   "hint": "refusing politely"
                 },
@@ -694,7 +698,7 @@
                 {
                   "w": "think on your feet",
                   "ru": "быстро соображать, думать на ходу",
-                  "ex": "Our teacher asked me a question I hadn't prepared for, so I had to think on my feet.",
+                  "ex": "When the interviewer changed the question, Anna had to think on her feet.",
                   "src": "TEWS"
                 },
                 {
@@ -754,7 +758,7 @@
                 {
                   "w": "get into a whole thing",
                   "ru": "затевать долгие разборки или объяснения",
-                  "ex": "I'd love to explain, but I don't want to get into a whole thing right now.",
+                  "ex": "Let's not get into a whole thing about it tonight.",
                   "src": "6ME"
                 },
                 {
@@ -817,14 +821,14 @@
                   "why": "Beth and Pippa say people usually do not want to hear about your day; it simply means hello."
                 },
                 {
-                  "q": "What does the Greek word root in 'hyperbole' actually mean, according to the answer in the programme?",
+                  "q": "What is the literal meaning of 'hyperbole' from its two Greek roots, according to the programme?",
                   "o": [
                     "To overthrow",
                     "To over speak",
                     "To overthink"
                   ],
                   "a": 0,
-                  "why": "Pippa explains that huper means beyond and ballo means I throw; Beth's guess, 'to over speak', was wrong."
+                  "why": "The roots mean 'beyond' and 'throw', so the literal meaning is 'to throw too far', which is 'to overthrow'. Beth's guess was wrong."
                 },
                 {
                   "q": "What is a 'barney'?",
@@ -932,7 +936,13 @@
                   "a": [
                     "a bit",
                     "a little",
-                    "slightly"
+                    "slightly",
+                    "a little bit",
+                    "a tiny bit",
+                    "quite",
+                    "rather",
+                    "somewhat",
+                    "kind of"
                   ],
                   "hint": "understatement"
                 },
@@ -955,7 +965,9 @@
                 {
                   "s": "I'm not sure ___ it's a good idea to say that in front of everyone.",
                   "a": [
-                    "that"
+                    "that",
+                    "if",
+                    "whether"
                   ],
                   "hint": "softening an opinion"
                 }
@@ -973,7 +985,7 @@
                 "the done thing",
                 "I'm not sure that"
               ],
-              "model": "Last month a colleague asked if I could cover her shift for the third time. I was a bit miffed, but it's not the done thing to argue at work, so I had to think on my feet. I said, \"I'm not sure that I can manage it this week.\" She smiled and said, \"It's all good,\" but she must have been disappointed, because she hardly spoke to me afterwards. Looking back, I might have explained myself better. Still, I think saying no politely was right. I'd rather have a small awkward moment than a big barney with someone I see every day.",
+              "model": "Last month a colleague asked if I could cover her shift for the third time. I was a bit miffed, but it's not the done thing to argue at work, so I had to think quickly on my feet. I said, \"I'm not sure that I can manage it this week.\" She smiled and said, \"It's all good,\" but she must have been disappointed, because she hardly spoke to me afterwards. Looking back, I might have explained myself better. Still, I think saying no politely was right. I'd rather have a small awkward moment than a big barney with someone I see every day.",
               "secs": 90
             }
           ]
@@ -1154,12 +1166,12 @@
                 {
                   "q": "What does 'take a breather' mean?",
                   "o": [
-                    "Stop what you're doing for a short time to rest",
+                    "Pause for a few minutes to rest",
                     "Open a window to let fresh air in",
                     "Do a job slowly and carefully"
                   ],
                   "a": 0,
-                  "why": "Pippa explains it is an informal way of saying stop and rest for a while."
+                  "why": "It is a relaxed, everyday way of saying you are going to stop and rest briefly."
                 }
               ]
             },
@@ -1224,7 +1236,8 @@
                   "s": "When I was a kid, my dad ___ (do) the ironing every Sunday evening.",
                   "a": [
                     "used to do",
-                    "would do"
+                    "would do",
+                    "did"
                   ],
                   "hint": "past habit"
                 },
@@ -1233,7 +1246,10 @@
                   "a": [
                     "didn't use to have",
                     "did not use to have",
-                    "never used to have"
+                    "never used to have",
+                    "didn't have",
+                    "did not have",
+                    "never had"
                   ],
                   "hint": "past state"
                 },
@@ -1255,7 +1271,8 @@
                   "s": "When we were students, we ___ (sit) on the floor and eat takeaway every Friday.",
                   "a": [
                     "used to sit",
-                    "would sit"
+                    "would sit",
+                    "sat"
                   ],
                   "hint": "past habit"
                 },
@@ -1347,7 +1364,7 @@
                   "w": "get away with",
                   "ru": "выйти сухим из воды, чтобы это сошло с рук",
                   "ex": "He leaves work at three every Friday and somehow gets away with it.",
-                  "src": "TEWS"
+                  "src": "own"
                 },
                 {
                   "w": "get in trouble",
@@ -1470,7 +1487,7 @@
                     "It ran adverts for local fast-food chains."
                   ],
                   "a": 0,
-                  "why": "They wanted people to eat together more often, so they made a TV show set in a restaurant."
+                  "why": "The aim was to get people eating together more often, so the programme created a series set in a restaurant."
                 },
                 {
                   "q": "If a waiter upsells you something, what does he do?",
@@ -1649,7 +1666,7 @@
             {
               "t": "intro",
               "title": "Today",
-              "text": "Native speakers love comparisons: someone is as cool as a cucumber, a problem is as clear as mud, a child sleeps like a log. Today you will meet twelve of these in a visual story about similes, and then use them to talk about home, money and mood. They make your English sound much more natural and alive.",
+              "text": "Native speakers love comparisons: someone is as cool as a cucumber, a problem is as clear as mud, a child sleeps like a log. Today you will browse a visual story about similes and meet a dozen spoken comparisons, some from the story, some from The English We Speak and some we added, and then use them to talk about home, money and mood.",
               "ru": "Носители языка постоянно сравнивают: «спокойный как огурец», «ясно как грязь», «спит как бревно». Сегодня выучим 12 таких выражений и применим их, чтобы говорить о доме, деньгах и настроении."
             },
             {
@@ -1659,7 +1676,7 @@
                 {
                   "w": "like a moth to a flame",
                   "ru": "тянет как магнитом (к тому, что вредно или опасно)",
-                  "ex": "I'm trying to save money, but I'm like a moth to a flame in any shoe sale.",
+                  "ex": "I'm trying to save money, but any shoe sale pulls me in like a moth to a flame.",
                   "src": "TEWS"
                 },
                 {

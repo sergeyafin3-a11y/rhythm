@@ -115,7 +115,7 @@ check(/% *|60/.test(body('crsTestDone')), 'scores under 60% produce a revisit li
 const prompts = /CRS_CHECK\s*=\s*\[([\s\S]*?)\];/.exec(html);
 check(!!prompts && (prompts[1].match(/\{p:/g) || []).length === 4, 'the quick speaking check has four prompts');
 check(/speakCheck/.test(body('crsCheckDone')) && !/transcript/.test(JSON.stringify(Object.keys({}))), 'the check stores only the date it was last done');
-check(/Copy for my tutor/.test(body('renderCrsCheckDone')) && /CRS_CHECK\.map/.test(body('crsCopy')), 'the check copies all four answers');
+check(/Copy for my tutor/.test(body('renderCrsCheckDone')) && /CRS_CHECK\.map/.test(body('crsCheckText')), 'the check copies all four answers');
 // ---------- 6. the lessons themselves ----------
 let D = null;
 try{ D = JSON.parse(read(root + '/english/lessons.json')); }catch(e){ fails.push('english/lessons.json is missing or is not valid JSON'); }
@@ -168,5 +168,65 @@ if(D && C){
   check(JSON.stringify(D).indexOf('TRANSCRIPT') < 0 && JSON.stringify(D).length < 150000, 'the lessons contain no pasted transcripts');
 }
 check(/Lessons/.test(readme) && /english\/lessons\.json/.test(readme), 'the README mentions the lessons and english/lessons.json');
+// ---------- 7. review fixes ----------
+if(C){
+  // a score counts only finished, checked steps
+  const lsn = {parts:[{steps:[{t:'quiz', qs:[1, 2]}]}, {steps:[]}]};
+  check(C.crsScore(lsn, {1:{0:{res:[true, true], checked:false}}}).n === 0, 'a half-done quiz does not count towards the score');
+  // targets: whole phrases, in order and close together, not loose words
+  const A = function(t, tg){ return C.speakAnalyze(t, tg, 0).used.length === 1; };
+  check(!A('I get up at seven.', ['I get it']), '"I get up" is not "I get it"');
+  check(!A('I used my phone all day.', ['used to']), '"used my" is not "used to"');
+  check(!A('I waited for the bus while it rained.', ['for a while']), 'scattered words are not "for a while"');
+  check(!A('I feel great. Then I sat down.', ['feel down']), 'far apart words are not "feel down"');
+  check(!A('What sort of person goes out at night?', ['sort out']), '"sort of person goes out" is not "sort out"');
+  check(!A('I wake up early and I make my bed.', ['make up']), '"wake up ... make" is not "make up"');
+  check(A('I used to love it.', ['used to']) && A('She cheered her friend up.', ['cheer someone up']) && A('We pull our weight.', ['pull your weight']), 'real uses, with a pronoun in place of someone/your, are found');
+  check(A('She must\'ve been disappointed.', ['must have been']) && A('I am not sure that it works.', ["I'm not sure that"]) && A('It is all good.', ["it's all good"]), 'contractions and full forms match each other');
+  check(C.speakAnalyze('In 2026 I have 3 cats and a café.', [], 0).words === 9, 'numbers and accented words count as words: ' + C.speakAnalyze('In 2026 I have 3 cats and a café.', [], 0).words);
+  // look-alike meanings are not offered together as answer options
+  const pool = [{w:'think on your feet', ru:'быстро соображать на ходу', ex:'e'}, {w:'think on the spot', ru:'быстро соображать на месте', ex:'e'}, {w:'pull your weight', ru:'делать свою долю работы', ex:'e'}, {w:'clear up', ru:'прибраться после еды', ex:'e'}, {w:'run out of', ru:'закончиться', ex:'e'}];
+  let clash = 0;
+  for(let i = 0; i < 60; i++){
+    C.crsRecall(pool, rnd, 5).forEach(function(q){
+      const labels = q.options.map(function(o){ return o.t; });
+      if(labels.indexOf('think on your feet') >= 0 && labels.indexOf('think on the spot') >= 0) clash++;
+    });
+  }
+  check(clash === 0, 'two phrases with near-identical glosses never appear as options of one question (' + clash + ' clashes)');
+}
+// the guards that keep a lesson from breaking (checked against the source, since the handlers run inside the app)
+check(/function crsAddWord\([\s\S]*?crsAddWord\.n/.test(html) && /state\.words\.some\(function\(x\)\{ return x\.id === id/.test(body('crsAddWord')), 'new word ids cannot collide (a counter, checked against the list)');
+check(/if\(cr\.part === 2\) spTick\(\)/.test(body('crsPartDone')), 'only part 2 ticks the speaking habit');
+check(/act==='crs-next'\)\{[\s\S]{0,260}!crsCanNext\(k\.st/.test(html), 'Continue does nothing until the step is complete');
+check(/act==='qz-next'\)\{[\s\S]{0,160}!a\.shown/.test(html) && /act==='qz-pick'\)\{[\s\S]{0,160}a\.shown/.test(html) && /act==='qz-check'\)\{[\s\S]{0,160}a\.shown/.test(html), 'a question can only be answered once and moved on from once');
+check(/s\.part === 2 && !s\.part2Open && !force\) return/.test(body('crsOpen')) && /Math\.min\(p\.step, n - 1\)/.test(body('crsOpen')), 'part 2 stays closed unless forced, and a saved step past the end re-enters at the last step');
+check(/enMicStart\(120000\)/.test(html) && /function enMicStart\(maxMs\)/.test(html) && /setTimeout\(enMicStop, maxMs \|\| 10000\)/.test(html), 'a speaking recording may run up to two minutes (the roulette keeps its ten seconds)');
+check(/crsStopListen\(\); crsListen\(\)|crsStopListen\(\);\s*enMicStart\(120000\);\s*crsListen\(\)/.test(html.slice(html.indexOf("act==='crs-rec'"), html.indexOf("act==='crs-rec'") + 200)), 'starting again stops the old speech recognition first');
+check(/rec\.onstop = function\(\)\{[\s\S]{0,300}crsStopListen\(\)/.test(body('enMicStart')), 'when the recording stops, the speech recognition stops too');
+check(/act==='en-view'\)\{[^}]*crsStopListen\(\)/.test(html) && /act==='crs-roulette'\)\{[^}]*crsStopListen\(\)/.test(html), 'leaving for another segment or the roulette stops the speech recognition');
+check(/\.draft/.test(body('qzRender')) && /t\.id === .qzIn./.test(html), 'a half-typed gap answer is kept when the screen redraws');
+check(/readonly/.test(body('crsMarkText') + body('renderCrsStep')) && /review/.test(html.slice(html.indexOf("act==='crs-mark'"), html.indexOf("act==='crs-mark'") + 200)), 'review mode of a finished lesson does not change her saved answers');
+check(/act==='crs-review'\)\{[^}]*data-p/.test(html) && /Review Part 2/.test(body('renderCrsFinish')), 'a finished lesson can be reviewed in both parts');
+check(/readonly/.test(body('renderCrsCheckDone')) && /id="crsCopyText"/.test(body('renderCrsCheckDone')), 'the speaking check shows the text it copies, so the copy still works by hand');
+check(/Write at least one answer|at least one/.test(html.slice(html.indexOf("act==='crs-check-next'"), html.indexOf("act==='crs-check-next'") + 600)), 'the speaking check cannot be finished with no answers at all');
+check(/filter\(function\(x\)\{ return x\.kind === 'test' \|\| d\.byId\[x\.id\]; \}\)/.test(body('crsLoad')), 'a lesson id missing from the data is skipped, not a crash');
+check(/a\.t !== k\.st\.t|a\.t !== st\.t/.test(body('renderCrs') + body('renderCrsStep')), 'saved answers belonging to a different kind of step are dropped');
+check(/!a\.qs\.length/.test(body('renderCrsStep')) || /a\.checked = true/.test(body('renderCrsStep')), 'a recall step with too few phrases can still be passed');
+// ---------- 8. content fixes ----------
+if(D){
+  const flat = JSON.stringify(D);
+  ['activates a part of the brain that also reminds', 'snow white and the seven dwarfs was not a failure', 'get into a whole thing right now', 'stop what you\'re doing for a short time', 'huper means beyond', 'made a TV show set in a restaurant', 'were friendly and happy to help'].forEach(function(p){ check(flat.toLowerCase().indexOf(p.toLowerCase()) < 0, 'too close to the BBC text: "' + p + '"'); });
+  D.lessons.forEach(function(l){ l.parts[0].steps.filter(function(s){ return s.t === 'words'; })[0].items.forEach(function(w){ check(!/[()]|\.\.\./.test(w.w), l.id + ': the phrase "' + w.w + '" keeps placeholders that would be saved as a word'); }); });
+  const gapOf = function(lid, rx){ let g = null; D.lessons.find(function(l){ return l.id === lid; }).parts[1].steps.forEach(function(s){ if(s.t === 'gap') s.items.forEach(function(x){ if(rx.test(x.s)) g = x; }); }); return g; };
+  const ok = function(g, ans){ return !!g && C.crsGapOk(ans, g.a); };
+  check(ok(gapOf('l03', /miffed/), 'a little bit') && ok(gapOf('l03', /miffed/), 'quite') && ok(gapOf('l03', /miffed/), 'rather'), 'l03 miffed accepts a little bit / quite / rather');
+  check(ok(gapOf('l03', /not sure ___/), 'if') && ok(gapOf('l03', /not sure ___/), 'whether'), 'l03 "not sure ___" accepts if and whether');
+  check(ok(gapOf('l02', /I'm ___ I can't/), 'sorry'), 'l02 accepts sorry');
+  check(ok(gapOf('l04', /dishwasher/), "didn't have"), 'l04 dishwasher accepts didn\'t have');
+  check(ok(gapOf('l04', /ironing/), 'did') && ok(gapOf('l04', /on the floor/), 'sat'), 'l04 accepts the simple past');
+  check(ok(gapOf('l01', /break up/), 'just broke up') && ok(gapOf('l01', /forty minutes/), 'have waited'), 'l01 accepts just broke up and have waited');
+  check(!/twelve of these/.test(JSON.stringify(D.lessons.find(function(l){ return l.id === 'l06'; }).parts[0].steps[0])), 'l06 does not promise twelve phrases from the story');
+}
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: English lessons');

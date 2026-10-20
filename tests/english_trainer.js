@@ -121,7 +121,7 @@ check(/engToSay\(\)/.test(fnBody('engRate')) && /engCardsDone\(\)/.test(fnBody('
 check(/function engUnseen\(\)/.test(html) && /engUnseen\(\)/.test(fnBody('renderTrain')) && /!q\.length/.test(fnBody('engStart')), 'the “5 more new phrases” button only shows, and only works, while unseen phrases remain');
 check(/act==='en-rate'[\s\S]{0,200}data-id/.test(html) || /data-act="en-rate" data-id=/.test(html), 'a rating button names its card, so a double tap cannot grade the next one');
 check(/function engLeave\(\)/.test(html) && /function go\(t\)\{[\s\S]{0,400}engLeave\(\)/.test(html), 'leaving the English tab stops the microphone and the voice');
-const mic = (/function enMicStart\(\)\{[\s\S]*?\n\}\nfunction enMicStop/.exec(html) || [''])[0];
+const mic = (/function enMicStart\(maxMs\)\{[\s\S]*?\n\}\nfunction enMicStop/.exec(html) || [''])[0];
 check(mic.length > 50 && !/renderEnglish\(\)/.test(mic) && /enRender\(\)/.test(mic), 'the microphone code redraws only through enRender, which checks the tab');
 check(/function enRender\(\)\{[^}]*tab === 'english'/.test(html), 'enRender checks that English is the open tab');
 check(/e\.focused/.test(html), 'taking the level check again keeps the set she chose to study first');

@@ -3294,7 +3294,7 @@ function enMicReset(){
   enMic.rec = null; enMic.busy = false;
   if(enMic.url){ URL.revokeObjectURL(enMic.url); enMic.url = null; }
 }
-function enMicStart(){
+function enMicStart(maxMs){
   enMicReset(); enMic.no = false;
   if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder){ enMic.no = true; enRender(); return; }
   enMic.busy = true; enRender();
@@ -3309,12 +3309,12 @@ function enMicStart(){
     rec.ondataavailable = function(e){ if(e.data && e.data.size) chunks.push(e.data); };
     rec.onstop = function(){
       stream.getTracks().forEach(function(x){ x.stop(); });
-      enMic.busy = false; enMic.rec = null;
+      enMic.busy = false; enMic.rec = null; crsStopListen();
       if(chunks.length) enMic.url = URL.createObjectURL(new Blob(chunks, {type:rec.mimeType || type || 'audio/mp4'}));
       if(tab === 'english') enRender();
     };
     rec.start(); enMic.rec = rec; enRender();
-    enMic.timer = setTimeout(enMicStop, 10000);
+    enMic.timer = setTimeout(enMicStop, maxMs || 10000);
   }).catch(function(){ if(tok !== enMic.tok) return; enMic.no = true; enMic.busy = false; enRender(); });
 }
 function enMicStop(){
@@ -3887,8 +3887,19 @@ function crsGapOk(typed, answers){
   return !!t && answers.some(function(a){ return crsNorm(a) === t; });
 }
 /* three options for «which phrase means …»: the right one and two others from the same lesson words */
+/* two Russian glosses that share a word of five letters or more describe look-alike phrases: never offer them together */
+function crsAlike(a, b){
+  const st = function(x){ return (String(x || '').toLowerCase().match(/[а-яё]{5,}/g) || []).map(function(y){ return y.slice(0, 5); }); };
+  const sb = st(b);
+  return st(a).some(function(x){ return sb.indexOf(x) >= 0; });
+}
 function crsPhraseQ(w, pool, rnd){
-  const others = srsShuffle(pool.filter(function(x){ return x.w !== w.w; }), rnd).slice(0, 2);
+  let cand = pool.filter(function(x){ return x.w !== w.w; });
+  const apart = cand.filter(function(x){ return !crsAlike(w.ru, x.ru); });
+  if(apart.length >= 2) cand = apart;
+  const others = [];
+  srsShuffle(cand, rnd).forEach(function(x){ if(others.length < 2 && !others.some(function(y){ return crsAlike(x.ru, y.ru); })) others.push(x); });
+  srsShuffle(cand, rnd).forEach(function(x){ if(others.length < 2 && others.indexOf(x) < 0) others.push(x); });
   return {kind:'mc', q:'Which phrase means “'+w.ru+'”?', options:srsShuffle([{t:w.w, ok:true}].concat(others.map(function(x){ return {t:x.w, ok:false}; })), rnd), why:w.ex};
 }
 function crsRecall(words, rnd, n){
@@ -3917,7 +3928,7 @@ function crsTest(lessons, unit, rnd){
 }
 /* the speaking analysis: counts only, it never pretends to grade */
 const CRS_IRREG = {be:['am', 'is', 'are', 'was', 'were', 'been', 'being'], go:['went', 'gone', 'goes', 'going'], feel:['felt'], get:['got', 'gotten'], make:['made'], take:['took', 'taken'], have:['has', 'had'], do:['did', 'done', 'does'], say:['said'], see:['saw', 'seen'], think:['thought'], bring:['brought'], buy:['bought'], come:['came'], give:['gave', 'given'], keep:['kept'], know:['knew', 'known'], leave:['left'], lose:['lost'], meet:['met'], pay:['paid'], run:['ran'], sell:['sold'], tell:['told'], hold:['held'], break:['broke', 'broken'], fall:['fell', 'fallen'], find:['found'], sit:['sat'], put:['putting'], cut:['cutting'], spend:['spent'], build:['built'], send:['sent'], stand:['stood'], speak:['spoke', 'spoken'], write:['wrote', 'written'], wear:['wore', 'worn'], win:['won'], teach:['taught'], catch:['caught']};
-const CRS_SKIP = ['a', 'an', 'the', 'to', 'of', 'in', 'on', 'for', 'with', 'at', 'by', 'someone', 'somebody', 'something', 'someones', 'your', 'my', 'his', 'her', 'ones', 'it', 'your'];
+const CRS_PLACE = ['someone', 'somebody', 'something', 'ones', 'your', 'my', 'his', 'her', 'their', 'our'];
 const CRS_CONNECT = ['because', 'although', 'however', 'so', 'but', 'while', 'whereas', 'therefore', 'also', 'then', 'as a result', 'even though', 'in fact', 'unless', 'instead', 'besides', 'anyway', 'after that'];
 function crsForms(w){
   const out = [w].concat(CRS_IRREG[w] || []), stem = w.replace(/e$/, ''), last = w.slice(-1);
@@ -3926,21 +3937,46 @@ function crsForms(w){
   if(/y$/.test(w)) out.push(w.slice(0, -1) + 'ied', w.slice(0, -1) + 'ies');
   return out;
 }
+/* contractions and full forms read the same: must've / must have, I'm / I am, it's / it is */
+function crsExpand(s){
+  return String(s || '').toLowerCase().replace(/[’‘]/g, "'")
+    .replace(/\b(it|he|she|that|there|what|here|who|how|where)'s\b/g, '$1 is').replace(/\blet's\b/g, 'let us')
+    .replace(/\bwon't\b/g, 'will not').replace(/\bcan't\b/g, 'can not').replace(/n't\b/g, ' not')
+    .replace(/'m\b/g, ' am').replace(/'re\b/g, ' are').replace(/'ve\b/g, ' have').replace(/'ll\b/g, ' will').replace(/'d\b/g, ' would').replace(/'s\b/g, '');
+}
+function crsToks(s){ return crsExpand(s).match(/[\p{L}\p{N}]+/gu) || []; }
+/* a phrase is found whole: its words in order, next to each other (one extra word allowed), «your / someone» standing for any 1–3 words */
+function crsMatchAt(slots, toks, si, ti){
+  if(si === slots.length) return true;
+  const s = slots[si];
+  if(s.any){
+    for(let k = 1; k <= 3; k++) if(ti + k <= toks.length && crsMatchAt(slots, toks, si + 1, ti + k)) return true;
+    return false;
+  }
+  for(let gap = 0; gap <= (si ? 1 : 0); gap++){
+    const j = ti + gap;
+    if(j < toks.length && s.forms.indexOf(toks[j]) >= 0 && crsMatchAt(slots, toks, si + 1, j + 1)) return true;
+  }
+  return false;
+}
+function crsHit(target, toks){
+  const slots = crsToks(target).map(function(w){ return CRS_PLACE.indexOf(w) >= 0 ? {any:true} : {forms:crsForms(w)}; });
+  if(!slots.length) return false;
+  for(let i = 0; i < toks.length; i++) if(crsMatchAt(slots, toks, 0, i)) return true;
+  return false;
+}
 function speakAnalyze(text, targets, secs){
-  const tokens = String(text || '').toLowerCase().replace(/[’‘]/g, "'").match(/[a-z']+/g) || [], joined = ' ' + tokens.join(' ') + ' ';
-  const seen = {}, plain = {}; tokens.forEach(function(t){ seen[t] = true; plain[t.replace(/'/g, '')] = true; });
+  const raw = (String(text || '').toLowerCase().replace(/[’‘]/g, "'").match(/[\p{L}\p{N}']+/gu) || []).map(function(t){ return t.replace(/^'+|'+$/g, ''); }).filter(Boolean);
+  const toks = crsToks(text), joined = ' ' + raw.join(' ') + ' ', seen = {};
+  raw.forEach(function(t){ seen[t] = true; });
   const used = [], missed = [];
-  targets.forEach(function(t){
-    const ws = crsNorm(t).split(' ').filter(function(w){ return w && CRS_SKIP.indexOf(w) < 0; });
-    const hit = ws.length && ws.every(function(w){ return crsForms(w).some(function(f){ return plain[f]; }); });
-    (hit ? used : missed).push(t);
-  });
-  let fillers = tokens.filter(function(t){ return /^(um+|uh+|er+|erm+|ehm)$/.test(t); }).length;
+  targets.forEach(function(t){ (crsHit(t, toks) ? used : missed).push(t); });
+  let fillers = raw.filter(function(t){ return /^(um+|uh+|er+|erm+|ehm)$/.test(t); }).length;
   ['you know', 'i mean', 'kind of', 'sort of'].forEach(function(p){ fillers += joined.split(' ' + p + ' ').length - 1; });
   return {
-    words:tokens.length, unique:Object.keys(seen).length, fillers:fillers,
+    words:raw.length, unique:Object.keys(seen).length, fillers:fillers,
     connectors:CRS_CONNECT.filter(function(c){ return joined.indexOf(' ' + c + ' ') >= 0; }),
-    used:used, missed:missed, wpm:secs > 0 ? Math.round(tokens.length / (secs / 60)) : null
+    used:used, missed:missed, wpm:secs > 0 ? Math.round(raw.length / (secs / 60)) : null
   };
 }
 /* course:end */
@@ -3952,7 +3988,7 @@ function crsLoad(){
   fetch('english/lessons.json').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
     .then(function(d){
       d.byId = {}; d.lessons.forEach(function(l){ d.byId[l.id] = l; });
-      d.order = crsOrder(d);
+      d.order = crsOrder(d).filter(function(x){ return x.kind === 'test' || d.byId[x.id]; });
       CRS = d; crsLoading = false;
       if(tab === 'english') renderEnglish();
     })
@@ -3985,7 +4021,9 @@ function crsHasWord(term){ return (state.words || []).some(function(x){ return S
 function crsAddWord(w){
   if(!state.words) state.words = [];
   if(state.words.some(function(x){ return String(x.term).toLowerCase() === w.w.toLowerCase(); })) return false;
-  state.words.push({id:'w'+Date.now().toString(36)+Math.floor(Math.random() * 1000), term:w.w, ctx:w.ex, mean:'', ru:w.ru, src:'lesson', box:0, seen:0, right:0, last:''});
+  let id = 'w'+Date.now().toString(36)+(crsAddWord.n = (crsAddWord.n || 0) + 1);
+  while(state.words.some(function(x){ return x.id === id; })) id += 'x';
+  state.words.push({id:id, term:w.w, ctx:w.ex, mean:'', ru:w.ru, src:'lesson', box:0, seen:0, right:0, last:''});
   return true;
 }
 /* moving: the position is saved at every move, so closing the app returns her to the same step */
@@ -4002,7 +4040,7 @@ function crsOpen(force){
   if(s.cur.kind === 'test') return crsTestStart(s.cur.id);
   if(s.part === 2 && !s.part2Open && !force) return;
   const p = c.pos, n = CRS.byId[s.cur.id].parts[s.part - 1].steps.length;
-  crsGo(s.cur.id, s.part, p && p.l === s.cur.id && p.part === s.part ? Math.min(p.step, n) : 0, false);
+  crsGo(s.cur.id, s.part, p && p.l === s.cur.id && p.part === s.part ? Math.min(p.step, n - 1) : 0, false);
 }
 function crsCanNext(st, a){
   if(st.t === 'read' || st.t === 'write' || st.t === 'roulette') return !!a.done;
@@ -4077,7 +4115,7 @@ function qzRender(a){
     const parts = q.s.split('___');
     h += '<p class="pd-q">'+esc(parts[0])+(a.shown
       ? '<b class="qz-ans '+(ok ? 'ok' : 'no')+'">'+esc(a.pick || '…')+'</b>'
-      : '<input type="text" id="qzIn" class="qz-in" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="done">')+esc(parts[1] || '')+'</p>'+
+      : '<input type="text" id="qzIn" class="qz-in" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="done" value="'+esc(a.draft || '')+'">')+esc(parts[1] || '')+'</p>'+
       (q.hint ? '<p class="tk-sub">Hint: '+esc(q.hint)+'</p>' : '');
     if(!a.shown) h += '<button class="btn btn-primary btn-full" data-act="qz-check">Check</button>';
     else h += '<div class="wq-fb">'+(ok ? '<p class="wq-ok">✓ Right</p>' : '<p class="wq-no">Not quite</p><p class="fd-sub">Better: <b>'+esc(q.answers[0])+'</b></p>')+'</div>';
@@ -4164,6 +4202,7 @@ function renderCrs(){
   const cr = k.cr, l = k.l;
   if(cr.step >= k.steps.length) return renderCrsFinish(k);
   const a = crsAns(cr.lid, cr.part, cr.step);
+  if(a.t !== k.st.t){ Object.keys(a).forEach(function(x){ delete a[x]; }); a.t = k.st.t; }
   const dots = k.steps.map(function(_, i){ return '<i class="'+(i < cr.step ? 'done' : i === cr.step ? 'on' : '')+'"></i>'; }).join('');
   const can = cr.review || crsCanNext(k.st, a);
   view.innerHTML = crsBack('crs-home', 'Lessons')+
@@ -4208,7 +4247,8 @@ function renderCrsStep(l, cr, st, a){
   }
   if(st.t === 'recall'){
     qzInit(a, function(){ return crsRecall(crsWordsOf(l), Math.random, 6); });
-    return a.qs.length ? qzRender(a) : '<p class="fd-sub">Nothing to recall yet.</p>';
+    if(!a.qs.length){ a.checked = true; return '<p class="fd-sub">Nothing to recall yet.</p>'; }
+    return qzRender(a);
   }
   if(st.t === 'grammar'){
     return '<section class="wq-card en-card"><p class="en-ex">'+esc(st.text)+'</p>'+(st.ru ? '<p class="en-exru" lang="ru">'+esc(st.ru)+'</p>' : '')+
@@ -4223,8 +4263,8 @@ function renderCrsStep(l, cr, st, a){
   if(st.t === 'write'){
     return '<section class="wq-card en-card"><p class="en-ex">'+esc(st.prompt)+'</p>'+(st.hint ? '<p class="tk-sub" style="margin:8px 0 0">'+esc(st.hint)+'</p>' : '')+'</section>'+
       '<p class="tk-sub">Write it <b>by hand</b> in your notebook, or type it here (saved on your phone, optional).</p>'+
-      '<textarea class="crs-ta" rows="5" data-crs-text placeholder="Optional: type it here">'+esc(a.text || '')+'</textarea>'+
-      crsMark('done', "I've written it", a.done);
+      '<textarea class="crs-ta" rows="5" data-crs-text placeholder="Optional: type it here"'+(cr.review ? ' readonly' : '')+'>'+esc(a.text || '')+'</textarea>'+
+      (cr.review ? '' : crsMark('done', "I've written it", a.done));
   }
   if(st.t === 'roulette'){
     return '<section class="wq-card en-card"><p class="en-ex">Warm up your mouth: spin the roulette, get a topic and talk for one minute without stopping. Then come back here.</p></section>'+
@@ -4244,10 +4284,10 @@ function crsAnalysisHtml(an, targets){
 }
 function crsSpeakStep(l, cr, st, a){
   let h = '<section class="wq-card en-card"><p class="en-ru en-ru-big">'+esc(st.prompt)+'</p>'+
-    '<p class="crs-tg">'+st.targets.map(function(t){ return '<span>'+esc(t)+'</span>'; }).join('')+'</p></section>'+crsMicBlock()+
+    '<p class="crs-tg">'+st.targets.map(function(t){ return '<span>'+esc(t)+'</span>'; }).join('')+'</p></section>'+(cr.review ? '' : crsMicBlock())+
     '<label class="tk-sub" for="crsSpeak" style="display:block;margin-top:12px">Your answer in words. With no automatic transcript, tap the microphone key on the phone keyboard and talk, and the phone types it for you.</label>'+
-    '<textarea id="crsSpeak" class="crs-ta" rows="7" data-crs-text placeholder="Your answer…">'+esc(a.text || '')+'</textarea>'+
-    '<button class="btn btn-primary btn-full" data-act="crs-analyse" style="margin-top:10px">Analyse my answer</button>';
+    '<textarea id="crsSpeak" class="crs-ta" rows="7" data-crs-text placeholder="Your answer…"'+(cr.review ? ' readonly' : '')+'>'+esc(a.text || '')+'</textarea>'+
+    (cr.review ? '' : '<button class="btn btn-primary btn-full" data-act="crs-analyse" style="margin-top:10px">Analyse my answer</button>');
   if(a.an){
     h += crsAnalysisHtml(a.an, st.targets);
     h += a.model ? '<section class="wq-card en-card"><p class="eyebrow">A model answer, to compare by eye</p><p class="en-ex">'+esc(st.model)+'</p></section>'
@@ -4265,27 +4305,30 @@ function crsAnalyse(){
   a.an = speakAnalyze(a.text, k.st.targets, 0);
   save(); renderEnglish();
 }
+function crsCheckText(){
+  return 'Natali’s speaking check (B2, wants C1). Please assess it as my English tutor: vocabulary range, grammar accuracy, collocations, whether it sounds B2 or C1, and my three main priorities. Pronunciation cannot be judged from text.\n\n'+
+    CRS_CHECK.map(function(q, i){ return (i + 1)+'. '+q.p+'\nMy answer: '+(en.check.texts[i] || '(no answer)'); }).join('\n\n');
+}
 function crsCopy(){
   let text = '';
-  if(en && en.stage === 'crs-checkdone'){
-    text = 'Natali’s speaking check (B2, wants C1). Please assess it as my English tutor: vocabulary range, grammar accuracy, collocations, whether it sounds B2 or C1, and my three main priorities. Pronunciation cannot be judged from text.\n\n'+
-      CRS_CHECK.map(function(q, i){ return (i + 1)+'. '+q.p+'\nMy answer: '+(en.check.texts[i] || '(no answer)'); }).join('\n\n');
-  } else {
+  if(en && en.stage === 'crs-checkdone') text = crsCheckText();
+  else {
     const k = crsCur();
     if(!k) return;
     const a = crsAns(k.cr.lid, k.cr.part, k.cr.step);
     text = 'Natali’s speaking task, lesson '+k.l.n+' ('+k.l.title+'). Please assess it as my English tutor: vocabulary range, grammar accuracy, collocations, whether it sounds B2 or C1, my use of the target phrases and my three main priorities.\n\nPrompt: '+k.st.prompt+'\nTarget phrases: '+k.st.targets.join('; ')+'\n\nMy answer: '+(a.text || '(no answer)');
   }
   const done = function(){ toast('Copied. Paste it to your tutor in the chat.'); };
-  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done).catch(function(){ toast('Could not copy: select and copy the text yourself'); });
-  else toast('Could not copy: select and copy the text yourself');
+  if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done).catch(function(){ toast('Could not copy: select the text below and copy it yourself'); });
+  else toast('Could not copy: select the text below and copy it yourself');
 }
 function renderCrsFinish(k){
   const cr = k.cr, l = k.l, c = crsState();
   const mine = crsWordsOf(l).filter(function(w){ return crsHasWord(w.w); }).length;
   if(cr.review){
     view.innerHTML = crsBack('crs-home', 'Lessons')+'<h2 class="rec-title">Lesson '+l.n+' · review</h2><p class="fd-sub">That was the whole of Part '+cr.part+'.</p>'+
-      '<button class="btn btn-primary btn-full" data-act="crs-home" style="margin-top:12px">Back to lessons</button>';
+      '<div class="en-rate" style="margin-top:12px">'+(cr.part === 1 ? '<button class="btn btn-full" data-act="crs-review" data-id="'+esc(cr.lid)+'" data-p="2">Review Part 2</button>' : '')+
+      '<button class="btn btn-primary btn-full" data-act="crs-home">Back to lessons</button></div>';
     return;
   }
   if(cr.part === 1){
@@ -4372,10 +4415,12 @@ function renderCrsCheckDone(){
       return '<section class="wq-card en-card"><p class="eyebrow">Prompt '+(i + 1)+'</p><p class="tk-sub">'+esc(q.p)+'</p><p class="crs-stats"><b>'+an.words+'</b> words · <b>'+an.unique+'</b> different · <b>'+an.fillers+'</b> fillers · <b>'+an.connectors.length+'</b> linking words</p></section>';
     }).join('')+
     '<button class="btn btn-primary btn-full" data-act="crs-copy">Copy for my tutor</button>'+
+    '<textarea id="crsCopyText" class="crs-ta" rows="8" readonly style="margin-top:10px">'+esc(crsCheckText())+'</textarea>'+
     '<button class="btn btn-full" data-act="crs-home" style="margin-top:10px">Back to lessons</button>';
 }
 document.addEventListener('input', function(e){
   const t = e.target;
+  if(t && t.id === 'qzIn'){ qzAns().draft = t.value; clearTimeout(crsAns.t); crsAns.t = setTimeout(save, 700); return; }
   if(!t || !t.matches || !t.matches('[data-crs-text]')) return;
   if(en && en.stage === 'crs'){ const k = crsCur(); if(k) crsAns(k.cr.lid, k.cr.part, k.cr.step).text = t.value; }
   else if(en && en.stage === 'crs-check') en.check.texts[en.check.i] = t.value;
@@ -5429,10 +5474,10 @@ document.addEventListener('click', function(e){
     crsGo(k.cr.lid, k.cr.part, n, k.cr.review);
   }
   else if(act==='crs-prev'){ const k = crsCur(); if(k && k.cr.step > 0) crsGo(k.cr.lid, k.cr.part, k.cr.step - 1, k.cr.review); }
-  else if(act==='crs-review'){ const id = btn.getAttribute('data-id'); if(crsLesson(id)) crsGo(id, 1, 0, true); }
+  else if(act==='crs-review'){ const id = btn.getAttribute('data-id'), p = +btn.getAttribute('data-p') || 1; if(crsLesson(id)) crsGo(id, p, 0, true); }
   else if(act==='crs-mark'){
     const k = crsCur();
-    if(!k) return;
+    if(!k || k.cr.review) return;
     const a = crsAns(k.cr.lid, k.cr.part, k.cr.step);
     if(btn.getAttribute('data-k') === 'tick'){ const i = btn.getAttribute('data-i'); a.ticks = a.ticks || {}; a.ticks[i] = !a.ticks[i]; }
     else { const ta = document.querySelector('[data-crs-text]'); if(ta) a.text = ta.value; a.done = true; }
@@ -5449,7 +5494,7 @@ document.addEventListener('click', function(e){
   }
   else if(act==='qz-pick'){
     const a = qzAns();
-    if(!a.qs || a.shown) return;
+    if(!a.qs || a.shown || (en.crs && en.crs.review)) return;
     const q = a.qs[a.i], i = +btn.getAttribute('data-i');
     if(!q || !q.options || !q.options[i]) return;
     a.pick = i; a.shown = true; a.res.push(!!q.options[i].ok);
@@ -5457,25 +5502,25 @@ document.addEventListener('click', function(e){
   }
   else if(act==='qz-check'){
     const a = qzAns();
-    if(!a.qs || a.shown) return;
+    if(!a.qs || a.shown || (en.crs && en.crs.review)) return;
     const q = a.qs[a.i], f = document.getElementById('qzIn'), typed = f ? f.value : '';
     if(!typed.trim()){ toast('Type your answer first'); return; }
-    a.pick = typed.trim(); a.shown = true; a.res.push(crsGapOk(typed, q.answers));
+    a.pick = typed.trim(); a.shown = true; delete a.draft; a.res.push(crsGapOk(typed, q.answers));
     save(); renderEnglish();
   }
   else if(act==='qz-next'){
     const a = qzAns();
-    if(!a.qs || !a.shown) return;
+    if(!a.qs || !a.shown || (en.crs && en.crs.review)) return;
     qzFinish(a); save();
     if(a.checked && en.stage === 'crs-test') return crsTestDone();
     renderEnglish();
   }
-  else if(act==='crs-rec'){ enMicStart(); crsListen(); }
+  else if(act==='crs-rec'){ crsStopListen(); enMicStart(120000); crsListen(); }
   else if(act==='crs-rec-stop'){ crsStopListen(); enMicStop(); }
-  else if(act==='crs-analyse'){ crsAnalyse(); }
+  else if(act==='crs-analyse'){ if(!(en && en.crs && en.crs.review)) crsAnalyse(); }
   else if(act==='crs-model'){ const k = crsCur(); if(k){ crsAns(k.cr.lid, k.cr.part, k.cr.step).model = true; save(); renderEnglish(); } }
   else if(act==='crs-copy'){ crsCopy(); }
-  else if(act==='crs-roulette'){ state.enView = 'speak'; save(); window.scrollTo(0, 0); renderEnglish(); }
+  else if(act==='crs-roulette'){ crsStopListen(); state.enView = 'speak'; save(); window.scrollTo(0, 0); renderEnglish(); }
   else if(act==='crs-resume'){ state.enView = 'lessons'; save(); window.scrollTo(0, 0); renderEnglish(); }
   else if(act==='crs-test-start'){ crsTestStart(btn.getAttribute('data-id')); }
   else if(act==='crs-check-start'){ crsCheckStart(); }
@@ -5484,10 +5529,13 @@ document.addEventListener('click', function(e){
     const ta = document.getElementById('crsSpeak');
     if(ta) en.check.texts[en.check.i] = ta.value;
     enMicReset(); crsStopListen();
-    if(en.check.i + 1 >= CRS_CHECK.length) return crsCheckDone();
+    if(en.check.i + 1 >= CRS_CHECK.length){
+      if(en.check.texts.every(function(t){ return !String(t).trim(); })){ toast('Say or type at least one answer first'); return; }
+      return crsCheckDone();
+    }
     en.check.i++; window.scrollTo(0, 0); renderEnglish();
   }
-  else if(act==='en-view'){ state.enView = btn.getAttribute('data-v'); if(state.enView !== 'phrases') openPack = null; save(); window.scrollTo(0,0); renderEnglish(); }
+  else if(act==='en-view'){ crsStopListen(); state.enView = btn.getAttribute('data-v'); if(state.enView !== 'phrases') openPack = null; save(); window.scrollTo(0,0); renderEnglish(); }
   else if(act==='tk-retry'){ talkFailed = false; renderEnglish(); }
   else if(act==='tk-spin'){
     if(!TALK || tk.spinning) return;
