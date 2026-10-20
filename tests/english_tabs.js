@@ -39,5 +39,7 @@ check(!!ui && /speechSynthesis\.speak/.test(ui[1]) && !/speechSynthesis/.test(ht
 // the other English parts still work
 check(/function renderTalk\(/.test(html) && /function renderSavedWords\(/.test(html) && /function renderCourse\(/.test(html), 'roulette, saved words and lessons are all still drawn');
 check(/state\.engCourse/.test(html), 'the one-time move to Lessons stays');
+check(!/come back as cards|coming back as cards|card queue/.test(html), "no text promises the removed cards");
+check((html.match(/if\(state\.enView !== 'speak' && state\.enView !== 'words'\) state\.enView = 'lessons';/g) || []).length >= 2, "restoring a backup also turns an old Train view into Lessons");
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: the English tab has Lessons, Speak and Words');

@@ -2277,7 +2277,7 @@ function hbPanel(h){
 const WQ_LEN = 5, WQ_MIN = 4;
 function wqClean(s){ s = String(s == null ? '' : s).trim(); return s === '—' ? '' : s; }
 function wqMeaning(w){ return wqClean(w.ru) || wqClean(w.mean); }
-/* a saved dialogue reply is a whole sentence with an instruction for a meaning: it joins the cards, not the word test */
+/* a saved dialogue reply is a whole sentence with an instruction for a meaning: it stays in Words only (the mini-dialogues that made it are gone), not in the word test */
 function wqUsable(words){ return (words || []).filter(function(w){ return wqClean(w.term) && wqMeaning(w) && w.src !== 'dialogue'; }); }
 function wqShuffle(a, rnd){
   const b = a.slice();
@@ -3389,7 +3389,7 @@ function crsWordsOf(l){
   return out;
 }
 function crsHasWord(term){ return (state.words || []).some(function(x){ return String(x.term).toLowerCase() === String(term).toLowerCase(); }); }
-/* + My words: joins her saved words (the card queue and the word test), never twice */
+/* + My words: joins her saved words (the word test), never twice */
 function crsAddWord(w){
   if(!state.words) state.words = [];
   if(state.words.some(function(x){ return String(x.term).toLowerCase() === w.w.toLowerCase(); })) return false;
@@ -3718,7 +3718,7 @@ function renderCrsFinish(k){
   const s = crsStatus(c, CRS.order, today()), nx = s.cur;
   const nxTitle = nx ? (nx.kind === 'lesson' ? 'Lesson '+CRS.byId[nx.id].n+': '+CRS.byId[nx.id].title : 'Unit test') : '';
   view.innerHTML = '<p class="eyebrow" style="margin:4px 2px 0">Lesson '+l.n+' · complete</p><h2 class="rec-title">Lesson done ✓</h2>'+
-    '<p class="fd-sub">'+(d.score.n ? 'Quiz and gap exercises: '+d.score.right+' of '+d.score.n+' on the first try. ' : '')+mine+' of '+crsWordsOf(l).length+' phrases are in My words and come back as cards.</p>'+
+    '<p class="fd-sub">'+(d.score.n ? 'Quiz and gap exercises: '+d.score.right+' of '+d.score.n+' on the first try. ' : '')+mine+' of '+crsWordsOf(l).length+' phrases are in My words and come back in the word test.</p>'+
     '<p class="fd-sub">The speaking habit is ticked.</p>'+
     '<div class="en-rate" style="margin-top:14px">'+(nx ? '<button class="btn btn-primary btn-full" data-act="crs-open">Next: '+esc(nxTitle)+'</button>' : '')+
     '<button class="btn btn-full" data-act="crs-home">Back to lessons</button></div>';
@@ -3752,7 +3752,7 @@ function renderCrsTestDone(){
   view.innerHTML = '<p class="eyebrow" style="margin:4px 2px 0">Unit test · done</p><h2 class="rec-title">'+r.right+' of '+r.n+'</h2>'+
     (r.revisit.length
       ? '<p class="fd-sub">Worth another look before you go on:</p><div class="en-rate">'+r.revisit.map(function(id){ const l = CRS.byId[id]; return l ? '<button class="btn btn-full" data-act="crs-review" data-id="'+esc(id)+'">Lesson '+l.n+': '+esc(l.title)+'</button>' : ''; }).join('')+'</div>'
-      : '<p class="fd-sub">'+(r.right / r.n >= 0.8 ? 'Strong. These phrases are yours now.' : 'A solid result. The phrases will keep coming back as cards.')+'</p>')+
+      : '<p class="fd-sub">'+(r.right / r.n >= 0.8 ? 'Strong. These phrases are yours now.' : 'A solid result. The phrases will keep coming back in the word test.')+'</p>')+
     '<button class="btn btn-primary btn-full" data-act="crs-home" style="margin-top:14px">Back to lessons</button>';
 }
 
@@ -4904,6 +4904,7 @@ document.addEventListener('click', function(e){
       if(!state.cleanWater){ if(!state.log) state.log = {}; waterOneTap(state.habits, state.log); state.cleanWater = true; }
       if(!state.cleanWords){ if(!state.log) state.log = {}; wordsOneTap(state.habits, state.log); state.cleanWords = true; }
       state.cleanDoodle = true; /* a restored backup keeps the theme she picked */
+      if(state.enView !== 'speak' && state.enView !== 'words') state.enView = 'lessons';
       arcEnsure(state, today());
       practiceEnsure(state);
       neckEnsure(state);
