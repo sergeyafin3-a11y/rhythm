@@ -2277,7 +2277,7 @@ function hbPanel(h){
 const WQ_LEN = 5, WQ_MIN = 4;
 function wqClean(s){ s = String(s == null ? '' : s).trim(); return s === '—' ? '' : s; }
 function wqMeaning(w){ return wqClean(w.ru) || wqClean(w.mean); }
-/* a saved dialogue reply is a whole sentence with an instruction for a meaning: it joins the cards, not the word test */
+/* a saved dialogue reply is a whole sentence with an instruction for a meaning: it stays in Words only (the mini-dialogues that made it are gone), not in the word test */
 function wqUsable(words){ return (words || []).filter(function(w){ return wqClean(w.term) && wqMeaning(w) && w.src !== 'dialogue'; }); }
 function wqShuffle(a, rnd){
   const b = a.slice();
@@ -2748,8 +2748,9 @@ function wordsOneTap(habits, log){
 /* words:end */
 if(!state.cleanWords){ wordsOneTap(state.habits, state.log); state.cleanWords = true; }
 /* the hand-drawn Doodle theme is switched on once; she can pick any other in Settings → Theme */
-if(!state.engTrain){ state.enView = 'train'; state.engTrain = true; }
 if(!state.engCourse){ state.enView = 'lessons'; state.engCourse = true; }
+/* the old Train and Phrases screens are gone: anyone saved on one of them lands on Lessons */
+if(state.enView !== 'speak' && state.enView !== 'words') state.enView = 'lessons';
 if(!state.cleanDoodle){
   if(state.skin) state.skin = 'doodle';
   state.cleanDoodle = true;
@@ -3122,139 +3123,28 @@ function renderEnglish(){
   const v = state.enView || 'lessons';
   if(v === 'words') return renderSavedWords();
   if(v === 'speak') return renderTalk();
-  if(v === 'train') return renderTrain();
   renderCourse();
 }
 function enSeg(){
   const v = state.enView || 'lessons', n = (state.words || []).length;
   return '<div class="seg" role="tablist">'+
     '<button role="tab" data-act="en-view" data-v="lessons" aria-selected="'+(v === 'lessons')+'">Lessons</button>'+
-    '<button role="tab" data-act="en-view" data-v="train" aria-selected="'+(v === 'train')+'">Train</button>'+
     '<button role="tab" data-act="en-view" data-v="speak" aria-selected="'+(v === 'speak')+'">Speak</button>'+
     '<button role="tab" data-act="en-view" data-v="words" aria-selected="'+(v === 'words')+'">Words'+(n ? ' <small>'+n+'</small>' : '')+'</button></div>';
 }
 
-/* ---------- English trainer: spoken phrases that stick (spaced repetition) ----------
-   Ten sets of phrases people really say. Each comes back after 1, 3, 7, 14, 30, 60 days; one she forgets comes
-   back tomorrow. Her own saved words join the same deck. */
+/* ---------- English: what the lessons share ----------
+   The phone's own voice (only on a tap, only here) and the microphone for speaking tasks. */
 /* srs:pure */
-const SRS_STEPS = [1, 3, 7, 14, 30, 60], SRS_TOP = 5, SRS_REVIEW_MAX = 10, SRS_NEW_DEFAULT = 5;
-function srsAdd(key, n){
-  const p = String(key).split('-').map(Number), d = new Date(p[0], p[1] - 1, p[2] + n);
-  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-}
-/* one answer: right moves the phrase up a step, wrong sends it back to tomorrow.
-   A phrase met for the first time that she already knows starts at the second step. */
-function srsGrade(c, ok, today){
-  const r = Object.assign({b:0, due:today, seen:0, ok:0, lapses:0, last:''}, c || {});
-  r.seen += 1; r.last = today;
-  if(ok){ r.ok += 1; r.b = c ? Math.min(SRS_TOP, r.b + 1) : 1; }
-  else { r.b = 0; if(c) r.lapses += 1; }
-  r.due = srsAdd(today, SRS_STEPS[r.b]);
-  return r;
-}
-/* the phrases that are due, the most overdue first; unseen ones are not due */
-function srsDue(ids, cards, today){
-  return ids.filter(function(id){ return cards[id] && cards[id].due <= today; })
-    .sort(function(a, b){ return String(cards[a].due).localeCompare(String(cards[b].due)); });
-}
-/* today's work: a few reviews, then new phrases up to the daily limit (those already met today count) */
-function srsPlan(deck, cards, today, newN, revMax, metToday){
-  const rev = srsDue(deck, cards, today).slice(0, revMax);
-  const room = Math.max(0, newN - (metToday || 0));
-  return {rev:rev, fresh:deck.filter(function(id){ return !cards[id]; }).slice(0, room)};
-}
-/* her own words are mixed in: one for every `every` phrases of the sets */
-function srsMerge(own, rest, every){
-  const out = []; let i = 0, j = 0;
-  while(i < own.length || j < rest.length){
-    if(i < own.length) out.push(own[i++]);
-    for(let k = 0; k < every && j < rest.length; k++) out.push(rest[j++]);
-  }
-  return out;
-}
-function srsStats(deck, cards, today){
-  let learned = 0, learning = 0, due = 0;
-  deck.forEach(function(id){
-    const c = cards[id];
-    if(!c) return;
-    if(c.b >= 4) learned++; else learning++;
-    if(c.due <= today) due++;
-  });
-  return {total:deck.length, learned:learned, learning:learning, due:due, fresh:deck.length - learned - learning};
-}
 function srsShuffle(a, rnd){
   const b = a.slice();
   for(let i = b.length - 1; i > 0; i--){ const j = Math.floor(rnd() * (i + 1)), t = b[i]; b[i] = b[j]; b[j] = t; }
   return b;
 }
-/* the level check: easy questions first, the options in a random order */
-function placeBuild(bank, rnd){
-  return bank.slice().sort(function(a, b){ return a.lvl - b.lvl; }).map(function(q){
-    return {q:q.q, lvl:q.lvl, options:srsShuffle(q.o.map(function(t, i){ return {t:t, ok:i === q.a}; }), rnd)};
-  });
-}
-function placeScore(right, n){
-  const r = right / n;
-  if(r <= 0.45) return {right:right, n:n, level:'starter', newPerDay:4};
-  if(r < 0.8) return {right:right, n:n, level:'core', newPerDay:5};
-  return {right:right, n:n, level:'stretch', newPerDay:6};
-}
-/* the sets nearest her level come first; ties keep their order */
-function placeOrder(sets, level){
-  const target = {starter:1, core:2, stretch:3}[level] || 2;
-  return sets.map(function(s, i){ return {s:s, i:i}; })
-    .sort(function(a, b){ return (Math.abs(a.s.lvl - target) - Math.abs(b.s.lvl - target)) || (a.i - b.i); })
-    .map(function(x){ return x.s; });
-}
 /* srs:end */
 
 /* eng:ui */
-let PH = null, phLoading = false, phFailed = false;
-function phLoad(){
-  if(PH || phLoading || phFailed) return;
-  phLoading = true; phFailed = false;
-  fetch('english/phrases.json').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function(d){
-      d.cardById = {};
-      d.sets.forEach(function(s){ s.cards.forEach(function(c){ c.set = s.id; d.cardById[c.id] = c; }); });
-      PH = d; phLoading = false;
-      if(tab === 'english') renderEnglish();
-    })
-    .catch(function(){ phLoading = false; phFailed = true; if(tab === 'english') renderEnglish(); });
-}
-function engState(){ if(!state.eng) state.eng = {cards:{}, days:{}, order:[], placed:null, newPerDay:SRS_NEW_DEFAULT}; return state.eng; }
-function engDayRead(){ return engState().days[today()] || {rev:0, fresh:0, bonus:0, done:false}; }
-function engDayWrite(){ const e = engState(); return e.days[today()] || (e.days[today()] = {rev:0, fresh:0, bonus:0, done:false}); }
-function engOrder(){
-  const base = PH.sets.map(function(s){ return s.id; }), order = (engState().order || []).filter(function(id){ return base.indexOf(id) >= 0; });
-  base.forEach(function(id){ if(order.indexOf(id) < 0) order.push(id); });
-  return order;
-}
-function engOwn(){ return (state.words || []).filter(function(w){ return wqClean(w.term) && wqMeaning(w); }); }
-/* the sets in her order, with her own words mixed in */
-function engDeck(){
-  const ids = [];
-  engOrder().forEach(function(sid){ PH.sets.find(function(s){ return s.id === sid; }).cards.forEach(function(c){ ids.push(c.id); }); });
-  return srsMerge(engOwn().map(function(w){ return 'w:' + w.id; }), ids, 2);
-}
-function engUnseen(){
-  const cards = engState().cards;
-  return engDeck().filter(function(id){ return engCard(id) && !cards[id]; }).length;
-}
-function engRuLang(t){ return /[а-яё]/i.test(t) ? 'ru' : 'en'; }
-function engCard(id){
-  if(id.indexOf('w:') === 0){
-    const w = (state.words || []).find(function(x){ return 'w:' + x.id === id; });
-    return w ? {id:id, en:String(w.term).trim(), ru:wqMeaning(w), ex:w.ctx || '', exru:'', own:true} : null;
-  }
-  return PH.cardById[id] || null;
-}
-function engNewPerDay(){ return engState().newPerDay || SRS_NEW_DEFAULT; }
-function engPlan(){
-  const e = engState(), d = engDayRead();
-  return srsPlan(engDeck().filter(engCard), e.cards, today(), engNewPerDay() + (d.bonus || 0), SRS_REVIEW_MAX, d.fresh || 0);
-}
+function engState(){ if(!state.eng) state.eng = {}; return state.eng; }
 
 /* the phone's own voice, only here and only after a tap */
 function engVoice(){
@@ -3279,12 +3169,7 @@ function engLeave(){
   try{ if('speechSynthesis' in window) speechSynthesis.cancel(); }catch(e){}
 }
 function enRender(){ if(tab === 'english') renderEnglish(); }
-function engVoiceBtns(id, what){
-  return '<span class="en-voice"><button class="btn btn-sm" data-act="en-speak" data-id="'+esc(id)+'" data-w="'+what+'" data-slow="0">🔊 Listen</button>'+
-    '<button class="btn btn-ghost btn-sm" data-act="en-speak" data-id="'+esc(id)+'" data-w="'+what+'" data-slow="1">🐢 Slowly</button></span>';
-}
 
-/* the session lives in memory; every answer is saved as it is given */
 let en = null;
 const enMic = {rec:null, url:null, timer:null, no:false, busy:false};
 function enMicReset(){
@@ -3320,519 +3205,6 @@ function enMicStart(maxMs){
 function enMicStop(){
   clearTimeout(enMic.timer); enMic.timer = null;
   if(enMic.rec && enMic.rec.state !== 'inactive'){ try{ enMic.rec.stop(); }catch(e){} }
-}
-
-function engBack(){
-  return '<button class="backbtn" data-act="en-exit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back</button>';
-}
-function engStart(){
-  const plan = engPlan(), q = [];
-  plan.rev.forEach(function(id){ q.push({id:id, mode:'rev'}); });
-  plan.fresh.forEach(function(id){ q.push({id:id, mode:'new'}); });
-  if(!q.length){ toast('Nothing left to practise right now'); return; }
-  enMicReset();
-  en = {stage:'card', q:q, base:q.length, i:0, shown:false, said:[], si:0, right:0, miss:0};
-  window.scrollTo(0, 0); renderEnglish();
-}
-/* up to three phrases to say aloud: new ones first, then the ones she just revised */
-function engSayPick(){
-  const seen = {}, out = [];
-  en.q.slice().sort(function(a, b){ return (a.mode === 'new' ? 0 : 1) - (b.mode === 'new' ? 0 : 1); }).forEach(function(x){
-    if(out.length < 3 && !seen[x.id] && engCard(x.id)){ seen[x.id] = 1; out.push(x.id); }
-  });
-  return out;
-}
-function engRate(ok, id){
-  const x = en.q[en.i];
-  if(!x || x.id !== id) return;
-  const e = engState(), d = engDayWrite();
-  if(!x.again){
-    e.cards[x.id] = srsGrade(e.cards[x.id], ok, today());
-    if(x.mode === 'new') d.fresh = (d.fresh || 0) + 1; else d.rev = (d.rev || 0) + 1;
-    if(ok) en.right++; else en.miss++;
-    if(!ok && x.mode === 'rev') en.q.push({id:x.id, mode:'rev', again:true});
-    save();
-  }
-  en.i++; en.shown = false;
-  if(en.i >= en.q.length) return engToSay();
-  window.scrollTo(0, 0); renderEnglish();
-}
-/* the cards are done: the day counts and the speaking habit is ticked; speaking aloud is the bonus that follows */
-function engCardsDone(){
-  const d = engDayWrite();
-  if(en && en.q.length && !d.done){ d.done = true; spTick(); save(); }
-}
-/* every planned card is graded but the day was never completed (she left from the “once more” card, or the level check lowered the daily number) */
-function engSettle(){
-  const d = engDayRead(), p = engPlan();
-  if(!d.done && ((d.rev || 0) + (d.fresh || 0)) > 0 && !p.rev.length && !p.fresh.length){ engDayWrite().done = true; spTick(); save(); }
-}
-function engToSay(){
-  engCardsDone();
-  en.stage = 'say'; en.said = engSayPick(); en.si = 0; enMicReset();
-  if(!en.said.length) return engFinish();
-  window.scrollTo(0, 0); renderEnglish();
-}
-function engFinish(btn){
-  engLeave();
-  if(!en) en = {right:0, miss:0, q:[], said:[], i:0, si:0};
-  en.stage = 'done';
-  if(btn) celebrate(btn);
-  window.scrollTo(0, 0); renderEnglish();
-}
-
-function renderTrain(){
-  phLoad();
-  let h = enSeg();
-  if(!PH){
-    h += phFailed
-      ? '<div class="empty" style="padding:40px 14px"><p>Could not load the phrases. They load once and then work offline.</p><button class="btn" data-act="en-retry">Try again</button></div>'
-      : '<div class="empty" style="padding:40px 14px"><p>Loading the phrases…</p></div>';
-    view.innerHTML = h; return;
-  }
-  if(en && en.stage === 'card') return renderEnCard();
-  if(en && en.stage === 'say') return renderEnSay();
-  if(en && en.stage === 'done') return renderEnDone();
-  if(en && en.stage === 'dlg-list') return renderDlgList();
-  if(en && en.stage === 'dlg') return renderDlgPlay();
-  if(en && en.stage === 'dlg-done') return renderDlgDone();
-  if(en && en.stage === 'lis') return renderLisPlay();
-  if(en && en.stage === 'lis-done') return renderLisDone();
-  if(en && en.stage === 'place') return renderEnPlace();
-  if(en && en.stage === 'placed') return renderEnPlaced();
-  const e = engState(), deck = engDeck().filter(engCard), st = srsStats(deck, e.cards, today()), d = engDayRead(), plan = engPlan();
-  const todo = plan.rev.length + plan.fresh.length;
-  h += '<section class="wq-card en-hero"><p class="eyebrow">🎧 15 minutes of English</p>';
-  if(d.done){
-    h += '<h3>✓ Done for today</h3><p class="fd-sub">'+(d.rev || 0)+' reviewed · '+(d.fresh || 0)+' new. '+(todo ? todo+' more waiting.' : 'See you tomorrow'+(st.due ? ' — '+st.due+' will be waiting' : '')+'.')+'</p>'+
-      (todo ? '<button class="btn btn-full" data-act="en-start">Go again</button>' : engUnseen() ? '<button class="btn btn-full" data-act="en-more">5 more new phrases</button>' : '');
-  } else if(!todo){
-    h += '<h3>Nothing to do right now</h3><p class="fd-sub">Every phrase is learned or waiting for its day.</p>';
-  } else {
-    h += '<h3>'+plan.rev.length+' to review · '+plan.fresh.length+' new</h3>'+
-      '<p class="fd-sub">Say each phrase out loud, then check. At the end you speak three of them and hear yourself.</p>'+
-      '<button class="btn btn-primary btn-full" data-act="en-start">Start</button>';
-  }
-  h += '</section>';
-  dlLoad();
-  const dlNext = DL ? dlgNext(DL.scenes, engDlg().done, engLevel()) : null, dlDone = DL ? DL.scenes.filter(function(s){ return engDlg().done[s.id]; }).length : 0;
-  h += '<section class="wq-card"><p class="eyebrow">💬 Mini-dialogues</p>'+(DL
-    ? '<h3>'+(dlNext ? esc(dlNext.name) : 'Every scene done')+'</h3><p class="fd-sub">Someone speaks, you answer: pick the natural reply, then say it aloud. '+dlDone+' of '+DL.scenes.length+' done.</p>'+
-      (dlNext ? '<button class="btn btn-primary btn-full" data-act="dlg-start" data-id="'+esc(dlNext.id)+'">Start</button>' : '')+
-      '<button class="btn btn-full" data-act="dlg-open"'+(dlNext ? ' style="margin-top:8px"' : '')+'>All scenes</button>'
-    : (dlFailed ? '<p class="fd-sub">Could not load the scenes. <button class="linkbtn" data-act="en-retry">Try again</button></p>' : '<p class="fd-sub">Loading the scenes…</p>'))+'</section>';
-  lsLoad();
-  const lsDay = engLis().days[today()];
-  h += '<section class="wq-card"><p class="eyebrow">👂 Listening</p>'+(LS
-    ? '<h3>A round of up to 8</h3><p class="fd-sub">The phone speaks, you work out what it said: sound-alikes, dictation and a short message. '+(lsDay ? 'Today: '+(lsDay.rounds ? lsDay.rounds+' round'+(lsDay.rounds === 1 ? '' : 's')+', ' : '')+lsDay.right+' of '+lsDay.n+' right'+(lsDay.rounds ? '.' : ' so far.') : 'Pick a speed and press Start.')+'</p>'+
-      lisSpeedChips()+'<button class="btn btn-primary btn-full" data-act="lis-start" style="margin-top:10px">Start</button>'
-    : (lsFailed ? '<p class="fd-sub">Could not load the listening tasks. <button class="linkbtn" data-act="en-retry">Try again</button></p>' : '<p class="fd-sub">Loading…</p>'))+'</section>';
-  if(!e.placed){
-    h += '<section class="wq-card"><p class="eyebrow">📝 Level check</p><h3>Which phrases are right for you?</h3>'+
-      '<p class="fd-sub">20 quick questions, about 3 minutes. It sets where you start and how many new phrases a day.</p>'+
-      '<button class="btn btn-full" data-act="en-place-start">Take the level check</button></section>';
-  } else {
-    h += '<p class="tk-sub" style="margin:0 2px 14px">Level check: '+e.placed.right+' of '+e.placed.n+' · '+engNewPerDay()+' new a day. <button class="linkbtn" data-act="en-place-start">Take it again</button></p>';
-  }
-  h += '<div class="section-head"><p class="eyebrow">'+st.learned+' learned · '+st.learning+' in progress'+(st.due ? ' · '+st.due+' due' : '')+'</p></div>';
-  const order = engOrder();
-  h += '<div class="en-sets">'+order.map(function(sid, idx){
-    const s = PH.sets.find(function(x){ return x.id === sid; });
-    let l = 0, k = 0;
-    s.cards.forEach(function(c){ const cc = e.cards[c.id]; if(cc){ if(cc.b >= 4) l++; else k++; } });
-    return '<article class="en-set'+(idx === 0 ? ' first' : '')+'"><div class="en-set-top"><span class="en-set-e">'+s.emoji+'</span>'+
-      '<span class="en-set-t"><b>'+esc(s.name)+'</b><small>'+esc(s.about)+'</small></span></div>'+
-      '<div class="pbar"><i style="width:'+Math.round((l + k * 0.4) / s.cards.length * 100)+'%"></i></div>'+
-      '<div class="en-set-foot"><small>'+l+' learned · '+k+' in progress · '+(s.cards.length - l - k)+' new</small>'+
-      (idx === 0 ? '<span class="en-next">next</span>' : '<button class="btn btn-ghost btn-sm" data-act="en-focus" data-id="'+esc(s.id)+'">Study first</button>')+'</div></article>';
-  }).join('')+'</div>';
-  const own = engOwn().length;
-  h += '<p class="tk-sub" style="margin:14px 2px 0">'+(own ? 'Your '+own+' saved word'+(own === 1 ? '' : 's')+' with a meaning '+(own === 1 ? 'is' : 'are')+' mixed in with the sets.' : 'Saved words that have a meaning join this queue, mixed in with the sets.')+'</p>';
-  view.innerHTML = h;
-}
-function renderEnCard(){
-  const x = en.q[en.i], c = engCard(x.id);
-  if(!c){ en.i++; if(en.i >= en.q.length) return engToSay(); return renderEnCard(); }
-  let h = engBack()+'<p class="eyebrow" style="margin:14px 2px 8px">'+(x.again ? 'Once more' : (x.mode === 'new' ? 'New phrase' : 'Review')+' · '+Math.min(en.i + 1, en.base)+' of '+en.base)+'</p>';
-  if(x.mode === 'new'){
-    h += '<section class="wq-card en-card"><p class="en-big">'+esc(c.en)+'</p><p class="en-ru" lang="'+engRuLang(c.ru)+'">'+esc(c.ru)+'</p>'+
-      (c.ex ? '<p class="en-ex">'+esc(c.ex)+'</p>' : '')+(c.exru ? '<p class="en-exru" lang="ru">'+esc(c.exru)+'</p>' : '')+
-      engVoiceBtns(x.id, 'en')+'</section>'+
-      '<p class="tk-sub">Say it out loud twice. Then tell me how it feels.</p>'+
-      '<div class="en-rate"><button class="btn btn-full" data-act="en-rate" data-id="'+esc(x.id)+'" data-v="0">New to me</button>'+
-      '<button class="btn btn-primary btn-full" data-act="en-rate" data-id="'+esc(x.id)+'" data-v="1">I already know it</button></div>';
-  } else if(!en.shown){
-    h += '<section class="wq-card en-card"><p class="en-ru en-ru-big" lang="'+engRuLang(c.ru)+'">'+esc(c.ru)+'</p></section>'+
-      '<p class="tk-sub">How would you say it in English? Say it out loud, then check.</p>'+
-      '<button class="btn btn-primary btn-full" data-act="en-show">Show the answer</button>';
-  } else {
-    h += '<section class="wq-card en-card"><p class="en-ru" lang="'+engRuLang(c.ru)+'">'+esc(c.ru)+'</p><p class="en-big">'+esc(c.en)+'</p>'+
-      (c.ex ? '<p class="en-ex">'+esc(c.ex)+'</p>' : '')+(c.exru ? '<p class="en-exru" lang="ru">'+esc(c.exru)+'</p>' : '')+
-      engVoiceBtns(x.id, 'en')+'</section>'+
-      '<div class="en-rate"><button class="btn btn-full" data-act="en-rate" data-id="'+esc(x.id)+'" data-v="0">Didn’t remember</button>'+
-      '<button class="btn btn-primary btn-full" data-act="en-rate" data-id="'+esc(x.id)+'" data-v="1">Remembered</button></div>';
-  }
-  view.innerHTML = h;
-}
-function renderEnSay(){
-  const id = en.said[en.si], c = id && engCard(id);
-  if(!c) return engFinish();
-  let h = engBack()+'<p class="eyebrow" style="margin:14px 2px 8px">Say it aloud · '+(en.si + 1)+' of '+en.said.length+'</p>'+
-    '<section class="wq-card en-card"><p class="en-ru en-ru-big" lang="'+engRuLang(c.ru)+'">'+esc(c.ru)+'</p>'+
-    '<p class="en-big">'+esc(c.en)+'</p>'+engVoiceBtns(id, 'en')+'</section>';
-  if(enMic.busy && enMic.rec){
-    h += '<p class="tk-sub">Recording… say it naturally.</p><button class="btn btn-primary btn-full" data-act="en-mic-stop">■ Stop</button>';
-  } else if(enMic.busy){
-    h += '<p class="tk-sub">Waiting for the microphone…</p>';
-  } else if(enMic.url){
-    h += '<audio controls preload="metadata" src="'+enMic.url+'" style="width:100%"></audio>'+
-      '<p class="tk-sub" style="margin-top:8px">Listen to the phrase, then to yourself. Not the same? Try again.</p>'+
-      '<div class="en-rate"><button class="btn btn-full" data-act="en-mic">Try again</button>'+
-      '<button class="btn btn-primary btn-full" data-act="en-say-next">'+(en.si + 1 < en.said.length ? 'Next phrase' : 'Finish')+'</button></div>';
-  } else {
-    h += (enMic.no ? '<p class="tk-sub">The microphone isn’t available here — say it out loud anyway.</p>' : '<p class="tk-sub">Press the button, say the phrase, and hear yourself back.</p>')+
-      '<div class="en-rate">'+(enMic.no ? '' : '<button class="btn btn-primary btn-full" data-act="en-mic">● Record</button>')+
-      '<button class="btn btn-full" data-act="en-say-next">'+(en.si + 1 < en.said.length ? 'Next phrase' : 'Finish')+'</button></div>';
-  }
-  h += '<button class="linkbtn" data-act="en-skip-say" style="margin-top:12px">Skip speaking</button>';
-  view.innerHTML = h;
-}
-function renderEnDone(){
-  const e = engState(), deck = engDeck().filter(engCard), st = srsStats(deck, e.cards, today()), d = engDayRead();
-  view.innerHTML = engBack()+'<p class="eyebrow" style="margin:14px 2px 0">15 minutes of English · done</p>'+
-    '<h2 class="rec-title">Well done</h2>'+
-    '<p class="fd-sub">'+(d.rev || 0)+' reviewed · '+(d.fresh || 0)+' new today. '+st.learned+' phrases learned so far, '+st.learning+' on their way.</p>'+
-    '<p class="fd-sub">The speaking habit is ticked. Forgotten phrases come back tomorrow, the rest in a few days.</p>'+
-    '<button class="btn btn-primary btn-full" data-act="en-exit" style="margin-top:16px">Done</button>';
-}
-function renderEnPlace(){
-  const p = en.place, q = p.qs[p.i], picked = p.picked, answered = picked != null;
-  let h = engBack()+'<p class="eyebrow" style="margin:14px 2px 8px">Level check · '+(p.i + 1)+' of '+p.qs.length+'</p>'+
-    '<p class="pd-q">'+esc(q.q)+'</p><div class="pd-opts">'+q.options.map(function(o, i){
-      const cls = !answered ? '' : o.ok ? ' right' : i === picked ? ' wrong' : ' dim';
-      return '<button class="pd-opt'+cls+'" data-act="en-pick" data-i="'+i+'"'+(answered ? ' disabled' : '')+'><span class="k">'+'ABCD'[i]+'</span><span>'+esc(o.t)+'</span></button>';
-    }).join('')+'</div>';
-  if(answered) h += '<button class="btn btn-primary btn-full" data-act="en-place-next" style="margin-top:14px">'+(p.i + 1 < p.qs.length ? 'Next' : 'See the result')+'</button>';
-  view.innerHTML = h;
-}
-function renderEnPlaced(){
-  const e = engState(), r = e.placed;
-  const text = {starter:'Everyday phrases first, gently — 4 new a day.', core:'A steady mix — 5 new a day.', stretch:'The harder sets come first — 6 new a day.'}[r.level];
-  const names = engOrder().slice(0, 2).map(function(id){ return PH.sets.find(function(x){ return x.id === id; }).name; });
-  view.innerHTML = engBack()+'<p class="eyebrow" style="margin:14px 2px 0">Level check · done</p>'+
-    '<h2 class="rec-title">'+r.right+' of '+r.n+'</h2><p class="fd-sub">'+text+' First up: '+esc(names.join(' and '))+'. You can change the first set any time.</p>'+
-    '<button class="btn btn-primary btn-full" data-act="en-exit" style="margin-top:16px">Start learning</button>';
-}
-
-/* ---- Mini-dialogues: someone speaks, she answers (pick the natural reply, then say it aloud) ---- */
-/* dlg:pure */
-const DLG_GROUPS = {teach:'Your lessons', daily:'Everyday', work:'Work', social:'People', travel:'Travel'};
-function dlgGroup(id){ return DLG_GROUPS[String(id).split('-')[0]] || 'More'; }
-/* a scene ready to play: their lines as they are, her turns with the three options shuffled and the reasons kept */
-function dlgBuild(scene, rnd){
-  return scene.turns.map(function(t){
-    if(t.who === 'them') return {who:'them', en:t.en, ru:t.ru};
-    const opts = [{t:t.en, ok:true}].concat(t.bad.map(function(b){ return {t:b.t, ok:false, why:b.why}; }));
-    return {who:'you', ru:t.ru, right:t.en, options:srsShuffle(opts, rnd)};
-  });
-}
-/* the next scene she has not done, nearest her level first; null when everything is done */
-function dlgNext(scenes, done, level){
-  return placeOrder(scenes, level).find(function(s){ return !done[s.id]; }) || null;
-}
-/* the best result of a scene is kept: a careless replay never lowers it */
-function dlgBest(prev, cur){ return prev && prev.right >= cur.right ? prev : cur; }
-/* dlg:end */
-let DL = null, dlLoading = false, dlFailed = false;
-function dlLoad(){
-  if(DL || dlLoading || dlFailed) return;
-  dlLoading = true; dlFailed = false;
-  fetch('english/dialogues.json').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function(d){
-      d.byId = {}; d.scenes.forEach(function(s){ d.byId[s.id] = s; });
-      DL = d; dlLoading = false;
-      if(tab === 'english') renderEnglish();
-    })
-    .catch(function(){ dlLoading = false; dlFailed = true; if(tab === 'english') renderEnglish(); });
-}
-let LS = null, lsLoading = false, lsFailed = false;
-function lsLoad(){
-  if(LS || lsLoading || lsFailed) return;
-  lsLoading = true; lsFailed = false;
-  fetch('english/listening.json').then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function(d){ LS = d; lsLoading = false; if(tab === 'english') renderEnglish(); })
-    .catch(function(){ lsLoading = false; lsFailed = true; if(tab === 'english') renderEnglish(); });
-}
-function engDlg(){ const e = engState(); if(!e.dlg) e.dlg = {done:{}}; if(!e.dlg.done) e.dlg.done = {}; return e.dlg; }
-function engLevel(){ const p = engState().placed; return p ? p.level : 'starter'; }
-function engSpeakBtns(text){
-  return '<span class="en-voice"><button class="btn btn-sm" data-act="en-speak-t" data-t="'+esc(text)+'" data-slow="0">🔊 Listen</button>'+
-    '<button class="btn btn-ghost btn-sm" data-act="en-speak-t" data-t="'+esc(text)+'" data-slow="1">🐢 Slowly</button></span>';
-}
-function dlgStart(id){
-  const sc = DL && DL.byId[id];
-  if(!sc) return;
-  enMicReset();
-  en = {stage:'dlg', dlg:{sc:sc, turns:dlgBuild(sc, Math.random), i:0, picked:null, right:0, n:0, ruOn:false, saved:false}};
-  window.scrollTo(0, 0); renderEnglish();
-}
-function dlgFinish(btn){
-  const d = en.dlg;
-  const done = engDlg().done;
-  done[d.sc.id] = dlgBest(done[d.sc.id], {date:today(), right:d.right, n:d.n});
-  spTick(); save(); enMicReset();
-  en.stage = 'dlg-done';
-  if(btn) celebrate(btn);
-  window.scrollTo(0, 0); renderEnglish();
-}
-/* the phrases she chose in this scene join her saved words (and so the card queue and the word test); known ones are skipped */
-function dlgSave(){
-  const d = en.dlg; let added = 0;
-  if(!state.words) state.words = [];
-  d.turns.forEach(function(t, i){
-    if(t.who !== 'you') return;
-    if(state.words.some(function(w){ return String(w.term).toLowerCase() === t.right.toLowerCase(); })) return;
-    const prev = d.turns[i - 1];
-    state.words.push({id:'w'+Date.now().toString(36)+i, term:t.right, ctx:(prev ? prev.en+' — ' : '')+t.right, mean:'', ru:t.ru, src:'dialogue', box:0, seen:0, right:0, last:''});
-    added++;
-  });
-  d.saved = true; save();
-  toast(added ? 'Saved '+added+' phrase'+(added === 1 ? '' : 's')+' to your words' : 'Already in your words');
-}
-function dlgBubble(t, you){
-  return '<div class="dlg-bub '+(you ? 'you' : 'them')+'">'+esc(you ? t.right : t.en)+'</div>';
-}
-function renderDlgList(){
-  const done = engDlg().done;
-  let h = engBack()+'<p class="eyebrow" style="margin:14px 2px 8px">Mini-dialogues</p>';
-  ['teach', 'daily', 'work', 'social', 'travel'].forEach(function(g){
-    const list = DL.scenes.filter(function(s){ return s.id.split('-')[0] === g; });
-    if(!list.length) return;
-    h += '<div class="section-head"><p class="eyebrow">'+dlgGroup(list[0].id)+'</p></div><div class="en-sets">'+list.map(function(s){
-      const r = done[s.id];
-      return '<button class="en-set dlg-row" data-act="dlg-start" data-id="'+esc(s.id)+'"><div class="en-set-top"><span class="en-set-e">'+s.emoji+'</span>'+
-        '<span class="en-set-t"><b>'+esc(s.name)+'</b><small>'+esc(s.about)+'</small></span>'+
-        (r ? '<span class="en-next">✓ '+r.right+'/'+r.n+'</span>' : '<span class="en-lvl">'+['easy', 'medium', 'harder'][s.lvl - 1]+'</span>')+'</div></button>';
-    }).join('')+'</div>';
-  });
-  view.innerHTML = h;
-}
-function renderDlgPlay(){
-  const d = en.dlg, t = d.turns[d.i];
-  let h = engBack()+'<p class="eyebrow" style="margin:14px 2px 8px">'+esc(d.sc.name)+' · '+(d.i + 1)+' of '+d.turns.length+'</p><div class="dlg-chat">';
-  for(let k = Math.max(0, d.i - 2); k < d.i; k++) h += dlgBubble(d.turns[k], d.turns[k].who === 'you');
-  if(t.who === 'them'){
-    h += '<div class="dlg-bub them now">'+esc(t.en)+'</div></div>'+engSpeakBtns(t.en)+
-      '<p class="dlg-tr">'+(d.ruOn ? '<span lang="ru">'+esc(t.ru)+'</span>' : '<button class="linkbtn" data-act="dlg-ru">Show translation</button>')+'</p>'+
-      '<button class="btn btn-primary btn-full" data-act="dlg-next" style="margin-top:12px">Your turn →</button>';
-    view.innerHTML = h; return;
-  }
-  const answered = d.picked != null;
-  h += '</div><section class="wq-card en-card"><p class="en-ru en-ru-big" lang="ru">'+esc(t.ru)+'</p></section>'+
-    '<div class="pd-opts">'+t.options.map(function(o, i){
-      const cls = !answered ? '' : o.ok ? ' right' : i === d.picked ? ' wrong' : ' dim';
-      return '<button class="pd-opt'+cls+'" data-act="dlg-pick" data-i="'+i+'"'+(answered ? ' disabled' : '')+'><span class="k">'+'ABC'[i]+'</span><span>'+esc(o.t)+'</span></button>';
-    }).join('')+'</div>';
-  if(answered){
-    const ok = t.options[d.picked].ok;
-    h += '<div class="wq-fb">'+(ok ? '<p class="wq-ok">✓ Right</p>' : '<p class="wq-no">Not quite</p><p class="fd-sub" lang="ru">'+esc(t.options[d.picked].why)+'</p>')+
-      t.options.filter(function(o, i){ return !o.ok && i !== d.picked; }).map(function(o){ return '<p class="dlg-why"><b>'+esc(o.t)+'</b><span lang="ru">'+esc(o.why)+'</span></p>'; }).join('')+'</div>'+
-      '<p class="tk-sub" style="margin-top:6px">Now say it out loud:</p><p class="en-big">'+esc(t.right)+'</p>'+engSpeakBtns(t.right);
-    if(enMic.busy && enMic.rec) h += '<p class="tk-sub" style="margin-top:10px">Recording…</p><button class="btn btn-primary btn-full" data-act="en-mic-stop">■ Stop</button>';
-    else if(enMic.busy) h += '<p class="tk-sub" style="margin-top:10px">Waiting for the microphone…</p>';
-    else if(enMic.url) h += '<audio controls preload="metadata" src="'+enMic.url+'" style="width:100%;margin-top:10px"></audio><button class="btn btn-full" data-act="en-mic" style="margin-top:8px">Try again</button>';
-    else if(!enMic.no) h += '<button class="btn btn-full" data-act="en-mic" style="margin-top:10px">● Record yourself (optional)</button>';
-    h += '<button class="btn btn-primary btn-full" data-act="dlg-next" style="margin-top:12px">'+(d.i + 1 < d.turns.length ? 'Next' : 'Finish')+'</button>';
-  }
-  view.innerHTML = h;
-}
-function renderDlgDone(){
-  const d = en.dlg, you = d.turns.filter(function(t){ return t.who === 'you'; });
-  const nx = dlgNext(DL.scenes, engDlg().done, engLevel());
-  view.innerHTML = engBack()+'<p class="eyebrow" style="margin:14px 2px 0">'+esc(d.sc.name)+' · done</p>'+
-    '<h2 class="rec-title">'+d.right+' of '+d.n+'</h2><p class="fd-sub">Your replies — worth keeping:</p>'+
-    '<div class="dlg-keep">'+you.map(function(t){ return '<div class="dlg-bub you">'+esc(t.right)+'</div>'; }).join('')+'</div>'+
-    '<div class="en-rate" style="margin-top:12px">'+
-    '<button class="btn'+(d.saved ? '' : ' btn-primary')+' btn-full" data-act="dlg-save"'+(d.saved ? ' disabled' : '')+'>'+(d.saved ? '✓ Saved to your words' : 'Save these phrases')+'</button>'+
-    (nx ? '<button class="btn btn-full" data-act="dlg-start" data-id="'+esc(nx.id)+'">Next: '+esc(nx.name)+'</button>' : '')+
-    '<button class="btn btn-full" data-act="dlg-open">All scenes</button>'+
-    '<button class="btn btn-ghost btn-full" data-act="en-exit">Done</button></div>';
-}
-
-/* ---- Listening: the phone speaks, she works out what it said (sound-alikes, dictation, short messages) ---- */
-/* lis:pure */
-const LIS_SPEEDS = {slow:0.7, normal:0.92, fast:1.1}, LIS_ROUND = {pick:5, type:2, story:1};
-function lisNorm(s){
-  return String(s == null ? '' : s).toLowerCase().replace(/[’‘]/g, "'").replace(/[^a-z0-9' ]+/g, ' ').replace(/\s+/g, ' ').trim();
-}
-function lisLev(a, b){
-  const d = [];
-  for(let i = 0; i <= a.length; i++){ d[i] = [i]; }
-  for(let j = 1; j <= b.length; j++) d[0][j] = j;
-  for(let i = 1; i <= a.length; i++) for(let j = 1; j <= b.length; j++){
-    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
-    /* two neighbouring letters swapped (agian / again) is one slip, the commonest one when typing */
-    if(i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
-  }
-  return d[a.length][b.length];
-}
-/* a one-letter slip in a long word is forgiven when the first letter is right and the ending is right (or just its last two letters swapped);
-   never a changed or dropped ending (teache / teaches, light / lights) and never another real word (could / would, might / night) */
-/* real word pairs that a swap of two letters turns into each other */
-const LIS_LOOKALIKE = {quite:'quiet', quiet:'quite', tried:'tired', tired:'tried', trail:'trial', trial:'trail', angle:'angel', angel:'angle'};
-function lisWordOk(a, b){
-  if(a === b) return true;
-  if(a.length < 5 || b.length < 5 || a[0] !== b[0] || lisLev(a, b) > 1 || LIS_LOOKALIKE[a] === b) return false;
-  if(a.slice(-1) === b.slice(-1)) return true;
-  return a.length === b.length && a.slice(0, -2) === b.slice(0, -2) && a.slice(-2) === b.slice(-2).split('').reverse().join('');
-}
-/* digits and number words are the same thing; apostrophes and quote marks do not matter (the phone's keyboard makes them a chore) */
-const LIS_NUM = {zero:'0', one:'1', two:'2', three:'3', four:'4', five:'5', six:'6', seven:'7', eight:'8', nine:'9', ten:'10', eleven:'11', twelve:'12', thirteen:'13', fourteen:'14', fifteen:'15', sixteen:'16', seventeen:'17', eighteen:'18', nineteen:'19', twenty:'20', thirty:'30', forty:'40', fifty:'50', sixty:'60', seventy:'70', eighty:'80', ninety:'90'};
-function lisTokens(s){
-  return String(s == null ? '' : s).split(/\s+/).map(function(x){ const n = lisNorm(x).replace(/[ ']/g, ''); return {raw:x, n:LIS_NUM[n] || n}; }).filter(function(x){ return x.n; });
-}
-/* what she typed against what was said: every spoken word marked heard or missed; ok only when all are heard and nothing is extra.
-   Capitals and punctuation do not matter; a one-letter slip in a long word is forgiven. */
-function lisCheck(typed, said){
-  const t = lisTokens(typed), w = lisTokens(said), n = t.length, m = w.length;
-  const L = [];
-  for(let i = 0; i <= n; i++){ L[i] = []; for(let j = 0; j <= m; j++) L[i][j] = 0; }
-  for(let i = n - 1; i >= 0; i--) for(let j = m - 1; j >= 0; j--)
-    L[i][j] = lisWordOk(t[i].n, w[j].n) ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
-  const hit = w.map(function(){ return false; });
-  let i = 0, j = 0;
-  while(i < n && j < m){
-    if(lisWordOk(t[i].n, w[j].n) && L[i][j] === L[i + 1][j + 1] + 1){ hit[j] = true; i++; j++; }
-    else if(L[i + 1][j] >= L[i][j + 1]) i++; else j++;
-  }
-  const heard = hit.filter(Boolean).length;
-  return {ok:heard === m && n === m, words:w.map(function(x, k){ return {raw:x.raw, hit:hit[k]}; }), extra:Math.max(0, n - m)};
-}
-/* a round: a few sound-alikes, two dictations, one short message. Phrases that are due come first (about half), then new ones in her level order. */
-function lisRound(sets, cards, today, level, rnd){
-  const out = [];
-  ['pick', 'type', 'story'].forEach(function(kind){
-    const need = LIS_ROUND[kind], byId = {}, ids = [];
-    placeOrder(sets.filter(function(s){ return s.kind === kind; }), level).forEach(function(s){
-      s.items.forEach(function(it){ byId['L:' + it.id] = it; ids.push('L:' + it.id); });
-    });
-    const due = srsDue(ids, cards, today), chosen = due.slice(0, Math.ceil(need / 2));
-    ids.forEach(function(id){ if(chosen.length < need && !cards[id]) chosen.push(id); });
-    due.forEach(function(id){ if(chosen.length < need && chosen.indexOf(id) < 0) chosen.push(id); });
-    chosen.forEach(function(id){
-      const it = byId[id], mix = function(o, a){ return srsShuffle(o.map(function(t, i){ return {t:t, ok:i === a}; }), rnd); };
-      if(kind === 'pick') out.push({kind:kind, id:id, say:it.say, note:it.note || '', options:mix(it.o, it.a)});
-      else if(kind === 'type') out.push({kind:kind, id:id, say:it.say, ru:it.ru || ''});
-      else out.push({kind:kind, id:id, title:it.title || '', say:it.say, qs:it.qs.map(function(q){ return {q:q.q, options:mix(q.o, q.a)}; })});
-    });
-  });
-  return out;
-}
-/* lis:end */
-function engLis(){ const e = engState(); if(!e.lis) e.lis = {days:{}, speed:'normal'}; if(!e.lis.days) e.lis.days = {}; return e.lis; }
-function lisRate(){ return LIS_SPEEDS[engLis().speed] || LIS_SPEEDS.normal; }
-function lisPlay(text, slow){
-  if(!('speechSynthesis' in window)){ toast('No English voice on this phone'); return; }
-  const vs = speechSynthesis.getVoices() || [], v = engVoice();
-  if(!v && vs.length){ toast('No English voice on this phone'); return; }
-  if(speechSynthesis.speaking) speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  if(v){ u.voice = v; u.lang = v.lang; } else u.lang = 'en-US';
-  u.rate = slow ? Math.min(0.6, lisRate()) : lisRate();
-  speechSynthesis.speak(u);
-}
-function lisStart(){
-  if(!LS) return;
-  if(!('speechSynthesis' in window) || ((speechSynthesis.getVoices() || []).length && !engVoice())){ toast('Listening needs the phone’s English voice — none found'); return; }
-  const e = engState(), items = lisRound(LS.sets, e.cards, today(), engLevel(), Math.random);
-  if(!items.length){ toast('Nothing left to practise right now'); return; }
-  engLeave();
-  en = {stage:'lis', lis:{items:items, i:0, q:0, picked:null, checked:null, right:0, n:0, missed:[], qok:true, show:false}};
-  window.scrollTo(0, 0); renderEnglish();
-}
-/* one item is graded once: right moves its phrase up the same steps as the cards, wrong brings it back tomorrow */
-function lisGrade(ok){
-  const l = en.lis, it = l.items[l.i], e = engState();
-  e.cards[it.id] = srsGrade(e.cards[it.id], ok, today());
-  l.n++; if(ok) l.right++; else l.missed.push(it);
-  const days = engLis().days, k = today(), r = days[k] || (days[k] = {rounds:0, right:0, n:0});
-  r.n++; if(ok) r.right++;
-  save();
-}
-function lisFinish(btn){
-  const l = en.lis, d = engLis().days, k = today();
-  const r = d[k] || (d[k] = {rounds:0, right:0, n:0});
-  r.rounds++;
-  save(); engLeave();
-  en.stage = 'lis-done';
-  if(btn) celebrate(btn);
-  window.scrollTo(0, 0); renderEnglish();
-}
-function lisPlayBtns(text){
-  return '<div class="en-voice" style="margin:4px 0 12px"><button class="btn btn-primary" data-act="lis-play" data-slow="0">🎧 Play</button>'+
-    '<button class="btn btn-ghost btn-sm" data-act="lis-play" data-slow="1">🐢 Slowly</button></div>';
-}
-function lisSpeedChips(){
-  const sp = engLis().speed;
-  return '<div class="en-chips" role="group" aria-label="Speed">'+['slow', 'normal', 'fast'].map(function(k){
-    return '<button class="chip'+(sp === k ? ' on' : '')+'" data-act="lis-speed" data-v="'+k+'" aria-pressed="'+(sp === k)+'">'+k[0].toUpperCase()+k.slice(1)+'</button>';
-  }).join('')+'</div>';
-}
-function renderLisPlay(){
-  const l = en.lis, it = l.items[l.i];
-  const cur = document.getElementById('lisIn');
-  if(cur && it.kind === 'type' && !l.checked) l.draft = cur.value;
-  let h = engBack()+'<p class="eyebrow" style="margin:14px 2px 8px">Listening · '+(l.i + 1)+' of '+l.items.length+'</p>';
-  const opts = function(list, picked, act){
-    return '<div class="pd-opts">'+list.map(function(o, i){
-      const cls = picked == null ? '' : o.ok ? ' right' : i === picked ? ' wrong' : ' dim';
-      return '<button class="pd-opt'+cls+'" data-act="'+act+'" data-i="'+i+'"'+(picked != null ? ' disabled' : '')+'><span class="k">'+'ABC'[i]+'</span><span>'+esc(o.t)+'</span></button>';
-    }).join('')+'</div>';
-  };
-  const next = function(label){ return '<button class="btn btn-primary btn-full" data-act="lis-next" style="margin-top:14px">'+label+'</button>'; };
-  const last = l.i + 1 >= l.items.length;
-  if(it.kind === 'pick'){
-    h += '<p class="tk-sub">Which one did you hear?</p>'+lisPlayBtns()+opts(it.options, l.picked, 'lis-pick');
-    if(l.picked != null) h += '<div class="wq-fb">'+(it.options[l.picked].ok ? '<p class="wq-ok">✓ Right</p>' : '<p class="wq-no">Not quite</p>')+
-      '<p class="en-big" style="font-size:22px">'+esc(it.say)+'</p>'+(it.note ? '<p class="fd-sub" lang="'+engRuLang(it.note)+'">'+esc(it.note)+'</p>' : '')+'</div>'+next(last ? 'Finish' : 'Next');
-  } else if(it.kind === 'type'){
-    h += '<p class="tk-sub">Type what you hear. Capitals and punctuation do not matter.</p>'+lisPlayBtns();
-    if(!l.checked){
-      h += '<input type="text" id="lisIn" class="lis-in" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Type it here" enterkeyhint="done" value="'+esc(l.draft || '')+'">'+
-        '<button class="btn btn-primary btn-full" data-act="lis-check" style="margin-top:12px">Check</button>';
-    } else {
-      h += '<p class="lis-mine">'+esc(l.checked.typed || '—')+'</p><p class="'+(l.checked.res.ok ? 'wq-ok' : 'wq-no')+'">'+(l.checked.res.ok ? '✓ Right' : 'Not quite')+'</p>'+
-        '<p class="lis-said">'+l.checked.res.words.map(function(w){ return '<span class="'+(w.hit ? 'hit' : 'miss')+'">'+esc(w.raw)+'</span>'; }).join(' ')+'</p>'+
-        (l.checked.res.extra > 0 ? '<p class="fd-sub">You typed '+l.checked.res.extra+' extra word'+(l.checked.res.extra === 1 ? '' : 's')+'.</p>' : '')+
-        (it.ru ? '<p class="fd-sub" lang="ru">'+esc(it.ru)+'</p>' : '')+next(last ? 'Finish' : 'Next');
-    }
-  } else {
-    const q = it.qs[l.q];
-    h += '<p class="tk-sub">'+esc(it.title || 'A short message')+' — listen, then answer ('+(l.q + 1)+' of '+it.qs.length+').</p>'+lisPlayBtns()+
-      '<p class="pd-q">'+esc(q.q)+'</p>'+opts(q.options, l.picked, 'lis-pick');
-    if(l.picked != null){
-      const more = l.q + 1 < it.qs.length;
-      h += '<div class="wq-fb">'+(q.options[l.picked].ok ? '<p class="wq-ok">✓ Right</p>' : '<p class="wq-no">Not quite</p>')+'</div>'+
-        (more ? next('Next question') : (l.show ? '<p class="lis-script">'+esc(it.say)+'</p>' : '<button class="linkbtn" data-act="lis-show" style="margin-top:8px">Read what was said</button>')+next(last ? 'Finish' : 'Next'));
-    }
-  }
-  view.innerHTML = h;
-  const inp = document.getElementById('lisIn');
-  if(inp) inp.addEventListener('input', function(){ l.draft = inp.value; });
-  if(inp) inp.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); const b = view.querySelector('[data-act="lis-check"]'); if(b) b.click(); } });
-  const nx = view.querySelector('[data-act="lis-next"]');
-  if(nx) nx.scrollIntoView({block:'nearest'});
-}
-function renderLisDone(){
-  const l = en.lis, e = engLis(), day = e.days[today()] || {rounds:0, right:0, n:0};
-  view.innerHTML = engBack()+'<p class="eyebrow" style="margin:14px 2px 0">Listening · done</p>'+
-    '<h2 class="rec-title">'+l.right+' of '+l.n+'</h2>'+
-    (l.missed.length
-      ? '<p class="fd-sub">These come back sooner:</p><div class="dlg-keep">'+l.missed.map(function(it){ return '<div class="dlg-bub them">'+esc(it.say.length > 120 ? it.say.slice(0, 117)+'…' : it.say)+'</div>'; }).join('')+'</div>'
-      : '<p class="fd-sub">Every one right — those wait longer before they come back.</p>')+
-    '<p class="tk-sub" style="margin-top:12px">Today: '+day.rounds+' round'+(day.rounds === 1 ? '' : 's')+', '+day.right+' of '+day.n+' right.</p>'+
-    '<div class="en-rate" style="margin-top:8px"><button class="btn btn-primary btn-full" data-act="lis-start">Another round</button>'+
-    '<button class="btn btn-ghost btn-full" data-act="en-exit">Done</button></div>';
 }
 
 
@@ -4017,7 +3389,7 @@ function crsWordsOf(l){
   return out;
 }
 function crsHasWord(term){ return (state.words || []).some(function(x){ return String(x.term).toLowerCase() === String(term).toLowerCase(); }); }
-/* + My words: joins her saved words (the card queue and the word test), never twice */
+/* + My words: joins her saved words (the word test), never twice */
 function crsAddWord(w){
   if(!state.words) state.words = [];
   if(state.words.some(function(x){ return String(x.term).toLowerCase() === w.w.toLowerCase(); })) return false;
@@ -4346,7 +3718,7 @@ function renderCrsFinish(k){
   const s = crsStatus(c, CRS.order, today()), nx = s.cur;
   const nxTitle = nx ? (nx.kind === 'lesson' ? 'Lesson '+CRS.byId[nx.id].n+': '+CRS.byId[nx.id].title : 'Unit test') : '';
   view.innerHTML = '<p class="eyebrow" style="margin:4px 2px 0">Lesson '+l.n+' · complete</p><h2 class="rec-title">Lesson done ✓</h2>'+
-    '<p class="fd-sub">'+(d.score.n ? 'Quiz and gap exercises: '+d.score.right+' of '+d.score.n+' on the first try. ' : '')+mine+' of '+crsWordsOf(l).length+' phrases are in My words and come back as cards.</p>'+
+    '<p class="fd-sub">'+(d.score.n ? 'Quiz and gap exercises: '+d.score.right+' of '+d.score.n+' on the first try. ' : '')+mine+' of '+crsWordsOf(l).length+' phrases are in My words and come back in the word test.</p>'+
     '<p class="fd-sub">The speaking habit is ticked.</p>'+
     '<div class="en-rate" style="margin-top:14px">'+(nx ? '<button class="btn btn-primary btn-full" data-act="crs-open">Next: '+esc(nxTitle)+'</button>' : '')+
     '<button class="btn btn-full" data-act="crs-home">Back to lessons</button></div>';
@@ -4380,7 +3752,7 @@ function renderCrsTestDone(){
   view.innerHTML = '<p class="eyebrow" style="margin:4px 2px 0">Unit test · done</p><h2 class="rec-title">'+r.right+' of '+r.n+'</h2>'+
     (r.revisit.length
       ? '<p class="fd-sub">Worth another look before you go on:</p><div class="en-rate">'+r.revisit.map(function(id){ const l = CRS.byId[id]; return l ? '<button class="btn btn-full" data-act="crs-review" data-id="'+esc(id)+'">Lesson '+l.n+': '+esc(l.title)+'</button>' : ''; }).join('')+'</div>'
-      : '<p class="fd-sub">'+(r.right / r.n >= 0.8 ? 'Strong. These phrases are yours now.' : 'A solid result. The phrases will keep coming back as cards.')+'</p>')+
+      : '<p class="fd-sub">'+(r.right / r.n >= 0.8 ? 'Strong. These phrases are yours now.' : 'A solid result. The phrases will keep coming back in the word test.')+'</p>')+
     '<button class="btn btn-primary btn-full" data-act="crs-home" style="margin-top:14px">Back to lessons</button>';
 }
 
@@ -5360,112 +4732,8 @@ document.addEventListener('click', function(e){
     state.why = ($('#whyIn').value || '').trim();
     save(); closeSheet(); render(); toast(state.why ? 'Saved — you will see it every day' : 'Cleared');
   }
-  else if(act==='en-retry'){ phFailed = false; dlFailed = false; lsFailed = false; crsFailed = false; renderEnglish(); }
-  else if(act==='lis-start'){ lisStart(); }
-  else if(act==='lis-speed'){ const v = btn.getAttribute('data-v'); if(LIS_SPEEDS[v]){ engLis().speed = v; save(); renderEnglish(); } }
-  else if(act==='lis-play'){
-    if(!en || !en.lis) return;
-    const l = en.lis, it = l.items[l.i];
-    if(it) lisPlay(it.say, btn.getAttribute('data-slow') === '1');
-  }
-  else if(act==='lis-pick'){
-    if(!en || !en.lis || en.lis.picked != null) return;
-    const l = en.lis, it = l.items[l.i], i = +btn.getAttribute('data-i');
-    const opts = it.kind === 'story' ? it.qs[l.q].options : it.options;
-    if(!opts[i]) return;
-    l.picked = i;
-    if(it.kind === 'pick') lisGrade(opts[i].ok);
-    else { if(!opts[i].ok) l.qok = false; if(l.q + 1 >= it.qs.length) lisGrade(l.qok); }
-    renderEnglish();
-  }
-  else if(act==='lis-check'){
-    if(!en || !en.lis || en.lis.checked) return;
-    const l = en.lis, it = l.items[l.i], typed = ($('#lisIn') || {}).value || '';
-    if(!typed.trim()){ toast('Type what you heard first'); return; }
-    const res = lisCheck(typed, it.say);
-    l.checked = {typed:typed.trim(), res:res};
-    l.draft = ''; lisGrade(res.ok); renderEnglish();
-  }
-  else if(act==='lis-show'){ if(en && en.lis){ en.lis.show = true; renderEnglish(); } }
-  else if(act==='lis-next'){
-    if(!en || !en.lis) return;
-    const l = en.lis, it = l.items[l.i];
-    if(l.picked == null && !l.checked) return;
-    if(it.kind === 'story' && l.q + 1 < it.qs.length){ l.q++; l.picked = null; }
-    else { l.i++; l.q = 0; l.picked = null; l.checked = null; l.qok = true; l.show = false; l.draft = ''; }
-    if(l.i >= l.items.length) lisFinish(btn); else { window.scrollTo(0, 0); renderEnglish(); }
-  }
+  else if(act==='en-retry'){ crsFailed = false; renderEnglish(); }
   else if(act==='en-speak-t'){ engSpeak(btn.getAttribute('data-t') || '', btn.getAttribute('data-slow') === '1'); }
-  else if(act==='dlg-open'){ if(DL){ enMicReset(); en = {stage:'dlg-list'}; window.scrollTo(0, 0); renderEnglish(); } }
-  else if(act==='dlg-start'){ dlgStart(btn.getAttribute('data-id')); }
-  else if(act==='dlg-ru'){ if(en && en.dlg){ en.dlg.ruOn = true; renderEnglish(); } }
-  else if(act==='dlg-pick'){
-    if(!en || !en.dlg || en.dlg.picked != null) return;
-    const d = en.dlg, t = d.turns[d.i], i = +btn.getAttribute('data-i');
-    if(t.who !== 'you' || !t.options[i]) return;
-    d.picked = i; d.n++; if(t.options[i].ok) d.right++;
-    enMicReset(); renderEnglish();
-  }
-  else if(act==='dlg-next'){
-    if(!en || !en.dlg || en.stage !== 'dlg') return;
-    const d = en.dlg;
-    if(d.turns[d.i].who === 'you' && d.picked == null) return;
-    enMicReset(); d.i++; d.picked = null; d.ruOn = false;
-    if(d.i >= d.turns.length) dlgFinish(btn); else { window.scrollTo(0, 0); renderEnglish(); }
-  }
-  else if(act==='dlg-save'){ if(en && en.dlg && !en.dlg.saved){ dlgSave(); renderEnglish(); } }
-  else if(act==='en-start'){ if(PH) engStart(); }
-  else if(act==='en-more'){ if(!engUnseen()) return; engDayWrite().bonus = (engDayRead().bonus || 0) + 5; save(); engStart(); }
-  else if(act==='en-show'){ if(en){ en.shown = true; renderEnglish(); } }
-  else if(act==='en-rate'){ if(en && en.stage === 'card') engRate(btn.getAttribute('data-v') === '1', btn.getAttribute('data-id')); }
-  else if(act==='en-speak'){
-    const c = PH && engCard(btn.getAttribute('data-id'));
-    if(c) engSpeak(btn.getAttribute('data-w') === 'ex' ? c.ex : c.en, btn.getAttribute('data-slow') === '1');
-  }
-  else if(act==='en-mic'){ enMicStart(); }
-  else if(act==='en-mic-stop'){ enMicStop(); }
-  else if(act==='en-say-next'){
-    if(!en) return;
-    enMicReset(); en.si++;
-    if(en.si >= en.said.length) engFinish(btn); else { window.scrollTo(0, 0); renderEnglish(); }
-  }
-  else if(act==='en-skip-say'){ engFinish(btn); }
-  else if(act==='en-exit'){
-    engLeave(); engSettle();
-    if(en && en.stage === 'card' && en.i > 0) toast('Progress saved');
-    en = null; window.scrollTo(0, 0); renderEnglish();
-  }
-  else if(act==='en-focus'){
-    const id = btn.getAttribute('data-id'), e = engState();
-    e.order = [id].concat(engOrder().filter(function(x){ return x !== id; })); e.focused = id;
-    save(); toast('That set comes first now'); renderEnglish();
-  }
-  else if(act==='en-place-start'){
-    if(!PH) return;
-    en = {stage:'place', place:{qs:placeBuild(PH.placement, Math.random), i:0, picked:null, right:0}};
-    window.scrollTo(0, 0); renderEnglish();
-  }
-  else if(act==='en-pick'){
-    if(!en || !en.place || en.place.picked != null) return;
-    const p = en.place, i = +btn.getAttribute('data-i');
-    p.picked = i; if(p.qs[p.i].options[i].ok) p.right++;
-    renderEnglish();
-  }
-  else if(act==='en-place-next'){
-    const p = en && en.place;
-    if(!p || p.picked == null) return;
-    p.i++; p.picked = null;
-    if(p.i >= p.qs.length){
-      const e = engState(), r = placeScore(p.right, p.qs.length);
-      e.placed = Object.assign({date:today()}, r);
-      e.newPerDay = r.newPerDay;
-      let ord = placeOrder(PH.sets, r.level).map(function(s){ return s.id; });
-      if(e.focused && ord.indexOf(e.focused) >= 0) ord = [e.focused].concat(ord.filter(function(x){ return x !== e.focused; }));
-      e.order = ord;
-      engSettle(); save(); en = {stage:'placed'};
-    }
-    window.scrollTo(0, 0); renderEnglish();
-  }
   else if(act==='crs-open'){ crsOpen(false); }
   else if(act==='crs-do2'){ crsOpen(true); }
   else if(act==='crs-home'){ enMicReset(); crsStopListen(); en = null; window.scrollTo(0, 0); renderEnglish(); }
@@ -5636,6 +4904,7 @@ document.addEventListener('click', function(e){
       if(!state.cleanWater){ if(!state.log) state.log = {}; waterOneTap(state.habits, state.log); state.cleanWater = true; }
       if(!state.cleanWords){ if(!state.log) state.log = {}; wordsOneTap(state.habits, state.log); state.cleanWords = true; }
       state.cleanDoodle = true; /* a restored backup keeps the theme she picked */
+      if(state.enView !== 'speak' && state.enView !== 'words') state.enView = 'lessons';
       arcEnsure(state, today());
       practiceEnsure(state);
       neckEnsure(state);
