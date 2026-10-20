@@ -228,5 +228,29 @@ if(D){
   check(ok(gapOf('l01', /break up/), 'just broke up') && ok(gapOf('l01', /forty minutes/), 'have waited'), 'l01 accepts just broke up and have waited');
   check(!/twelve of these/.test(JSON.stringify(D.lessons.find(function(l){ return l.id === 'l06'; }).parts[0].steps[0])), 'l06 does not promise twelve phrases from the story');
 }
+// ---------- 9. round two of the review ----------
+if(C){
+  const A2 = function(t, tg){ return C.speakAnalyze(t, tg, 0).used.length === 1; };
+  check(A2('I slept like a log.', ['sleep like a log']) && A2('I felt a bit down.', ['feel down']) && A2("I've been feeling a bit down.", ['feel down']), 'irregular forms and a little adverb between the words are fine');
+  check(A2("I don't get it.", ['I get it']) && A2("I didn't get it at all.", ['I get it']) && A2('She drew on her own experience.', ['draw on']) && A2('He rang his mum.', ['ring someone']), 'a negative contraction and irregular verbs do not hide a phrase');
+  check(!A2('I feel great. Then I sat down.', ['feel down']) && !A2('I get up at seven.', ['I get it']) && !A2('What sort of person goes out at night?', ['sort out']), 'the wider gap still rejects scattered words');
+  check(C.crsGapOk("must've heard", ['must have heard']) && C.crsGapOk("I couldn't be", ['I could not be']) && C.crsGapOk("They've just broken up", ['they have just broken up']), 'spoken contractions are accepted wherever the full form is');
+}
+if(D && C){
+  const G = function(lid, rx){ let g = null; D.lessons.find(function(l){ return l.id === lid; }).parts[1].steps.forEach(function(s){ if(s.t === 'gap') s.items.forEach(function(x){ if(rx.test(x.s)) g = x; }); }); return g; };
+  check(C.crsGapOk("couldn't have eaten", G('l03', /ate the whole pizza/).a) && C.crsGapOk("couldn't be", G('l03', /lights are off/).a) && C.crsGapOk('can', G('l02', /possibly/).a), 'l03 and l02 accept couldn\'t have eaten, couldn\'t be and can you possibly');
+  const flat2 = JSON.stringify(D);
+  ['at a photo of their romantic partner', 'workshops encouraging dads and sons', "I'm like a moth to a flame in any", "I know it's a big ask, but"].forEach(function(p){ check(flat2.indexOf(p) < 0, 'still too close to the source: "' + p + '"'); });
+}
+const rc = body('renderCrs');
+check(/a\.t && a\.t !== k\.st\.t/.test(rc), 'answers saved before the step type was recorded are adopted, not wiped');
+check(rc.indexOf('renderCrsStep(') < rc.indexOf('crsCanNext(k.st, a)'), 'Continue is enabled according to the step as drawn (a recall step with no phrases passes at once)');
+check(/r\.onresult = null/.test(body('crsStopListen')), 'a late speech result cannot land in the next prompt');
+check(/r\.dead = true/.test(body('crsListen')) && /!r\.dead/.test(body('crsListen')), 'speech recognition does not restart after a fatal error');
+check(/delete a\.draft/.test(html), 'the gap draft is cleared when the answer is checked');
+check(/qzAns\(\)\.draft = t\.value/.test(html) && /const t = e\.target;\s*if\(en && en\.crs && en\.crs\.review\) return;\s*if\(t && t\.id === 'qzIn'\)/.test(html), 'the gap draft is saved as she types, but not in review mode');
+['qz-pick', 'qz-check', 'qz-next'].forEach(function(a){ check(new RegExp("act==='" + a + "'\\)\\{[\\s\\S]{0,260}en\\.crs && en\\.crs\\.review").test(html), a + ' does nothing in review mode'); });
+check(/act==='crs-analyse'\)\{ if\(!\(en && en\.crs && en\.crs\.review\)\)/.test(html), 'analysing does nothing in review mode');
+check(/No saved answers/.test(body('renderCrsStep')), 'review of a step with no saved answers says so instead of showing dead controls');
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: English lessons');

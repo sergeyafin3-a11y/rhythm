@@ -143,7 +143,7 @@
               "title": "Did you get it?",
               "qs": [
                 {
-                  "q": "What did scientists find when people looked at a photo of their romantic partner?",
+                  "q": "What did scientists find when volunteers looked at a picture of someone they loved?",
                   "o": [
                     "A part of the brain linked to eating and drinking became active.",
                     "The part of the brain that controls sleep switched off.",
@@ -631,10 +631,12 @@
                   "hint": "refusing politely"
                 },
                 {
-                  "s": "I know it's a big ask, but ___ you possibly cover my shift on Saturday?",
+                  "s": "I realise it's a big ask, but ___ you possibly cover my shift on Saturday?",
                   "a": [
                     "could",
-                    "would"
+                    "would",
+                    "can",
+                    "will"
                   ],
                   "hint": "polite request"
                 }
@@ -910,7 +912,9 @@
                   "s": "He says he ate the whole pizza, but it was enormous. He ___ (can't / eat) all of it.",
                   "a": [
                     "can't have eaten",
-                    "cannot have eaten"
+                    "cannot have eaten",
+                    "couldn't have eaten",
+                    "could not have eaten"
                   ],
                   "hint": "negative deduction, past"
                 },
@@ -950,7 +954,9 @@
                   "s": "The lights are off, so they ___ (can't / be) at home.",
                   "a": [
                     "can't be",
-                    "cannot be"
+                    "cannot be",
+                    "couldn't be",
+                    "could not be"
                   ],
                   "hint": "negative deduction, present"
                 },
@@ -1146,7 +1152,7 @@
                 {
                   "q": "What does the Superdads project in Croatia do?",
                   "o": [
-                    "It runs workshops encouraging dads and sons to take pressure off mums",
+                    "It holds workshops to get fathers and sons to lighten the load for mums",
                     "It teaches mothers how to organise their time better",
                     "It pays husbands for doing the housework"
                   ],
@@ -1948,7 +1954,7 @@
                 "as cheap as chips",
                 "sleep like a log"
               ],
-              "model": "My flat is small, but it is the cosiest place I know. Last winter I was as cool as a cucumber about money, until the heating bill arrived, and then I was like a cat on hot bricks for a week. Normally I'm like a moth to a flame in any shop with a sale, so now I check prices first. Luckily, my flatmate and I get on like a house on fire, and her cooking is as cheap as chips. After a good dinner I sleep like a log, and my mood is much better than it was in January.",
+              "model": "My flat is small, but it is the cosiest place I know. Last winter I was as cool as a cucumber about money, until the heating bill arrived, and then I was like a cat on hot bricks for a week. Normally any shop with a sale pulls me in like a moth to a flame, so now I check prices first. Luckily, my flatmate and I get on like a house on fire, and her cooking is as cheap as chips. After a good dinner I sleep like a log, and my mood is much better than it was in January.",
               "secs": 90
             }
           ]

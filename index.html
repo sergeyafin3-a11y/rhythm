@@ -3883,8 +3883,8 @@ function crsScore(lesson, ans){
 }
 function crsNorm(s){ return String(s == null ? '' : s).toLowerCase().replace(/[’‘]/g, "'").replace(/'/g, '').replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim(); }
 function crsGapOk(typed, answers){
-  const t = crsNorm(typed);
-  return !!t && answers.some(function(a){ return crsNorm(a) === t; });
+  const t = crsNorm(typed), te = crsNorm(crsExpand(typed));
+  return !!t && answers.some(function(a){ return crsNorm(a) === t || crsNorm(crsExpand(a)) === te; });
 }
 /* three options for «which phrase means …»: the right one and two others from the same lesson words */
 /* two Russian glosses that share a word of five letters or more describe look-alike phrases: never offer them together */
@@ -3927,7 +3927,7 @@ function crsTest(lessons, unit, rnd){
   return srsShuffle(out, rnd);
 }
 /* the speaking analysis: counts only, it never pretends to grade */
-const CRS_IRREG = {be:['am', 'is', 'are', 'was', 'were', 'been', 'being'], go:['went', 'gone', 'goes', 'going'], feel:['felt'], get:['got', 'gotten'], make:['made'], take:['took', 'taken'], have:['has', 'had'], do:['did', 'done', 'does'], say:['said'], see:['saw', 'seen'], think:['thought'], bring:['brought'], buy:['bought'], come:['came'], give:['gave', 'given'], keep:['kept'], know:['knew', 'known'], leave:['left'], lose:['lost'], meet:['met'], pay:['paid'], run:['ran'], sell:['sold'], tell:['told'], hold:['held'], break:['broke', 'broken'], fall:['fell', 'fallen'], find:['found'], sit:['sat'], put:['putting'], cut:['cutting'], spend:['spent'], build:['built'], send:['sent'], stand:['stood'], speak:['spoke', 'spoken'], write:['wrote', 'written'], wear:['wore', 'worn'], win:['won'], teach:['taught'], catch:['caught']};
+const CRS_IRREG = {be:['am', 'is', 'are', 'was', 'were', 'been', 'being'], go:['went', 'gone', 'goes', 'going'], feel:['felt'], get:['got', 'gotten'], make:['made'], take:['took', 'taken'], have:['has', 'had'], do:['did', 'done', 'does'], say:['said'], see:['saw', 'seen'], think:['thought'], bring:['brought'], buy:['bought'], come:['came'], give:['gave', 'given'], keep:['kept'], know:['knew', 'known'], leave:['left'], lose:['lost'], meet:['met'], pay:['paid'], run:['ran'], sell:['sold'], tell:['told'], hold:['held'], break:['broke', 'broken'], fall:['fell', 'fallen'], find:['found'], sit:['sat'], put:['putting'], cut:['cutting'], sleep:['slept'], draw:['drew', 'drawn'], hang:['hung'], ring:['rang', 'rung'], spend:['spent'], build:['built'], send:['sent'], stand:['stood'], speak:['spoke', 'spoken'], write:['wrote', 'written'], wear:['wore', 'worn'], win:['won'], teach:['taught'], catch:['caught']};
 const CRS_PLACE = ['someone', 'somebody', 'something', 'ones', 'your', 'my', 'his', 'her', 'their', 'our'];
 const CRS_CONNECT = ['because', 'although', 'however', 'so', 'but', 'while', 'whereas', 'therefore', 'also', 'then', 'as a result', 'even though', 'in fact', 'unless', 'instead', 'besides', 'anyway', 'after that'];
 function crsForms(w){
@@ -3945,7 +3945,7 @@ function crsExpand(s){
     .replace(/'m\b/g, ' am').replace(/'re\b/g, ' are').replace(/'ve\b/g, ' have').replace(/'ll\b/g, ' will').replace(/'d\b/g, ' would').replace(/'s\b/g, '');
 }
 function crsToks(s){ return crsExpand(s).match(/[\p{L}\p{N}]+/gu) || []; }
-/* a phrase is found whole: its words in order, next to each other (one extra word allowed), «your / someone» standing for any 1–3 words */
+/* a phrase is found whole: its words in order, next to each other (up to two extra words, like «a bit» or «do not»), «your / someone» standing for any 1–3 words */
 function crsMatchAt(slots, toks, si, ti){
   if(si === slots.length) return true;
   const s = slots[si];
@@ -3953,7 +3953,7 @@ function crsMatchAt(slots, toks, si, ti){
     for(let k = 1; k <= 3; k++) if(ti + k <= toks.length && crsMatchAt(slots, toks, si + 1, ti + k)) return true;
     return false;
   }
-  for(let gap = 0; gap <= (si ? 1 : 0); gap++){
+  for(let gap = 0; gap <= (si ? 2 : 0); gap++){
     const j = ti + gap;
     if(j < toks.length && s.forms.indexOf(toks[j]) >= 0 && crsMatchAt(slots, toks, si + 1, j + 1)) return true;
   }
@@ -4087,12 +4087,12 @@ function crsListen(){
       for(let i = e.resultIndex; i < e.results.length; i++) if(e.results[i].isFinal) add += e.results[i][0].transcript.trim() + ' ';
       if(add) crsAppend(add);
     };
-    r.onerror = function(){};
-    r.onend = function(){ if(crsSR === r && enMic.busy){ try{ r.start(); }catch(e){} } };
+    r.onerror = function(e){ if(e && /not-allowed|service-not-allowed|network|audio-capture/.test(e.error)) r.dead = true; };
+    r.onend = function(){ if(crsSR === r && enMic.busy && !r.dead){ try{ r.start(); }catch(e){} } };
     r.start(); crsSR = r;
   }catch(e){}
 }
-function crsStopListen(){ if(crsSR){ const r = crsSR; crsSR = null; r.onend = null; try{ r.stop(); }catch(e){} } }
+function crsStopListen(){ if(crsSR){ const r = crsSR; crsSR = null; r.onend = null; r.onresult = null; try{ r.stop(); }catch(e){} } }
 
 /* ---- the question runner: quiz, gap, recall and unit tests; the first attempt of each question is what counts ---- */
 function qzInit(a, make){ if(!a.qs){ a.qs = make(); a.i = 0; a.res = []; } }
@@ -4202,14 +4202,16 @@ function renderCrs(){
   const cr = k.cr, l = k.l;
   if(cr.step >= k.steps.length) return renderCrsFinish(k);
   const a = crsAns(cr.lid, cr.part, cr.step);
-  if(a.t !== k.st.t){ Object.keys(a).forEach(function(x){ delete a[x]; }); a.t = k.st.t; }
+  if(a.t && a.t !== k.st.t) Object.keys(a).forEach(function(x){ delete a[x]; });
+  a.t = k.st.t;
   const dots = k.steps.map(function(_, i){ return '<i class="'+(i < cr.step ? 'done' : i === cr.step ? 'on' : '')+'"></i>'; }).join('');
+  const stepHtml = renderCrsStep(l, cr, k.st, a);
   const can = cr.review || crsCanNext(k.st, a);
   view.innerHTML = crsBack('crs-home', 'Lessons')+
     '<p class="eyebrow" style="margin:4px 2px 6px">Lesson '+l.n+' · Part '+cr.part+(cr.review ? ' · review' : '')+'</p>'+
     '<div class="crs-dots" aria-hidden="true">'+dots+'</div>'+
     '<h2 class="crs-step-title">'+esc(k.st.title || '')+'</h2>'+
-    renderCrsStep(l, cr, k.st, a)+
+    stepHtml+
     '<div class="crs-nav">'+(cr.step > 0 ? '<button class="btn" data-act="crs-prev">Back</button>' : '<span></span>')+
     '<button class="btn btn-primary" data-act="crs-next"'+(can ? '' : ' disabled')+'>'+(cr.step + 1 >= k.steps.length ? 'Finish' : 'Continue')+'</button></div>';
 }
@@ -4237,6 +4239,7 @@ function renderCrsStep(l, cr, st, a){
       '<a class="btn btn-primary btn-full" href="'+esc(src.url)+'" target="_blank" rel="noopener">Open the original ↗</a></section>'+
       '<p class="en-ex" style="margin:12px 2px">'+esc(st.how)+'</p>'+crsMark('done', "I've done this", a.done);
   }
+  if((st.t === 'quiz' || st.t === 'gap' || st.t === 'recall') && cr.review && !a.qs) return '<p class="fd-sub">No saved answers for this step.</p>';
   if(st.t === 'quiz'){
     qzInit(a, function(){ return st.qs.map(function(q){ return {kind:'mc', q:q.q, options:srsShuffle(q.o.map(function(t, i){ return {t:t, ok:i === q.a}; }), Math.random), why:q.why || ''}; }); });
     return qzRender(a);
@@ -4420,6 +4423,7 @@ function renderCrsCheckDone(){
 }
 document.addEventListener('input', function(e){
   const t = e.target;
+  if(en && en.crs && en.crs.review) return;
   if(t && t.id === 'qzIn'){ qzAns().draft = t.value; clearTimeout(crsAns.t); crsAns.t = setTimeout(save, 700); return; }
   if(!t || !t.matches || !t.matches('[data-crs-text]')) return;
   if(en && en.stage === 'crs'){ const k = crsCur(); if(k) crsAns(k.cr.lid, k.cr.part, k.cr.step).text = t.value; }
