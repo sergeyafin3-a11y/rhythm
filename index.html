@@ -3778,6 +3778,115 @@ function renderLisDone(){
     '<button class="btn btn-ghost btn-full" data-act="en-exit">Done</button></div>';
 }
 
+
+/* ---- English lessons: a self-study course with a tutor's structure ----
+   Six lessons so far, two parts each, a unit test after every unit. The logic that decides what is next, what a test
+   asks and how a speaking answer looks is pure and tested; the screens come after it. */
+/* course:pure */
+const CRS_TEST_N = 12;
+/* the course in order: the lessons of each unit, then that unit's test */
+function crsOrder(data){
+  const out = [];
+  data.units.forEach(function(u){
+    u.lessons.forEach(function(id){ out.push({kind:'lesson', id:id}); });
+    out.push({kind:'test', id:u.id});
+  });
+  return out;
+}
+/* where she is: the first item not finished; part 2 opens on a later day than part 1 (she can still press "Do it now") */
+function crsStatus(c, order, today){
+  let cur = null, doneCount = 0, total = 0;
+  order.forEach(function(x){
+    const done = x.kind === 'lesson' ? !!(c.done && c.done[x.id]) : !!(c.tests && c.tests[x.id]);
+    if(x.kind === 'lesson'){ total++; if(done) doneCount++; }
+    if(!done && !cur) cur = x;
+  });
+  const p = cur && cur.kind === 'lesson' && c.parts && c.parts[cur.id];
+  const part = p && p[1] ? 2 : 1;
+  return {cur:cur, part:part, part2Open:!!(p && p[1] && p[1].day < today), doneCount:doneCount, total:total};
+}
+/* a part is finished; the day of the first finish is kept; finishing part 2 ends the lesson */
+function crsFinishPart(c, lid, part, today, score){
+  if(!c.parts) c.parts = {};
+  if(!c.done) c.done = {};
+  const p = c.parts[lid] || (c.parts[lid] = {});
+  if(!p[part]) p[part] = {day:today};
+  if(part === 2 && !c.done[lid]) c.done[lid] = {date:today, score:score || {right:0, n:0}};
+}
+/* the lesson score: the first attempts of its quiz and gap steps */
+function crsScore(lesson, ans){
+  let right = 0, n = 0;
+  lesson.parts.forEach(function(p, pi){
+    p.steps.forEach(function(s, si){
+      const a = ans && ans[pi + 1] && ans[pi + 1][si];
+      if((s.t === 'quiz' || s.t === 'gap') && a && a.checked && a.res){ a.res.forEach(function(ok){ n++; if(ok) right++; }); }
+    });
+  });
+  return {right:right, n:n};
+}
+function crsNorm(s){ return String(s == null ? '' : s).toLowerCase().replace(/[’‘]/g, "'").replace(/'/g, '').replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim(); }
+function crsGapOk(typed, answers){
+  const t = crsNorm(typed);
+  return !!t && answers.some(function(a){ return crsNorm(a) === t; });
+}
+/* three options for «which phrase means …»: the right one and two others from the same lesson words */
+function crsPhraseQ(w, pool, rnd){
+  const others = srsShuffle(pool.filter(function(x){ return x.w !== w.w; }), rnd).slice(0, 2);
+  return {kind:'mc', q:'Which phrase means “'+w.ru+'”?', options:srsShuffle([{t:w.w, ok:true}].concat(others.map(function(x){ return {t:x.w, ok:false}; })), rnd), why:w.ex};
+}
+function crsRecall(words, rnd, n){
+  if(words.length < 3) return [];
+  return srsShuffle(words, rnd).slice(0, n).map(function(w){ return crsPhraseQ(w, words, rnd); });
+}
+/* a unit test: twelve questions drawn from the unit's own quiz questions, gap exercises and phrases */
+function crsTest(lessons, unit, rnd){
+  const quiz = [], gap = [], words = [];
+  unit.lessons.forEach(function(id){
+    const l = lessons.find(function(x){ return x.id === id; });
+    if(!l) return;
+    const lw = [];
+    l.parts.forEach(function(p){ p.steps.forEach(function(s){
+      if(s.t === 'quiz') s.qs.forEach(function(q){ quiz.push({kind:'mc', q:q.q, options:srsShuffle(q.o.map(function(t, i){ return {t:t, ok:i === q.a}; }), rnd), why:q.why || '', from:id}); });
+      else if(s.t === 'gap') s.items.forEach(function(g){ gap.push({kind:'gap', s:g.s, answers:g.a, hint:g.hint || '', from:id}); });
+      else if(s.t === 'words') s.items.forEach(function(w){ lw.push(w); });
+    }); });
+    if(lw.length >= 3) lw.forEach(function(w){ const q = crsPhraseQ(w, lw, rnd); q.from = id; words.push(q); });
+  });
+  const pools = [srsShuffle(quiz, rnd), srsShuffle(words, rnd), srsShuffle(gap, rnd)];
+  const out = [];
+  pools.forEach(function(p){ p.slice(0, CRS_TEST_N / 3).forEach(function(q){ out.push(q); }); });
+  pools.forEach(function(p){ p.slice(CRS_TEST_N / 3).forEach(function(q){ if(out.length < CRS_TEST_N) out.push(q); }); });
+  return srsShuffle(out, rnd);
+}
+/* the speaking analysis: counts only, it never pretends to grade */
+const CRS_IRREG = {be:['am', 'is', 'are', 'was', 'were', 'been', 'being'], go:['went', 'gone', 'goes', 'going'], feel:['felt'], get:['got', 'gotten'], make:['made'], take:['took', 'taken'], have:['has', 'had'], do:['did', 'done', 'does'], say:['said'], see:['saw', 'seen'], think:['thought'], bring:['brought'], buy:['bought'], come:['came'], give:['gave', 'given'], keep:['kept'], know:['knew', 'known'], leave:['left'], lose:['lost'], meet:['met'], pay:['paid'], run:['ran'], sell:['sold'], tell:['told'], hold:['held'], break:['broke', 'broken'], fall:['fell', 'fallen'], find:['found'], sit:['sat'], put:['putting'], cut:['cutting'], spend:['spent'], build:['built'], send:['sent'], stand:['stood'], speak:['spoke', 'spoken'], write:['wrote', 'written'], wear:['wore', 'worn'], win:['won'], teach:['taught'], catch:['caught']};
+const CRS_SKIP = ['a', 'an', 'the', 'to', 'of', 'in', 'on', 'for', 'with', 'at', 'by', 'someone', 'somebody', 'something', 'someones', 'your', 'my', 'his', 'her', 'ones', 'it', 'your'];
+const CRS_CONNECT = ['because', 'although', 'however', 'so', 'but', 'while', 'whereas', 'therefore', 'also', 'then', 'as a result', 'even though', 'in fact', 'unless', 'instead', 'besides', 'anyway', 'after that'];
+function crsForms(w){
+  const out = [w].concat(CRS_IRREG[w] || []), stem = w.replace(/e$/, ''), last = w.slice(-1);
+  ['s', 'es', 'ed', 'd', 'ing'].forEach(function(suf){ out.push(stem + suf, w + suf); });
+  out.push(w + last + 'ed', w + last + 'ing');
+  if(/y$/.test(w)) out.push(w.slice(0, -1) + 'ied', w.slice(0, -1) + 'ies');
+  return out;
+}
+function speakAnalyze(text, targets, secs){
+  const tokens = String(text || '').toLowerCase().replace(/[’‘]/g, "'").match(/[a-z']+/g) || [], joined = ' ' + tokens.join(' ') + ' ';
+  const seen = {}; tokens.forEach(function(t){ seen[t] = true; });
+  const used = [], missed = [];
+  targets.forEach(function(t){
+    const ws = crsNorm(t).split(' ').filter(function(w){ return w && CRS_SKIP.indexOf(w) < 0; });
+    const hit = ws.length && ws.every(function(w){ return crsForms(w).some(function(f){ return seen[f]; }); });
+    (hit ? used : missed).push(t);
+  });
+  let fillers = tokens.filter(function(t){ return /^(um+|uh+|er+|erm+|ehm)$/.test(t); }).length;
+  ['you know', 'i mean', 'kind of', 'sort of'].forEach(function(p){ fillers += joined.split(' ' + p + ' ').length - 1; });
+  return {
+    words:tokens.length, unique:Object.keys(seen).length, fillers:fillers,
+    connectors:CRS_CONNECT.filter(function(c){ return joined.indexOf(' ' + c + ' ') >= 0; }),
+    used:used, missed:missed, wpm:secs > 0 ? Math.round(tokens.length / (secs / 60)) : null
+  };
+}
+/* course:end */
 /* eng:end */
 
 /* ---- Speaking roulette: spin, talk for a minute unaided, see the phrases, talk again ---- */
