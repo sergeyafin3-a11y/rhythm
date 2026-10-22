@@ -153,7 +153,7 @@ if(D && C){
         st.items.forEach(function(g){ check((g.s.match(/___/g) || []).length === 1 && g.a.length >= 1 && g.hint, id + ': gap "' + g.s.slice(0, 40) + '" needs one blank, answers and a hint'); check(g.a.every(function(x){ return C.crsGapOk(x, g.a); }), id + ': every listed answer must be accepted'); });
       }
       if(st.t === 'read') check(st.source >= 0 && st.source < l.sources.length && st.how, id + ': a read step points at one of its sources');
-      if(st.t === 'grammar') check(st.text && st.ru && cyr.test(st.ru) && st.ex.length >= 5, id + ': grammar needs text, a Russian version and 3 examples');
+      if(st.t === 'grammar') check(st.text && st.ru && cyr.test(st.ru) && st.ex.length >= 5, id + ': grammar needs text, a Russian version and 5 examples');
       if(st.t === 'warm') check(st.qs.length === 4 && st.qs.every(function(q){ return /[?.]$/.test(q) && !cyr.test(q); }), id + ': the warm-up has four English questions');
       if(st.t === 'write') check(st.prompt && st.hint, id + ': write needs a prompt and a hint');
       if(st.t === 'speak'){
@@ -266,5 +266,20 @@ check(/st\.t === 'warm'/.test(body('renderCrsStep')) && /data-crs-text/.test(bod
 check(/crsSync\(/.test(body('crsLoad')), 'the lessons are synced with the saved answers when they load');
 check(/a\.texts/.test(html), 'warm-up answers are saved per question');
 check(!/'ABC'\[i\]/.test(html) && /'ABCD'\[i\]/.test(body('qzRender')), 'four answer options get four letters (A to D)');
+// ---------- 9. review round: no wipe on a downgrade, sync after reset/restore, wording for text sources ----------
+if(C){
+  const c9 = {vers:{l1:2}, ans:{l1:{1:{0:{done:true}}}}, pos:{l:'l1', part:1, step:4}};
+  C.crsSync(c9, [{id:'l1'}]);
+  check(c9.ans.l1 && c9.ans.l1[1][0].done && c9.pos.step === 4 && c9.vers.l1 === 2, 'an older lessons file served late does not wipe newer answers (only a higher version resets)');
+  const c10 = {ans:{l1:{1:{0:{done:true}}}}};
+  C.crsSync(c10, [{id:'l1', ver:2}]);
+  check(!c10.ans.l1 && c10.vers.l1 === 2, 'a state without versions meeting version 2 content still resets that lesson once');
+}
+check(/crsSync\(/.test((html.split("act==='import-data'")[1] || '').slice(0, 900)), 'restoring a backup syncs the lessons with the restored course');
+check(/crsSync\(/.test((html.split('state = seed(); state.skin = skin;')[1] || '').slice(0, 700)), 'starting over leaves a course that is already in step with the lessons');
+check(!/a\.ticks|data-k'\) === 'tick'/.test(html), 'the old tick handler of the Notice it step is gone');
+check(!/Before you listen/.test(html), 'the warm-up does not say "listen" (one lesson is an article)');
+if(D){ const l6 = D.lessons.find(function(l){ return l.id === 'l06'; }); check(l6.parts[0].steps.filter(function(x){ return x.t === 'quiz'; })[1].title === 'What did you read?', 'the article lesson asks what she read, not what she heard'); }
+check(/warm-up/i.test(readme) && /new-words check|new words check/i.test(readme), 'the README mentions the warm-up and the new-words check');
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: English lessons');

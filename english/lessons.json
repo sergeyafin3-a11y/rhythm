@@ -206,7 +206,7 @@
                   "q": "'In a friendship, it's all about trust.' What does 'it's all about' mean here?",
                   "o": [
                     "trust is the thing that matters most",
-                    "trust is what people talk about most",
+                    "trust is the first thing friends should discuss",
                     "trust is the first thing that you lose",
                     "trust is something to be proud of"
                   ],
@@ -467,7 +467,9 @@
                   "s": "This is the first time we ___ (argue) in front of the children.",
                   "a": [
                     "have argued",
-                    "'ve argued"
+                    "'ve argued",
+                    "have ever argued",
+                    "'ve ever argued"
                   ],
                   "hint": "present perfect after 'first time'"
                 },
@@ -795,7 +797,7 @@
                   "why": "After the nap request she says she did not expect that one to be a yes."
                 },
                 {
-                  "q": "By which attempt did Hannah no longer mind whether the answer was yes or no?",
+                  "q": "At which attempt did Hannah first say she no longer minded whether the answer was yes or no?",
                   "o": [
                     "The fourth",
                     "The second",
@@ -945,7 +947,8 @@
                 {
                   "s": "Much ___ I'd like to help, I'm afraid I'm tied up all week.",
                   "a": [
-                    "as"
+                    "as",
+                    "though"
                   ],
                   "hint": "polite refusal: concession"
                 },
@@ -964,7 +967,12 @@
                     "will not be able to",
                     "am not going to be able to",
                     "may not be able to",
-                    "might not be able to"
+                    "might not be able to",
+                    "wouldn't be able to",
+                    "would not be able to",
+                    "am not able to",
+                    "'m not able to",
+                    "'m not going to be able to"
                   ],
                   "hint": "softer future refusal"
                 },
@@ -979,7 +987,9 @@
                   "s": "He admitted ___ (mix) up the dates.",
                   "a": [
                     "mixing",
-                    "having mixed"
+                    "having mixed",
+                    "to mixing",
+                    "to having mixed"
                   ],
                   "hint": "reporting verb + -ing"
                 },
@@ -1006,7 +1016,10 @@
                   "a": [
                     "will",
                     "would",
-                    "shall"
+                    "shall",
+                    "should",
+                    "must",
+                    "can"
                   ],
                   "hint": "negative inversion for emphasis"
                 }
@@ -1405,7 +1418,7 @@
             {
               "t": "grammar",
               "title": "Guessing, predicting, keeping your distance",
-              "text": "Deduction has degrees: must (almost certain), is bound to or is likely to (strong prediction), may, might and could (possible), and can't or couldn't (almost certain it is not so), and mustn't is not used for deduction. For the past, put have + participle after the modal: must have been, can't have known; add been + -ing to stress duration, as in must have been waiting. Careful: could have + participle is also used for an unreal past possibility or mild criticism (You could have told me), and should have may mean either regret or expectation (He should have arrived by now). To keep your distance from a claim, use seem or appear with a perfect infinitive (He seems to have left), the pattern It would appear that..., or a reporting passive such as He is said to have resigned.",
+              "text": "Deduction has degrees: must (almost certain), is bound to or is likely to (strong prediction), may, might and could (possible), and can't or couldn't (almost certain it is not so), and mustn't is rarely used for deduction in British English, where can't is the normal choice. For the past, put have + participle after the modal: must have been, can't have known; add been + -ing to stress duration, as in must have been waiting. Careful: could have + participle is also used for an unreal past possibility or mild criticism (You could have told me), and should have may mean either regret or expectation (He should have arrived by now). To keep your distance from a claim, use seem or appear with a perfect infinitive (He seems to have left), the pattern It would appear that..., or a reporting passive such as He is said to have resigned.",
               "ru": "Степени уверенности: must (почти точно), is bound to / is likely to (сильный прогноз), may, might, could (возможно), can't / couldn't (почти точно нет); mustn't для догадок не используется. Прошлое: модальный + have + V3, а с been + -ing подчёркиваем длительность. Could have и should have могут значить не догадку, а упрёк или ожидание. Дистанция от утверждения: seems / appears to have + V3, It would appear that..., He is said to have...",
               "ex": [
                 "He said it was all good, but he must have been getting miffed by then.",
@@ -1448,7 +1461,14 @@
                     "is certain",
                     "is likely",
                     "is very likely",
-                    "is almost certain"
+                    "is almost certain",
+                    "'s bound",
+                    "'s sure",
+                    "'s certain",
+                    "'s likely",
+                    "is highly likely",
+                    "is quite likely",
+                    "is almost sure"
                   ],
                   "hint": "strong prediction"
                 },
@@ -1473,15 +1493,11 @@
                   "hint": "distancing structure"
                 },
                 {
-                  "s": "To put it mildly, the service was ___ ideal.",
+                  "s": "To put it mildly, the service was less ___ ideal.",
                   "a": [
-                    "less than",
-                    "not exactly",
-                    "not quite",
-                    "hardly",
-                    "far from"
+                    "than"
                   ],
-                  "hint": "understatement"
+                  "hint": "understatement: less than ..."
                 },
                 {
                   "s": "You ___ told me you were annoyed instead of saying 'it's all good'.",
@@ -1499,7 +1515,15 @@
                     "unlikely",
                     "not likely",
                     "not very likely",
-                    "hardly likely"
+                    "hardly likely",
+                    "very unlikely",
+                    "highly unlikely",
+                    "extremely unlikely",
+                    "quite unlikely",
+                    "most unlikely",
+                    "not at all likely",
+                    "not that likely",
+                    "not particularly likely"
                   ],
                   "hint": "probability, negative"
                 },
@@ -1507,7 +1531,9 @@
                   "s": "Ben left at six and it's only a twenty-minute drive, so he ___ (should / arrive) by now.",
                   "a": [
                     "should have arrived",
-                    "ought to have arrived"
+                    "ought to have arrived",
+                    "should already have arrived",
+                    "should have already arrived"
                   ],
                   "hint": "expectation, not regret"
                 },
@@ -1528,7 +1554,11 @@
                     "couldn't have seen",
                     "could not have seen",
                     "must not have seen",
-                    "mustn't have seen"
+                    "mustn't have seen",
+                    "must have missed",
+                    "can't have noticed",
+                    "couldn't have noticed",
+                    "cannot have noticed"
                   ],
                   "hint": "negative deduction, past"
                 },
@@ -1541,7 +1571,13 @@
                     "is reported to have resigned",
                     "is understood to have resigned",
                     "is rumoured to have resigned",
-                    "is supposed to have resigned"
+                    "is supposed to have resigned",
+                    "'s said to have resigned",
+                    "is alleged to have resigned",
+                    "is reputed to have resigned",
+                    "is reckoned to have resigned",
+                    "is claimed to have resigned",
+                    "is rumored to have resigned"
                   ],
                   "hint": "reporting passive, distancing"
                 }
@@ -1763,7 +1799,7 @@
                   "o": [
                     "share",
                     "weight",
-                    "part",
+                    "amount",
                     "turn"
                   ],
                   "a": 0,
@@ -1860,7 +1896,7 @@
                   "why": "Pippa glosses it as a casual way of saying you stop and relax for a bit."
                 },
                 {
-                  "q": "Ade Mardiyati says women on Rote 'also help out in the fields'. What is she implying?",
+                  "q": "Ade Mardiyati reports that women on Rote 'also help out in the fields'. What is she implying?",
                   "o": [
                     "The claim that the work is split fairly does not hold up, because women carry more",
                     "Men on Rote refuse to do any farming or fishing at all",
@@ -1964,7 +2000,8 @@
                     "used not to have",
                     "didn't have",
                     "did not have",
-                    "never had"
+                    "never had",
+                    "used to not have"
                   ],
                   "hint": "past state"
                 },
@@ -1973,7 +2010,6 @@
                   "a": [
                     "would",
                     "'d",
-                    "d",
                     "used to"
                   ],
                   "hint": "past habit"
@@ -2010,8 +2046,7 @@
                   "s": "I regret leaving the oven until last. -> I wish I ___ (do) it first.",
                   "a": [
                     "had done",
-                    "'d done",
-                    "d done"
+                    "'d done"
                   ],
                   "hint": "wish + past perfect"
                 },
@@ -2019,18 +2054,15 @@
                   "s": "My flatmate leaves his plates in the sink every night. I wish he ___ (stop) doing it.",
                   "a": [
                     "would stop",
-                    "'d stop",
-                    "d stop"
+                    "'d stop"
                   ],
                   "hint": "wish + would"
                 },
                 {
-                  "s": "I'd rather you ___ (not / leave) the washing-up until the morning.",
+                  "s": "From tonight, I'd rather you ___ (not / leave) the washing-up until the morning.",
                   "a": [
                     "didn't leave",
-                    "did not leave",
-                    "wouldn't leave",
-                    "would not leave"
+                    "did not leave"
                   ],
                   "hint": "would rather + subject"
                 },
@@ -2038,8 +2070,7 @@
                   "s": "I'd rather you ___ (tell) me yesterday that we had run out of bin bags.",
                   "a": [
                     "had told",
-                    "'d told",
-                    "d told"
+                    "'d told"
                   ],
                   "hint": "would rather + past perfect"
                 },
@@ -2478,7 +2509,14 @@
                 {
                   "s": "People say that the founder lived in a tiny flat. -> The founder ___ in a tiny flat.",
                   "a": [
-                    "is said to have lived"
+                    "is said to have lived",
+                    "is believed to have lived",
+                    "is thought to have lived",
+                    "is reported to have lived",
+                    "is reputed to have lived",
+                    "is rumoured to have lived",
+                    "is understood to have lived",
+                    "'s said to have lived"
                   ],
                   "hint": "reporting passive, earlier time"
                 },
@@ -2493,23 +2531,28 @@
                 {
                   "s": "I really hate ___ (tell) what I should buy.",
                   "a": [
-                    "being told"
+                    "being told",
+                    "to be told"
                   ],
                   "hint": "passive gerund"
                 },
                 {
                   "s": "Please wait outside; the window display ___ (change) at the moment.",
                   "a": [
-                    "is being changed"
+                    "is being changed",
+                    "'s being changed"
                   ],
                   "hint": "present continuous passive"
                 },
                 {
                   "s": "It took twenty minutes of persuading, but she ___ her brother to lend her the money.",
                   "a": [
-                    "got"
+                    "got",
+                    "managed to get",
+                    "finally got",
+                    "eventually got"
                   ],
-                  "hint": "causative: persuade"
+                  "hint": "causative with get (not persuade)"
                 },
                 {
                   "s": "Customers were made ___ (leave) their bags at the door.",
@@ -2530,7 +2573,9 @@
                   "s": "Studies have proved that the cream reduces wrinkles. -> It ___ that the cream reduces wrinkles.",
                   "a": [
                     "has been proved",
-                    "has been proven"
+                    "has been proven",
+                    "'s been proved",
+                    "'s been proven"
                   ],
                   "hint": "impersonal passive with it"
                 },
@@ -2546,7 +2591,9 @@
                   "s": "By Friday evening almost all the stock ___ (sell).",
                   "a": [
                     "will have been sold",
-                    "'ll have been sold"
+                    "'ll have been sold",
+                    "will already have been sold",
+                    "will all have been sold"
                   ],
                   "hint": "future perfect passive"
                 },
@@ -2554,7 +2601,9 @@
                   "s": "By the time I reached the shop, the last pair of boots ___ (sell).",
                   "a": [
                     "had been sold",
-                    "'d been sold"
+                    "'d been sold",
+                    "had already been sold",
+                    "'d already been sold"
                   ],
                   "hint": "past perfect passive"
                 }
@@ -2728,7 +2777,7 @@
                   "why": "'Get involved in' means to take part in something, often something you would be better off avoiding."
                 },
                 {
-                  "q": "Which sentence uses 'like a moth to a flame' correctly?",
+                  "q": "Which sentence uses 'like a moth to a flame' in the sense explained in the episode (drawn to something that may harm you)?",
                   "o": [
                     "He knows the casino ruined him once, yet he is drawn back like a moth to a flame.",
                     "The children ran to the ice-cream van like a moth to a flame because they were hot.",
@@ -2804,7 +2853,7 @@
             },
             {
               "t": "quiz",
-              "title": "What did you hear?",
+              "title": "What did you read?",
               "qs": [
                 {
                   "q": "Which pair of comparisons does the author give as having survived, and which as having faded?",
@@ -2842,7 +2891,7 @@
                 {
                   "q": "What does the 92% figure in the story tell us?",
                   "o": [
-                    "Two random 'as ___ as a cucumber' similes would almost certainly both be about 'cool'.",
+                    "Two random 'as ___ as a cucumber' similes would very probably both be about 'cool'.",
                     "92% of all similes about being cool in the data use the noun 'cucumber'.",
                     "Cucumber appears in 92% of the similes that the author collected.",
                     "Hell is paired with 92% of the 500 adjectives in the analysis."
@@ -2897,7 +2946,7 @@
                 {
                   "q": "'Most animals are pigeon-holed': what does 'pigeon-holed' suggest here?",
                   "o": [
-                    "Each animal is stuck with one typical quality in similes.",
+                    "Most animals are tied to one typical quality in similes.",
                     "Animals are kept apart from human characters in novels.",
                     "Writers avoid using animals in comparisons.",
                     "Animals are mostly compared to birds."
@@ -2914,7 +2963,7 @@
                     "It is reliable only for the hundred most common adjectives in English."
                   ],
                   "a": 0,
-                  "why": "The author says the data is accurate overall but imperfect for individual sentences; false positives were filtered out, but not completely removed."
+                  "why": "The author says the dataset is reliable as a whole but flawed for single sentences; some genuine similes were probably filtered out by mistake."
                 }
               ]
             },
@@ -2953,7 +3002,7 @@
             {
               "t": "grammar",
               "title": "Comparing things at C1 level",
-              "text": "For proportion, repeat the + comparative: the longer I wait, the less I want it. Multiples go before as ... as (twice as, three times as, half as), and 'not nearly as' or 'nowhere near as' says the gap is big. Never put 'very' before a comparative; use far, much or considerably, and use 'by far' or 'easily' with a superlative. 'Like' takes a noun, but 'as if' and 'as though' take a clause, and for an unreal idea the verb goes back a step: she talks as if she owned the place. After than and as you can leave words out: it cost more than we had budgeted (for).",
+              "text": "For proportion, repeat the + comparative: the longer I wait, the less I want it. Multiples go before as ... as (twice as, three times as, half as), and 'not nearly as' or 'nowhere near as' says the gap is big. Do not put plain 'very' before a comparative; use far, much or considerably (or 'very much'), and use 'by far' or 'easily' with a superlative. 'Like' takes a noun, but 'as if' and 'as though' take a clause, and for an unreal idea the verb goes back a step: she talks as if she owned the place. After than and as you can leave words out: it cost more than we had budgeted (for).",
               "ru": "Пропорция: the + сравнительная ... the + сравнительная. Кратность ставится перед as ... as (twice as, half as), а not nearly as / nowhere near as показывает большую разницу. Перед сравнительной степенью нельзя very: нужны far, much, considerably; с превосходной степенью by far. After like идёт существительное, after as if / as though идёт целое предложение, и для нереального глагол сдвигается в прошедшее. После than и as часть слов можно опустить.",
               "ex": [
                 "The more I scroll through sale pages, the harder it is to resist.",
@@ -2971,7 +3020,10 @@
                 {
                   "s": "I had planned to spend almost nothing, but the longer I stayed on that website, ___ I spent.",
                   "a": [
-                    "the more"
+                    "the more",
+                    "the more money",
+                    "the more cash",
+                    "the more things"
                   ],
                   "hint": "the + comparative ... the + comparative"
                 },
@@ -2980,7 +3032,9 @@
                   "a": [
                     "twice",
                     "two times",
-                    "2 times"
+                    "2 times",
+                    "exactly twice",
+                    "precisely twice"
                   ],
                   "hint": "multiples before as ... as"
                 },
@@ -2992,7 +3046,11 @@
                     "nothing like",
                     "not anywhere near",
                     "not remotely",
-                    "not half"
+                    "not half",
+                    "not as",
+                    "not quite",
+                    "nowhere close",
+                    "not so"
                   ],
                   "hint": "a big gap: not nearly / nowhere near"
                 },
@@ -3002,7 +3060,11 @@
                     "by far",
                     "easily",
                     "far and away",
-                    "much"
+                    "much",
+                    "far",
+                    "definitely",
+                    "certainly",
+                    "undoubtedly"
                   ],
                   "hint": "emphasising a superlative"
                 },
@@ -3011,7 +3073,13 @@
                   "a": [
                     "like",
                     "just like",
-                    "exactly like"
+                    "exactly like",
+                    "the same as",
+                    "exactly the same as",
+                    "very much like",
+                    "a lot like",
+                    "much like",
+                    "so much like"
                   ],
                   "hint": "like + noun or pronoun"
                 },
@@ -3032,7 +3100,10 @@
                 {
                   "s": "The second flat was ___ (very / far) better than the first one.",
                   "a": [
-                    "far"
+                    "far",
+                    "much",
+                    "a lot",
+                    "considerably"
                   ],
                   "hint": "modifying a comparative"
                 },
@@ -3042,7 +3113,11 @@
                     "the same",
                     "exactly the same",
                     "just the same",
-                    "precisely the same"
+                    "precisely the same",
+                    "the very same",
+                    "almost the same",
+                    "nearly the same",
+                    "virtually the same"
                   ],
                   "hint": "the same ... as"
                 },
@@ -3051,7 +3126,10 @@
                   "a": [
                     "none the",
                     "no",
-                    "not any"
+                    "not any",
+                    "hardly any",
+                    "not much",
+                    "not a bit"
                   ],
                   "hint": "no improvement: none the + comparative"
                 },
@@ -3061,7 +3139,8 @@
                     "had budgeted",
                     "budgeted",
                     "were budgeting",
-                    "had been budgeting"
+                    "had been budgeting",
+                    "'d budgeted"
                   ],
                   "hint": "comparative clause, verb in brackets"
                 },
