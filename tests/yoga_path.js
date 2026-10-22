@@ -58,12 +58,13 @@ check(/st\.p = |\.p = Math/.test(body('ygState')) || /if\(!state\.yoga\.p\)/.tes
 check(/finished the path|You finished/i.test(body('ygPathMap')), 'the end of the path says so');
 check(/Yoga path|path/i.test(readme) && /Dakira|Yannau|stage/i.test(readme), 'the README describes the yoga path');
 // ---------- 4. review round ----------
-check(!PATH.some(function(w){ return ['J-ni0OBELCo', 'vtI9ZH6HZtw', 'PXRW6unQR-o'].indexOf(w.v) >= 0; }), 'no lesson whose real title says "from scratch" (с нуля): she asked for no beginner classes');
+check(!PATH.some(function(w){ return ['J-ni0OBELCo', 'vtI9ZH6HZtw', 'PXRW6unQR-o', '--XQVTrmaW0', 'P0_kVW81s08'].indexOf(w.v) >= 0; }), 'no lesson whose real title says "from scratch" (с нуля) or "beginner level" (начального): she asked for no beginner classes');
 check(/addEventListener\('toggle'[\s\S]{0,260}yg-map/.test(html) || /ygMapOpen/.test(html), 'the open list stays open after Done, Skip or Back');
 check(/ygMapOpen/.test(body('ygPathMap')), 'the map is drawn open when it was open');
 check(/ygTap/.test(html) && /act==='yg-done'[\s\S]{0,420}ygTap/.test(html), 'a quick double tap on Done logs one step, not two');
 check(/Math\.floor\(Number\(/.test(body('ygState')) && /Math\.max\(0/.test(body('ygState')), 'a bad saved position (negative, text) is repaired');
 check(/last step/i.test((html.split("act==='yg-skip'")[1] || '').slice(0, 400)), 'Skip on the last step says so instead of promising a next one');
 check(!/slow transitions/.test(html), 'the description of the movement-control class claims only what its title says');
+check(PATH.some(function(w){ return w.v === 'uv6OdZwP-eU'; }) && PATH.some(function(w){ return w.v === 'L6EkIbvk1vQ'; }), 'the two replacements are in the path');
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: the yoga path');
