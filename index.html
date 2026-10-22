@@ -956,6 +956,16 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .yg-log-row + .yg-log-row{ border-top:1px solid var(--line); }
 .yg-swim .vid-body{ padding:14px 16px; }
 .yg-swim{ border-style:dashed; }
+.yg-path{ border:2px solid var(--accent); }
+.yg-new{ font-weight:700; color:var(--accent); }
+.yg-map{ margin:14px 0 0; padding:12px 14px; border-radius:var(--radius); background:var(--surface); }
+.yg-map summary{ cursor:pointer; font-size:13px; font-weight:700; color:var(--ink-soft); }
+.yg-map .yg-no{ margin:14px 0 2px; }
+.yg-map .yg-note{ margin:2px 0 6px; font-size:13px; }
+.yg-map-row{ display:flex; justify-content:space-between; gap:10px; margin:0; padding:4px 0; font-size:13.5px; line-height:1.4; }
+.yg-map-row small{ color:var(--ink-mute); white-space:nowrap; }
+.yg-map-row.done{ color:var(--ink-mute); }
+.yg-map-row.now{ font-weight:700; color:var(--accent); }
 .yg-next-line{ margin:6px 0 0; font-size:12px; color:var(--ink-mute); }
 /* a quiet caption under a heading (used by the word test and the Winter Arc) */
 .fd-sub{ margin:6px 0 12px; font-size:13px; line-height:1.5; color:var(--ink-mute); }
@@ -1971,11 +1981,54 @@ const YG_BANDS = [
   {k:'mid',  emoji:'🌤', name:'Medium',        lo:26, hi:35, note:'A normal day: work properly, keep a little in reserve.'},
   {k:'full', emoji:'🔥', name:'Ready to work', lo:36, hi:45, note:'Plenty of energy — spend it. Take the easier version of a pose rather than stopping.'}
 ];
+/* The yoga path: a staged course in Russian, one new thing at a time. Every id was opened on YouTube; the order is the teaching order
+   (the Dakira lessons come from a numbered course, the rest are picked to lead up to the poses). Lighter "flow day" classes sit between the lessons. */
+const YG_STAGES = [
+  {name:'A strong base', note:'Arms, shoulders and core, so the first balances have something to stand on.'},
+  {name:'Arm balances', note:'Crow and its relatives, one pose at a time.'},
+  {name:'Hips and backbends', note:'More room in the hips and the upper back, with splits as the long-term goal.'},
+  {name:'Upside down', note:'Forearm stand, headstand and handstand, built slowly and safely.'}
+];
+const YOGA_PATH = [
+  {v:'--XQVTrmaW0', t:'Strong arms and shoulders', min:20, by:'Yoga with Dmitry Yannau', lang:'ru', s:0, focus:'Arms and shoulders', desc:'A focused strength class for arms and shoulders. It builds the base that every balance later on leans on.'},
+  {v:'orzn5NbsV2w', t:'Strength and balance', min:31, by:'Milky Yoga', lang:'ru', s:0, focus:'Core and balance', desc:'A steady class that mixes strength work with balance poses, so the core starts to hold you up.'},
+  {v:'wWPnMv2xtUY', t:'Balance and strengthening', min:22, by:'Dakira Yoga', lang:'ru', s:0, focus:'Balance', desc:'A class for practitioners with some experience: balance and strength in one short practice.'},
+  {v:'cnoL9gO3p8Q', t:'Crow prep: arm and core strength', min:30, by:'Yoga with Dmitry Yannau', lang:'ru', s:0, focus:'Crow variations', desc:'Arm and core strength and the first variations of crow. Take your time: the aim is to feel what it asks of you.'},
+  {v:'dGNFwGWzdrU', t:'Hip mobility and first arm balances', min:20, by:'Dakira Yoga', lang:'ru', s:0, focus:'Hips for balances', desc:'A softer practice that opens the hips and touches the low arm balances you are about to learn.'},
+  {v:'rD68UCrbnfY', t:'Full-body flow in 20 minutes', min:22, by:'Dakira Yoga', lang:'ru', s:0, focus:'Flow day', desc:'A whole-body flow. A lighter day between the lessons to keep the strength and the rhythm.'},
+  {v:'cGr3iuK3dco', t:'Crow and its variations', min:25, by:'Dakira Yoga', lang:'ru', s:1, focus:'Crow (Bakasana)', desc:'A lesson from a course on low arm balances: the pose, its variations and how to move into and out of it.'},
+  {v:'yy9TmMohZTo', t:'Strength and balance flow', min:31, by:'Dakira Yoga', lang:'ru', s:1, focus:'Flow day', desc:'A strong 30-minute flow with balances. Keeps the legs and core working between the lessons.'},
+  {v:'mcZNgJh_98w', t:'Side crow and Kaundinyasana 2', min:31, by:'Dakira Yoga', lang:'ru', s:1, focus:'Side crow', desc:'A lesson on the side crow and the one-legged side balance that grows out of it.'},
+  {v:'eqviLIwVKyc', t:'Eight-angle pose (Astavakrasana)', min:23, by:'Dakira Yoga', lang:'ru', s:1, focus:'Eight-angle pose', desc:'A lesson on the eight-angle pose with its progressions and transitions.'},
+  {v:'3ZTDwsvXRCY', t:'Dynamic flow with fresh elements', min:26, by:'Dakira Yoga', lang:'ru', s:1, focus:'Flow day', desc:'A dynamic flow with a few interesting elements to try. A lighter day between the balance lessons.'},
+  {v:'goWjEPzUFjY', t:'Kaundinyasana 1', min:21, by:'Dakira Yoga', lang:'ru', s:1, focus:'Kaundinyasana 1', desc:'A lesson on the first Kaundinyasana, a balance on the arms with the legs stretched to one side.'},
+  {v:'-ItqYm9u-yI', t:'Firefly (Tittibhasana)', min:21, by:'Dakira Yoga', lang:'ru', s:1, focus:'Firefly', desc:'A lesson on the firefly pose: the pose, the preparation and the progressions.'},
+  {v:'rk0g73PRjHA', t:'Pendant (Lolasana) and Brahmacharyasana', min:23, by:'Dakira Yoga', lang:'ru', s:1, focus:'Pendant pose', desc:'A lesson on two balances that lift the hips off the floor.'},
+  {v:'6uiySor-0pk', t:'Control of movement', min:26, by:'Dakira Yoga', lang:'ru', s:1, focus:'Flow day', desc:'A practice for all levels about moving with control. A lighter day before the next lesson.'},
+  {v:'mEaiIqHepzY', t:'One-leg crow and funky one-leg crow', min:20, by:'Dakira Yoga', lang:'ru', s:1, focus:'One-leg crow', desc:'The last lesson of the course: one-leg crow and a more playful version of it.'},
+  {v:'mQIOeVHgyUs', t:'Hips for every level', min:24, by:'Йога chilelavida Елена Малова', lang:'ru', s:2, focus:'Open hips', desc:'A 20-minute practice for the hip joints that suits any level.'},
+  {v:'8qcWb4-c95s', t:'Hip strength and mobility', min:32, by:'Milky Yoga', lang:'ru', s:2, focus:'Strong, mobile hips', desc:'A 30-minute class that makes the hips both strong and mobile.'},
+  {v:'EhN7VX-TzMQ', t:'Front splits: thorough preparation', min:35, by:'Yoga with Dmitry Yannau', lang:'ru', s:2, focus:'Front splits (Hanumanasana)', desc:'A thorough preparation for the front splits, for all levels. Go only as far as feels good.'},
+  {v:'kHR3vxXPMug', t:'Backbend flow', min:27, by:'Milky Yoga', lang:'ru', s:2, focus:'Chest opening', desc:'A dynamic flow that opens the chest and prepares the upper back for deeper backbends.'},
+  {v:'GS0VED-egIs', t:'Backbends, intermediate level', min:39, by:'Йога chilelavida Елена Малова', lang:'ru', s:2, focus:'Deeper backbends', desc:'An intermediate class of backbends and back exercises.'},
+  {v:'mkvV9RijohM', t:'Evening yoga with new poses', min:30, by:'Dakira Yoga', lang:'ru', s:2, focus:'Flow day', desc:'Thirty minutes of evening yoga, with a new pose to try in every practice.'},
+  {v:'VLAyBg6K3HM', t:'Front splits, intense stretch', min:30, by:'Йога chilelavida Елена Малова', lang:'ru', s:2, focus:'Front splits', desc:'An intense class for stretching the legs towards the front splits.'},
+  {v:'2jyQKw69Mtk', t:'Forearm stand prep', min:32, by:'Yoga with Dmitry Yannau', lang:'ru', s:3, focus:'Forearm stand prep', desc:'Preparation for the forearm stand: shoulders, core and the first steps.'},
+  {v:'cwfrV7oQNbk', t:'Shoulder strength and forearm stand', min:38, by:'\u0419\u043E\u0433\u0430 chilelavida \u0415\u043B\u0435\u043D\u0430 \u041C\u0430\u043B\u043E\u0432\u0430', lang:'ru', s:3, focus:'Forearm stand', desc:'A vinyasa class that strengthens the shoulder girdle on the way to the forearm stand.'},
+  {v:'LwEkoeD1rQI', t:'Flow and balances', min:35, by:'Йога chilelavida Елена Малова', lang:'ru', s:3, focus:'Flow day', desc:'A 35-minute flow with balances for practitioners. A lighter day between the inversion lessons.'},
+  {v:'IEjukvZXfwc', t:'Headstand: safety and alignment', min:23, by:'Dakira Yoga', lang:'ru', s:3, focus:'Headstand', desc:'How to set up and protect the neck and shoulders in the headstand.'},
+  {v:'IUWSKnL1mco', t:'How to stand on your head', min:24, by:'Йога chilelavida Елена Малова', lang:'ru', s:3, focus:'Headstand (Sirsasana)', desc:'A second explanation of the headstand, with a different teacher and a different way in.'},
+  {v:'3k1Tuxw9tHI', t:'Level up your forearm stand', min:31, by:'Dakira Yoga', lang:'ru', s:3, focus:'Stronger forearm stand', desc:'A detailed class for practitioners who want a steadier, longer forearm stand.'},
+  {v:'P0_kVW81s08', t:'Handstand prep', min:37, by:'Yoga with Dmitry Yannau', lang:'ru', s:3, focus:'Handstand prep', desc:'Preparation for the handstand: wrists, shoulders and core.'},
+  {v:'zR-9SRwBZkI', t:'Wall work for the handstand', min:36, by:'Dakira Yoga', lang:'ru', s:3, focus:'Handstand at the wall', desc:'A training session with a wall for building the handstand safely.'},
+  {v:'_kD8wSUw0Xo', t:'Handstand: jump to tuck', min:30, by:'Dakira Yoga', lang:'ru', s:3, focus:'Handstand entry', desc:'A finale: learn to jump up into the handstand through a tuck.'}
+];
+const YG_PATH = {k:'path', emoji:'🧭', name:'Your path', lo:0, hi:0, note:'The next step on your path. One new thing at a time; there is no rush, and Skip is always fine.'};
 const YG_POOL = {k:'pool', emoji:'🏊', name:'Pool', lo:0, hi:0, note:'The pool instead of the mat — swim at your own pace and tick this when you are back.'};
 /* Sunday first, the way a date counts: Wednesday is the usual swim, never a rule */
 const YOGA_POOL_DAY = 3;
 
-let todayView = 'main', ygPools = null, ygChosen = null;
+let todayView = 'main', ygPools = null, ygChosen = null, ygMapOpen = false, ygTap = 0;
 
 function wkHabit(){
   return state.habits.find(function(h){ return h.id === 'hw'; })
@@ -1984,9 +2037,10 @@ function wkHabit(){
 function ygState(){
   if(!state.yoga) state.yoga = {};
   if(!state.yoga.b) state.yoga.b = {low:0, mid:0, full:0};
+  state.yoga.p = Math.max(0, Math.floor(Number(state.yoga.p)) || 0);
   return state.yoga;
 }
-function ygBand(k){ return k === 'pool' ? YG_POOL : YG_BANDS.find(function(b){ return b.k === k; }); }
+function ygBand(k){ return k === 'pool' ? YG_POOL : k === 'path' ? YG_PATH : YG_BANDS.find(function(b){ return b.k === k; }); }
 /* yg:pure */
 /* a band in a fixed, mixed order, with the strength-focused classes spread evenly through it — core, back, arms and legs are what she wants more of */
 function ygMix(list, hash){
@@ -2017,6 +2071,18 @@ function ygPickUnseen(pool, i, done){
   for(let j = 0; j < n; j++){ const w = pool[(at + j) % n]; if(!done[w.v]) return w; }
   return pool[at];
 }
+/* the session at the path's position; a bad position falls back to the first, past the end there is none */
+function ygPathAt(path, p){
+  const n = path.length, i = Number(p);
+  if(!(i >= 0)) return n ? path[0] : null;
+  return i < n ? path[Math.floor(i)] : null;
+}
+/* the whole path grouped by stage, each session keeping its step number */
+function ygPathGroups(path, stages){
+  return stages.map(function(st, k){
+    return {name:st.name, note:st.note, items:path.map(function(w, i){ return {w:w, i:i}; }).filter(function(o){ return o.w.s === k; })};
+  }).filter(function(g){ return g.items.length; });
+}
 /* yg:end */
 /* each band in a fixed, mixed order; new videos simply join it */
 function ygPool(k){
@@ -2044,8 +2110,9 @@ function ygLog(){ const rec = ygMigrate(state.workouts[today()]); return (rec &&
 /* what is on offer right now: the next video of each band, and the pool */
 function ygOptions(){
   const st = ygState();
-  return YG_BANDS.map(function(b){ return {b:b, w:ygPick(b.k, st.b[b.k])}; })
-    .filter(function(o){ return o.w; })
+  const next = ygPathAt(YOGA_PATH, st.p);
+  return (next ? [{b:YG_PATH, w:next}] : [])
+    .concat(YG_BANDS.map(function(b){ return {b:b, w:ygPick(b.k, st.b[b.k])}; }).filter(function(o){ return o.w; }))
     .concat([{b:YG_POOL, w:null}]);
 }
 /* the single-session fields the week strip and the stats still read */
@@ -2061,6 +2128,12 @@ function ygAdd(k){
   const rec = ygRec(), st = ygState();
   if(!rec.log) rec.log = [];
   if(k === 'pool') rec.log.push({k:'pool', min:40, t:'Pool'});
+  else if(k === 'path'){
+    const i = st.p, w = ygPathAt(YOGA_PATH, i);
+    if(!w) return false;
+    rec.log.push({k:'path', i:i, v:w.v, min:w.min, t:w.t});
+    st.p = i + 1;
+  }
   else {
     const i = st.b[k], w = ygPick(k, i);
     if(!w) return false;
@@ -2074,7 +2147,8 @@ function ygAdd(k){
 /* undo the last one: its band steps back to where it was */
 function ygDrop(){
   const rec = ygRec(), last = (rec.log || []).pop();
-  if(last && last.k !== 'pool' && last.i != null) ygState().b[last.k] = last.i;
+  if(last && last.k === 'path' && last.i != null) ygState().p = last.i;
+  else if(last && last.k !== 'pool' && last.i != null) ygState().b[last.k] = last.i;
   ygMirror(rec);
 }
 /* ticking the habit logs one practice (medium unless a card was tapped); unticking clears the day */
@@ -2115,6 +2189,18 @@ function ygPanel(h){
         '<span class="vid-by">'+(swimDay ? 'Wednesday — your usual swim' : 'Whenever it suits you')+'</span>'+
         '<p class="yg-note">'+esc(YG_POOL.note)+'</p>'+
         '<div class="yg-acts"><button class="btn btn-sm" data-act="yg-done" data-b="pool">✓ Done</button></div></div></article>';
+      if(o.b.k === 'path'){
+        const st = ygState();
+        return '<article class="vid yg-vid yg-path">'+
+          '<a class="vid-thumb" href="'+url+'" target="_blank" rel="noopener"><img src="https://i.ytimg.com/vi/'+w.v+'/hqdefault.jpg" alt="" decoding="async" onerror="this.style.display=&quot;none&quot;"><span class="len">'+w.min+' min</span></a>'+
+          '<div class="vid-body"><p class="yg-no">🧭 Your path · step '+(st.p + 1)+' of '+YOGA_PATH.length+' · '+esc(YG_STAGES[w.s].name)+'</p>'+
+            '<b>'+esc(w.t)+'</b><span class="vid-by">'+esc(w.by)+' · RU</span>'+
+            '<p class="yg-note"><span class="yg-new">New:</span> '+esc(w.focus)+'. '+esc(w.desc)+'</p>'+
+            '<div class="yg-acts"><a class="btn btn-primary btn-sm" href="'+url+'" target="_blank" rel="noopener">Start →</a>'+
+            '<button class="btn btn-sm" data-act="yg-done" data-b="path">✓ Done</button>'+
+            '<button class="btn btn-sm btn-ghost" data-act="yg-skip">Skip</button></div>'+
+          '</div></article>';
+      }
       return '<article class="vid yg-vid">'+
         '<a class="vid-thumb" href="'+url+'" target="_blank" rel="noopener">'+
           '<img src="https://i.ytimg.com/vi/'+w.v+'/hqdefault.jpg" alt="" decoding="async" onerror="this.style.display=&quot;none&quot;">'+
@@ -2125,8 +2211,24 @@ function ygPanel(h){
           '<div class="yg-acts"><a class="btn btn-primary btn-sm" href="'+url+'" target="_blank" rel="noopener">Start →</a>'+
           '<button class="btn btn-sm" data-act="yg-done" data-b="'+o.b.k+'">✓ Done</button></div>'+
         '</div></article>';
-    }).join('')+'</div>';
+    }).join('')+ygPathMap()+'</div>';
 }
+/* the whole path as a list: where she is, and what each stage is for */
+function ygPathMap(){
+  const st = ygState(), n = YOGA_PATH.length, fin = st.p >= n;
+  return '<details class="yg-map"'+(ygMapOpen ? ' open' : '')+'><summary>Your path · '+Math.min(st.p, n)+' of '+n+' steps passed</summary>'+
+    (fin ? '<p class="yg-note">You finished the path. Every step is behind you; the daily picks above are yours again.</p>' : '')+
+    ygPathGroups(YOGA_PATH, YG_STAGES).map(function(g){
+      return '<p class="yg-no">'+esc(g.name)+'</p><p class="yg-note">'+esc(g.note)+'</p>'+
+        g.items.map(function(o){
+          const cls = o.i < st.p ? ' done' : o.i === st.p ? ' now' : '';
+          return '<p class="yg-map-row'+cls+'"><span>'+(o.i < st.p ? '✓ ' : o.i === st.p ? '→ ' : '')+esc(o.w.t)+'</span><small>'+o.w.min+' min</small></p>';
+        }).join('');
+    }).join('')+
+    (st.p > 0 ? '<button class="linkbtn" data-act="yg-pback">Back one step</button>' : '')+
+  '</details>';
+}
+document.addEventListener('toggle', function(e){ if(e.target && e.target.classList && e.target.classList.contains('yg-map')) ygMapOpen = e.target.open; }, true);
 /* Face massage: five at a time out of the whole pool, and they change the moment the
    habit is ticked — not at midnight — so a massage at one in the morning still leaves
    five new ones waiting. */
@@ -4719,6 +4821,8 @@ document.addEventListener('click', function(e){
   else if(act==='yg-done'){
     const h = wkHabit();
     if(!h) return;
+    if(Date.now() - ygTap < 700) return; /* a double tap must not use up two steps */
+    ygTap = Date.now();
     const k = btn.getAttribute('data-b') || 'mid';
     if(isDone(h, today())){
       if(ygAdd(k)){ save(); renderToday(); toast('Logged — new picks below'); }
@@ -4727,6 +4831,8 @@ document.addEventListener('click', function(e){
       toggleHabit(h.id, btn.closest('.habit'));
     }
   }
+  else if(act==='yg-skip'){ const st = ygState(); st.p = Math.min(st.p + 1, YOGA_PATH.length); save(); renderToday(); toast(st.p >= YOGA_PATH.length ? 'That was the last step' : 'Skipped — next step is up'); }
+  else if(act==='yg-pback'){ const st = ygState(); st.p = Math.max(st.p - 1, 0); save(); renderToday(); }
   else if(act==='yg-undo'){
     const h = wkHabit();
     if(!h) return;
