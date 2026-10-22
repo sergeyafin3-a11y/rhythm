@@ -15,7 +15,7 @@ check(!!m, 'no pure logic between /* course:pure */ and /* course:end */');
 const sm = /\/\* srs:pure \*\/([\s\S]*?)\/\* srs:end \*\//.exec(html);
 let C = null;
 if(m && sm){
-  C = new Function('srsShuffle', m[1] + '; return {crsOrder:crsOrder, crsStatus:crsStatus, crsFinishPart:crsFinishPart, crsScore:crsScore, crsTest:crsTest, crsRecall:crsRecall, crsGapOk:crsGapOk, speakAnalyze:speakAnalyze, CRS_TEST_N:CRS_TEST_N};')(new Function(sm[1] + '; return srsShuffle;')());
+  C = new Function('srsShuffle', m[1] + '; return {crsOrder:crsOrder, crsStatus:crsStatus, crsFinishPart:crsFinishPart, crsScore:crsScore, crsTest:crsTest, crsRecall:crsRecall, crsGapOk:crsGapOk, crsSync:crsSync, speakAnalyze:speakAnalyze, CRS_TEST_N:CRS_TEST_N};')(new Function(sm[1] + '; return srsShuffle;')());
   const data = {units:[{id:'u1', lessons:['l1', 'l2']}, {id:'u2', lessons:['l3']}]};
   const order = C.crsOrder(data);
   check(order.map(function(x){ return x.kind + ':' + x.id; }).join() === 'lesson:l1,lesson:l2,test:u1,lesson:l3,test:u2', 'a unit test follows the last lesson of each unit: ' + order.map(function(x){ return x.kind + ':' + x.id; }).join());
@@ -93,7 +93,7 @@ check(/words added|My words/.test(hv), 'the page counts the words she has added'
 check(/crs-check-start/.test(hv) && /speaking check/i.test(hv), 'the quick speaking check card is there');
 
 // ---------- 3. the steps ----------
-const stepTypes = ['intro', 'words', 'read', 'quiz', 'gap', 'grammar', 'task', 'write', 'roulette', 'recall', 'speak'];
+const stepTypes = ['intro', 'warm', 'words', 'read', 'quiz', 'gap', 'grammar', 'write', 'roulette', 'recall', 'speak'];
 const rs = body('renderCrsStep');
 stepTypes.forEach(function(t){ check(new RegExp("'" + t + "'").test(rs), 'renderCrsStep handles the step type ' + t); });
 ['crs-next', 'crs-prev', 'crs-home', 'crs-mark', 'crs-word', 'qz-pick', 'qz-check', 'qz-next', 'crs-analyse', 'crs-copy', 'crs-model', 'crs-roulette', 'crs-resume', 'crs-review'].forEach(function(a){ check(new RegExp("act==='" + a + "'").test(html), 'handler ' + a + ' is missing'); });
@@ -123,12 +123,15 @@ if(D && C){
   check(D.lessons.length === 6 && D.units.length === 2, 'six lessons in two units, got ' + D.lessons.length + ' / ' + D.units.length);
   check(D.units[0].lessons.join() === 'l01,l02,l03' && D.units[1].lessons.join() === 'l04,l05,l06', 'three lessons in each unit');
   const cyr = /[а-яё]/i, terms = {};
-  const p1 = 'intro,words,read,quiz,task,write', p2a = 'intro,roulette,recall,read,grammar,gap,speak';
+  const p1 = 'intro,warm,words,quiz,read,quiz,write', p2a = 'intro,roulette,recall,read,grammar,gap,speak';
   D.lessons.forEach(function(l){
     const id = l.id;
     check(l.title && l.tag && /^By the end you can/.test(l.goal) && l.n >= 1, id + ': needs a title, tag and a goal that starts "By the end you can"');
     check(l.sources.length === 2 && l.sources.every(function(x){ return /^https:\/\//.test(x.url) && x.title && x.by && x.min > 0 && /^(6ME|TEWS|Pudding)$/.test(x.kind); }), id + ': two sources with https links');
     check(l.parts.length === 2, id + ': two parts');
+    check(l.ver === 2, id + ': version 2 (so older saved answers are not mixed with the new steps)');
+    check(!JSON.stringify(l).includes('"t":"task"'), id + ': no Notice it task');
+    check(l.parts[0].steps.filter(function(x){ return x.t === 'quiz'; }).map(function(x){ return x.qs.length; }).join() === '8,10', id + ': an 8-question vocabulary check and a 10-question comprehension quiz');
     check(l.parts[0].steps.map(function(x){ return x.t; }).join() === p1, id + ': part 1 steps are ' + p1);
     check(l.parts[1].steps.map(function(x){ return x.t; }).join() === p2a, id + ': part 2 steps are ' + p2a);
     l.parts.forEach(function(p, pi){ p.steps.forEach(function(st, si){
@@ -136,22 +139,22 @@ if(D && C){
       if(st.t === 'words'){
         check(st.items.length >= 10 && st.items.length <= 12, id + ': 10–12 phrases, got ' + st.items.length);
         st.items.forEach(function(w){
-          check(w.w && w.ru && w.ex && /^(6ME|TEWS|own)$/.test(w.src), id + ': phrase "' + w.w + '" needs w, ru, ex, src');
+          check(w.w && w.ru && w.ex && /^(6ME|TEWS|own|Pudding)$/.test(w.src), id + ': phrase "' + w.w + '" needs w, ru, ex, src');
           check(cyr.test(w.ru) && !cyr.test(w.w) && !cyr.test(w.ex), id + ': "' + w.w + '" has English text, a Russian gloss');
           const k = w.w.toLowerCase(); check(!terms[k], id + ': the phrase "' + w.w + '" is also in ' + terms[k]); terms[k] = id;
         });
       }
       if(st.t === 'quiz'){
-        check(st.qs.length >= 5 && st.qs.length <= 6, id + ': 5–6 quiz questions');
-        st.qs.forEach(function(q){ check(q.o.length === 3 && q.a === 0 && new Set(q.o).size === 3 && q.why && !cyr.test(q.q + q.o.join('')), id + ': quiz question "' + q.q.slice(0, 40) + '" needs three different English options, a=0 and a why'); });
+        check(st.qs.length >= 8 && st.qs.length <= 10, id + ': 8–10 quiz questions, got ' + st.qs.length);
+        st.qs.forEach(function(q){ check(q.o.length >= 3 && q.o.length <= 4 && q.a === 0 && new Set(q.o).size === q.o.length && q.why && !cyr.test(q.q + q.o.join('')), id + ': quiz question "' + q.q.slice(0, 40) + '" needs three different English options, a=0 and a why'); });
       }
       if(st.t === 'gap'){
-        check(st.items.length >= 6 && st.items.length <= 8, id + ': 6–8 gap items, got ' + st.items.length);
+        check(st.items.length >= 10 && st.items.length <= 12, id + ': 10–12 gap items, got ' + st.items.length);
         st.items.forEach(function(g){ check((g.s.match(/___/g) || []).length === 1 && g.a.length >= 1 && g.hint, id + ': gap "' + g.s.slice(0, 40) + '" needs one blank, answers and a hint'); check(g.a.every(function(x){ return C.crsGapOk(x, g.a); }), id + ': every listed answer must be accepted'); });
       }
       if(st.t === 'read') check(st.source >= 0 && st.source < l.sources.length && st.how, id + ': a read step points at one of its sources');
-      if(st.t === 'grammar') check(st.text && st.ru && cyr.test(st.ru) && st.ex.length >= 3, id + ': grammar needs text, a Russian version and 3 examples');
-      if(st.t === 'task') check(st.items.length >= 2 && st.items.length <= 4, id + ': 2–4 noticing tasks');
+      if(st.t === 'grammar') check(st.text && st.ru && cyr.test(st.ru) && st.ex.length >= 5, id + ': grammar needs text, a Russian version and 3 examples');
+      if(st.t === 'warm') check(st.qs.length === 4 && st.qs.every(function(q){ return /[?.]$/.test(q) && !cyr.test(q); }), id + ': the warm-up has four English questions');
       if(st.t === 'write') check(st.prompt && st.hint, id + ': write needs a prompt and a hint');
       if(st.t === 'speak'){
         const words = st.model.split(/\s+/).length;
@@ -220,12 +223,6 @@ if(D){
   D.lessons.forEach(function(l){ l.parts[0].steps.filter(function(s){ return s.t === 'words'; })[0].items.forEach(function(w){ check(!/[()]|\.\.\./.test(w.w), l.id + ': the phrase "' + w.w + '" keeps placeholders that would be saved as a word'); }); });
   const gapOf = function(lid, rx){ let g = null; D.lessons.find(function(l){ return l.id === lid; }).parts[1].steps.forEach(function(s){ if(s.t === 'gap') s.items.forEach(function(x){ if(rx.test(x.s)) g = x; }); }); return g; };
   const ok = function(g, ans){ return !!g && C.crsGapOk(ans, g.a); };
-  check(ok(gapOf('l03', /miffed/), 'a little bit') && ok(gapOf('l03', /miffed/), 'quite') && ok(gapOf('l03', /miffed/), 'rather'), 'l03 miffed accepts a little bit / quite / rather');
-  check(ok(gapOf('l03', /not sure ___/), 'if') && ok(gapOf('l03', /not sure ___/), 'whether'), 'l03 "not sure ___" accepts if and whether');
-  check(ok(gapOf('l02', /I'm ___ I can't/), 'sorry'), 'l02 accepts sorry');
-  check(ok(gapOf('l04', /dishwasher/), "didn't have"), 'l04 dishwasher accepts didn\'t have');
-  check(ok(gapOf('l04', /ironing/), 'did') && ok(gapOf('l04', /on the floor/), 'sat'), 'l04 accepts the simple past');
-  check(ok(gapOf('l01', /break up/), 'just broke up') && ok(gapOf('l01', /forty minutes/), 'have waited'), 'l01 accepts just broke up and have waited');
   check(!/twelve of these/.test(JSON.stringify(D.lessons.find(function(l){ return l.id === 'l06'; }).parts[0].steps[0])), 'l06 does not promise twelve phrases from the story');
 }
 // ---------- 9. round two of the review ----------
@@ -237,8 +234,7 @@ if(C){
   check(C.crsGapOk("must've heard", ['must have heard']) && C.crsGapOk("I couldn't be", ['I could not be']) && C.crsGapOk("They've just broken up", ['they have just broken up']), 'spoken contractions are accepted wherever the full form is');
 }
 if(D && C){
-  const G = function(lid, rx){ let g = null; D.lessons.find(function(l){ return l.id === lid; }).parts[1].steps.forEach(function(s){ if(s.t === 'gap') s.items.forEach(function(x){ if(rx.test(x.s)) g = x; }); }); return g; };
-  check(C.crsGapOk("couldn't have eaten", G('l03', /ate the whole pizza/).a) && C.crsGapOk("couldn't be", G('l03', /lights are off/).a) && C.crsGapOk('can', G('l02', /possibly/).a), 'l03 and l02 accept couldn\'t have eaten, couldn\'t be and can you possibly');
+  D.lessons.forEach(function(l){ l.parts[1].steps.forEach(function(s){ if(s.t === 'gap') s.items.forEach(function(g){ check(g.a.every(function(x){ return C.crsGapOk(x, g.a) && C.crsGapOk(x.toUpperCase() + '.', g.a); }), l.id + ': every listed gap answer is accepted by the checker (also in capitals with a full stop): ' + g.s.slice(0, 40)); }); }); });
   const flat2 = JSON.stringify(D);
   ['at a photo of their romantic partner', 'workshops encouraging dads and sons', "I'm like a moth to a flame in any", "I know it's a big ask, but"].forEach(function(p){ check(flat2.indexOf(p) < 0, 'still too close to the source: "' + p + '"'); });
 }
@@ -252,5 +248,23 @@ check(/qzAns\(\)\.draft = t\.value/.test(html) && /const t = e\.target;\s*if\(en
 ['qz-pick', 'qz-check', 'qz-next'].forEach(function(a){ check(new RegExp("act==='" + a + "'\\)\\{[\\s\\S]{0,260}en\\.crs && en\\.crs\\.review").test(html), a + ' does nothing in review mode'); });
 check(/act==='crs-analyse'\)\{ if\(!\(en && en\.crs && en\.crs\.review\)\)/.test(html), 'analysing does nothing in review mode');
 check(/No saved answers/.test(body('renderCrsStep')), 'review of a step with no saved answers says so instead of showing dead controls');
+// ---------- 8. richer lessons: warm-up, no Notice it, saved answers survive a content change ----------
+if(C){
+  const c8 = {pos:{l:'l1', part:1, step:4}, parts:{l1:{1:{day:'2026-10-20'}}}, done:{l1:{date:'2026-10-21', score:{right:3, n:4}}}, ans:{l1:{1:{3:{qs:[1]}}}, l2:{1:{0:{done:true}}}}, tests:{}};
+  C.crsSync(c8, [{id:'l1', ver:2}, {id:'l2'}]);
+  check(!c8.ans.l1 && c8.ans.l2 && c8.ans.l2[1][0].done, 'a lesson whose content version changed forgets its old step answers and no other lesson does');
+  check(c8.done.l1.score.right === 3 && c8.parts.l1[1].day === '2026-10-20', 'the finished lesson, its score and its days stay');
+  check(c8.pos.l === 'l1' && c8.pos.step === 0, 'a position inside the changed lesson goes back to its first step');
+  check(c8.vers.l1 === 2 && c8.vers.l2 === 1, 'the content version is remembered');
+  c8.ans.l1 = {1:{0:{done:true}}}; c8.pos.step = 3;
+  C.crsSync(c8, [{id:'l1', ver:2}, {id:'l2'}]);
+  check(c8.ans.l1[1][0].done && c8.pos.step === 3, 'a second sync with the same versions changes nothing');
+}
+check(/function crsCanNext\([\s\S]*?'warm'/.test(html) && !/st\.t === 'task'/.test(html), 'the warm-up needs her answer; the Notice it task is gone');
+check(!/crs-task|crs-box|crs-tasks/.test(html), 'the Notice it styles are gone too');
+check(/st\.t === 'warm'/.test(body('renderCrsStep')) && /data-crs-text/.test(body('renderCrsStep')) && /data-i="/.test(body('renderCrsStep').split("st.t === 'warm'")[1] || ''), 'the warm-up shows one text box per question');
+check(/crsSync\(/.test(body('crsLoad')), 'the lessons are synced with the saved answers when they load');
+check(/a\.texts/.test(html), 'warm-up answers are saved per question');
+check(!/'ABC'\[i\]/.test(html) && /'ABCD'\[i\]/.test(body('qzRender')), 'four answer options get four letters (A to D)');
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: English lessons');

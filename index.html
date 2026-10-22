@@ -1295,11 +1295,6 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .crs-ex{ margin:0 0 10px; font-size:15.5px; line-height:1.45; }
 .crs-ex li{ margin:4px 0; }
 ul.crs-ex{ padding-left:20px; margin:10px 0 0; }
-.crs-tasks{ display:flex; flex-direction:column; gap:8px; }
-.crs-task{ display:flex; gap:12px; align-items:flex-start; width:100%; text-align:left; padding:12px 13px; background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius); font-size:15.5px; line-height:1.4; }
-.crs-task.on{ background:var(--accent-soft); }
-.crs-box{ flex:none; width:24px; height:24px; border-radius:7px; border:2px solid var(--ink-mute); display:grid; place-items:center; font-weight:800; color:var(--accent-ink); }
-.crs-task.on .crs-box{ background:var(--accent); border-color:var(--accent); }
 .crs-ta, .qz-in{ width:100%; padding:12px 14px; font:inherit; font-size:16.5px; line-height:1.45; color:var(--ink); background:var(--surface); border:var(--border-w) solid var(--line); border-radius:var(--radius); }
 .crs-ta:focus, .qz-in:focus{ outline:2px solid var(--accent); outline-offset:-1px; }
 .qz-in{ display:inline-block; width:9em; max-width:100%; padding:6px 10px; margin:0 4px; }
@@ -3242,6 +3237,19 @@ function crsFinishPart(c, lid, part, today, score){
   if(!p[part]) p[part] = {day:today};
   if(part === 2 && !c.done[lid]) c.done[lid] = {date:today, score:score || {right:0, n:0}};
 }
+/* a lesson whose content was rewritten (its `ver` went up) must not read old answers by step number:
+   its saved step answers are dropped and a position inside it restarts at step 1; finished lessons, scores and days stay */
+function crsSync(c, lessons){
+  if(!c.vers) c.vers = {};
+  lessons.forEach(function(l){
+    const v = l.ver || 1, was = c.vers[l.id] || 1;
+    if(was !== v){
+      if(c.ans) delete c.ans[l.id];
+      if(c.pos && c.pos.l === l.id) c.pos.step = 0;
+    }
+    c.vers[l.id] = v;
+  });
+}
 /* the lesson score: the first attempts of its quiz and gap steps */
 function crsScore(lesson, ans){
   let right = 0, n = 0;
@@ -3362,6 +3370,7 @@ function crsLoad(){
       d.byId = {}; d.lessons.forEach(function(l){ d.byId[l.id] = l; });
       d.order = crsOrder(d).filter(function(x){ return x.kind === 'test' || d.byId[x.id]; });
       CRS = d; crsLoading = false;
+      crsSync(crsState(), d.lessons); save();
       if(tab === 'english') renderEnglish();
     })
     .catch(function(){ crsLoading = false; crsFailed = true; if(tab === 'english') renderEnglish(); });
@@ -3415,8 +3424,7 @@ function crsOpen(force){
   crsGo(s.cur.id, s.part, p && p.l === s.cur.id && p.part === s.part ? Math.min(p.step, n - 1) : 0, false);
 }
 function crsCanNext(st, a){
-  if(st.t === 'read' || st.t === 'write' || st.t === 'roulette') return !!a.done;
-  if(st.t === 'task') return st.items.every(function(_, i){ return a.ticks && a.ticks[i]; });
+  if(st.t === 'read' || st.t === 'write' || st.t === 'roulette' || st.t === 'warm') return !!a.done;
   if(st.t === 'quiz' || st.t === 'gap' || st.t === 'recall') return !!a.checked;
   if(st.t === 'speak') return !!a.an;
   return true;
@@ -3494,7 +3502,7 @@ function qzRender(a){
   } else {
     h += '<p class="pd-q">'+esc(q.q)+'</p><div class="pd-opts">'+q.options.map(function(o, i){
       const cls = !a.shown ? '' : o.ok ? ' right' : i === a.pick ? ' wrong' : ' dim';
-      return '<button class="pd-opt'+cls+'" data-act="qz-pick" data-i="'+i+'"'+(a.shown ? ' disabled' : '')+'><span class="k">'+'ABC'[i]+'</span><span>'+esc(o.t)+'</span></button>';
+      return '<button class="pd-opt'+cls+'" data-act="qz-pick" data-i="'+i+'"'+(a.shown ? ' disabled' : '')+'><span class="k">'+'ABCD'[i]+'</span><span>'+esc(o.t)+'</span></button>';
     }).join('')+'</div>';
     if(a.shown) h += '<div class="wq-fb">'+(ok ? '<p class="wq-ok">✓ Right</p>' : '<p class="wq-no">Not quite</p>')+(q.why ? '<p class="fd-sub">'+esc(q.why)+'</p>' : '')+'</div>';
   }
@@ -3629,11 +3637,13 @@ function renderCrsStep(l, cr, st, a){
     return '<section class="wq-card en-card"><p class="en-ex">'+esc(st.text)+'</p>'+(st.ru ? '<p class="en-exru" lang="ru">'+esc(st.ru)+'</p>' : '')+
       '<ul class="crs-ex">'+(st.ex || []).map(function(x){ return '<li>'+esc(x)+'</li>'; }).join('')+'</ul></section>';
   }
-  if(st.t === 'task'){
-    return '<div class="crs-tasks">'+st.items.map(function(x, i){
-      const on = a.ticks && a.ticks[i];
-      return '<button class="crs-task'+(on ? ' on' : '')+'" data-act="crs-mark" data-k="tick" data-i="'+i+'" aria-pressed="'+(!!on)+'"><span class="crs-box">'+(on ? '✓' : '')+'</span><span>'+esc(x)+'</span></button>';
-    }).join('')+'</div>';
+  if(st.t === 'warm'){
+    const tx = a.texts || {};
+    return '<section class="wq-card en-card"><p class="en-ex">Before you listen, answer in a sentence or two. It wakes up what you already know.</p>'+(st.hint ? '<p class="tk-sub" style="margin:8px 0 0">'+esc(st.hint)+'</p>' : '')+'</section>'+
+      st.qs.map(function(q, i){
+        return '<p class="en-ex" style="margin:14px 2px 6px"><b>'+(i + 1)+'.</b> '+esc(q)+'</p>'+
+          '<textarea class="crs-ta" rows="3" data-crs-text data-i="'+i+'" placeholder="Your answer…"'+(cr.review ? ' readonly' : '')+'>'+esc(tx[i] || '')+'</textarea>';
+      }).join('')+(cr.review ? '' : crsMark('done', "I've answered", a.done));
   }
   if(st.t === 'write'){
     return '<section class="wq-card en-card"><p class="en-ex">'+esc(st.prompt)+'</p>'+(st.hint ? '<p class="tk-sub" style="margin:8px 0 0">'+esc(st.hint)+'</p>' : '')+'</section>'+
@@ -3798,7 +3808,7 @@ document.addEventListener('input', function(e){
   if(en && en.crs && en.crs.review) return;
   if(t && t.id === 'qzIn'){ qzAns().draft = t.value; clearTimeout(crsAns.t); crsAns.t = setTimeout(save, 700); return; }
   if(!t || !t.matches || !t.matches('[data-crs-text]')) return;
-  if(en && en.stage === 'crs'){ const k = crsCur(); if(k) crsAns(k.cr.lid, k.cr.part, k.cr.step).text = t.value; }
+  if(en && en.stage === 'crs'){ const k = crsCur(); if(k){ const a = crsAns(k.cr.lid, k.cr.part, k.cr.step), wi = t.getAttribute('data-i'); if(wi != null){ a.texts = a.texts || {}; a.texts[wi] = t.value; } else a.text = t.value; } }
   else if(en && en.stage === 'crs-check') en.check.texts[en.check.i] = t.value;
   clearTimeout(crsAns.t); crsAns.t = setTimeout(save, 700);
 });
@@ -4752,7 +4762,14 @@ document.addEventListener('click', function(e){
     if(!k || k.cr.review) return;
     const a = crsAns(k.cr.lid, k.cr.part, k.cr.step);
     if(btn.getAttribute('data-k') === 'tick'){ const i = btn.getAttribute('data-i'); a.ticks = a.ticks || {}; a.ticks[i] = !a.ticks[i]; }
-    else { const ta = document.querySelector('[data-crs-text]'); if(ta) a.text = ta.value; a.done = true; }
+    else {
+      if(k.st.t === 'warm'){
+        a.texts = a.texts || {};
+        document.querySelectorAll('[data-crs-text]').forEach(function(ta){ a.texts[ta.getAttribute('data-i')] = ta.value; });
+        if(!Object.keys(a.texts).some(function(i){ return a.texts[i].trim(); })){ toast('Write at least one answer first'); return; }
+      } else { const ta = document.querySelector('[data-crs-text]'); if(ta) a.text = ta.value; }
+      a.done = true;
+    }
     save(); renderEnglish();
   }
   else if(act==='crs-word'){
