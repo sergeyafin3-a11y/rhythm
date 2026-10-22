@@ -2004,7 +2004,7 @@ const YOGA_PATH = [
   {v:'goWjEPzUFjY', t:'Kaundinyasana 1', min:21, by:'Dakira Yoga', lang:'ru', s:1, focus:'Kaundinyasana 1', desc:'A lesson on the first Kaundinyasana, a balance on the arms with the legs stretched to one side.'},
   {v:'-ItqYm9u-yI', t:'Firefly (Tittibhasana)', min:21, by:'Dakira Yoga', lang:'ru', s:1, focus:'Firefly', desc:'A lesson on the firefly pose: the pose, the preparation and the progressions.'},
   {v:'rk0g73PRjHA', t:'Pendant (Lolasana) and Brahmacharyasana', min:23, by:'Dakira Yoga', lang:'ru', s:1, focus:'Pendant pose', desc:'A lesson on two balances that lift the hips off the floor.'},
-  {v:'6uiySor-0pk', t:'Control of movement', min:26, by:'Dakira Yoga', lang:'ru', s:1, focus:'Flow day', desc:'A practice for all levels about controlled, slow transitions. A calmer day before the next lesson.'},
+  {v:'6uiySor-0pk', t:'Control of movement', min:26, by:'Dakira Yoga', lang:'ru', s:1, focus:'Flow day', desc:'A practice for all levels about moving with control. A lighter day before the next lesson.'},
   {v:'mEaiIqHepzY', t:'One-leg crow and funky one-leg crow', min:20, by:'Dakira Yoga', lang:'ru', s:1, focus:'One-leg crow', desc:'The last lesson of the course: one-leg crow and a more playful version of it.'},
   {v:'mQIOeVHgyUs', t:'Hips for every level', min:24, by:'Йога chilelavida Елена Малова', lang:'ru', s:2, focus:'Open hips', desc:'A 20-minute practice for the hip joints that suits any level.'},
   {v:'8qcWb4-c95s', t:'Hip strength and mobility', min:32, by:'Milky Yoga', lang:'ru', s:2, focus:'Strong, mobile hips', desc:'A 30-minute class that makes the hips both strong and mobile.'},
@@ -2014,7 +2014,7 @@ const YOGA_PATH = [
   {v:'mkvV9RijohM', t:'Evening yoga with new poses', min:30, by:'Dakira Yoga', lang:'ru', s:2, focus:'Flow day', desc:'Thirty minutes of evening yoga, with a new pose to try in every practice.'},
   {v:'VLAyBg6K3HM', t:'Front splits, intense stretch', min:30, by:'Йога chilelavida Елена Малова', lang:'ru', s:2, focus:'Front splits', desc:'An intense class for stretching the legs towards the front splits.'},
   {v:'2jyQKw69Mtk', t:'Forearm stand prep', min:32, by:'Yoga with Dmitry Yannau', lang:'ru', s:3, focus:'Forearm stand prep', desc:'Preparation for the forearm stand: shoulders, core and the first steps.'},
-  {v:'J-ni0OBELCo', t:'Forearm stand (Pincha Mayurasana)', min:28, by:'Dakira Yoga', lang:'ru', s:3, focus:'Forearm stand', desc:'A lesson on the forearm stand, step by step, with the safety points.'},
+  {v:'cwfrV7oQNbk', t:'Shoulder strength and forearm stand', min:38, by:'\u0419\u043E\u0433\u0430 chilelavida \u0415\u043B\u0435\u043D\u0430 \u041C\u0430\u043B\u043E\u0432\u0430', lang:'ru', s:3, focus:'Forearm stand', desc:'A vinyasa class that strengthens the shoulder girdle on the way to the forearm stand.'},
   {v:'LwEkoeD1rQI', t:'Flow and balances', min:35, by:'Йога chilelavida Елена Малова', lang:'ru', s:3, focus:'Flow day', desc:'A 35-minute flow with balances for practitioners. A lighter day between the inversion lessons.'},
   {v:'IEjukvZXfwc', t:'Headstand: safety and alignment', min:23, by:'Dakira Yoga', lang:'ru', s:3, focus:'Headstand', desc:'How to set up and protect the neck and shoulders in the headstand.'},
   {v:'IUWSKnL1mco', t:'How to stand on your head', min:24, by:'Йога chilelavida Елена Малова', lang:'ru', s:3, focus:'Headstand (Sirsasana)', desc:'A second explanation of the headstand, with a different teacher and a different way in.'},
@@ -2028,7 +2028,7 @@ const YG_POOL = {k:'pool', emoji:'🏊', name:'Pool', lo:0, hi:0, note:'The pool
 /* Sunday first, the way a date counts: Wednesday is the usual swim, never a rule */
 const YOGA_POOL_DAY = 3;
 
-let todayView = 'main', ygPools = null, ygChosen = null;
+let todayView = 'main', ygPools = null, ygChosen = null, ygMapOpen = false, ygTap = 0;
 
 function wkHabit(){
   return state.habits.find(function(h){ return h.id === 'hw'; })
@@ -2037,7 +2037,7 @@ function wkHabit(){
 function ygState(){
   if(!state.yoga) state.yoga = {};
   if(!state.yoga.b) state.yoga.b = {low:0, mid:0, full:0};
-  if(!state.yoga.p) state.yoga.p = 0;
+  state.yoga.p = Math.max(0, Math.floor(Number(state.yoga.p)) || 0);
   return state.yoga;
 }
 function ygBand(k){ return k === 'pool' ? YG_POOL : k === 'path' ? YG_PATH : YG_BANDS.find(function(b){ return b.k === k; }); }
@@ -2216,7 +2216,7 @@ function ygPanel(h){
 /* the whole path as a list: where she is, and what each stage is for */
 function ygPathMap(){
   const st = ygState(), n = YOGA_PATH.length, fin = st.p >= n;
-  return '<details class="yg-map"><summary>Your path · '+Math.min(st.p, n)+' of '+n+' steps passed</summary>'+
+  return '<details class="yg-map"'+(ygMapOpen ? ' open' : '')+'><summary>Your path · '+Math.min(st.p, n)+' of '+n+' steps passed</summary>'+
     (fin ? '<p class="yg-note">You finished the path. Every step is behind you; the daily picks above are yours again.</p>' : '')+
     ygPathGroups(YOGA_PATH, YG_STAGES).map(function(g){
       return '<p class="yg-no">'+esc(g.name)+'</p><p class="yg-note">'+esc(g.note)+'</p>'+
@@ -2228,6 +2228,7 @@ function ygPathMap(){
     (st.p > 0 ? '<button class="linkbtn" data-act="yg-pback">Back one step</button>' : '')+
   '</details>';
 }
+document.addEventListener('toggle', function(e){ if(e.target && e.target.classList && e.target.classList.contains('yg-map')) ygMapOpen = e.target.open; }, true);
 /* Face massage: five at a time out of the whole pool, and they change the moment the
    habit is ticked — not at midnight — so a massage at one in the morning still leaves
    five new ones waiting. */
@@ -4820,6 +4821,8 @@ document.addEventListener('click', function(e){
   else if(act==='yg-done'){
     const h = wkHabit();
     if(!h) return;
+    if(Date.now() - ygTap < 700) return; /* a double tap must not use up two steps */
+    ygTap = Date.now();
     const k = btn.getAttribute('data-b') || 'mid';
     if(isDone(h, today())){
       if(ygAdd(k)){ save(); renderToday(); toast('Logged — new picks below'); }
@@ -4828,7 +4831,7 @@ document.addEventListener('click', function(e){
       toggleHabit(h.id, btn.closest('.habit'));
     }
   }
-  else if(act==='yg-skip'){ const st = ygState(); st.p = Math.min(st.p + 1, YOGA_PATH.length); save(); renderToday(); toast('Skipped — next step is up'); }
+  else if(act==='yg-skip'){ const st = ygState(); st.p = Math.min(st.p + 1, YOGA_PATH.length); save(); renderToday(); toast(st.p >= YOGA_PATH.length ? 'That was the last step' : 'Skipped — next step is up'); }
   else if(act==='yg-pback'){ const st = ygState(); st.p = Math.max(st.p - 1, 0); save(); renderToday(); }
   else if(act==='yg-undo'){
     const h = wkHabit();
