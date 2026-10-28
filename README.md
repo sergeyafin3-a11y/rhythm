@@ -116,6 +116,15 @@ On top of *Today*: five questions a day, built **only from the words you saved y
 Some ask what a word means, some give a sentence with the word missing. A word you get right comes back less often; a wrong one comes back sooner.
 It appears once you have four words. The old mood check-in card is gone; what you answered before stays stored on the device.
 
+## Word games
+
+English → **Words** has **Word games** on top, five more ways to learn the same saved words (each needs four words):
+**Speed round** (60 seconds, phrase to meaning or meaning to phrase, the weakest words come up more often), **Match pairs**
+(join six phrases to their meanings, against the clock), **Type it** (read the meaning, write the phrase from memory, with the first
+letters as a hint), **Build the phrase** (put the shuffled words in order) and **Listen** (hear the phrase in the phone’s English
+voice, pick what it means). A word typed right moves up a box; a missed word drops one; the games never change when the daily test last
+asked a word. Records are kept per game, and a link on the Today word-test card opens them.
+
 ## Diction
 
 Practice → **Diction**. About six minutes a day in Russian: an articulation warm-up and three tongue twisters, each said three
