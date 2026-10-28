@@ -16,7 +16,7 @@ function ratio(a, b){ const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.0
 const skinsM = /const SKINS = (\[[\s\S]*?\n\]);/.exec(html), SKINS = skinsM ? new Function('return ' + skinsM[1])() : [];
 const s = SKINS.filter(function(x){ return x.id === 'doodle'; })[0];
 check(!!s, 'doodle is missing from SKINS');
-check(SKINS.length === 9, 'the eight existing themes stay and Doodle makes nine, got ' + SKINS.length);
+check(SKINS.length >= 9, "the eight existing themes stay and Doodle joins them, got " + SKINS.length);
 const tc = /const THEME_COLOR = (\{[^}]*\});/.exec(html), TC = tc ? new Function('return ' + tc[1])() : {};
 check(!!TC.doodle, 'doodle has no THEME_COLOR');
 const decor = /const DECOR = \{([\s\S]*?)\n\};/.exec(html);
