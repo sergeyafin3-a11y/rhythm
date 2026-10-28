@@ -2564,22 +2564,41 @@ const WG_GAMES = [
   {k:'build',  e:'🔤', n:'Build the phrase', d:'Put the words in the right order.'},
   {k:'listen', e:'🎧', n:'Listen',           d:'Hear the phrase, pick its meaning.'}
 ];
-/* a phrase as one comparable string: no case, no punctuation, contractions spelled out */
-function wgNorm(s){
-  return String(s == null ? '' : s).toLowerCase().replace(/[‘’]/g, "'")
-    .replace(/can't/g, 'cannot').replace(/won't/g, 'will not').replace(/n't/g, ' not').replace(/'m\b/g, ' am').replace(/'re\b/g, ' are').replace(/'ve\b/g, ' have').replace(/'ll\b/g, ' will')
-    .replace(/[^a-z0-9' ]+/g, ' ').replace(/'/g, '').replace(/\s+/g, ' ').trim();
+/* a phrase as comparable strings: contractions spelled out («don't» → «do not») or with the apostrophe dropped («dont»,
+   which on a phone also means «do not»); brackets may be typed or left out; «do / make» may be either side */
+function wgExpand(s){
+  return s.replace(/\bcan't\b/g, 'cannot').replace(/\bwon't\b/g, 'will not').replace(/n't\b/g, ' not').replace(/'m\b/g, ' am').replace(/'re\b/g, ' are').replace(/'ve\b/g, ' have').replace(/'ll\b/g, ' will')
+    .replace(/\b(it|he|she|that|there|what|who|here|where|how)'s\b/g, '$1 is');
 }
-/* every way the same phrase may be written: with or without «to / a», with or without a trailing «someone» or «(sb)» */
-function wgForms(s){
-  const n = wgNorm(String(s == null ? '' : s).replace(/\([^)]*\)/g, ' '));
-  const base = n.replace(/\s+(someone|somebody|something|sb|sth)$/, '').trim();
-  const bare = function(x){ return x.replace(/^(to|a|an|the)\s+/, ''); };
-  return [n, base, bare(n), bare(base)].filter(function(x, i, a){ return x && a.indexOf(x) === i; });
+function wgBare(s){ return s.replace(/[^a-z0-9' ]+/g, ' ').replace(/\s+/g, ' ').trim(); }
+function wgForms(x, typed){
+  const raw = String(x == null ? '' : x).toLowerCase().replace(/[‘’]/g, "'");
+  const alt = [];
+  [raw.replace(/\([^)]*\)/g, ' '), raw.replace(/[()]/g, ' ')].forEach(function(v){
+    if(/\S\s*\/\s*\S/.test(v)) alt.push(v.replace(/(\S+)\s*\/\s*(\S+)/g, '$1'), v.replace(/(\S+)\s*\/\s*(\S+)/g, '$2'));
+    else alt.push(v);
+  });
+  const out = [], lead = typed ? /^(to|a|an|the)\s+/ : /^to\s+/;
+  alt.forEach(function(v){
+    v = v.replace(/\.\.\.|…/g, ' ');
+    const spelled = wgBare(wgExpand(v)).replace(/'/g, '').replace(/\bcan not\b/g, 'cannot');
+    const dropped = wgBare(v).replace(/'/g, '');
+    const plain = dropped.replace(/\bcant\b/g, 'cannot').replace(/\bwont\b/g, 'will not').replace(/\b(do|does|did|is|are|was|were|could|would|should|have|has|had|must|need|ai)nt\b/g, '$1 not').replace(/\bcan not\b/g, 'cannot');
+    [spelled, dropped, plain].forEach(function(f){
+      const base = f.replace(/\s+(someone|somebody|something|sb|sth)$/, '').trim();
+      [f, base, f.replace(lead, ''), base.replace(lead, '')].forEach(function(z){ if(z && out.indexOf(z) < 0) out.push(z); });
+    });
+  });
+  return out;
 }
+/* typed right when some form of what she typed is some form of the phrase — a lone «the» or «to» is never an answer */
 function wgTypeOk(typed, term){
-  const a = wgForms(typed), b = wgForms(term);
-  return a.some(function(x){ return b.indexOf(x) >= 0; });
+  const b = wgForms(term, false);
+  return wgForms(typed, true).some(function(x){ return b.indexOf(x) >= 0 && !/^(to|a|an|the|someone|somebody|something|sb|sth)$/.test(x); });
+}
+/* what the phone says: no brackets, slashes or dots, and «sb» said as a word */
+function wgSpoken(term){
+  return String(term).replace(/[()]/g, ' ').replace(/\bsb\b/gi, 'somebody').replace(/\bsth\b/gi, 'something').replace(/(\S+)\s*\/\s*(\S+)/g, '$1').replace(/\.\.\.|…/g, ' ').replace(/\s+/g, ' ').trim();
 }
 /* the first letter of each word, the rest as dashes: g___ t______ a r____ p____ */
 function wgHint(term){
@@ -2629,11 +2648,23 @@ function wgPairs(words, n, rnd){
   });
   return out.length < WG_MIN ? [] : out;
 }
-/* a phrase of two to seven words can be built from tiles */
-function wgPhrase(w){ const n = String(w.term).replace(/\([^)]*\)/g, ' ').trim().split(/\s+/).filter(Boolean).length; return n >= 2 && n <= 7; }
+/* a phrase of two to seven different words, no slash or dots, can be built from tiles */
+function wgPhrase(w){
+  const t = String(w.term);
+  if(/[\/…]|\.\.\./.test(t)) return false;
+  const toks = t.replace(/\([^)]*\)/g, ' ').trim().split(/\s+/).filter(Boolean);
+  return toks.length >= 2 && toks.length <= 7 && toks.some(function(x){ return x.toLowerCase() !== toks[0].toLowerCase(); });
+}
+/* a game is ready when it can really be played: enough different phrases and meanings for the options, pairs and tiles */
 function wgReady(words, game){
   const pool = wqUsable(words);
-  return (game === 'build' ? pool.filter(wgPhrase) : pool).length >= WG_MIN;
+  const distinct = function(list, f){ const u = {}; list.forEach(function(w){ u[f(w).toLowerCase()] = 1; }); return Object.keys(u).length; };
+  const terms = distinct(pool, function(w){ return String(w.term).trim(); }), means = distinct(pool, wqMeaning);
+  if(game === 'speed') return terms >= WG_MIN && means >= WG_MIN;
+  if(game === 'listen') return means >= WG_MIN;
+  if(game === 'match') return wgPairs(words, 6, function(){ return 0.5; }).length >= WG_MIN;
+  if(game === 'build'){ const ph = pool.filter(wgPhrase); return distinct(ph, function(w){ return String(w.term).trim(); }) >= WG_MIN; }
+  return pool.length >= WG_MIN;
 }
 /* typed from memory is the strongest proof; a missed word drops a box; «last asked» is never touched */
 function wgGrade(w, ok, kind, today){
@@ -2643,10 +2674,12 @@ function wgGrade(w, ok, kind, today){
   else r.box = Math.max(0, (r.box || 0) - 1);
   return r;
 }
-/* the best result of a game: a score (higher is better) or a time (lower is better) */
-function wgBest(prev, score, lowerBetter){
-  if(prev && prev.score != null && (lowerBetter ? prev.score <= score : prev.score >= score)) return prev;
-  return {score:score};
+/* the best result of a game: a score (higher is better, by the share right when a round has a length) or a time (lower is better) */
+function wgBest(prev, score, lowerBetter, n){
+  const mk = function(){ return n ? {score:score, n:n} : {score:score}; };
+  if(!prev || prev.score == null) return mk();
+  const better = lowerBetter ? score < prev.score : (n && prev.n ? score / n > prev.score / prev.n : score > prev.score);
+  return better ? mk() : prev;
 }
 /* wg:end */
 
@@ -2711,9 +2744,9 @@ function renderWordTest(){
   view.innerHTML = h;
 }
 /* ---- the games: screens ---- */
-let wg = null, wgTimer = null;
+let wg = null, wgTimer = null, wgSeq = 0;
 function wgState(){ if(!wqState().games) wqState().games = {}; return wqState().games; }
-function wgStop(){ clearInterval(wgTimer); wgTimer = null; wg = null; }
+function wgStop(){ clearInterval(wgTimer); wgTimer = null; wg = null; engHush(); }
 function wgLang(s){ return /[а-яё]/i.test(String(s)) ? ' lang="ru"' : ''; }
 function wgWord(id){ return (state.words || []).find(function(w){ return w.id === id; }); }
 /* an answer goes back into her saved words, and is kept straight away */
@@ -2728,12 +2761,12 @@ function wgBack(){
 }
 /* the tiles on the Words screen */
 function wgHub(){
-  const g = wgState();
+  const g = (state.wq && state.wq.games) || {};
   return '<section class="wg-hub"><p class="eyebrow" style="margin:0 2px 8px">Play with your words</p><div class="wg-grid">'+
     WG_GAMES.map(function(x){
-      const ok = wgReady(state.words, x.k), r = g[x.k] || {}, best = r.best && r.best.score != null ? (x.k === 'match' ? 'Best ' + r.best.score + ' s' : 'Best ' + r.best.score) : '';
+      const voice = x.k !== 'listen' || engCanSpeak(), ok = wgReady(state.words, x.k) && voice, r = g[x.k] || {}, best = r.best && r.best.score != null ? (x.k === 'match' ? 'Best ' + r.best.score + ' s' : r.best.n ? 'Best ' + r.best.score + '/' + r.best.n : 'Best ' + r.best.score) : '';
       return '<button class="wg-tile" data-act="wg-start" data-g="'+x.k+'"'+(ok ? '' : ' disabled')+'><span class="wg-e" aria-hidden="true">'+x.e+'</span><b>'+x.n+'</b><span>'+x.d+'</span>'+
-        '<small>'+(ok ? best : 'Needs more saved words')+'</small></button>';
+        '<small>'+(ok ? best : voice ? 'Needs more different words' : 'Needs the phone’s English voice')+'</small></button>';
     }).join('')+'</div></section>';
 }
 /* start a game; returns false when there are too few words */
@@ -2742,12 +2775,14 @@ function wgStart(game){
   if(!wgReady(state.words, game)) return false;
   const rnd = Math.random, pool = wqUsable(state.words);
   if(game === 'speed'){
-    wg = {g:'speed', over:false, right:0, wrong:0, recent:[], picked:null, missed:[], end:Date.now() + 60000, q:null};
+    wg = {id:++wgSeq, g:'speed', over:false, right:0, wrong:0, recent:[], picked:null, missed:[], end:Date.now() + 60000, q:null};
     wgSpeedNext();
+    if(!wg.q){ wgStop(); return false; }
     wgTimer = setInterval(wgTick, 250);
   } else if(game === 'match'){
     const pairs = wgPairs(state.words, 6, rnd);
-    wg = {g:'match', pairs:pairs, L:wqShuffle(pairs.map(function(p){ return p.id; }), rnd), R:wqShuffle(pairs.map(function(p){ return p.id; }), rnd), sel:null, done:{}, bad:{}, mistakes:0, flash:null, t0:Date.now(), over:false};
+    if(!pairs.length) return false;
+    wg = {id:++wgSeq, g:'match', pairs:pairs, L:wqShuffle(pairs.map(function(p){ return p.id; }), rnd), R:wqShuffle(pairs.map(function(p){ return p.id; }), rnd), sel:null, done:{}, bad:{}, mistakes:0, flash:null, t0:Date.now(), over:false};
     wgTimer = setInterval(wgTick, 500);
   } else {
     const n = game === 'build' ? 6 : 8, ids = [];
@@ -2756,9 +2791,10 @@ function wgStart(game){
       const w = wgPick(fit, ids, rnd); if(!w) break;
       ids.push(w.id);
     }
-    wg = {g:game, ids:ids, i:0, right:0, missed:[], picked:null, checked:false, ok:false, draft:'', placed:[], tiles:null, over:false};
+    wg = {id:++wgSeq, g:game, ids:ids, i:0, right:0, missed:[], picked:null, checked:false, ok:false, draft:'', placed:[], tiles:null, over:false};
     if(game === 'build') wg.tiles = wgTiles(wgWord(ids[0]).term, rnd);
     if(game === 'listen') wg.q = wgQuestion(state.words, wgWord(ids[0]), rnd, 'mean');
+    if(game === 'listen' && !wg.q){ wgStop(); return false; }
   }
   window.scrollTo(0, 0);
   renderEnglish();
@@ -2767,7 +2803,7 @@ function wgStart(game){
 function wgSpeedNext(){
   const w = wgPick(state.words, wg.recent, Math.random);
   wg.recent = wg.recent.concat([w.id]).slice(-3);
-  wg.q = wgQuestion(state.words, w, Math.random, Math.random() < 0.5 ? 'mean' : 'term') || wgQuestion(state.words, w, Math.random, 'mean');
+  wg.q = wgQuestion(state.words, w, Math.random, Math.random() < 0.5 ? 'mean' : 'term') || wgQuestion(state.words, w, Math.random, 'mean') || wg.q;
   wg.picked = null;
 }
 function wgTick(){
@@ -2790,7 +2826,8 @@ function wgFinish(){
   const r = wgState()[wg.g] || (wgState()[wg.g] = {});
   r.plays = (r.plays || 0) + 1;
   if(wg.g === 'match'){ wg.secs = Math.max(1, Math.round((Date.now() - wg.t0) / 1000)); r.best = wgBest(r.best, wg.secs, true); }
-  else r.best = wgBest(r.best, wg.right, false);
+  else if(wg.g === 'speed'){ if(wg.right > 0) r.best = wgBest(r.best, wg.right, false); }
+  else r.best = wgBest(r.best, wg.right, false, wg.ids.length);
   save();
   renderEnglish();
 }
@@ -2844,6 +2881,7 @@ function renderWordGame(){
       (gap ? '<p class="pd-q">'+esc(gap)+'</p>' : '')+'<p class="wg-hint">'+esc(wgHint(w.term))+'</p>'+
       '<input type="text" id="wgIn" class="qz-in" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Your answer"'+(wg.checked ? ' readonly' : '')+' value="'+esc(wg.draft)+'">';
     h += wg.checked ? feedback() : '<button class="btn btn-primary btn-full" data-act="wg-check" style="margin-top:12px">Check</button>';
+    if(!wg.checked) setTimeout(function(){ const el = document.getElementById('wgIn'); if(el && wg && wg.g === 'type' && !wg.checked) el.focus(); }, 30);
   } else if(g === 'build'){
     const used = {}; wg.placed.forEach(function(k){ used[k] = true; });
     h += '<p class="wq-word"'+wgLang(wqMeaning(w))+'>'+esc(wqMeaning(w))+'</p><p class="fd-sub" style="margin-top:0">Put the words in order.</p>'+
@@ -3631,6 +3669,8 @@ function engLeave(){
   enMicReset(); crsStopListen(); wgStop();
   try{ if('speechSynthesis' in window) speechSynthesis.cancel(); }catch(e){}
 }
+function engCanSpeak(){ return 'speechSynthesis' in window; }
+function engHush(){ try{ if('speechSynthesis' in window) speechSynthesis.cancel(); }catch(e){} }
 function enRender(){ if(tab === 'english') renderEnglish(); }
 
 let en = null;
@@ -4283,7 +4323,7 @@ document.addEventListener('input', function(e){
   clearTimeout(crsAns.t); crsAns.t = setTimeout(save, 700);
 });
 document.addEventListener('keydown', function(e){
-  if(e.key === 'Enter' && e.target && e.target.id === 'wgIn'){ e.preventDefault(); const b = document.querySelector('[data-act="wg-check"]'); if(b) b.click(); }
+  if(e.key === 'Enter' && e.target && e.target.id === 'wgIn'){ e.preventDefault(); const b = document.querySelector('[data-act="wg-check"]') || document.querySelector('[data-act="wg-next"]'); if(b) b.click(); }
   if(e.key === 'Enter' && e.target && e.target.id === 'qzIn'){ e.preventDefault(); const b = document.querySelector('[data-act="qz-check"]'); if(b) b.click(); }
 });
 /* course:ui-end */
@@ -5140,7 +5180,8 @@ document.addEventListener('click', function(e){
     if(ok) wg.right++; else if(wg.missed.indexOf(wid) < 0) wg.missed.push(wid);
     wgGradeWord(wid, ok, wg.g);
     renderEnglish();
-    if(wg.g === 'speed') setTimeout(function(){ if(wg && wg.g === 'speed' && !wg.over && wg.picked === i){ wgSpeedNext(); renderEnglish(); } }, ok ? 450 : 1100);
+    const gid = wg.id;
+    if(wg.g === 'speed') setTimeout(function(){ if(wg && wg.id === gid && wg.g === 'speed' && !wg.over && wg.picked === i){ wgSpeedNext(); renderEnglish(); } }, ok ? 450 : 1100);
   }
   else if(act==='wg-check'){
     if(!wg || wg.g !== 'type' || wg.checked) return;
@@ -5170,7 +5211,7 @@ document.addEventListener('click', function(e){
   }
   else if(act==='wg-play'){
     if(!wg || !wg.ids) return;
-    engSpeak(wgWord(wg.ids[wg.i]).term, btn.getAttribute('data-slow') === '1');
+    engSpeak(wgSpoken(wgWord(wg.ids[wg.i]).term), btn.getAttribute('data-slow') === '1');
   }
   else if(act==='wg-sel'){
     if(!wg || wg.g !== 'match' || wg.over) return;
@@ -5187,7 +5228,7 @@ document.addEventListener('click', function(e){
       }
       renderEnglish();
     } else {
-      wg.mistakes++; wg.bad[first.id] = wg.bad[id] = true;
+      wg.mistakes++; wg.bad[first.side === 'l' ? first.id : id] = true;
       const fl = wg.flash = {a:first.side + first.id, b:side + id};
       renderEnglish();
       setTimeout(function(){ if(wg && wg.flash === fl){ wg.flash = null; renderEnglish(); } }, 450);
@@ -5195,6 +5236,7 @@ document.addEventListener('click', function(e){
   }
   else if(act==='wg-next'){
     if(!wg || !wg.ids) return;
+    engHush();
     wg.i++;
     if(wg.i >= wg.ids.length){ wgFinish(); return; }
     wg.picked = null; wg.checked = false; wg.ok = false; wg.draft = ''; wg.placed = [];
