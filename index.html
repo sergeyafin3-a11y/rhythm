@@ -1007,6 +1007,28 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .wq-ok{ color:var(--ok); }
 .wq-no{ color:var(--bad); }
 .wq-missed{ display:flex; flex-direction:column; gap:8px; }
+.wg-hub{ margin:0 0 6px; }
+.wg-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.wg-tile{ display:flex; flex-direction:column; align-items:flex-start; gap:4px; text-align:left; padding:14px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); box-shadow:var(--shadow); }
+.wg-tile .wg-e{ font-size:22px; line-height:1; }
+.wg-tile b{ font-size:15px; }
+.wg-tile span{ font-size:12.5px; color:var(--ink-soft); line-height:1.3; }
+.wg-tile small{ font-size:11.5px; font-weight:700; color:var(--ink-mute); min-height:14px; }
+.wg-tile[disabled]{ opacity:.55; cursor:default; }
+.wg-top{ display:flex; justify-content:space-between; align-items:baseline; margin:12px 2px 6px; font-weight:700; font-size:15px; }
+.wg-bar{ height:8px; border-radius:99px; background:var(--surface-2); overflow:hidden; margin-bottom:14px; }
+.wg-bar i{ display:block; height:100%; background:var(--accent); border-radius:99px; transition:width .25s linear; }
+.wg-cols{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.wg-col{ display:flex; flex-direction:column; gap:8px; }
+.wg-card{ padding:12px; border-radius:var(--radius); background:var(--surface); border:var(--border-w) solid var(--line); text-align:left; font-size:14.5px; line-height:1.3; min-height:58px; overflow-wrap:anywhere; }
+.wg-card.sel{ border-color:var(--accent); box-shadow:inset 0 0 0 2px var(--accent); }
+.wg-card.ok{ opacity:.55; border-color:var(--ok); }
+.wg-card.bad{ border-color:var(--bad); box-shadow:inset 0 0 0 2px var(--bad); }
+.wg-hint{ margin:2px 2px 10px; font-family:var(--font-mono, ui-monospace, monospace); font-size:16px; letter-spacing:.08em; color:var(--ink-soft); overflow-wrap:anywhere; }
+.wg-answer{ min-height:58px; display:flex; flex-wrap:wrap; gap:8px; padding:10px; border-radius:var(--radius); border:2px dashed var(--line); margin-bottom:12px; }
+.wg-tiles{ display:flex; flex-wrap:wrap; gap:8px; }
+.wg-chip{ padding:10px 14px; border-radius:999px; background:var(--surface); border:var(--border-w) solid var(--line); font-weight:700; font-size:15px; }
+.wg-listen{ display:flex; gap:8px; margin:6px 0 4px; }
 .arc-card{ display:block; width:100%; text-align:left; margin-bottom:20px; padding:15px 16px 16px; border-radius:var(--radius-lg); color:var(--ink);
   background:linear-gradient(135deg, var(--accent-soft), var(--surface) 70%); border:var(--border-w) solid var(--accent); box-shadow:var(--shadow); }
 .arc-top{ display:flex; align-items:baseline; justify-content:space-between; }
@@ -2529,6 +2551,139 @@ function wqBest(prev, right, n){
 }
 /* wq:end */
 
+/* ---------- Word games: more ways to learn the same saved words ----------
+   Speed round, match pairs, type it, build the phrase, listen. They use the words she saved;
+   typing from memory is the strongest proof and moves a word up a box, the rest only push a
+   missed word back one box. They never touch «last asked», so the daily test still gets its turn. */
+/* wg:pure */
+const WG_MIN = 4;
+const WG_GAMES = [
+  {k:'speed',  e:'⚡', n:'Speed round',      d:'60 seconds: as many as you can.'},
+  {k:'match',  e:'🧩', n:'Match pairs',      d:'Join each phrase to its meaning.'},
+  {k:'type',   e:'⌨️', n:'Type it',          d:'From the meaning, write the phrase.'},
+  {k:'build',  e:'🔤', n:'Build the phrase', d:'Put the words in the right order.'},
+  {k:'listen', e:'🎧', n:'Listen',           d:'Hear the phrase, pick its meaning.'}
+];
+/* a phrase as comparable strings: contractions spelled out («don't» → «do not») or with the apostrophe dropped («dont»,
+   which on a phone also means «do not»); brackets may be typed or left out; «do / make» may be either side */
+function wgExpand(s){
+  return s.replace(/\bcan't\b/g, 'cannot').replace(/\bwon't\b/g, 'will not').replace(/n't\b/g, ' not').replace(/'m\b/g, ' am').replace(/'re\b/g, ' are').replace(/'ve\b/g, ' have').replace(/'ll\b/g, ' will')
+    .replace(/\b(it|he|she|that|there|what|who|here|where|how)'s\b/g, '$1 is');
+}
+function wgBare(s){ return s.replace(/[^a-z0-9' ]+/g, ' ').replace(/\s+/g, ' ').trim(); }
+function wgForms(x, typed){
+  const raw = String(x == null ? '' : x).toLowerCase().replace(/[‘’]/g, "'");
+  const alt = [];
+  [raw.replace(/\([^)]*\)/g, ' '), raw.replace(/[()]/g, ' ')].forEach(function(v){
+    if(/\S\s*\/\s*\S/.test(v)) alt.push(v.replace(/(\S+)\s*\/\s*(\S+)/g, '$1'), v.replace(/(\S+)\s*\/\s*(\S+)/g, '$2'));
+    else alt.push(v);
+  });
+  const out = [], lead = typed ? /^(to|a|an|the)\s+/ : /^to\s+/;
+  alt.forEach(function(v){
+    v = v.replace(/\.\.\.|…/g, ' ');
+    const spelled = wgBare(wgExpand(v)).replace(/'/g, '').replace(/\bcan not\b/g, 'cannot');
+    const dropped = wgBare(v).replace(/'/g, '');
+    const plain = dropped.replace(/\bcant\b/g, 'cannot').replace(/\bwont\b/g, 'will not').replace(/\b(do|does|did|is|are|was|were|could|would|should|have|has|had|must|need|ai)nt\b/g, '$1 not').replace(/\bcan not\b/g, 'cannot');
+    [spelled, dropped, plain].forEach(function(f){
+      const base = f.replace(/\s+(someone|somebody|something|sb|sth)$/, '').trim();
+      [f, base, f.replace(lead, ''), base.replace(lead, '')].forEach(function(z){ if(z && out.indexOf(z) < 0) out.push(z); });
+    });
+  });
+  return out;
+}
+/* typed right when some form of what she typed is some form of the phrase — a lone «the» or «to» is never an answer */
+function wgTypeOk(typed, term){
+  const b = wgForms(term, false);
+  return wgForms(typed, true).some(function(x){ return b.indexOf(x) >= 0 && !/^(to|a|an|the|someone|somebody|something|sb|sth)$/.test(x); });
+}
+/* what the phone says: no brackets, slashes or dots, and «sb» said as a word */
+function wgSpoken(term){
+  return String(term).replace(/[()]/g, ' ').replace(/\bsb\b/gi, 'somebody').replace(/\bsth\b/gi, 'something').replace(/(\S+)\s*\/\s*(\S+)/g, '$1').replace(/\.\.\.|…/g, ' ').replace(/\s+/g, ' ').trim();
+}
+/* the first letter of each word, the rest as dashes: g___ t______ a r____ p____ */
+function wgHint(term){
+  return String(term).replace(/\([^)]*\)/g, ' ').trim().split(/\s+/).filter(Boolean).map(function(t){ return t.charAt(0) + new Array(t.length).join('_'); }).join(' ');
+}
+function wgTiles(term, rnd){
+  const toks = String(term).replace(/\([^)]*\)/g, ' ').trim().split(/\s+/).filter(Boolean);
+  if(toks.length < 2) return toks;
+  const same = function(a){ return a.join(' ') === toks.join(' '); };
+  let t = wqShuffle(toks, rnd);
+  for(let i = 0; i < 12 && same(t); i++) t = wqShuffle(toks, rnd);
+  if(same(t)) t = toks.slice(1).concat(toks.slice(0, 1));
+  return t;
+}
+/* one question with four different options, in either direction: «mean» shows the phrase and asks for the meaning, «term» the other way round */
+function wgQuestion(words, w, rnd, dir){
+  const pool = wqUsable(words);
+  if(pool.length < WG_MIN) return null;
+  const val = function(x){ return dir === 'term' ? String(x.term).trim() : wqMeaning(x); };
+  const right = val(w), seen = {}, wrong = [];
+  seen[right.toLowerCase()] = true;
+  wqShuffle(pool.filter(function(x){ return x.id !== w.id; }), rnd).forEach(function(x){
+    const t = val(x);
+    if(wrong.length < 3 && !seen[t.toLowerCase()]){ seen[t.toLowerCase()] = true; wrong.push(t); }
+  });
+  if(wrong.length < 3) return null;
+  const options = wqShuffle([{t:right, ok:true}].concat(wrong.map(function(t){ return {t:t, ok:false}; })), rnd);
+  return {wid:w.id, kind:dir, prompt:dir === 'term' ? wqMeaning(w) : String(w.term).trim(), answer:right, options:options};
+}
+/* the next word: the ones she knows least come up more often, and never one of the last few if another will do */
+function wgPick(words, recent, rnd){
+  const pool = wqUsable(words);
+  if(!pool.length) return null;
+  const fresh = pool.filter(function(w){ return (recent || []).indexOf(w.id) < 0; }), from = fresh.length ? fresh : pool;
+  const weight = function(w){ return 1 + 2 * (4 - Math.min(4, w.box || 0)); };
+  let total = 0; from.forEach(function(w){ total += weight(w); });
+  let r = rnd() * total;
+  for(let i = 0; i < from.length; i++){ r -= weight(from[i]); if(r <= 0) return from[i]; }
+  return from[from.length - 1];
+}
+/* n words with different phrases and different meanings; fewer than four make no board */
+function wgPairs(words, n, rnd){
+  const out = [], seenT = {}, seenM = {};
+  wqShuffle(wqUsable(words), rnd).forEach(function(w){
+    const t = String(w.term).trim().toLowerCase(), m = wqMeaning(w).toLowerCase();
+    if(out.length < n && !seenT[t] && !seenM[m]){ seenT[t] = seenM[m] = true; out.push({id:w.id, term:String(w.term).trim(), meaning:wqMeaning(w)}); }
+  });
+  return out.length < WG_MIN ? [] : out;
+}
+/* a phrase of two to seven different words, no slash or dots, can be built from tiles */
+function wgPhrase(w){
+  const t = String(w.term);
+  if(/[\/…]|\.\.\./.test(t)) return false;
+  const toks = t.replace(/\([^)]*\)/g, ' ').trim().split(/\s+/).filter(Boolean);
+  return toks.length >= 2 && toks.length <= 7 && toks.some(function(x){ return x.toLowerCase() !== toks[0].toLowerCase(); });
+}
+/* a game is ready when it can really be played: enough different phrases and meanings for the options, pairs and tiles */
+function wgReady(words, game){
+  const pool = wqUsable(words);
+  const distinct = function(list, f){ const u = {}; list.forEach(function(w){ u[f(w).toLowerCase()] = 1; }); return Object.keys(u).length; };
+  const terms = distinct(pool, function(w){ return String(w.term).trim(); }), means = distinct(pool, wqMeaning);
+  if(game === 'speed') return terms >= WG_MIN && means >= WG_MIN;
+  if(game === 'listen') return means >= WG_MIN;
+  if(game === 'match') return wgPairs(words, 6, function(){ return 0.5; }).length >= WG_MIN;
+  if(game === 'build'){ const ph = pool.filter(wgPhrase); return distinct(ph, function(w){ return String(w.term).trim(); }) >= WG_MIN; }
+  return pool.length >= WG_MIN;
+}
+/* typed from memory is the strongest proof; a missed word drops a box; «last asked» is never touched */
+function wgGrade(w, ok, kind, today){
+  const r = Object.assign({}, w);
+  r.seen = (r.seen || 0) + 1;
+  if(ok){ r.right = (r.right || 0) + 1; if(kind === 'type') r.box = Math.min(4, (r.box || 0) + 1); }
+  else r.box = Math.max(0, (r.box || 0) - 1);
+  return r;
+}
+/* the best result of a game: a score (higher is better, by the share right when a round has a length) or a time (lower is better) */
+function wgBest(prev, score, lowerBetter, n){
+  const mk = function(){ return n ? {score:score, n:n} : {score:score}; };
+  if(!prev || prev.score == null) return mk();
+  const better = lowerBetter ? score < prev.score : (n && prev.n ? score / n > prev.score / prev.n : score > prev.score);
+  return better ? mk() : prev;
+}
+/* wg:end */
+
+
 function wqState(){
   if(!state.wq) state.wq = {days:{}};
   if(!state.wq.days) state.wq.days = {};
@@ -2546,11 +2701,12 @@ function wqTodayCard(){
   if(day){
     return '<section class="wq-card done"><div class="wq-row"><span><p class="eyebrow">📚 Word test</p>'+
       '<p class="wq-score">✓ Today: '+day.right+' of '+day.n+'</p></span>'+
-      '<button class="btn btn-ghost btn-sm" data-act="wq-start">Another round</button></div></section>';
+      '<span style="display:flex;gap:6px"><button class="btn btn-ghost btn-sm" data-act="wg-hub">Word games</button><button class="btn btn-ghost btn-sm" data-act="wq-start">Another round</button></span></div></section>';
   }
   return '<section class="wq-card"><p class="eyebrow">📚 Word test</p><h3>'+Math.min(WQ_LEN, have)+' questions, about a minute</h3>'+
     '<p class="fd-sub">From the '+have+' words you saved. The ones you know least come first.</p>'+
-    '<button class="btn btn-primary btn-full" data-act="wq-start">Start</button></section>';
+    '<button class="btn btn-primary btn-full" data-act="wq-start">Start</button>'+
+    '<button class="btn btn-ghost btn-full" data-act="wg-hub" style="margin-top:8px">More ways to learn them: word games →</button></section>';
 }
 function wqBack(){
   return '<button class="backbtn" data-act="wq-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to today</button>';
@@ -2584,6 +2740,158 @@ function renderWordTest(){
   if(answered){
     h += '<div class="wq-fb">'+(q.options[picked].ok ? '<p class="wq-ok">✓ Right</p>' : '<p class="wq-no">Not quite</p>')+wqWordCard(w)+'</div>'+
       '<button class="btn btn-primary btn-full" data-act="wq-next" style="margin-top:14px">'+(wq.i + 1 < wq.qs.length ? 'Next' : 'See the result')+'</button>';
+  }
+  view.innerHTML = h;
+}
+/* ---- the games: screens ---- */
+let wg = null, wgTimer = null, wgSeq = 0;
+function wgState(){ if(!wqState().games) wqState().games = {}; return wqState().games; }
+function wgStop(){ clearInterval(wgTimer); wgTimer = null; wg = null; engHush(); }
+function wgLang(s){ return /[а-яё]/i.test(String(s)) ? ' lang="ru"' : ''; }
+function wgWord(id){ return (state.words || []).find(function(w){ return w.id === id; }); }
+/* an answer goes back into her saved words, and is kept straight away */
+function wgGradeWord(id, ok, kind){
+  const i = (state.words || []).findIndex(function(w){ return w.id === id; });
+  if(i < 0) return;
+  state.words[i] = wgGrade(state.words[i], ok, kind, today());
+  save();
+}
+function wgBack(){
+  return '<button class="backbtn" data-act="wg-quit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Back to words</button>';
+}
+/* the tiles on the Words screen */
+function wgHub(){
+  const g = (state.wq && state.wq.games) || {};
+  return '<section class="wg-hub"><p class="eyebrow" style="margin:0 2px 8px">Play with your words</p><div class="wg-grid">'+
+    WG_GAMES.map(function(x){
+      const voice = x.k !== 'listen' || engCanSpeak(), ok = wgReady(state.words, x.k) && voice, r = g[x.k] || {}, best = r.best && r.best.score != null ? (x.k === 'match' ? 'Best ' + r.best.score + ' s' : r.best.n ? 'Best ' + r.best.score + '/' + r.best.n : 'Best ' + r.best.score) : '';
+      return '<button class="wg-tile" data-act="wg-start" data-g="'+x.k+'"'+(ok ? '' : ' disabled')+'><span class="wg-e" aria-hidden="true">'+x.e+'</span><b>'+x.n+'</b><span>'+x.d+'</span>'+
+        '<small>'+(ok ? best : voice ? 'Needs more different words' : 'Needs the phone’s English voice')+'</small></button>';
+    }).join('')+'</div></section>';
+}
+/* start a game; returns false when there are too few words */
+function wgStart(game){
+  wgStop();
+  if(!wgReady(state.words, game)) return false;
+  const rnd = Math.random, pool = wqUsable(state.words);
+  if(game === 'speed'){
+    wg = {id:++wgSeq, g:'speed', over:false, right:0, wrong:0, recent:[], picked:null, missed:[], end:Date.now() + 60000, q:null};
+    wgSpeedNext();
+    if(!wg.q){ wgStop(); return false; }
+    wgTimer = setInterval(wgTick, 250);
+  } else if(game === 'match'){
+    const pairs = wgPairs(state.words, 6, rnd);
+    if(!pairs.length) return false;
+    wg = {id:++wgSeq, g:'match', pairs:pairs, L:wqShuffle(pairs.map(function(p){ return p.id; }), rnd), R:wqShuffle(pairs.map(function(p){ return p.id; }), rnd), sel:null, done:{}, bad:{}, mistakes:0, flash:null, t0:Date.now(), over:false};
+    wgTimer = setInterval(wgTick, 500);
+  } else {
+    const n = game === 'build' ? 6 : 8, ids = [];
+    const fit = game === 'build' ? pool.filter(wgPhrase) : pool;
+    for(let i = 0; i < n && i < fit.length; i++){
+      const w = wgPick(fit, ids, rnd); if(!w) break;
+      ids.push(w.id);
+    }
+    wg = {id:++wgSeq, g:game, ids:ids, i:0, right:0, missed:[], picked:null, checked:false, ok:false, draft:'', placed:[], tiles:null, over:false};
+    if(game === 'build') wg.tiles = wgTiles(wgWord(ids[0]).term, rnd);
+    if(game === 'listen') wg.q = wgQuestion(state.words, wgWord(ids[0]), rnd, 'mean');
+    if(game === 'listen' && !wg.q){ wgStop(); return false; }
+  }
+  window.scrollTo(0, 0);
+  renderEnglish();
+  return true;
+}
+function wgSpeedNext(){
+  const w = wgPick(state.words, wg.recent, Math.random);
+  wg.recent = wg.recent.concat([w.id]).slice(-3);
+  wg.q = wgQuestion(state.words, w, Math.random, Math.random() < 0.5 ? 'mean' : 'term') || wgQuestion(state.words, w, Math.random, 'mean') || wg.q;
+  wg.picked = null;
+}
+function wgTick(){
+  if(!wg) return;
+  if(wg.g === 'speed'){
+    const left = Math.max(0, Math.ceil((wg.end - Date.now()) / 1000)), t = document.getElementById('wgTime'), b = document.getElementById('wgBar');
+    if(t) t.textContent = left;
+    if(b) b.style.width = Math.max(0, (wg.end - Date.now()) / 600) + '%';
+    if(Date.now() >= wg.end) wgFinish();
+  } else if(wg.g === 'match' && !wg.over){
+    const t = document.getElementById('wgTime');
+    if(t) t.textContent = Math.floor((Date.now() - wg.t0) / 1000);
+  }
+}
+/* the end of a game: the record is kept, the missed words are listed */
+function wgFinish(){
+  if(!wg || wg.over) return;
+  clearInterval(wgTimer); wgTimer = null;
+  wg.over = true;
+  const r = wgState()[wg.g] || (wgState()[wg.g] = {});
+  r.plays = (r.plays || 0) + 1;
+  if(wg.g === 'match'){ wg.secs = Math.max(1, Math.round((Date.now() - wg.t0) / 1000)); r.best = wgBest(r.best, wg.secs, true); }
+  else if(wg.g === 'speed'){ if(wg.right > 0) r.best = wgBest(r.best, wg.right, false); }
+  else r.best = wgBest(r.best, wg.right, false, wg.ids.length);
+  save();
+  renderEnglish();
+}
+function wgResult(title, line, missedIds){
+  const missed = missedIds.map(wgWord).filter(Boolean);
+  return wgBack()+'<p class="eyebrow" style="margin:14px 2px 0">'+title+' · done</p><h2 class="rec-title">'+line+'</h2>'+
+    (missed.length ? '<p class="fd-sub">These will come back sooner:</p><div class="wq-missed">'+missed.map(wqWordCard).join('')+'</div>' : '<p class="fd-sub">Not one missed. Nicely done.</p>')+
+    '<div class="en-rate" style="margin-top:16px"><button class="btn btn-primary btn-full" data-act="wg-start" data-g="'+wg.g+'">Play again</button>'+
+    '<button class="btn btn-full" data-act="wg-quit">Back to words</button></div>';
+}
+function wgOptions(q, picked, act){
+  const answered = picked != null;
+  return '<div class="pd-opts">'+q.options.map(function(o, i){
+    const cls = !answered ? '' : o.ok ? ' right' : i === picked ? ' wrong' : ' dim';
+    return '<button class="pd-opt'+cls+'" data-act="'+act+'" data-i="'+i+'"'+(answered ? ' disabled' : '')+'><span class="k">'+'ABCD'[i]+'</span><span'+wgLang(o.t)+'>'+esc(o.t)+'</span></button>';
+  }).join('')+'</div>';
+}
+function renderWordGame(){
+  if(!wg) return renderSavedWords();
+  const g = wg.g;
+  if(g === 'speed'){
+    if(wg.over) return void (view.innerHTML = wgResult('Speed round', wg.right + ' right', wg.missed));
+    const q = wg.q, left = Math.max(0, Math.ceil((wg.end - Date.now()) / 1000));
+    let h = wgBack()+'<div class="wg-top"><span>⚡ <b id="wgTime">'+left+'</b> s</span><span>✓ '+wg.right+'</span></div><div class="wg-bar"><i id="wgBar" style="width:'+Math.max(0, (wg.end - Date.now()) / 600)+'%"></i></div>';
+    h += q.kind === 'mean' ? '<p class="wq-word">'+esc(q.prompt)+'</p><p class="fd-sub" style="margin-top:0">What does it mean?</p>'
+      : '<p class="wq-word"'+wgLang(q.prompt)+'>'+esc(q.prompt)+'</p><p class="fd-sub" style="margin-top:0">Which phrase is it?</p>';
+    return void (view.innerHTML = h + wgOptions(q, wg.picked, 'wg-pick'));
+  }
+  if(g === 'match'){
+    if(wg.over) return void (view.innerHTML = wgResult('Match pairs', wg.pairs.length + ' pairs in ' + wg.secs + ' s', Object.keys(wg.bad)));
+    const byId = {}; wg.pairs.forEach(function(p){ byId[p.id] = p; });
+    const card = function(id, side){
+      const done = wg.done[id], sel = wg.sel && wg.sel.side === side && wg.sel.id === id, fl = wg.flash && (wg.flash.a === side + id || wg.flash.b === side + id);
+      return '<button class="wg-card'+(done ? ' ok' : '')+(sel ? ' sel' : '')+(fl ? ' bad' : '')+'" data-act="wg-sel" data-side="'+side+'" data-id="'+esc(id)+'"'+(done ? ' disabled' : '')+(side === 'r' ? wgLang(byId[id].meaning) : '')+'>'+esc(side === 'l' ? byId[id].term : byId[id].meaning)+'</button>';
+    };
+    return void (view.innerHTML = wgBack()+'<div class="wg-top"><span>🧩 <b id="wgTime">'+Math.floor((Date.now() - wg.t0) / 1000)+'</b> s</span><span>'+Object.keys(wg.done).length+' of '+wg.pairs.length+'</span></div>'+
+      '<p class="fd-sub" style="margin:0 2px 10px">Tap a phrase, then its meaning.</p>'+
+      '<div class="wg-cols"><div class="wg-col">'+wg.L.map(function(id){ return card(id, 'l'); }).join('')+'</div><div class="wg-col">'+wg.R.map(function(id){ return card(id, 'r'); }).join('')+'</div></div>');
+  }
+  if(wg.over) return void (view.innerHTML = wgResult({type:'Type it', build:'Build the phrase', listen:'Listen'}[g], wg.right + ' of ' + wg.ids.length, wg.missed));
+  const w = wgWord(wg.ids[wg.i]);
+  let h = wgBack()+'<p class="eyebrow" style="margin:14px 2px 8px">'+{type:'Type it', build:'Build the phrase', listen:'Listen'}[g]+' · '+(wg.i + 1)+' of '+wg.ids.length+'</p>';
+  const last = wg.i + 1 >= wg.ids.length;
+  const feedback = function(){
+    return '<div class="wq-fb">'+(wg.ok ? '<p class="wq-ok">✓ Right</p>' : '<p class="wq-no">Not quite</p>')+wqWordCard(w)+'</div>'+
+      '<button class="btn btn-primary btn-full" data-act="wg-next" style="margin-top:14px">'+(last ? 'See the result' : 'Next')+'</button>';
+  };
+  if(g === 'type'){
+    const gap = wqBlank(w.ctx, w.term);
+    h += '<p class="wq-word"'+wgLang(wqMeaning(w))+'>'+esc(wqMeaning(w))+'</p><p class="fd-sub" style="margin-top:0">Write the phrase.</p>'+
+      (gap ? '<p class="pd-q">'+esc(gap)+'</p>' : '')+'<p class="wg-hint">'+esc(wgHint(w.term))+'</p>'+
+      '<input type="text" id="wgIn" class="qz-in" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Your answer"'+(wg.checked ? ' readonly' : '')+' value="'+esc(wg.draft)+'">';
+    h += wg.checked ? feedback() : '<button class="btn btn-primary btn-full" data-act="wg-check" style="margin-top:12px">Check</button>';
+    if(!wg.checked) setTimeout(function(){ const el = document.getElementById('wgIn'); if(el && wg && wg.g === 'type' && !wg.checked) el.focus(); }, 30);
+  } else if(g === 'build'){
+    const used = {}; wg.placed.forEach(function(k){ used[k] = true; });
+    h += '<p class="wq-word"'+wgLang(wqMeaning(w))+'>'+esc(wqMeaning(w))+'</p><p class="fd-sub" style="margin-top:0">Put the words in order.</p>'+
+      '<div class="wg-answer">'+wg.placed.map(function(k, pos){ return '<button class="wg-chip" data-act="wg-undo" data-k="'+pos+'"'+(wg.checked ? ' disabled' : '')+'>'+esc(wg.tiles[k])+'</button>'; }).join('')+'</div>'+
+      '<div class="wg-tiles">'+wg.tiles.map(function(t, k){ return used[k] ? '' : '<button class="wg-chip" data-act="wg-tile" data-k="'+k+'"'+(wg.checked ? ' disabled' : '')+'>'+esc(t)+'</button>'; }).join('')+'</div>';
+    if(wg.checked) h += feedback();
+  } else if(g === 'listen'){
+    h += '<div class="wg-listen"><button class="btn btn-primary" data-act="wg-play" data-slow="0">🔊 Hear it</button><button class="btn" data-act="wg-play" data-slow="1">Slower</button></div>'+
+      (wg.picked != null ? '<p class="wq-word">'+esc(w.term)+'</p>' : '<p class="fd-sub" style="margin:10px 2px">Listen, then pick what it means.</p>')+wgOptions(wg.q, wg.picked, 'wg-pick');
+    if(wg.picked != null) h += feedback();
   }
   view.innerHTML = h;
 }
@@ -3312,6 +3620,7 @@ function plural(n,a,b){ return n === 1 ? a : b; }
 
 /* ---------- English tab: speaking roulette and saved words ---------- */
 function renderEnglish(){
+  if(wg) return renderWordGame();
   const v = state.enView || 'lessons';
   if(v === 'words') return renderSavedWords();
   if(v === 'speak') return renderTalk();
@@ -3357,9 +3666,11 @@ function engSpeak(text, slow){
 }
 /* leaving the screen: the microphone and the voice both stop */
 function engLeave(){
-  enMicReset(); crsStopListen();
+  enMicReset(); crsStopListen(); wgStop();
   try{ if('speechSynthesis' in window) speechSynthesis.cancel(); }catch(e){}
 }
+function engCanSpeak(){ return 'speechSynthesis' in window; }
+function engHush(){ try{ if('speechSynthesis' in window) speechSynthesis.cancel(); }catch(e){} }
 function enRender(){ if(tab === 'english') renderEnglish(); }
 
 let en = null;
@@ -4005,12 +4316,14 @@ document.addEventListener('input', function(e){
   const t = e.target;
   if(en && en.crs && en.crs.review) return;
   if(t && t.id === 'qzIn'){ qzAns().draft = t.value; clearTimeout(crsAns.t); crsAns.t = setTimeout(save, 700); return; }
+  if(t && t.id === 'wgIn'){ if(wg) wg.draft = t.value; return; }
   if(!t || !t.matches || !t.matches('[data-crs-text]')) return;
   if(en && en.stage === 'crs'){ const k = crsCur(); if(k){ const a = crsAns(k.cr.lid, k.cr.part, k.cr.step), wi = t.getAttribute('data-i'); if(wi != null){ a.texts = a.texts || {}; a.texts[wi] = t.value; } else a.text = t.value; } }
   else if(en && en.stage === 'crs-check') en.check.texts[en.check.i] = t.value;
   clearTimeout(crsAns.t); crsAns.t = setTimeout(save, 700);
 });
 document.addEventListener('keydown', function(e){
+  if(e.key === 'Enter' && e.target && e.target.id === 'wgIn'){ e.preventDefault(); const b = document.querySelector('[data-act="wg-check"]') || document.querySelector('[data-act="wg-next"]'); if(b) b.click(); }
   if(e.key === 'Enter' && e.target && e.target.id === 'qzIn'){ e.preventDefault(); const b = document.querySelector('[data-act="qz-check"]'); if(b) b.click(); }
 });
 /* course:ui-end */
@@ -4358,7 +4671,8 @@ function renderSavedWords(){
       '<button class="btn btn-primary" data-act="sw-add">+ Add a word</button> <button class="btn" data-act="en-view" data-v="speak">Go to the roulette</button></div>';
     view.innerHTML = h; return;
   }
-  h += '<div class="section-head" style="margin-top:4px"><p class="eyebrow">'+words.length+' saved</p>'+
+  h += wgHub();
+  h += '<div class="section-head" style="margin-top:18px"><p class="eyebrow">'+words.length+' saved</p>'+
     '<span style="display:flex;gap:6px"><button class="btn btn-ghost btn-sm" data-act="sw-add">+ Add</button>'+
     '<button class="btn btn-ghost btn-sm" data-act="sw-hide">'+(swHide ? 'Show meanings' : 'Hide meanings')+'</button></span></div>'+
     (swHide ? '<p class="tk-sub">Say what each one means, then tap the card to check.</p>' : '')+
@@ -4856,6 +5170,81 @@ document.addEventListener('click', function(e){
     state.talk.tr = !state.talk.tr; save();
     btn.setAttribute('aria-pressed', state.talk.tr ? 'true' : 'false');
   }
+  else if(act==='wg-hub'){ state.enView = 'words'; save(); go('english'); }
+  else if(act==='wg-start'){ if(!wgStart(btn.getAttribute('data-g'))) toast('Save a few more words first'); }
+  else if(act==='wg-quit'){ wgStop(); window.scrollTo(0,0); renderEnglish(); }
+  else if(act==='wg-pick'){
+    if(!wg || wg.picked != null || wg.over || !wg.q) return;
+    const i = +btn.getAttribute('data-i'), ok = !!wg.q.options[i].ok, wid = wg.q.wid;
+    wg.picked = i; wg.ok = ok;
+    if(ok) wg.right++; else if(wg.missed.indexOf(wid) < 0) wg.missed.push(wid);
+    wgGradeWord(wid, ok, wg.g);
+    renderEnglish();
+    const gid = wg.id;
+    if(wg.g === 'speed') setTimeout(function(){ if(wg && wg.id === gid && wg.g === 'speed' && !wg.over && wg.picked === i){ wgSpeedNext(); renderEnglish(); } }, ok ? 450 : 1100);
+  }
+  else if(act==='wg-check'){
+    if(!wg || wg.g !== 'type' || wg.checked) return;
+    const inp = document.getElementById('wgIn'), val = inp ? inp.value : '';
+    if(!val.trim()){ toast('Type your answer first'); return; }
+    const w = wgWord(wg.ids[wg.i]), ok = wgTypeOk(val, w.term);
+    wg.draft = val; wg.checked = true; wg.ok = ok;
+    if(ok) wg.right++; else wg.missed.push(w.id);
+    wgGradeWord(w.id, ok, 'type');
+    renderEnglish();
+  }
+  else if(act==='wg-tile'){
+    if(!wg || wg.g !== 'build' || wg.checked) return;
+    wg.placed.push(+btn.getAttribute('data-k'));
+    if(wg.placed.length === wg.tiles.length){
+      const w = wgWord(wg.ids[wg.i]), ok = wgTypeOk(wg.placed.map(function(k){ return wg.tiles[k]; }).join(' '), w.term);
+      wg.checked = true; wg.ok = ok;
+      if(ok) wg.right++; else wg.missed.push(w.id);
+      wgGradeWord(w.id, ok, 'build');
+    }
+    renderEnglish();
+  }
+  else if(act==='wg-undo'){
+    if(!wg || wg.g !== 'build' || wg.checked) return;
+    wg.placed.splice(+btn.getAttribute('data-k'), 1);
+    renderEnglish();
+  }
+  else if(act==='wg-play'){
+    if(!wg || !wg.ids) return;
+    engSpeak(wgSpoken(wgWord(wg.ids[wg.i]).term), btn.getAttribute('data-slow') === '1');
+  }
+  else if(act==='wg-sel'){
+    if(!wg || wg.g !== 'match' || wg.over) return;
+    const side = btn.getAttribute('data-side'), id = btn.getAttribute('data-id');
+    if(wg.done[id] || wg.flash) return;
+    if(!wg.sel || wg.sel.side === side){ wg.sel = {side:side, id:id}; renderEnglish(); return; }
+    const first = wg.sel; wg.sel = null;
+    if(first.id === id){
+      wg.done[id] = true;
+      if(Object.keys(wg.done).length === wg.pairs.length){
+        wg.pairs.forEach(function(p){ wgGradeWord(p.id, !wg.bad[p.id], 'match'); });
+        wgFinish();
+        return;
+      }
+      renderEnglish();
+    } else {
+      wg.mistakes++; wg.bad[first.side === 'l' ? first.id : id] = true;
+      const fl = wg.flash = {a:first.side + first.id, b:side + id};
+      renderEnglish();
+      setTimeout(function(){ if(wg && wg.flash === fl){ wg.flash = null; renderEnglish(); } }, 450);
+    }
+  }
+  else if(act==='wg-next'){
+    if(!wg || !wg.ids) return;
+    engHush();
+    wg.i++;
+    if(wg.i >= wg.ids.length){ wgFinish(); return; }
+    wg.picked = null; wg.checked = false; wg.ok = false; wg.draft = ''; wg.placed = [];
+    const w = wgWord(wg.ids[wg.i]);
+    if(wg.g === 'build') wg.tiles = wgTiles(w.term, Math.random);
+    if(wg.g === 'listen') wg.q = wgQuestion(state.words, w, Math.random, 'mean');
+    window.scrollTo(0, 0); renderEnglish();
+  }
   else if(act==='wq-start'){
     const qs = wqBuild(state.words, WQ_LEN, today(), Math.random);
     if(!qs.length){ toast('Add a few more words first'); return; }
@@ -5023,7 +5412,7 @@ document.addEventListener('click', function(e){
     }
     en.check.i++; window.scrollTo(0, 0); renderEnglish();
   }
-  else if(act==='en-view'){ crsStopListen(); state.enView = btn.getAttribute('data-v'); if(state.enView !== 'phrases') openPack = null; save(); window.scrollTo(0,0); renderEnglish(); }
+  else if(act==='en-view'){ crsStopListen(); wgStop(); state.enView = btn.getAttribute('data-v'); if(state.enView !== 'phrases') openPack = null; save(); window.scrollTo(0,0); renderEnglish(); }
   else if(act==='tk-retry'){ talkFailed = false; renderEnglish(); }
   else if(act==='tk-spin'){
     if(!TALK || tk.spinning) return;
