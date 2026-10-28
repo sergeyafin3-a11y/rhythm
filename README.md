@@ -126,9 +126,9 @@ Two habits sit next to it on *Today*: **Driving theory: one lesson** and **Dicti
 
 ## Themes and typefaces
 
-The very first screen asks you to choose. Nine themes — Greenhouse, Midnight, Peach,
+The very first screen asks you to choose. Ten themes — Greenhouse, Midnight, Peach,
 Risograph, Dusk, Charcoal, the two winter ones, **Frost** (icy and bright) and **Aurora** (a winter night with northern lights), and **Doodle**
-(hand-drawn lettering on stripes and checks, bright pink stickers; it is switched on for you once — change it in Settings → Theme) — and seven typeface pairs, set separately from the theme,
+(hand-drawn lettering on stripes and checks, bright pink stickers; it is switched on for you once — change it in Settings → Theme), and **Bloom** (airbrushed wildflowers on a soft blue-to-pink sky with a film grain, frosted cards and a delicate serif; also switched on once) — and seven typeface pairs, set separately from the theme,
 so any pair sits on any palette. Everything changes live as you tap.
 
 Afterwards: Settings → Theme, and Settings → Typeface.
