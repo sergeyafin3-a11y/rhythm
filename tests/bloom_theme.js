@@ -94,5 +94,21 @@ check(/function seed\(\)\{[\s\S]*?cleanBloom:true/.test(html), 'a fresh install 
 const imp = /act==='import-data'\)\{([\s\S]*?)\n  else if\(act==='reset'\)/.exec(html);
 check(!!imp && /cleanBloom\s*=\s*true/.test(imp[1]), 'restoring a backup must not switch the theme on the next launch');
 check(/Bloom/.test(readme), 'the README mentions the Bloom theme');
+// 6. review round: readable numbers, light on the phone, readable on the blobs
+if(cssM){
+  const css6 = cssM[1].replace(/\/\*[\s\S]*?\*\//g, '');
+  check(/font-variant-numeric:\s*lining-nums/.test(css6) && /\.ring-center b/.test(css6.split('lining-nums')[0].slice(-400)), 'the big numbers use lining figures (Cormorant’s old-style 1 looks like an I)');
+  check(/\.tk-timer b/.test(css6) && /lining-nums tabular-nums/.test(css6), 'the clock keeps its even digit width together with lining figures');
+  const cardRule = /\.ring-card[^{]*\{([^}]*)\}/.exec(css6);
+  check(!!cardRule && !/backdrop-filter/.test(cardRule[1]), 'the cards carry no blur filter of their own (cheaper scrolling); only the bottom bar is frosted');
+  check((css6.match(/backdrop-filter/g) || []).length <= 4, 'the frosted glass is used only on the bottom bar and the header buttons');
+  const alphas = (css6.match(/rgba\(\d+,\s*\d+,\s*\d+,\s*\.(\d+)\)/g) || []).filter(function(x, i){ return i < 5; }).map(function(x){ return +('0.' + /\.(\d+)\)/.exec(x)[1]); });
+  check(alphas.length >= 5 && Math.max.apply(null, alphas) <= 0.3, 'the colour blobs behind the text are faint (at most .3): ' + alphas.join(','));
+}
+if(dm){
+  check((dm[1].match(/filter="url\(#bs\)"/g) || []).length <= 6, 'the daisy petals share a few blur filters instead of one each');
+}
+check(TC.bloom && TC.bloom.toLowerCase() === (v.sky || '').toLowerCase(), 'the phone’s top bar matches the sky at the top of the page');
+if(v['ink-mute'] && v.sky){ ['sky', 'pink', 'peach'].forEach(function(n){ check(ratio(v['ink-mute'], v[n]) >= 5.5, 'ink-mute on the ' + n + ' leaves room for the blobs: ' + ratio(v['ink-mute'], v[n]).toFixed(2) + ' (need 5.5)'); }); }
 if(fails.length) throw new Error('FAIL:\n  ' + fails.join('\n  '));
 console.log('OK: the Bloom theme is complete, readable and isolated');
