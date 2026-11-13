@@ -59,7 +59,7 @@ check(/\(c\.today \? ' aria-current="date"' : ''\)/.test(html), 'today’s butto
 check(/class="arc-cells"/.test(html) && /class="arc-wname"/.test(html) && /<span class="d">/.test(html) && /<span class="n">/.test(html), 'each square shows the weekday letter and the date number');
 check(!!cellM && /per > 1|perDay \|\| 1\) > 1/.test(cellM[0]), 'a habit that needs several ticks a day is set to done / not done by one tap on a square, not one count at a time');
 const tg = /function toggleHabit\(id, el\)\{[\s\S]*?\n\}\n/.exec(html);
-check(!!tg && /if\(!selDay && doneToday\(\) === activeHabits\(\)\.length\)/.test(tg[0]), 'the “every habit is closed” fanfare is only for the real today, not for a day filled in afterwards');
+check(!!tg && /if\(!selDay && doneToday\(\) === todayHabits\(\)\.length\)/.test(tg[0]), 'the “every habit is closed” fanfare is only for the real today, not for a day filled in afterwards');
 const ptd = /function paintTabDots\(\)\{[\s\S]*?\n\}\n/.exec(html);
 check(!!ptd && /selDay = null/.test(ptd[0]) && /selDay = keep|selDay = was/.test(ptd[0]), 'the Practice-tab dot always describes the real today');
 const db = /function dayBar\(\)\{[\s\S]*?\n\}\n/.exec(html);
