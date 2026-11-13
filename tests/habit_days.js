@@ -13,7 +13,7 @@ const m = /\/\* arc:pure \*\/([\s\S]*?)\/\* arc:end \*\//.exec(html);
 check(!!m, 'no /* arc:pure */ block');
 let A = null;
 if(m){
-  A = new Function(m[1] + '; return {habitOn:habitOn, habitFreq:habitFreq, habitPlan:habitPlan, habitDaysLabel:habitDaysLabel, emojiOne:emojiOne, arcWeek:arcWeek, arcDayLevel:arcDayLevel};')();
+  A = new Function(m[1] + '; return {habitApply:habitApply, habitDaily:habitDaily, habitOn:habitOn, habitFreq:habitFreq, habitPlan:habitPlan, habitDaysLabel:habitDaysLabel, emojiOne:emojiOne, arcWeek:arcWeek, arcDayLevel:arcDayLevel};')();
   // 2026-11-16 is a Monday
   const mon = '2026-11-16', wed = '2026-11-18', sun = '2026-11-22';
   const h = {id:'g', title:'Gym', days:[1, 3, 5]};
@@ -37,6 +37,26 @@ if(m){
   log.d['2026-11-17'] = 1;
   check(A.arcDayLevel(habits, log, '2026-11-17') === 4, 'on a day the gym is off, doing everything that is on counts as a full day: ' + A.arcDayLevel(habits, log, '2026-11-17'));
   check(A.arcDayLevel(habits, log, mon) === 0, 'on a gym day nothing done is still zero');
+  // review round: chosen days are daily habits on their days; saving never leaves stale days
+  check(A.habitOn({days:['1', '3']}, mon) && !A.habitOn({days:['1', '3']}, '2026-11-17'), 'days written as text still work');
+  const g2 = {id:'g', title:'Gym', days:[1, 3, 5], weekGoal:3, perDay:1}, r2 = {id:'r', title:'Read', weekGoal:7, perDay:1}, lg = {g:{}, r:{}};
+  lg.r[mon] = 1; lg.g[mon] = 1;
+  check(A.arcDayLevel([g2, r2], lg, mon) === 4, 'on a gym day, gym and reading both done is a full day, although gym has only 3 days: ' + A.arcDayLevel([g2, r2], lg, mon));
+  delete lg.g[mon];
+  check(A.arcDayLevel([g2, r2], lg, mon) === 2, 'on a gym day, only reading done is half: ' + A.arcDayLevel([g2, r2], lg, mon));
+  lg.r['2026-11-17'] = 1;
+  check(A.arcDayLevel([g2, r2], lg, '2026-11-17') === 4, 'on a day the gym is off, reading alone is a full day');
+  check(A.arcWeek([g2, r2], lg, wed)[0].weekly === false && A.arcWeek([{id:'x', title:'Swim', weekGoal:3}], lg, wed)[0].weekly === true, 'a habit with chosen days is not a «weekly» habit; the old «3 a week on any day» still is');
+  check(A.habitDaily(g2) && !A.habitDaily({weekGoal:3}) && A.habitDaily({weekGoal:5}) && A.habitDaily({}), 'which habits count in the day level');
+  const sv1 = A.habitApply({id:'a', days:[1, 3], weekGoal:2}, A.habitPlan('every', [], 3)), sv2 = A.habitApply({id:'b', days:[1, 3], weekGoal:2}, A.habitPlan('few', [], 4)), sv3 = A.habitApply({id:'c'}, A.habitPlan('days', [2, 4], 3));
+  check(!('days' in sv1) && sv1.weekGoal === 7 && !('days' in sv2) && sv2.weekGoal === 4 && JSON.stringify(sv3.days) === '[2,4]' && sv3.weekGoal === 2, 'saving replaces the days: every day or a few a week removes them, chosen days sets them');
+  // what is on today, run for real with stand-ins
+  const fn = /function todayHabits\(\)\{[^\n]*\}/.exec(html);
+  if(fn){
+    const calls = {};
+    const th = new Function('activeHabits', 'habitOn', 'isDone', 'today', fn[0] + '; return todayHabits;')(function(){ return [{id:'on'}, {id:'off'}, {id:'offdone'}]; }, function(h){ return h.id === 'on'; }, function(h){ return h.id === 'offdone'; }, function(){ return mon; });
+    check(th().map(function(h){ return h.id; }).join() === 'on,offdone', 'today shows what is on, and an off-day habit she has already ticked stays: ' + th().map(function(h){ return h.id; }).join());
+  } else check(false, 'todayHabits not found');
 }
 
 // ---------- 2. Today ----------
@@ -56,8 +76,12 @@ check(/id="emojiIn"/.test(sh) && /any emoji/i.test(sh), 'the sheet lets her type
 check(/\.chip\[data-day\]/.test(html) && /\.chip\[data-freq\]/.test(html), 'the weekday chips switch on and off one by one, the frequency chips one at a time');
 const sv = html.slice(html.indexOf("act==='save-habit'"), html.indexOf("act==='del-habit'"));
 check(/habitPlan\(/.test(sv) && /emojiOne\(/.test(sv), 'saving uses the plan and her typed emoji');
-check(/h\.days|delete h\.days/.test(sv) && /days/.test(sv), 'saving writes or clears the chosen days');
+check(/delete h\.days/.test(body('habitApply')) && /h\.days = plan\.days/.test(body('habitApply')), 'saving writes or clears the chosen days');
 check(/toast\('Choose at least one day'\)|Choose at least one day/.test(sv), 'chosen days with none ticked says so instead of saving');
+// ---------- 3b. review round: the list stays open, the picker beats an old typed emoji ----------
+check(/let restOpen|restOpen = false/.test(html) && /rest-habits'\)\) restOpen = e\.target\.open|restOpen = e\.target\.open/.test(html) && /rest-habits"'\+\(restOpen \? ' open' : ''\)/.test(body('renderToday')), 'the «Not scheduled today» list stays open after a tick or a video panel');
+check(/const em = e\.target\.closest\('\[data-emoji\]'\);\s*if\(em\)\{[^}]*emojiIn/.test(html.replace(/\s+/g, ' ')) || /\[data-emoji\]'\);[\s\S]{0,200}emojiIn/.test(html), 'picking an emoji from the list clears the typed one, so what is shown is what is saved');
+check(/habitApply\(/.test(sv), 'saving goes through habitApply');
 // ---------- 4. nothing else is touched ----------
 check(/\.arc-cell\.off\{/.test(html) && /class="arc-cell'\+[^']*off/.test(html.replace(/\s+/g, ' ')) || /\(c\.off/.test(html), 'a day off is drawn quieter in the Winter Arc week');
 check(!/state\.habits = state\.habits\.map|h\.weekGoal = 7;\s*\n\s*delete h\.days/.test(html), 'no migration touches her existing habits');
