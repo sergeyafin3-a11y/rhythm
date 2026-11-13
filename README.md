@@ -152,6 +152,8 @@ Each habit belongs to a time of day — Morning, Day or Evening — and the Toda
 under those three headings. Change it in the habit editor, delete any of them, or add more from
 the library of ready-made habits.
 
+**Your own habit:** *Write my own* asks for a name, an icon (pick one, or **type any emoji** from your phone keyboard), why it matters, the time of day and **how often**: every day, **chosen days** (tick Mon · Wed · Fri, say) or a few times a week on any day. A habit with chosen days appears on Today only on those days and says which; the rest wait under *Not scheduled today* (you can still tick one on an extra day), and a day off never counts against you. In the Winter Arc week a day off is drawn quietly.
+
 ## To-do
 
 Habits repeat; tasks do not, so they live apart. Type into the field at the top and it lands

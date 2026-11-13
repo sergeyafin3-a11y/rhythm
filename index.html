@@ -1050,6 +1050,10 @@ button.tk-chip.on{ background:var(--accent); border-color:var(--accent); color:v
 .arc-cell{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; min-height:48px; padding:4px 0; border:0; border-radius:min(12px, calc(var(--radius) - 2px)); background:var(--surface-2); color:var(--ink-soft); cursor:pointer; }
 .arc-cell .d{ font-size:10px; font-weight:700; letter-spacing:.06em; opacity:.8; }
 .arc-cell .n{ font-size:15px; font-weight:700; line-height:1; }
+.rest-habits{ margin:18px 0 0; }
+.rest-habits summary{ cursor:pointer; padding:6px 2px 10px; font-size:13px; font-weight:700; letter-spacing:.04em; color:var(--ink-mute); }
+.rest-habits .list{ opacity:.9; }
+.arc-cell.off{ opacity:.45; }
 .arc-cell.on{ background:var(--accent); color:var(--accent-ink); }
 .arc-cell.today{ box-shadow:0 0 0 2px var(--surface), 0 0 0 4px var(--accent); }
 .arc-cell.future{ opacity:.4; cursor:default; }
@@ -2909,6 +2913,47 @@ function sheetAddWord(){
    done day by day, a quiet «day N of 89» and a short check-in every Wednesday. No points,
    no streak numbers. */
 /* arc:pure */
+/* ---- when a habit is on: the days of the week she chose (0 = Sunday … 6 = Saturday). No list, an empty one or all seven means every day. ---- */
+function arcWeekday(key){ return new Date(arcUtc(key)).getUTCDay(); }
+function habitOn(h, key){
+  const d = h && h.days;
+  if(!d || !d.length || d.length >= 7) return true;
+  return d.map(Number).indexOf(arcWeekday(key)) >= 0;
+}
+/* counts in the day level: every-day habits and chosen-days habits (on their days); the old «a few a week on any day» does not */
+function habitDaily(h){ return habitFreq(h) === 'days' || ((h && h.weekGoal) || 7) >= 5; }
+/* what the editor saved: the weekly goal, and the chosen days (or none) */
+function habitApply(h, plan){
+  h.weekGoal = plan.weekGoal;
+  if(plan.days) h.days = plan.days; else delete h.days;
+  return h;
+}
+/* every day · chosen days · a few times a week on any day (the older «N days a week») */
+function habitFreq(h){
+  if(h && h.days && h.days.length && h.days.length < 7) return 'days';
+  return ((h && h.weekGoal) || 7) < 7 ? 'few' : 'every';
+}
+/* what the editor saved becomes the habit's days and weekly goal; null when «chosen days» has no day */
+function habitPlan(freq, days, n){
+  if(freq === 'days'){
+    const d = (days || []).map(Number).filter(function(x, i, a){ return x >= 0 && x <= 6 && a.indexOf(x) === i; }).sort(function(a, b){ return a - b; });
+    if(!d.length) return null;
+    return d.length >= 7 ? {weekGoal:7} : {days:d, weekGoal:d.length};
+  }
+  if(freq === 'few') return {weekGoal:Math.max(1, Math.min(6, Number(n) || 3))};
+  return {weekGoal:7};
+}
+function habitDaysLabel(h){
+  const d = h && h.days;
+  if(!d || !d.length || d.length >= 7) return '';
+  const names = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  return [1, 2, 3, 4, 5, 6, 0].filter(function(x){ return d.indexOf(x) >= 0; }).map(function(x){ return names[x]; }).join(' · ');
+}
+/* the first emoji of what she typed, whole (a family or a flag stays in one piece); plain text is not an icon */
+function emojiOne(s){
+  const m = /^(?:\p{Regional_Indicator}{2}|[#*0-9]️?⃣|\p{Extended_Pictographic}[️\u{1F3FB}-\u{1F3FF}]?(?:‍\p{Extended_Pictographic}[️\u{1F3FB}-\u{1F3FF}]?)*)/u.exec(String(s == null ? '' : s).trim());
+  return m ? m[0] : '';
+}
 const ARC_START = '2026-10-04', ARC_END = '2026-12-31';
 const ARC_HABITS = [
   {id:'a-walk',  title:'Walk 15–20 minutes', emoji:'🚶', perDay:1, weekGoal:7, when:'day',     arc:'body', why:''},
@@ -2982,13 +3027,13 @@ function arcWeek(habits, log, key){
   const mon = arcMonday(key);
   return habits.filter(function(h){ return !h.archived; }).map(function(h){
     const cells = [];
-    for(let i = 0; i < 7; i++){ const k = arcKeyAdd(mon, i); cells.push({key:k, done:arcDone(h, log, k), future:k > key, today:k === key}); }
-    return {id:h.id, title:h.title, emoji:h.emoji, weekly:(h.weekGoal || 7) < 5, cells:cells};
+    for(let i = 0; i < 7; i++){ const k = arcKeyAdd(mon, i); cells.push({key:k, done:arcDone(h, log, k), future:k > key, today:k === key, off:!habitOn(h, k)}); }
+    return {id:h.id, title:h.title, emoji:h.emoji, weekly:!habitDaily(h), cells:cells};
   });
 }
 /* how much of the day was done, 0–4; the weekly habit does not count against a day */
 function arcDayLevel(habits, log, key){
-  const hs = habits.filter(function(h){ return !h.archived && (h.weekGoal || 7) >= 5; });
+  const hs = habits.filter(function(h){ return !h.archived && habitDaily(h) && habitOn(h, key); });
   if(!hs.length) return 0;
   const f = hs.filter(function(h){ return arcDone(h, log, key); }).length / hs.length;
   return f === 0 ? 0 : f < 0.34 ? 1 : f < 0.67 ? 2 : f < 1 ? 3 : 4;
@@ -3039,7 +3084,7 @@ function renderArc(){
     arcWeek(habits, state.log, key).map(function(r){
       return '<div class="arc-habit"><p class="arc-wname">'+esc(r.emoji || '⭐️')+' '+esc(r.title)+(r.weekly ? ' <small>weekly</small>' : '')+'</p><div class="arc-cells">'+
         r.cells.map(function(c, i){
-          return '<button type="button" class="arc-cell'+(c.done ? ' on' : '')+(c.today ? ' today' : '')+(c.future ? ' future' : '')+'" data-act="arc-cell" data-id="'+esc(r.id)+'" data-d="'+c.key+'"'+(c.future ? ' disabled' : '')+(c.today ? ' aria-current="date"' : '')+
+          return '<button type="button" class="arc-cell'+(c.done ? ' on' : '')+(c.today ? ' today' : '')+(c.future ? ' future' : '')+(c.off ? ' off' : '')+'" data-act="arc-cell" data-id="'+esc(r.id)+'" data-d="'+c.key+'"'+(c.future ? ' disabled' : '')+(c.today ? ' aria-current="date"' : '')+
             ' aria-label="'+esc(r.title)+', '+esc(arcFmt(c.key))+(c.done ? ', done' : '')+'"><span class="d">'+WSHORT[i]+'</span><span class="n">'+(+c.key.slice(8))+'</span></button>';
         }).join('')+'</div></div>';
     }).join('')+'</div>';
@@ -3279,7 +3324,9 @@ function weekDone(h){
   return n;
 }
 function activeHabits(){ return state.habits.filter(h=>!h.archived); }
-function doneToday(){ return activeHabits().filter(h=>isDone(h, today())).length; }
+/* what is on today: the habits scheduled for this day, and any off-day habit she has already ticked */
+function todayHabits(){ return activeHabits().filter(function(h){ return habitOn(h, today()) || isDone(h, today()); }); }
+function doneToday(){ return todayHabits().filter(h=>isDone(h, today())).length; }
 
 /* ---------- DOM ---------- */
 const $ = s => document.querySelector(s);
@@ -3573,8 +3620,26 @@ function dayBar(){
     '<small>'+WDAYS[d.getDay()].slice(0, 3)+', '+MONTHS[d.getMonth()].slice(0, 3)+' '+d.getDate()+(selDay ? ' · tap to go back to today' : '')+'</small></button>'+
     '<button class="daybar-btn" data-act="day-next" aria-label="Next day"'+(selDay ? '' : ' disabled')+'>›</button></div>';
 }
+/* one habit on the Today list; a habit with chosen days says which */
+let restOpen = false;
+document.addEventListener('toggle', function(e){ if(e.target && e.target.classList && e.target.classList.contains('rest-habits')) restOpen = e.target.open; }, true);
+function habitCard(h){
+  const c = count(h, today()), per = h.perDay||1, done = c>=per, days = habitDaysLabel(h);
+  const meta = ((h.weekGoal||7) === 7 && !days) ? '' :
+    '<div class="habit-meta">'+(days ? '<span>'+days+'</span>' : '')+'<span class="num">'+weekDone(h)+'/'+h.weekGoal+'</span><span>this week</span></div>';
+  return '<article class="habit'+(done?' done':'')+'" data-habit="'+h.id+'">'+
+    '<button class="habit-emoji" data-act="edit-habit" data-id="'+h.id+'" aria-label="Edit &quot;'+esc(h.title)+'&quot;">'+esc(h.emoji||'⭐️')+'</button>'+
+    '<div class="habit-main"'+(hbVideos(h) ? ' data-act="hb-more" data-id="'+h.id+'"' : '')+'><p class="habit-name">'+esc(h.title)+'</p>'+
+    meta+
+    (h.why ? '<p class="habit-why">'+esc(h.why)+'</p>' : '')+
+    (hbVideos(h) ? '<span class="hb-hint">'+(hbOpen[h.id] ? '▴ Hide' : '▾ '+hbVideos(h).hint(h))+'</span>' : '')+'</div>'+
+    '<div class="counter">'+(per>1?'<span class="cnt num">'+c+'/'+per+'</span>':'')+
+    '<button class="check" data-act="toggle" data-id="'+h.id+'" aria-pressed="'+(done?'true':'false')+'" aria-label="Check off &quot;'+esc(h.title)+'&quot;">'+
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'+
+    '</button></div>'+hbPanel(h)+'</article>';
+}
 function renderToday(){
-  const hs = activeHabits(), n = hs.length;
+  const hs = activeHabits(), n = hs.length, on = todayHabits(), off = hs.filter(function(h){ return on.indexOf(h) < 0; });
 
   if(todayView === 'wq') return renderWordTest();
   if(todayView === 'arc') return renderArc();
@@ -3590,29 +3655,17 @@ function renderToday(){
   } else {
     let first = true;
     DAYPARTS.forEach(function(part){
-      const group = hs.filter(function(h){ return (h.when || 'day') === part[0]; });
+      const group = on.filter(function(h){ return (h.when || 'day') === part[0]; });
       if(!group.length) return;
       html += '<div class="section-head"><p class="eyebrow">'+part[1]+'</p>'+
               (first ? '<button class="btn btn-ghost btn-sm" data-act="new-habit">+ Add</button>' : '')+
               '</div><div class="list">';
       first = false;
-      for(const h of group){
-        const c = count(h, today()), per = h.perDay||1, done = c>=per;
-        const meta = (h.weekGoal||7) === 7 ? '' :
-          '<div class="habit-meta"><span class="num">'+weekDone(h)+'/'+h.weekGoal+'</span><span>this week</span></div>';
-        html += '<article class="habit'+(done?' done':'')+'" data-habit="'+h.id+'">'+
-          '<button class="habit-emoji" data-act="edit-habit" data-id="'+h.id+'" aria-label="Edit &quot;'+esc(h.title)+'&quot;">'+esc(h.emoji||'⭐️')+'</button>'+
-          '<div class="habit-main"'+(hbVideos(h) ? ' data-act="hb-more" data-id="'+h.id+'"' : '')+'><p class="habit-name">'+esc(h.title)+'</p>'+
-          meta+
-          (h.why ? '<p class="habit-why">'+esc(h.why)+'</p>' : '')+
-          (hbVideos(h) ? '<span class="hb-hint">'+(hbOpen[h.id] ? '▴ Hide' : '▾ '+hbVideos(h).hint(h))+'</span>' : '')+'</div>'+
-          '<div class="counter">'+(per>1?'<span class="cnt num">'+c+'/'+per+'</span>':'')+
-          '<button class="check" data-act="toggle" data-id="'+h.id+'" aria-pressed="'+(done?'true':'false')+'" aria-label="Check off &quot;'+esc(h.title)+'&quot;">'+
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>'+
-          '</button></div>'+hbPanel(h)+'</article>';
-      }
+      for(const h of group) html += habitCard(h);
       html += '</div>';
     });
+    if(!on.length) html += '<div class="section-head"><p class="eyebrow">Today</p><button class="btn btn-ghost btn-sm" data-act="new-habit">+ Add</button></div><p class="fd-sub" style="margin:0 2px 10px">Nothing is scheduled today. Rest, or open the list below.</p>';
+    if(off.length) html += '<details class="rest-habits"'+(restOpen ? ' open' : '')+'><summary>Not scheduled today · '+off.length+'</summary><div class="list">'+off.map(habitCard).join('')+'</div></details>';
   }
   view.innerHTML = html;
 }
@@ -4807,18 +4860,24 @@ function sheetHabit(id){
     return '<button type="button" class="chip" data-when="'+d[0]+'" aria-pressed="'+(d[0]===when?'true':'false')+'">'+d[1]+'</button>';
   }).join('');
   const perChips = [1,2,3,4,5].map(v=>'<button type="button" class="chip" data-per="'+v+'" aria-pressed="'+(v===per?'true':'false')+'">'+v+'</button>').join('');
-  const wgChips = [1,2,3,4,5,6,7].map(v=>'<button type="button" class="chip" data-wg="'+v+'" aria-pressed="'+(v===wg?'true':'false')+'">'+(v===7?'every day':v)+'</button>').join('');
+  const freq = habitFreq(h || {}), daysOn = (h && h.days && h.days.length < 7) ? h.days : [1, 3, 5], wgOn = wg < 7 ? wg : 3, DN = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const freqChips = [['every', 'Every day'], ['days', 'Chosen days'], ['few', 'A few times a week']].map(function(f){ return '<button type="button" class="chip" data-freq="'+f[0]+'" aria-pressed="'+(f[0]===freq?'true':'false')+'">'+f[1]+'</button>'; }).join('');
+  const dayChips = [1,2,3,4,5,6,0].map(function(d){ return '<button type="button" class="chip" data-day="'+d+'" aria-pressed="'+(daysOn.indexOf(d)>=0?'true':'false')+'">'+DN[d]+'</button>'; }).join('');
+  const wgChips = [1,2,3,4,5,6].map(v=>'<button type="button" class="chip" data-wg="'+v+'" aria-pressed="'+(v===wgOn?'true':'false')+'">'+v+'</button>').join('');
 
   openSheet('<h2>'+(h?'Habit':'New habit')+'</h2>'+
     '<p class="sub">'+(h?'Change anything you like — your check-ins stay.':'Word it so you understand it in one second.')+'</p>'+
     '<div class="field"><label for="tIn">Name</label>'+
     '<input type="text" id="tIn" maxlength="60" placeholder="20 minutes of reading, for example" value="'+(h?esc(h.title):'')+'"></div>'+
-    '<div class="field"><label>Icon</label><div class="emojis" id="emojiPick">'+emojis+'</div></div>'+
+    '<div class="field"><label>Icon</label><div class="emojis" id="emojiPick">'+emojis+'</div>'+
+    '<input type="text" id="emojiIn" maxlength="16" autocomplete="off" placeholder="Or type any emoji from your keyboard" style="margin-top:8px"></div>'+
     '<div class="field"><label for="hWhy">Why this one</label>'+
     '<textarea id="hWhy" rows="2" placeholder="So my back stops aching by Friday">'+(h?esc(h.why||''):'')+'</textarea></div>'+
     '<div class="field"><label>Time of day</label><div class="chips" id="whenPick">'+whenChips+'</div></div>'+
     '<div class="field"><label>Times per day</label><div class="chips" id="perPick">'+perChips+'</div></div>'+
-    '<div class="field"><label>Days per week</label><div class="chips" id="wgPick">'+wgChips+'</div></div>'+
+    '<div class="field"><label>How often</label><div class="chips" id="freqPick">'+freqChips+'</div></div>'+
+    '<div class="field'+(freq==='days'?'':' hidden')+'" id="dayRow"><label>Which days</label><div class="chips" id="dayPick">'+dayChips+'</div></div>'+
+    '<div class="field'+(freq==='few'?'':' hidden')+'" id="fewRow"><label>Days per week</label><div class="chips" id="wgPick">'+wgChips+'</div></div>'+
     '<div class="sheet-actions">'+
       (h?'<button class="btn btn-danger" data-act="del-habit" data-id="'+h.id+'">Delete</button>':'')+
       '<button class="btn btn-primary" data-act="save-habit" data-id="'+(h?h.id:'')+'">Save</button>'+
@@ -4851,7 +4910,7 @@ function toggleHabit(id, el){
       const r = box ? box.getBoundingClientRect() : null;
       const fx = r ? r.left + r.width/2 : innerWidth/2;
       const fy = r ? r.top + r.height/2 : innerHeight/2;
-      if(!selDay && doneToday() === activeHabits().length){
+      if(!selDay && doneToday() === todayHabits().length){
         const W = innerWidth, H = innerHeight;
         fanfare();
         fireworks({
@@ -4892,11 +4951,16 @@ document.addEventListener('click', function(e){
     return;
   }
   const em = e.target.closest('[data-emoji]');
-  if(em){ em.parentElement.querySelectorAll('[data-emoji]').forEach(b=>b.setAttribute('aria-pressed','false'));
+  if(em){ const ei = $('#emojiIn'); if(ei) ei.value = '';
+          em.parentElement.querySelectorAll('[data-emoji]').forEach(b=>b.setAttribute('aria-pressed','false'));
           em.setAttribute('aria-pressed','true'); return; }
-  const chip = e.target.closest('.chip[data-per],.chip[data-wg],.chip[data-kind],.chip[data-cat],.chip[data-when]');
+  const dchip = e.target.closest('.chip[data-day]');
+  if(dchip){ dchip.setAttribute('aria-pressed', dchip.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); return; }
+  const chip = e.target.closest('.chip[data-per],.chip[data-wg],.chip[data-kind],.chip[data-cat],.chip[data-when],.chip[data-freq]');
   if(chip){ chip.parentElement.querySelectorAll('.chip').forEach(b=>b.setAttribute('aria-pressed','false'));
-            chip.setAttribute('aria-pressed','true'); return; }
+            chip.setAttribute('aria-pressed','true');
+            if(chip.hasAttribute('data-freq')){ const f = chip.getAttribute('data-freq'), dr = $('#dayRow'), fr = $('#fewRow'); if(dr) dr.classList.toggle('hidden', f !== 'days'); if(fr) fr.classList.toggle('hidden', f !== 'few'); }
+            return; }
 
   const btn = e.target.closest('[data-act]'); if(!btn) return;
   const act = btn.getAttribute('data-act'), id = btn.getAttribute('data-id');
@@ -4942,12 +5006,18 @@ document.addEventListener('click', function(e){
   else if(act==='save-habit'){
     const title = ($('#tIn').value||'').trim();
     if(!title){ toast('Give it a name'); $('#tIn').focus(); return; }
-    const emoji = (sheet.querySelector('#emojiPick [aria-pressed="true"]')||{}).dataset?.emoji || '⭐️';
+    const typedRaw = ($('#emojiIn') ? $('#emojiIn').value : '').trim(), typed = emojiOne(typedRaw);
+    if(typedRaw && !typed){ toast('Type one emoji, or pick one above'); return; }
+    const emoji = typed || (sheet.querySelector('#emojiPick [aria-pressed="true"]')||{}).dataset?.emoji || '⭐️';
     const per = +(sheet.querySelector('#perPick [aria-pressed="true"]')||{dataset:{per:1}}).dataset.per;
-    const wg  = +(sheet.querySelector('#wgPick [aria-pressed="true"]')||{dataset:{wg:7}}).dataset.wg;
+    const wg  = +(sheet.querySelector('#wgPick [aria-pressed="true"]')||{dataset:{wg:3}}).dataset.wg;
+    const freq = (sheet.querySelector('#freqPick [aria-pressed="true"]')||{dataset:{freq:'every'}}).dataset.freq;
+    const dys = Array.from(sheet.querySelectorAll('#dayPick [aria-pressed="true"]')).map(function(b){ return +b.dataset.day; });
+    const plan = habitPlan(freq, dys, wg);
+    if(!plan){ toast('Choose at least one day'); return; }
     const wh  = (sheet.querySelector('#whenPick [aria-pressed="true"]')||{dataset:{when:'day'}}).dataset.when;
-    if(id){ const h = state.habits.find(x=>x.id===id); Object.assign(h,{title,emoji,perDay:per,weekGoal:wg,when:wh,why:($('#hWhy').value||'').trim()}); }
-    else state.habits.push({id:'h'+Date.now().toString(36), title, emoji, perDay:per, weekGoal:wg, when:wh, why:($('#hWhy').value||'').trim()});
+    if(id){ const h = state.habits.find(x=>x.id===id); Object.assign(h,{title,emoji,perDay:per,when:wh,why:($('#hWhy').value||'').trim()}); habitApply(h, plan); }
+    else state.habits.push(habitApply({id:'h'+Date.now().toString(36), title, emoji, perDay:per, when:wh, why:($('#hWhy').value||'').trim()}, plan));
     save(); closeSheet(); render(); toast(id ? 'Updated' : 'Habit added');
   }
   else if(act==='del-habit'){
